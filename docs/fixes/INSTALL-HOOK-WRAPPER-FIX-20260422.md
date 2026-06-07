@@ -1,66 +1,66 @@
-# install_hook_wrapper.ps1 argv-dup bug workaround (2026-04-22)
+# install_hook_wrapper.ps1 argv-dup bug 回避策 (2026-04-22) (install_hook_wrapper.ps1 argv-dup bug workaround (2026-04-22))
 
-## Summary
+## 概要 (Summary)
 
-`docs/fixes/install_hook_wrapper.ps1` is the PowerShell helper that copies
-`observe-wrapper.sh` into `~/.claude/skills/continuous-learning/hooks/` and
-rewrites `~/.claude/settings.local.json` so the observer hook points at it.
+`docs/fixes/install_hook_wrapper.ps1` は PowerShell ヘルパーで、
+`observe-wrapper.sh` を `~/.claude/skills/continuous-learning/hooks/` にコピーし、
+observer hook がそれを指すよう `~/.claude/settings.local.json` を書き換えます。
 
-The previous version produced a hook command of the form:
+以前のバージョンは次の形式の hook command を生成していました：
 
 ```
 "C:\Program Files\Git\bin\bash.exe" "C:\Users\...\observe-wrapper.sh"
 ```
 
-Under Claude Code v2.1.116 the first argv token is duplicated. When that token
-is a quoted Windows executable path, `bash.exe` is re-invoked with itself as
-its `$0`, which fails with `cannot execute binary file` (exit 126). PR #1524
-documents the root cause; this script is a companion that keeps the installer
-in sync with the fixed `settings.local.json` layout.
+Claude Code v2.1.116 では第1 argv トークンが重複します。そのトークンが
+引用符付き Windows 実行ファイルパスの場合、`bash.exe` が自分自身を
+`$0` として再呼び出され、`cannot execute binary file`（exit 126）で失敗します。PR #1524
+が根本原因を文書化しています。このスクリプトは、修正済み `settings.local.json` レイアウトと
+インストーラーを同期させるコンパニオンです。
 
-## What the fix does
+## 修正内容 (What the fix does)
 
-- First token is now the PATH-resolved `bash` (no quoted `.exe` path), so the
-  argv-dup bug no longer passes a binary as a script.
-- The wrapper path is normalized to forward slashes before it is embedded in
-  the hook command, avoiding MSYS backslash handling surprises.
-- `PreToolUse` and `PostToolUse` receive distinct commands with explicit
-  `pre` / `post` positional arguments, matching the shape the wrapper expects.
-- The settings file is written with LF line endings so downstream JSON parsers
-  never see mixed CRLF/LF output from `ConvertTo-Json`.
+- 第1トークンは PATH 解決された `bash`（引用符付き `.exe` パスなし）になり、
+  argv-dup bug がバイナリをスクリプトとして渡さなくなります。
+- wrapper パスは hook command に埋め込む前に forward slash に正規化され、
+  MSYS のバックスラッシュ処理の意外な挙動を避けます。
+- `PreToolUse` と `PostToolUse` は wrapper が期待する形に合わせ、
+  明示的な `pre` / `post` 位置引数を持つ個別 command を受け取ります。
+- settings ファイルは LF 改行で書き込まれ、`ConvertTo-Json` からの
+  混在 CRLF/LF 出力を下流 JSON パーサーが見ないようにします。
 
-## Resulting command shape
+## 結果の command 形状 (Resulting command shape)
 
 ```
 bash "C:/Users/<you>/.claude/skills/continuous-learning/hooks/observe-wrapper.sh" pre
 bash "C:/Users/<you>/.claude/skills/continuous-learning/hooks/observe-wrapper.sh" post
 ```
 
-## Usage
+## 使い方 (Usage)
 
 ```powershell
 # Place observe-wrapper.sh next to this script, then:
 pwsh -File docs/fixes/install_hook_wrapper.ps1
 ```
 
-The script backs up `settings.local.json` to
-`settings.local.json.bak-<timestamp>` before writing.
+スクリプトは書き込み前に `settings.local.json` を
+`settings.local.json.bak-<timestamp>` にバックアップします。
 
-## PowerShell 5.1 compatibility
+## PowerShell 5.1 互換性 (PowerShell 5.1 compatibility)
 
-`ConvertFrom-Json -AsHashtable` is PowerShell 7+ only. The script tries
-`-AsHashtable` first and falls back to a manual `PSCustomObject` →
-`Hashtable` conversion on Windows PowerShell 5.1. Both hook buckets
-(`PreToolUse`, `PostToolUse`) and their inner `hooks` arrays are
-materialized as `System.Collections.ArrayList` before serialization, so
-PS 5.1's `ConvertTo-Json` cannot collapse single-element arrays into
-bare objects. Verified by running `powershell -NoProfile -File
-docs/fixes/install_hook_wrapper.ps1` on a Windows 11 machine with only
-Windows PowerShell 5.1 installed (no `pwsh`).
+`ConvertFrom-Json -AsHashtable` は PowerShell 7+ のみです。スクリプトは
+まず `-AsHashtable` を試し、Windows PowerShell 5.1 では手動の `PSCustomObject` →
+`Hashtable` 変換にフォールバックします。両方の hook バケット
+（`PreToolUse`、`PostToolUse`）とその内部 `hooks` 配列は
+シリアライズ前に `System.Collections.ArrayList` として具体化されるため、
+PS 5.1 の `ConvertTo-Json` が単一要素配列を
+素のオブジェクトに潰しません。`pwsh` なしで Windows PowerShell 5.1 のみの
+Windows 11 マシンで `powershell -NoProfile -File
+docs/fixes/install_hook_wrapper.ps1` を実行して検証済み。
 
-## Related
+## 関連 (Related)
 
-- PR #1524 — settings.local.json shape fix (same argv-dup root cause)
-- PR #1511 — skip `AppInstallerPythonRedirector.exe` in observer python resolution
-- PR #1539 — locale-independent `detect-project.sh`
-- PR #1542 — `patch_settings_cl_v2_simple.ps1` companion fix
+- PR #1524 — settings.local.json 形状修正（同じ argv-dup 根本原因）
+- PR #1511 — observer python 解決で `AppInstallerPythonRedirector.exe` をスキップ
+- PR #1539 — ロケール非依存の `detect-project.sh`
+- PR #1542 — `patch_settings_cl_v2_simple.ps1` コンパニオン修正

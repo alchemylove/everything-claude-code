@@ -7,20 +7,20 @@ paths:
   - "**/use-*.ts"
   - "**/use-*.tsx"
 ---
-# React Hooks
+# React フック (React Hooks)
 
-> This file covers **React hooks** (`useState`, `useEffect`, `useMemo`, `useCallback`, custom hooks) — NOT the Claude Code `hooks/` runtime system. Naming matches the per-language convention `rules/<lang>/hooks.md` used across this repo.
+> このファイルは **React hooks**（`useState`、`useEffect`、`useMemo`、`useCallback`、custom hooks）を扱う — Claude Code の `hooks/` runtime system ではない。命名はこの repo 全体で使う per-language 規約 `rules/<lang>/hooks.md` に合わせている。
 >
-> Extends [typescript/patterns.md](../typescript/patterns.md) and [common/patterns.md](../common/patterns.md).
+> このファイルは [typescript/patterns.md](../typescript/patterns.md) および [common/patterns.md](../common/patterns.md) を拡張し、React hooks 固有の内容を追加する。
 
-## Rules of Hooks
+## Hooks のルール (Rules of Hooks)
 
-Enforce `eslint-plugin-react-hooks` with `react-hooks/rules-of-hooks` set to error.
+`eslint-plugin-react-hooks` を有効にし、`react-hooks/rules-of-hooks` を error に設定する。
 
-1. Hooks only at the top level of a function component or another hook
-2. Never in loops, conditionals, nested functions, or after early returns
-3. Always called in the same order on every render
-4. Only inside React function components or custom hooks (functions starting with `use`)
+1. hook は function component または別の hook のトップレベルでのみ呼ぶ
+2. loop、conditional、nested function、early return の後では呼ばない
+3. 毎 render で常に同じ順序で呼ぶ
+4. React function component または custom hook（`use` で始まる function）の内側でのみ呼ぶ
 
 ```tsx
 // WRONG: conditional hook
@@ -38,15 +38,15 @@ function Foo({ enabled }: { enabled: boolean }) {
 }
 ```
 
-## `useEffect` — When NOT to Use
+## `useEffect` — 使わない場合 (When NOT to Use)
 
-`useEffect` is for synchronizing with external systems (subscriptions, browser APIs, third-party libraries). It is **not** the right tool for:
+`useEffect` は external system（subscription、browser API、third-party library）との同期用。次には **適さない**:
 
-- Derived state — compute it during render
-- Transforming data for rendering — compute it during render
-- Resetting state when a prop changes — use a `key` on the parent or derive from props
-- Notifying parents of state changes — call the callback in the event handler
-- Initializing app-level singletons — call the function module-side or in `main.tsx`
+- 導出 state — render 中に計算する
+- レンダリング用の data 変換 — render 中に計算する
+- prop 変更時の state リセット — 親に `key` を付けるか props から導出する
+- state 変更の親への通知 — event handler で callback を呼ぶ
+- app レベル singleton の初期化 — module 側または `main.tsx` で呼ぶ
 
 ```tsx
 // WRONG: effect for derived state
@@ -59,16 +59,16 @@ useEffect(() => {
 const fullName = `${first} ${last}`;
 ```
 
-## Dependency Arrays
+## Dependency Array
 
-- Always include every reactive value referenced inside the effect/callback
-- Enable `react-hooks/exhaustive-deps` lint rule — never silence it without a comment explaining why
-- If the dep array grows unwieldy, the effect is doing too much — split it
-- Stable identity for functions passed in deps: wrap in `useCallback` only when the function is itself a dependency of another hook or passed to a memoized child
+- effect/callback 内で参照する reactive value はすべて dep array に含める
+- `react-hooks/exhaustive-deps` lint rule を有効にする — 理由コメントなしで mute しない
+- dep array が肥大化したら effect が多すぎる — 分割する
+- dep に渡す function の stable identity: その function が別 hook の dep である、または memoized child に渡す場合のみ `useCallback` で包む
 
 ## Cleanup
 
-Every subscription, interval, listener, or in-flight request must clean up.
+subscription、interval、listener、in-flight request はすべて cleanup する。
 
 ```tsx
 useEffect(() => {
@@ -85,30 +85,30 @@ useEffect(() => {
 }, []);
 ```
 
-Missing cleanup = race conditions when deps change, memory leaks on unmount.
+cleanup 欠如 = dep 変更時の race condition、unmount 時の memory leak。
 
-## `useMemo` and `useCallback` — When Worth It
+## `useMemo` と `useCallback` — 価値がある場合 (When Worth It)
 
-Default position: **do not memoize**. Add `useMemo` / `useCallback` only when:
+デフォルト: **memoize しない**。次の場合のみ `useMemo` / `useCallback` を追加:
 
-1. The value is passed to a `React.memo`-wrapped child as a prop, and identity matters
-2. The value is a dependency of another `useEffect` / `useMemo` / `useCallback`
-3. The computation is measurably expensive (profile before assuming)
+1. 値が `React.memo` された child の prop として渡され、identity が重要
+2. 値が別の `useEffect` / `useMemo` / `useCallback` の dep
+3. 計算が計測上高コスト（仮定で profile する）
 
-Premature memoization adds noise, hides bugs, and can be slower than the recompute it replaces.
+早すぎる memoization はノイズを増やし、bug を隠し、置き換える recompute より遅くなることもある。
 
-## Custom Hooks
+## Custom Hook
 
-Extract a custom hook when:
+custom hook に切り出す場合:
 
-- The same hook sequence (state + effect + computed) appears in 2+ components
-- The logic has a clear, nameable purpose (`useDebounce`, `useOnClickOutside`, `useLocalStorage`)
-- You want to test the logic independently of any component
+- 同じ hook 列（state + effect + computed）が 2+ component に現れる
+- logic に明確で名付け可能な目的がある（`useDebounce`、`useOnClickOutside`、`useLocalStorage`）
+- component から独立して logic を test したい
 
-Do NOT extract when:
+切り出さない場合:
 
-- It would have a single caller — inline it
-- The "hook" is just `useState` with a different name — adds indirection, no value
+- caller が 1 つだけ — inline する
+- 「hook」が別名の `useState` だけ — 間接化だけで価値なし
 
 ```tsx
 export function useDebounce<T>(value: T, delay: number): T {
@@ -121,23 +121,23 @@ export function useDebounce<T>(value: T, delay: number): T {
 }
 ```
 
-## `useState` Patterns
+## `useState` パターン (Patterns)
 
-- Initial state from prop only at mount: pass a function `useState(() => computeInitial(prop))` when computation is expensive
-- Functional updater when the new state depends on the old: `setCount(c => c + 1)` — never `setCount(count + 1)` inside async or batched contexts
-- Group related state into one object only when they always change together; otherwise split into multiple `useState` calls
-- Use `useReducer` once state transitions are conditional on the previous state or there are 3+ related values
+- mount 時のみ prop から initial state: 計算が高コストなら function を渡す `useState(() => computeInitial(prop))`
+- 新 state が旧 state に依存する場合は functional updater: `setCount(c => c + 1)` — async や batched context 内で `setCount(count + 1)` は使わない
+- 関連 state を 1 object にまとめるのは常に一緒に変わる場合のみ；そうでなければ複数 `useState` に分ける
+- state transition が previous state に条件付き、または関連値が 3+ ある場合は `useReducer`
 
-## `useRef` Patterns
+## `useRef` パターン (Patterns)
 
-- DOM refs for imperative APIs (focus, scroll, third-party libs)
-- Mutable container that does not trigger re-render (timer ids, previous values, "is mounted" flags)
-- Never read or write `ref.current` during render — only inside effects or event handlers
-- `useImperativeHandle` only when exposing a child API to a parent ref — last-resort escape hatch
+- imperative API 用 DOM ref（focus、scroll、third-party lib）
+- re-render を起こさない mutable container（timer id、previous value、「is mounted」フラグ）
+- render 中に `ref.current` を読み書きしない — effect または event handler 内のみ
+- `useImperativeHandle` は child API を parent ref に公開するときのみ — 最後の手段
 
 ## `useSyncExternalStore`
 
-Use this hook to subscribe to any external store (browser API, third-party state lib, custom event emitter). It is the supported way to make external state safe with concurrent rendering.
+external store（browser API、third-party state lib、custom event emitter）を subscribe する hook。concurrent rendering と安全に external state を扱う supported な方法。
 
 ```tsx
 const isOnline = useSyncExternalStore(
@@ -154,26 +154,26 @@ const isOnline = useSyncExternalStore(
 );
 ```
 
-## React 19 Additions
+## React 19 の追加 (React 19 Additions)
 
-- `use()` — unwrap promises and contexts inline; usable conditionally (only hook with that property)
-- `useFormStatus()` / `useFormState()` (or `useActionState`) — form submission state without prop drilling
-- `useOptimistic()` — optimistic UI updates while a server action is pending
-- `useTransition()` — mark non-urgent state updates so urgent ones stay responsive
+- `use()` — promise と context を inline で unwrap；条件付きで使える唯一の hook
+- `useFormStatus()` / `useFormState()`（または `useActionState`）— prop drilling なしの form submission state
+- `useOptimistic()` — server action pending 中の optimistic UI update
+- `useTransition()` — 非 urgent state update をマークし urgent を responsive に保つ
 
-When the project targets React 19+, prefer these over hand-rolled equivalents.
+プロジェクトが React 19+ を target なら、手組み equivalent よりこれらを優先する。
 
-## Stale Closure Trap
+## Stale Closure トラップ (Stale Closure Trap)
 
-Async handlers and intervals capture the values from the render where they were created. Fix by:
+async handler と interval は作成された render の値を capture する。修正方法:
 
-1. Using the functional updater form of `setState`
-2. Putting the changing value in the dep array of `useEffect` and rebuilding the handler
-3. Reading from a ref that is kept in sync
+1. `setState` の functional updater form を使う
+2. 変わる値を `useEffect` の dep array に入れ handler を再構築する
+3. sync された ref から読む
 
-## Lint Configuration
+## Lint 設定 (Lint Configuration)
 
-Required rules:
+必須 rule:
 
 ```json
 {
@@ -184,4 +184,4 @@ Required rules:
 }
 ```
 
-Treat `exhaustive-deps` warnings as errors in CI for new code.
+新規 code では CI で `exhaustive-deps` warning を error として扱う。

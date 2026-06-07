@@ -1,78 +1,78 @@
 ---
-description: Run a generator/evaluator build loop for implementation tasks with bounded iterations and scoring.
+description: 実装タスクに対して、制限付きイテレーションとスコアリングによる generator/evaluator ビルドループを実行します。
 ---
 
-Parse the following from $ARGUMENTS:
-1. `brief` — the user's one-line description of what to build
-2. `--max-iterations N` — (optional, default 15) maximum generator-evaluator cycles
-3. `--pass-threshold N` — (optional, default 7.0) weighted score to pass
-4. `--skip-planner` — (optional) skip planner, assume spec.md already exists
-5. `--eval-mode MODE` — (optional, default "playwright") one of: playwright, screenshot, code-only
+$ARGUMENTS から以下を解析:
+1. `brief` — 何をビルドするかのユーザーの一行説明
+2. `--max-iterations N` — （オプション、デフォルト 15）generator-evaluator サイクルの最大回数
+3. `--pass-threshold N` — （オプション、デフォルト 7.0）合格するための重み付きスコア
+4. `--skip-planner` — （オプション）planner をスキップし、`spec.md` が既に存在すると想定
+5. `--eval-mode MODE` — （オプション、デフォルト `"playwright"`）次のいずれか: playwright, screenshot, code-only
 
-## GAN-Style Harness Build
+## GANスタイルハーネスビルド (GAN-Style Harness Build)
 
-This command orchestrates a three-agent build loop inspired by Anthropic's March 2026 harness design paper.
+このコマンドは、Anthropic の 2026年3月 harness design 論文に触発された 3 エージェントビルドループをオーケストレーションします。
 
-### Phase 0: Setup
-1. Create `gan-harness/` directory in project root
-2. Create subdirectories: `gan-harness/feedback/`, `gan-harness/screenshots/`
-3. Initialize git if not already initialized
-4. Log start time and configuration
+### フェーズ 0: セットアップ (Phase 0: Setup)
+1. プロジェクトルートに `gan-harness/` ディレクトリを作成
+2. サブディレクトリを作成: `gan-harness/feedback/`、`gan-harness/screenshots/`
+3. git が未初期化なら初期化
+4. 開始時刻と設定をログ
 
-### Phase 1: Planning (Planner Agent)
-Unless `--skip-planner` is set:
-1. Launch the `gan-planner` agent via Task tool with the user's brief
-2. Wait for it to produce `gan-harness/spec.md` and `gan-harness/eval-rubric.md`
-3. Display the spec summary to the user
-4. Proceed to Phase 2
+### フェーズ 1: プランニング (Phase 1: Planning (Planner Agent))
+`--skip-planner` が設定されていない場合:
+1. ユーザーの brief で Task tool 経由で `gan-planner` エージェントを起動
+2. `gan-harness/spec.md` と `gan-harness/eval-rubric.md` の生成を待機
+3. spec のサマリーをユーザーに表示
+4. フェーズ 2 に進む
 
-### Phase 2: Generator-Evaluator Loop
+### フェーズ 2: ジェネレーター-エバリュエーターループ (Phase 2: Generator-Evaluator Loop)
 ```
 iteration = 1
 while iteration <= max_iterations:
 
     # GENERATE
-    Launch gan-generator agent via Task tool:
-    - Read spec.md
-    - If iteration > 1: read feedback/feedback-{iteration-1}.md
-    - Build/improve the application
-    - Ensure dev server is running
-    - Commit changes
+    Task tool 経由で gan-generator エージェントを起動:
+    - spec.md を読む
+    - iteration > 1 の場合: feedback/feedback-{iteration-1}.md を読む
+    - アプリケーションをビルド/改善
+    - dev server が実行中であることを確認
+    - 変更を commit
 
-    # Wait for generator to finish
+    # ジェネレーターの完了を待機
 
     # EVALUATE
-    Launch gan-evaluator agent via Task tool:
-    - Read eval-rubric.md and spec.md
-    - Test the live application (mode: playwright/screenshot/code-only)
-    - Score against rubric
-    - Write feedback to feedback/feedback-{iteration}.md
+    Task tool 経由で gan-evaluator エージェントを起動:
+    - eval-rubric.md と spec.md を読む
+    - ライブアプリケーションをテスト（mode: playwright/screenshot/code-only）
+    - rubric に対してスコアリング
+    - feedback/feedback-{iteration}.md に feedback を書き込み
 
-    # Wait for evaluator to finish
+    # エバリュエーターの完了を待機
 
     # CHECK SCORE
-    Read feedback/feedback-{iteration}.md
-    Extract weighted total score
+    feedback/feedback-{iteration}.md を読む
+    重み付き合計スコアを抽出
 
     if score >= pass_threshold:
-        Log "PASSED at iteration {iteration} with score {score}"
+        "PASSED at iteration {iteration} with score {score}" をログ
         Break
 
-    if iteration >= 3 and score has not improved in last 2 iterations:
-        Log "PLATEAU detected — stopping early"
+    if iteration >= 3 and 直近 2 イテレーションでスコアが改善していない:
+        "PLATEAU detected — stopping early" をログ
         Break
 
     iteration += 1
 ```
 
-### Phase 3: Summary
-1. Read all feedback files
-2. Display final scores and iteration history
-3. Show score progression: `iteration 1: 4.2 → iteration 2: 5.8 → ... → iteration N: 7.5`
-4. List any remaining issues from the final evaluation
-5. Report total time and estimated cost
+### フェーズ 3: サマリー (Phase 3: Summary)
+1. すべての feedback ファイルを読む
+2. 最終スコアとイテレーション履歴を表示
+3. スコア推移を表示: `iteration 1: 4.2 → iteration 2: 5.8 → ... → iteration N: 7.5`
+4. 最終評価からの残りの問題を一覧
+5. 合計時間と推定コストを報告
 
-### Output
+### 出力 (Output)
 
 ```markdown
 ## GAN Harness Build Report
@@ -100,4 +100,4 @@ while iteration <= max_iterations:
 - gan-harness/build-report.md
 ```
 
-Write the full report to `gan-harness/build-report.md`.
+完全なレポートを `gan-harness/build-report.md` に書き込みます。

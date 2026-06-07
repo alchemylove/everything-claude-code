@@ -4,11 +4,11 @@ description: GitHub repository operations, automation, and management. Issue tri
 origin: ECC
 ---
 
-# GitHub Operations
+# GitHub Operations (GitHub Operations)
 
 Manage GitHub repositories with a focus on community health, CI reliability, and contributor experience.
 
-## When to Activate
+## When to Activate (When to Activate)
 
 - Triaging issues (classifying, labeling, responding, deduplicating)
 - Managing PRs (review status, CI checks, stale PRs, merge readiness)
@@ -18,12 +18,12 @@ Manage GitHub repositories with a focus on community health, CI reliability, and
 - Managing contributor experience on open-source projects
 - User says "check GitHub", "triage issues", "review PRs", "merge", "release", "CI is broken"
 
-## Tool Requirements
+## Tool Requirements (Tool Requirements)
 
 - **gh CLI** for all GitHub API operations
 - Repository access configured via `gh auth login`
 
-## Issue Triage
+## Issue Triage (Issue Triage)
 
 Classify each issue by type and priority:
 
@@ -31,7 +31,7 @@ Classify each issue by type and priority:
 
 **Priority:** critical (breaking/security), high (significant impact), medium (nice to have), low (cosmetic)
 
-### Triage Workflow
+### Triage Workflow (Triage Workflow)
 
 1. Read the issue title, body, and comments
 2. Check if it duplicates an existing issue (search by keywords)
@@ -52,9 +52,9 @@ gh issue edit <number> --add-label "bug,high-priority"
 gh issue comment <number> --body "Thanks for reporting. Could you share reproduction steps?"
 ```
 
-## PR Management
+## PR Management (PR Management)
 
-### Review Checklist
+### Review Checklist (Review Checklist)
 
 1. Check CI status: `gh pr checks <number>`
 2. Check if mergeable: `gh pr view <number> --json mergeable`
@@ -62,7 +62,7 @@ gh issue comment <number> --body "Thanks for reporting. Could you share reproduc
 4. Flag PRs >5 days with no review
 5. For community PRs: ensure they have tests and follow conventions
 
-### Stale Policy
+### Stale Policy (Stale Policy)
 
 - Issues with no activity in 14+ days: add `stale` label, comment asking for update
 - PRs with no activity in 7+ days: comment asking if still active
@@ -76,7 +76,7 @@ gh issue list --label "stale" --state open
 gh pr list --json number,title,updatedAt --jq '.[] | select(.updatedAt < "2026-03-01")'
 ```
 
-## CI/CD Operations
+## CI/CD Operations (CI/CD Operations)
 
 When CI fails:
 
@@ -97,7 +97,7 @@ gh run view <run-id> --log-failed
 gh run rerun <run-id> --failed
 ```
 
-## Release Management
+## Release Management (Release Management)
 
 When preparing a release:
 
@@ -117,7 +117,7 @@ gh release create v1.2.0 --title "v1.2.0" --generate-notes
 gh release create v1.3.0-rc1 --prerelease --title "v1.3.0 Release Candidate 1"
 ```
 
-## Security Monitoring
+## Security Monitoring (Security Monitoring)
 
 ```bash
 # Check Dependabot alerts
@@ -134,7 +134,7 @@ gh pr list --label "dependencies" --json number,title
 - Flag any critical/high severity alerts immediately
 - Check for new Dependabot alerts weekly at minimum
 
-## Quality Gate
+## Quality Gate (Quality Gate)
 
 Before completing any GitHub operations task:
 - all issues triaged have appropriate labels

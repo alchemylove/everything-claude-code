@@ -1,30 +1,30 @@
 ---
-description: Enforce TDD workflow for Go. Write table-driven tests first, then implement. Verify 80%+ coverage with go test -cover.
+description: Go の TDD ワークフローを適用します。table-driven test を最初に記述し、その後実装します。`go test -cover` で 80%+ coverage を確認します。
 ---
 
-# Go TDD Command
+# Go TDD コマンド (Go TDD Command)
 
-This command enforces test-driven development methodology for Go code using idiomatic Go testing patterns.
+このコマンドは、Go のイディオム的なテストパターンを使用した test-driven development 手法を適用します。
 
-## What This Command Does
+## このコマンドの機能 (What This Command Does)
 
-1. **Define Types/Interfaces**: Scaffold function signatures first
-2. **Write Table-Driven Tests**: Create comprehensive test cases (RED)
-3. **Run Tests**: Verify tests fail for the right reason
-4. **Implement Code**: Write minimal code to pass (GREEN)
-5. **Refactor**: Improve while keeping tests green
-6. **Check Coverage**: Ensure 80%+ coverage
+1. **型/インターフェースの定義**: function signature を最初に scaffold
+2. **Table-Driven Test の作成**: 包括的な test case を作成（RED）
+3. **テストの実行**: テストが正しい理由で fail することを確認
+4. **コードの実装**: テストを pass するための最小限のコードを記述（GREEN）
+5. **リファクタリング**: テストを green に保ちながら改善
+6. **Coverage の確認**: 80%+ coverage を保証
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/go-test` when:
-- Implementing new Go functions
-- Adding test coverage to existing code
-- Fixing bugs (write failing test first)
-- Building critical business logic
-- Learning TDD workflow in Go
+`/go-test` は次の場合に使用します:
+- 新しい Go function の実装時
+- 既存コードへの test coverage 追加時
+- bug 修正時（失敗する test を最初に作成）
+- critical business logic の構築時
+- Go での TDD ワークフローの学習時
 
-## TDD Cycle
+## TDD サイクル (TDD Cycle)
 
 ```
 RED     → Write failing table-driven test
@@ -33,7 +33,7 @@ REFACTOR → Improve code, tests stay green
 REPEAT  → Next test case
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````
 User: /go-test I need a function to validate email addresses
@@ -169,9 +169,9 @@ ok      project/validator    0.003s
 ## TDD Complete!
 ````
 
-## Test Patterns
+## テストパターン (Test Patterns)
 
-### Table-Driven Tests
+### Table-Driven Test (Table-Driven Tests)
 ```go
 tests := []struct {
     name     string
@@ -191,7 +191,7 @@ for _, tt := range tests {
 }
 ```
 
-### Parallel Tests
+### 並列テスト (Parallel Tests)
 ```go
 for _, tt := range tests {
     tt := tt // Capture
@@ -202,7 +202,7 @@ for _, tt := range tests {
 }
 ```
 
-### Test Helpers
+### テストヘルパー (Test Helpers)
 ```go
 func setupTestDB(t *testing.T) *sql.DB {
     t.Helper()
@@ -212,7 +212,7 @@ func setupTestDB(t *testing.T) *sql.DB {
 }
 ```
 
-## Coverage Commands
+## Coverage コマンド (Coverage Commands)
 
 ```bash
 # Basic coverage
@@ -231,7 +231,7 @@ go tool cover -func=coverage.out
 go test -race -cover ./...
 ```
 
-## Coverage Targets
+## Coverage 目標 (Coverage Targets)
 
 | Code Type | Target |
 |-----------|--------|
@@ -240,7 +240,7 @@ go test -race -cover ./...
 | General code | 80%+ |
 | Generated code | Exclude |
 
-## TDD Best Practices
+## TDD ベストプラクティス (TDD Best Practices)
 
 **DO:**
 - Write test FIRST, before any implementation
@@ -256,13 +256,13 @@ go test -race -cover ./...
 - Use `time.Sleep` in tests
 - Ignore flaky tests
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/go-build` - Fix build errors
-- `/go-review` - Review code after implementation
-- `verification-loop` skill - Run full verification loop
+- `/go-build` - build error の修正
+- `/go-review` - 実装後のコードレビュー
+- `verification-loop` skill - 完全な verification loop の実行
 
-## Related
+## 関連 (Related)
 
 - Skill: `skills/golang-testing/`
 - Skill: `skills/tdd-workflow/`

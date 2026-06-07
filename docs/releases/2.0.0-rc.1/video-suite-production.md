@@ -1,34 +1,28 @@
-# ECC 2.0 Video Suite Production Manifest
+# ECC 2.0 Video Suite 制作マニフェスト (ECC 2.0 Video Suite Production Manifest)
 
-Snapshot date: 2026-05-19.
+スナップショット日: 2026-05-19。
 
-This is the production contract for the ECC 2.0 release video suite. It keeps
-the public release story, local source inventory, render outputs, and self-eval
-gate in one place without committing raw footage, private transcript exports, or
-absolute local paths.
+これは ECC 2.0 リリース video suite の制作コントラクトである。公開リリースストーリー、ローカルソースインベントリ、レンダー出力、self-eval ゲートを 1 か所にまとめ、raw footage、private transcript export、absolute local path をコミットしない。
 
-## Claim
+## 主張 (Claim)
 
-ECC 2.0 is the harness-native operator system for agentic work.
+ECC 2.0 は agentic work 向けの harness-native オペレーターシステムである。
 
-The videos should prove that claim directly:
+動画はその主張を直接証明すべきである:
 
-- one reusable layer across Claude Code, Codex, OpenCode, Cursor, Gemini, Zed,
-  GitHub Copilot, and terminal workflows;
-- reusable skills, rules, hooks, agents, MCP conventions, release gates, and
-  operator workflows;
-- `ecc2/` as the alpha control-plane/TUI direction, not the whole product;
-- AgentShield and supply-chain gates as the enterprise trust layer;
-- OSS stays free, with GitHub Sponsors, ECC Tools Pro, and consulting as the
-  funding surface.
+- Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot、terminal ワークフローにまたがる 1 つの再利用可能なレイヤー;
+- 再利用可能な skills、rules、hooks、agents、MCP 規約、リリースゲート、オペレーターワークフロー;
+- プロダクト全体ではなく alpha control-plane/TUI 方向としての `ecc2/`;
+- enterprise trust layer としての AgentShield と supply-chain ゲート;
+- OSS は無料のまま、GitHub Sponsors、ECC Tools Pro、consulting が funding surface。
 
-Do not frame the launch as a rename, pivot, config pack, or Claude-only package.
+ローンチをリネーム、pivot、config pack、Claude-only パッケージとしてフレーミングしないこと。
 
-## Private Inputs
+## プライベート入力 (Private Inputs)
 
-Do not commit raw footage, transcript JSON, or timeline exports.
+raw footage、transcript JSON、timeline export をコミットしないこと。
 
-Operators should point the validator at local media using environment variables:
+オペレーターは環境変数を使って validator をローカルメディアに向けること:
 
 ```bash
 ECC_VIDEO_SOURCE_ROOT=/path/to/ecc_2_raws \
@@ -36,35 +30,33 @@ ECC_VIDEO_RELEASE_SUITE_ROOT=/path/to/ecc_2_release_suite \
 npm run release:video-suite -- --format json
 ```
 
-`ECC_VIDEO_SOURCE_ROOT` should contain proof images and may contain an `_edited/`
-subdirectory with edited source clips. `ECC_VIDEO_RELEASE_SUITE_ROOT` should
-contain `edl/`, `segments/`, `renders/`, `timelines/`, and `transcripts/`.
+`ECC_VIDEO_SOURCE_ROOT` には proof 画像を含め、編集済みソースクリップを含む `_edited/` サブディレクトリを含めてよい。`ECC_VIDEO_RELEASE_SUITE_ROOT` には `edl/`、`segments/`、`renders/`、`timelines/`、`transcripts/` を含めること。
 
-## Source Inventory
+## ソースインベントリ (Source Inventory)
 
-These basenames are the required local inputs for the release suite validator.
+これらの basename はリリース suite validator に必要なローカル入力である。
 
-| Asset | Lane | Proof |
+| Asset | レーン (Lane) | 証拠 (Proof) |
 | --- | --- | --- |
-| `longform-full-wide.mp4` | Primary launch video | operator system, control-plane direction, closing proof |
+| `longform-full-wide.mp4` | Primary launch video | operator system、control-plane 方向、closing proof |
 | `sf-longform-full.mp4` | Primary launch video | structured context opener |
-| `sf-thread-2-whatisecc.mp4` | What is ECC | category clarity and GitHub App explanation |
-| `sf-thread-4-security.mp4` | Security proof | AgentShield, hooks, MCP, permission risk |
-| `thread-2-ghapp-money.mp4` | Money/proof clip | OSS plus paid hosting and services |
+| `sf-thread-2-whatisecc.mp4` | What is ECC | カテゴリ明確化と GitHub App 説明 |
+| `sf-thread-4-security.mp4` | Security proof | AgentShield、hook、MCP、permission risk |
+| `thread-2-ghapp-money.mp4` | Money/proof clip | OSS と有料 hosting/service |
 | `architecture-2-wide.mp4` | B-roll | harness-native architecture |
-| `terminal-scan-2-wide.mp4` | Install proof | terminal workflow and install confidence |
-| `new_site_raw.mp4` | B-roll | site and product surface |
-| `coverage-montage-wide.mp4` | Coverage/social proof | distribution and social proof |
-| `metrics-ticker-2-wide.mp4` | Money/proof clip | traction and funnel proof |
-| `growth-timeline-2-wide.mp4` | Coverage/social proof | release momentum timeline |
+| `terminal-scan-2-wide.mp4` | Install proof | terminal workflow と install 信頼性 |
+| `new_site_raw.mp4` | B-roll | サイトと product surface |
+| `coverage-montage-wide.mp4` | Coverage/social proof | 配布と social proof |
+| `metrics-ticker-2-wide.mp4` | Money/proof clip | traction と funnel proof |
+| `growth-timeline-2-wide.mp4` | Coverage/social proof | リリース momentum timeline |
 | `gh_app_1.png` | Money/proof clip | hosted GitHub App surface |
-| `star_history.png` | Coverage/social proof | OSS adoption chart |
-| `x_analytics.png` | Coverage/social proof | social distribution proof |
-| `100k.png` | Coverage/social proof | reach milestone proof |
+| `star_history.png` | Coverage/social proof | OSS 採用チャート |
+| `x_analytics.png` | Coverage/social proof | social 配布 proof |
+| `100k.png` | Coverage/social proof | リーチ milestone proof |
 
-## Deliverables
+## 成果物 (Deliverables)
 
-| Deliverable | Length | Aspect | Output |
+| 成果物 (Deliverable) | 長さ (Length) | アスペクト (Aspect) | 出力 (Output) |
 | --- | ---: | --- | --- |
 | Primary launch video | 90-150s | 16:9 | `ecc-2-primary-launch.mp4` |
 | Install proof clip | 25-35s | 16:9 and 9:16 | `ecc-2-install-proof-*` |
@@ -73,24 +65,23 @@ These basenames are the required local inputs for the release suite validator.
 | Money/proof clip | 30-45s | 16:9 and 9:16 | `ecc-2-money-proof-*` |
 | Coverage/social proof clip | 30-45s | 16:9 and 9:16 | `ecc-2-social-proof-*` |
 
-## Primary Launch Video
+## プライマリローンチ動画 (Primary Launch Video)
 
-The rough v1 primary launch assembly is the current spine. It should stay
-speech-led, with product proof covering jump cuts and older wording.
+rough v1 primary launch assembly が現在の spine である。speech-led を維持し、product proof が jump cut と古い wording をカバーする。
 
-| Order | Source | In | Out | Use |
+| 順序 (Order) | ソース (Source) | In | Out | 用途 (Use) |
 | --- | --- | ---: | ---: | --- |
-| 01 | `sf-longform-full.mp4` | 161.12 | 177.68 | Cleaner opener: ECC as structured context with skills, commands, agents, hooks, and project setup. |
-| 02 | `thread-2-ghapp-money.mp4` | 21.84 | 30.40 | Direct product thesis: agentic harness optimization. |
-| 03 | `thread-2-ghapp-money.mp4` | 41.00 | 59.72 | Not another harness; ECC is the layer and tooling on top of harnesses. |
-| 04 | `longform-full-wide.mp4` | 254.60 | 271.20 | Agentic IDE, observability, tracing, and multi-agent control-plane direction. |
-| 05 | `sf-thread-2-whatisecc.mp4` | 40.08 | 60.60 | GitHub App analyzes repos and injects project-specific skills, prompts, and hooks. |
-| 06 | `sf-thread-4-security.mp4` | 17.60 | 32.72 | Security risk setup: hooks, MCP servers, permissions. |
-| 07 | `sf-thread-4-security.mp4` | 37.28 | 51.32 | AgentShield proof: rules, categories, grades, secrets, injection, exfiltration. |
-| 08 | `thread-2-ghapp-money.mp4` | 59.72 | 75.96 | OSS-first business model plus managed GitHub App surface. |
-| 09 | `longform-full-wide.mp4` | 507.34 | 525.62 | Close on workflows, tested shipping, and secure daily agent work. |
+| 01 | `sf-longform-full.mp4` | 161.12 | 177.68 | クリーンな opener: skill、command、agent、hook、project setup による structured context としての ECC。 |
+| 02 | `thread-2-ghapp-money.mp4` | 21.84 | 30.40 | 直接的な product thesis: agentic harness optimization。 |
+| 03 | `thread-2-ghapp-money.mp4` | 41.00 | 59.72 | 別 harness ではない; ECC は harness 上のレイヤーと tooling。 |
+| 04 | `longform-full-wide.mp4` | 254.60 | 271.20 | Agentic IDE、observability、tracing、multi-agent control-plane 方向。 |
+| 05 | `sf-thread-2-whatisecc.mp4` | 40.08 | 60.60 | GitHub App が repo を分析し project 固有 skill、prompt、hook を注入。 |
+| 06 | `sf-thread-4-security.mp4` | 17.60 | 32.72 | Security risk セットアップ: hook、MCP server、permission。 |
+| 07 | `sf-thread-4-security.mp4` | 37.28 | 51.32 | AgentShield proof: rule、category、grade、secret、injection、exfiltration。 |
+| 08 | `thread-2-ghapp-money.mp4` | 59.72 | 75.96 | OSS-first ビジネスモデルと managed GitHub App surface。 |
+| 09 | `longform-full-wide.mp4` | 507.34 | 525.62 | workflow、tested shipping、secure daily agent work で締める。 |
 
-Required local rough v1 artifacts:
+必須ローカル rough v1 artifact:
 
 - `edl/primary-launch.edl.md`
 - `timelines/primary-launch-v1.timeline.json`
@@ -106,13 +97,11 @@ Required local rough v1 artifacts:
 - `segments/primary-launch-v1/08-oss-paid-model.mp4`
 - `segments/primary-launch-v1/09-close-shipping-system.mp4`
 
-## Publish-Candidate Outputs
+## 公開候補出力 (Publish-Candidate Outputs)
 
-The release validator also expects the current publish-candidate set under
-`renders/publish-candidates/`. These are still local review files, not public
-uploads or committed media.
+リリース validator は `renders/publish-candidates/` 配下の現在の publish-candidate set も期待する。これらはまだローカルレビューファイルであり、公開アップロードまたはコミット済みメディアではない。
 
-| Output | Target |
+| 出力 (Output) | ターゲット (Target) |
 | --- | --- |
 | `ecc-2-primary-launch.mp4` | 90-150s, 1920x1080, audio |
 | `ecc-2-primary-launch.captions.srt` | primary captions |
@@ -127,46 +116,38 @@ uploads or committed media.
 | `ecc-2-social-proof-wide.mp4` | 30-45s, 1920x1080, audio |
 | `ecc-2-social-proof-vertical.mp4` | 30-45s, 1080x1920, audio |
 
-## video-use compatible workflow
+## video-use 互換ワークフロー (video-use compatible workflow)
 
-Use the same production shape as Video Use while keeping the ECC-specific media
-stack intact:
+Video Use と同じ制作形状を使い、ECC 固有のメディアスタックは維持する:
 
-1. Treat transcript and timeline data as the editing surface.
-2. Keep visual inspection on demand: filmstrips, waveform/timeline composites,
-   or frame samples only at ambiguous cut points.
-3. Propose the edit strategy and EDL before rendering.
-4. Cut deterministically with FFmpeg.
-5. Add proof overlays with Remotion or Manim where product claims need visual
-   evidence.
-6. Export the MP4 plus editable timeline and caption state.
-7. Run cut-boundary, audio, caption, black-frame, and product-claim self-eval
-   before any upload or social post.
+1. Transcript と timeline データを編集 surface として扱う。
+2. 視覚検査はオンデマンドに保つ: filmstrip、waveform/timeline composite、または曖昧なカットポイントでのみ frame sample。
+3. レンダー前に編集戦略と EDL を提案する。
+4. FFmpeg で決定論的にカットする。
+5. プロダクト主張に視覚的証拠が必要な箇所では Remotion または Manim で proof overlay を追加する。
+6. MP4 と編集可能な timeline、caption 状態をエクスポートする。
+7. アップロードまたはソーシャル投稿の前に cut-boundary、audio、caption、black-frame、product-claim self-eval を実行する。
 
-Do not dump frames into the repo. Frame samples used for self-eval belong in the
-local release suite workspace.
+frame をリポジトリにダンプしない。self-eval に使う frame sample はローカルリリース suite ワークスペースに属する。
 
-## Browser Capture Plan
+## ブラウザキャプチャ計画 (Browser Capture Plan)
 
-Use Browser or equivalent desktop capture only for proof footage that must be
-current on release day:
+Browser または同等のデスクトップキャプチャは、リリース日に最新である必要がある proof footage にのみ使用する:
 
-| Surface | Capture |
+| サーフェス (Surface) | キャプチャ (Capture) |
 | --- | --- |
-| GitHub repo | README hero, install block, sponsor links, release notes |
-| Codex plugin | repo marketplace install path and local plugin README |
-| OpenCode package | package install and plugin banner |
-| ECC Tools Pro | billing/product page only after live readback confirms claims |
-| AgentShield | CLI output, policy category view, supply-chain gate |
-| `ecc2/` | alpha control-plane/TUI surface with alpha framing |
+| GitHub repo | README hero、install block、sponsor link、release notes |
+| Codex plugin | repo marketplace install path と local plugin README |
+| OpenCode package | package install と plugin banner |
+| ECC Tools Pro | billing/product page（live readback が claim を確認した後のみ） |
+| AgentShield | CLI 出力、policy category view、supply-chain gate |
+| `ecc2/` | alpha control-plane/TUI surface（alpha フレーミング付き） |
 
-If a surface is not live, use a local browser capture and label it as local or
-release-candidate proof. Do not claim marketplace, billing, or official
-directory availability before evidence exists.
+surface が live でない場合は、ローカルブラウザキャプチャを使い、local または release-candidate proof としてラベル付けする。証拠が存在する前に marketplace、billing、公式 directory 可用性を主張しないこと。
 
-## Self-Eval Gate
+## Self-Eval ゲート (Self-Eval Gate)
 
-Run the validator:
+validator を実行する:
 
 ```bash
 ECC_VIDEO_SOURCE_ROOT=/path/to/ecc_2_raws \
@@ -174,29 +155,24 @@ ECC_VIDEO_RELEASE_SUITE_ROOT=/path/to/ecc_2_release_suite \
 npm run release:video-suite -- --format json
 ```
 
-Then manually check the final render for:
+次に最終レンダーを手動で確認する:
 
-- validator self-eval passes for the primary render: 90-150 seconds, at least
-  1280x720, video stream present, audio stream present, and non-empty output;
-- validator self-eval passes for the publish-candidate set: primary MP4 plus
-  captions and five short clips in both wide and vertical formats;
-- validator visual QA reports zero detected black-frame segments for every
-  publish-candidate MP4;
-- no blank frames or accidental desktop exposure;
-- no stale repo name, pivot, rename, or Claude-only framing in captions;
-- no captions that rewrite speech into a false claim;
-- no stale URLs, old install commands, or pre-rename repository links;
-- no internal MRR numbers unless the post explicitly needs them;
-- audio continuity across every cut;
-- first 10 seconds clearly say what ECC is;
-- final CTA routes to repo, sponsor, Pro, or consulting without clutter.
+- primary render の validator self-eval 合格: 90-150 秒、最低 1280x720、video stream あり、audio stream あり、非空出力;
+- publish-candidate set の validator self-eval 合格: primary MP4 と captions、5 つの short clip（wide と vertical 両方）;
+- validator visual QA がすべての publish-candidate MP4 で検出 black-frame segment ゼロを報告;
+- blank frame または意図しないデスクトップ露出なし;
+- caption に stale repo 名、pivot、rename、Claude-only フレーミングなし;
+- speech を false claim に書き換える caption なし;
+- stale URL、古い install コマンド、リネーム前リポジトリリンクなし;
+- 投稿が明示的に必要でない限り内部 MRR 数値なし;
+- すべてのカットで audio 連続性;
+- 最初の 10 秒で ECC が何かを明確に伝える;
+- 最終 CTA が clutter なしで repo、sponsor、Pro、consulting にルーティングする。
 
-## Do Not Publish If
+## 公開してはいけない条件 (Do Not Publish If)
 
-- `npm run release:video-suite` is not ready for the local source roots.
-- The primary launch render is outside the 90-150 second target.
-- Captions mention the old repository name.
-- Product proof relies on private screens, secrets, customer data, or raw local
-  paths.
-- The release URL, npm, plugin, billing, or marketplace claims outrun the
-  evidence in `publication-readiness.md`.
+- `npm run release:video-suite` がローカルソースルートで ready でない。
+- primary launch render が 90-150 秒ターゲット外。
+- caption に旧リポジトリ名が含まれる。
+- プロダクト proof が private 画面、secret、顧客データ、raw local path に依存している。
+- リリース URL、npm、プラグイン、billing、marketplace 主張が `publication-readiness.md` の証拠を超えている。

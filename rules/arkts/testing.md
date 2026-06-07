@@ -4,25 +4,25 @@ paths:
   - "**/*.ts"
   - "**/ohosTest/**"
 ---
-# HarmonyOS / ArkTS Testing
+# HarmonyOS / ArkTS テスト (HarmonyOS / ArkTS Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with HarmonyOS-specific testing practices.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、HarmonyOS / ArkTS 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-HarmonyOS uses the built-in test framework with `@ohos.test` capabilities:
+HarmonyOS は `@ohos.test` 機能を持つ組み込みテストフレームワークを使用する:
 
-- **Unit tests**: Located in `src/ohosTest/ets/test/`
-- **UI tests**: Use `@ohos.UiTest` for component testing
-- **Instrument tests**: Run on device/emulator
+- **ユニットテスト**: `src/ohosTest/ets/test/` に配置
+- **UI テスト**: コンポーネントテストには `@ohos.UiTest` を使用
+- **インストルメントテスト**: デバイス/エミュレーターで実行
 
-## Test Directory Structure
+## テストディレクトリ構成 (Test Directory Structure)
 
 ```
 module/
   |-- src/
-  |   |-- main/ets/          # Production code
-  |   |-- ohosTest/ets/      # Test code
+  |   |-- main/ets/          # プロダクションコード
+  |   |-- ohosTest/ets/      # テストコード
   |       |-- test/
   |       |   |-- Ability.test.ets
   |       |   |-- List.test.ets
@@ -30,17 +30,17 @@ module/
   |       |-- TestRunner.ets
 ```
 
-## Running Tests
+## テストの実行 (Running Tests)
 
 ```bash
-# Run all tests for a module
+# モジュールのすべてのテストを実行する (Run all tests for a module)
 hvigorw testHap -p product=default
 
-# Run tests on connected device
+# 接続されたデバイスでテストを実行する (Run tests on connected device)
 hdc shell aa test -b com.example.app -m entry_test -s unittest /ets/TestRunner/OpenHarmonyTestRunner
 ```
 
-## Unit Test Example
+## ユニットテストの例 (Unit Test Example)
 
 ```typescript
 import { describe, it, expect } from '@ohos/hypium';
@@ -69,7 +69,7 @@ export default function UserViewModelTest() {
 }
 ```
 
-## UI Test Example
+## UI テストの例 (UI Test Example)
 
 ```typescript
 import { describe, it, expect } from '@ohos/hypium';
@@ -98,29 +98,29 @@ export default function HomePageUITest() {
 }
 ```
 
-## TDD Workflow for HarmonyOS
+## HarmonyOS 向け TDD ワークフロー (TDD Workflow for HarmonyOS)
 
-Follow the standard TDD cycle adapted for HarmonyOS:
+HarmonyOS に適応した標準 TDD サイクルに従う:
 
-1. **RED**: Write a failing test in `ohosTest/ets/test/`
-2. **GREEN**: Implement minimal code in `main/ets/` to pass
-3. **REFACTOR**: Clean up while keeping tests green
-4. **BUILD**: Run `hvigorw assembleHap` to verify compilation
-5. **VERIFY**: Run tests on device/emulator
+1. **RED**: `ohosTest/ets/test/` に失敗するテストを書く
+2. **GREEN**: `main/ets/` にテストを通過するための最小限のコードを実装する
+3. **REFACTOR**: テストをグリーンに保ちながらクリーンアップする
+4. **ビルド**: `hvigorw assembleHap` を実行してコンパイルを確認する
+5. **VERIFY**: デバイス/エミュレーターでテストを実行する
 
-## Test Coverage Requirements
+## テストカバレッジ要件 (Test Coverage Requirements)
 
-- Minimum 80% coverage for all critical application code (ViewModels, services, utilities)
-- **Unit tests**: All utility functions, ViewModel logic, data models
-- **Integration tests**: API calls, database operations, cross-module interactions
-- **E2E / UI tests**: Critical user flows (login, navigation, data submission)
-- Test edge cases: empty data, network errors, permission denials
+- すべての重要なアプリケーションコード（ViewModels、サービス、ユーティリティ）で最低 80% のカバレッジ
+- **ユニットテスト**: すべてのユーティリティ関数、ViewModel ロジック、データモデル
+- **統合テスト**: API 呼び出し、データベース操作、クロスモジュールインタラクション
+- **E2E / UI テスト**: 重要なユーザーフロー（ログイン、ナビゲーション、データ送信）
+- エッジケースのテスト: 空のデータ、ネットワークエラー、パーミッション拒否
 
-## Testing Best Practices
+## テストのベストプラクティス (Testing Best Practices)
 
-- Keep tests independent - no shared mutable state between tests
-- Mock network calls and system APIs in unit tests
-- Use meaningful test names: `should_[expected_behavior]_when_[condition]`
-- Test V2 state management reactivity: verify `@Trace` properties trigger UI updates
-- Test Navigation flows: verify `NavPathStack` push/pop/replace operations
-- Avoid testing framework internals - focus on business logic and user-visible behavior
+- テストを独立させる — テスト間で共有のミュータブルな状態を持たない
+- ユニットテストではネットワーク呼び出しとシステム API をモックする
+- 意味のあるテスト名を使用する: `should_[期待される動作]_when_[条件]`
+- V2 状態管理のリアクティビティをテストする: `@Trace` プロパティが UI 更新をトリガーすることを確認する
+- Navigation フローをテストする: `NavPathStack` のプッシュ/ポップ/置き換え操作を確認する
+- フレームワーク内部のテストは避ける — ビジネスロジックとユーザーが見える動作に集中する

@@ -1,213 +1,200 @@
-# ECC v2.0.0-rc.1 Partner, Sponsor, and Talks Pack
+# ECC v2.0.0-rc.1 パートナー・スポンサー・トークパック (ECC v2.0.0-rc.1 Partner, Sponsor, and Talks Pack)
 
-This pack turns the rc.1 release surface into outbound-ready copy for sponsors,
-partners, consulting conversations, conference talks, podcast bookings, and
-community announcements.
+このパックは rc.1 リリースサーフェスを、スポンサー、パートナー、コンサル会話、カンファレンストーク、ポッドキャスト予約、コミュニティ告知向けのアウトバウンド対応コピーへ変換します。
 
-It is not a publish action. Use it after the release URL ledger, video suite,
-and publication gates are current.
+公開アクションではありません。release URL ledger、video suite、publication gates が最新であることを確認した後に使用してください。
 
-## Current Business Baseline
+## 現行ビジネスベースライン (Current Business Baseline)
 
-| Metric | Current | Target | Gap |
+| 指標 (Metric) | 現在 (Current) | 目標 (Target) | ギャップ (Gap) |
 | --- | ---: | ---: | ---: |
 | MRR | `$1,728/mo` | `$10,000/mo` | `$8,272/mo` |
-| Core revenue lanes | Sponsors, ECC Tools Pro, consulting, talks | Repeatable growth loop | Approval-gated outbound |
-| Launch proof | rc.1 preview pack, video suite, queue-zero audit | Public release package | Final URLs and human approval |
+| コア収益レーン (Core revenue lanes) | Sponsors、ECC Tools Pro、consulting、talks | 反復可能な growth loop | approval-gated outbound |
+| ローンチ証拠 (Launch proof) | rc.1 preview pack、video suite、queue-zero audit | 公開リリースパッケージ | 最終 URL と人間による承認 |
 
-## Positioning Line
+## ポジショニングライン (Positioning Line)
 
-ECC 2.0 is the harness-native operator system for agentic work.
+ECC 2.0 は agentic work 向けの harness-native operator system です。
 
-Use this short version in partner and sponsor messages:
+パートナー・スポンサーメッセージでは次の短版を使用してください:
 
 ```text
-ECC gives teams one reusable layer for skills, hooks, rules, MCP conventions,
-release gates, and operator workflows across Claude Code, Codex, OpenCode,
-Cursor, Gemini, Zed, GitHub Copilot, and terminal-only workflows.
+ECC は、Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot、
+terminal-only ワークフロー横断で、skills、hooks、rules、MCP conventions、
+release gates、operator workflows を担う 1 つの再利用可能レイヤーを提供する。
 ```
 
-## Offer Ladder
+## オファーラダー (Offer Ladder)
 
-| Motion | Best fit | Starting point | Primary ask |
+| モーション (Motion) | 最適フィット (Best fit) | 開始点 (Starting point) | 主な依頼 (Primary ask) |
 | --- | --- | ---: | --- |
-| Pilot sponsor | OSS-friendly team that wants early signal | `$200/mo` | GitHub Sponsors |
-| Business sponsor | Tooling or AI infra company that wants logo and case-study surface | `$500/mo` | GitHub Sponsors or direct invoice |
-| Strategic partner | Platform, marketplace, security, or developer-tool company | `$1,000+/mo` | Sponsor plus launch or integration plan |
-| Consulting sprint | Team adopting agent harnesses internally | Scoped quote | Harness audit, rollout plan, and operating loop |
-| Talk or podcast | Devtools, AI engineering, security, OSS, or founder audience | No fee required for high-leverage reach | Recording slot, demo slot, or conference proposal |
+| Pilot sponsor | 早期シグナルを求める OSS フレンドリーなチーム | `$200/mo` | GitHub Sponsors |
+| Business sponsor | ロゴと case-study surface を求める tooling または AI infra 企業 | `$500/mo` | GitHub Sponsors または direct invoice |
+| Strategic partner | platform、marketplace、security、developer-tool 企業 | `$1,000+/mo` | sponsor に加え launch または integration plan |
+| Consulting sprint | 社内で agent harness を導入するチーム | スコープ見積もり | harness audit、rollout plan、operating loop |
+| Talk or podcast | devtools、AI engineering、security、OSS、founder 向けオーディエンス | 高レバレッジリーチには料金不要 | recording slot、demo slot、conference proposal |
 
-## Partner Targets
+## パートナーターゲット (Partner Targets)
 
-Prioritize partners that already benefit from a harness-agnostic operating
-layer:
+harness-agnostic operating layer から既に恩恵を受けるパートナーを優先してください:
 
-- AI coding platforms and IDEs;
-- hosted agent and workflow orchestration tools;
-- code review, security, and supply-chain vendors;
-- model and inference providers;
-- developer education, podcast, and conference organizers;
-- teams adopting multiple harnesses at once.
+- AI coding platform と IDE;
+- hosted agent と workflow orchestration ツール;
+- code review、security、supply-chain ベンダー;
+- model と inference provider;
+- developer education、podcast、conference 主催者;
+- 複数 harness を同時に導入するチーム。
 
-## Sponsor Outbound
+## スポンサーアウトバウンド (Sponsor Outbound)
 
-Subject:
+件名 (Subject):
 
 ```text
-ECC 2.0 sponsor slot for cross-harness agent workflows
+クロスハーネス agent workflows 向け ECC 2.0 スポンサー枠
 ```
 
-Body:
+本文 (Body):
 
 ```text
-Hey [name],
+[name] さん
 
-I am getting ECC v2.0.0-rc.1 ready for release review.
+ECC v2.0.0-rc.1 のリリースレビュー準備を進めています。
 
-The project is now positioned around one reusable operator layer for agentic
-work across Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot,
-and terminal workflows.
+このプロジェクトは、Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、
+GitHub Copilot、terminal ワークフロー横断の agentic work 向けに、
+1 つの再利用可能な operator layer として位置づけています。
 
-The sponsor fit is pretty direct: ECC reaches the exact builders who are
-standardizing their AI coding stack, security posture, and workflow automation.
+スポンサー適合性は明確です。ECC は、AI coding stack、security posture、
+workflow automation を標準化している builder に直接届きます。
 
-The current public sponsor ladder is:
+現在の公開スポンサーラダーは次のとおりです:
 
 - Pilot Partner: $200/mo
 - Business Sponsor: $500/mo
 - Strategic Partner: $1,000+/mo
 
-Business sponsors get logo placement and release visibility. Strategic partners
-can turn it into a deeper integration or launch motion.
+Business sponsor はロゴ掲載とリリース露出を得られます。Strategic partner は
+より深い integration や launch motion に発展できます。
 
 Repo: https://github.com/affaan-m/ECC
 Sponsor: https://github.com/sponsors/affaan-m
 Release notes: https://github.com/affaan-m/ECC/blob/main/docs/releases/2.0.0-rc.1/release-notes.md
 
-If useful, I can send the short sponsor packet and a proposed first 30-day plan.
+必要であれば、短い sponsor packet と最初の 30 日プラン案を送れます。
 
 Affaan
 ```
 
-## Platform Partner DM
+## プラットフォームパートナー DM (Platform Partner DM)
 
 ```text
-ECC 2.0 is getting close to rc.1.
+ECC 2.0 は rc.1 に近づいています。
 
-The release is centered on cross-harness agent workflows: reusable skills,
-hooks, rules, MCP conventions, release gates, and an optional Hermes operator
-shell.
+このリリースはクロスハーネス agent workflows を中心に据えています:
+再利用可能な skills、hooks、rules、MCP conventions、release gates、
+任意の Hermes operator shell です。
 
-The partner angle is not "another prompt pack." It is a tested operating layer
-for teams using more than one AI coding harness.
+パートナー観点は「もう 1 つの prompt pack」ではありません。
+複数の AI coding harness を使うチーム向けの、検証済み operating layer です。
 
-I think there is a real integration or co-launch angle here if your team wants
-better setup, policy, security, or workflow portability for agent users.
+setup、policy、security、workflow portability を agent ユーザー向けに
+強化したいチームには、integration や co-launch の実益があると考えています。
 
 Repo: https://github.com/affaan-m/ECC
 ```
 
-## Consulting Intro
+## コンサルイントロ (Consulting Intro)
 
 ```text
-I am open to a small number of ECC 2.0 implementation sprints for teams that
-are standardizing AI coding workflows.
+AI coding workflows を標準化しているチーム向けに、
+少数の ECC 2.0 implementation sprint を受け付けています。
 
-The useful scope is usually:
+有用なスコープは通常次のとおりです:
 
-1. audit the current harness setup;
-2. turn repeated workflows into ECC skills, hooks, and rules;
-3. add release, security, and CI gates;
-4. create a team operating loop that works across Claude Code, Codex, OpenCode,
-   Cursor, Gemini, Zed, GitHub Copilot, and terminal workflows.
+1. 現在の harness setup を監査する;
+2. 反復ワークフローを ECC skills、hooks、rules に変換する;
+3. release、security、CI gates を追加する;
+4. Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、
+   GitHub Copilot、terminal ワークフロー横断で動く team operating loop を作る。
 
-This is not generic AI consulting. The output is a working harness operating
-system your team can keep using.
+これは汎用 AI consulting ではありません。成果物は、チームが継続利用できる
+動作する harness operating system です。
 ```
 
-## Talk And Podcast Pitch
+## トーク・ポッドキャストピッチ (Talk And Podcast Pitch)
 
-Title options:
+タイトル候補 (Title options):
 
-- Building a Cross-Harness Operating System for AI Coding
-- From Prompt Packs to Operator Systems
-- What Breaks When Teams Adopt Too Many AI Coding Harnesses
-- Security and Release Discipline for Agentic Coding Workflows
+- AI Coding 向けクロスハーネス Operating System の構築
+- Prompt Pack から Operator System へ
+- チームが AI Coding Harness を使いすぎると何が壊れるか
+- Agentic Coding Workflows の Security と Release 規律
 
-Short pitch:
+短いピッチ (Short pitch):
 
 ```text
-ECC started as an open-source workflow layer for Claude Code and is now moving
-toward a cross-harness operating system for agentic work.
+ECC は Claude Code 向け OSS workflow layer として始まり、
+いまは agentic work 向けクロスハーネス operating system へ進んでいます。
 
-The talk is about the practical problems teams hit after the first AI coding
-honeymoon: scattered prompts, duplicated setup, weak release gates, fragile
-security posture, and no clear operating loop across tools.
+このトークは、AI coding の最初の蜜月期の後にチームが直面する実務課題を扱います:
+散在する prompts、重複 setup、弱い release gates、脆い security posture、
+ツール横断の明確な operating loop の欠如です。
 
-I can show how ECC uses reusable skills, hooks, MCP conventions, release gates,
-AgentShield-style security checks, and an optional Hermes operator shell to make
-agentic work more measurable and portable.
+再利用可能な skills、hooks、MCP conventions、release gates、
+AgentShield 型 security checks、任意の Hermes operator shell を使って、
+ECC が agentic work をより測定可能で portable にする方法を示せます。
 ```
 
-## GitHub Discussion Announcement
+## GitHub Discussion 告知 (GitHub Discussion Announcement)
 
 ```text
-ECC v2.0.0-rc.1 preview pack is ready for final release review.
+ECC v2.0.0-rc.1 preview pack は最終リリースレビュー準備ができています。
 
-The main point: ECC 2.0 is a meta-harness for agentic work.
+要点: ECC 2.0 は agentic work 向け meta-harness です。
 
-It is the portable layer that keeps skills, hooks, MCP conventions, release
-gates, security checks, and team workflows reusable across the AI coding tools
-people actually use.
+skills、hooks、MCP conventions、release gates、security checks、
+team workflows を、人々が実際に使う AI coding tools 横断で
+再利用可能に保つ portable layer です。
 
-It now has a reviewed public surface for:
+レビュー済みの公開 surface には次が含まれます:
 
-- reusable skills, hooks, rules, and MCP conventions;
-- Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot, and
+- 再利用可能な skills、hooks、rules、MCP conventions;
+- Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot、
   terminal workflows;
-- Hermes as the optional operator shell;
-- release, security, queue, discussion, Linear, observability, and video-suite
-  gates.
-- a gated Itô prediction-market skill pack for research, comparison, planning,
-  and risk review, with Itô API access kept separate and approval-based.
+- 任意の operator shell としての Hermes;
+- release、security、queue、discussion、Linear、observability、
+  video-suite gates。
+- research、comparison、planning、risk review 向けの gated Itô prediction-market
+  skill pack。Itô API access は分離し、approval-based のまま維持。
 
-The GitHub prerelease and npm `next` package are live now. The release remains
-approval-gated for plugin paths, video URLs, final outbound URLs, and billing
-claims that have not been freshly rechecked.
+GitHub prerelease と npm `next` package は現在 live です。リリースは
+plugin paths、video URLs、最終 outbound URLs、再チェック前の billing claims
+について approval-gated のままです。
 
-Feedback wanted: install friction, cross-harness gaps, partner integrations,
-sponsor fit, prediction-market research use cases, and examples of teams using
-multiple AI coding harnesses.
+フィードバック歓迎: install friction、cross-harness gaps、partner integrations、
+sponsor fit、prediction-market research use cases、
+複数 AI coding harness を使うチームの事例。
 ```
 
-## Video CTA Hooks
+## 動画 CTA フック (Video CTA Hooks)
 
-Use these with the release video suite:
+release video suite と併用してください:
 
-- "If your AI coding setup only works in one harness, it is not an operating
-  system yet."
-- "ECC 2.0 is the shared layer: skills, hooks, MCPs, release gates, and team
-  workflows across the tools people actually use."
-- "OSS stays free. Sponsors, Pro, and implementation work fund the public
-  layer."
-- "Start with one workflow lane: engineering, research, content, or outreach."
+- 「AI coding setup が 1 つの harness でしか動かないなら、まだ operating system ではない。」
+- 「ECC 2.0 は共有レイヤー: skills、hooks、MCPs、release gates、people が実際に使うツール横断の team workflows。」
+- 「OSS は無料のまま。Sponsors、Pro、implementation work が public layer を資金提供する。」
+- 「1 つの workflow レーンから始める: engineering、research、content、outreach。」
 
-## Do Not Send Or Publish If
+## 送信・公開してはいけない条件 (Do Not Send Or Publish If)
 
-- The release URL ledger still has stale or placeholder links.
-- `npm run release:video-suite -- --format json` is not green against the
-  intended video roots.
-- The GitHub prerelease or npm package readback is contradicted, or a plugin
-  path, video URL, billing claim, or official directory listing is described as
-  live without evidence.
-- The message claims native payments are ready before ECC Tools billing readback
-  passes.
-- The recipient needs a custom promise that is not covered by `SPONSORS.md`,
-  `SPONSORING.md`, or a separate consulting scope.
-- The user has not approved outbound sponsor, partner, consulting, or media
-  messages.
+- release URL ledger に古いまたはプレースホルダーリンクが残っている。
+- 意図した video roots に対して `npm run release:video-suite -- --format json` が green でない。
+- GitHub prerelease または npm package readback が矛盾している、または plugin path、video URL、billing claim、公式 directory listing がエビデンスなしに live と記述されている。
+- ECC Tools billing readback 通過前に native payments が ready と主張している。
+- `SPONSORS.md`、`SPONSORING.md`、または別途コンサルスコープでカバーされないカスタム約束が必要な受信者である。
+- ユーザーがスポンサー、パートナー、コンサル、メディア向けアウトバウンドメッセージを承認していない。
 
-## Routing Links
+## ルーティングリンク (Routing Links)
 
 - Repo: <https://github.com/affaan-m/ECC>
 - Release notes: <https://github.com/affaan-m/ECC/blob/main/docs/releases/2.0.0-rc.1/release-notes.md>

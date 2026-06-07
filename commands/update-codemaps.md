@@ -1,32 +1,32 @@
 ---
-description: Scan project structure and generate token-lean architecture codemaps.
+description: プロジェクト構造をスキャンし、トークン効率の良いアーキテクチャコードマップを生成します。
 ---
 
-# Update Codemaps
+# コードマップの更新 (Update Codemaps)
 
-Analyze the codebase structure and generate token-lean architecture documentation.
+コードベース構造を分析し、トークン効率の良いアーキテクチャドキュメントを生成します。
 
-## Step 1: Scan Project Structure
+## ステップ 1: プロジェクト構造のスキャン (Step 1: Scan Project Structure)
 
-1. Identify the project type (monorepo, single app, library, microservice)
-2. Find all source directories (src/, lib/, app/, packages/)
-3. Map entry points (main.ts, index.ts, app.py, main.go, etc.)
+1. プロジェクトタイプを特定（monorepo、単一アプリ、ライブラリ、マイクロサービス）
+2. すべてのソースディレクトリを検出（src/、lib/、app/、packages/）
+3. エントリポイントをマッピング（main.ts、index.ts、app.py、main.go など）
 
-## Step 2: Generate Codemaps
+## ステップ 2: コードマップの生成 (Step 2: Generate Codemaps)
 
-Create or update codemaps in `docs/CODEMAPS/` (or `.reports/codemaps/`):
+`docs/CODEMAPS/`（または `.reports/codemaps/`）にコードマップを作成または更新：
 
-| File | Contents |
+| ファイル | 内容 |
 |------|----------|
-| `architecture.md` | High-level system diagram, service boundaries, data flow |
-| `backend.md` | API routes, middleware chain, service → repository mapping |
-| `frontend.md` | Page tree, component hierarchy, state management flow |
-| `data.md` | Database tables, relationships, migration history |
-| `dependencies.md` | External services, third-party integrations, shared libraries |
+| `architecture.md` | 高レベルシステム図、サービス境界、データフロー |
+| `backend.md` | API ルート、ミドルウェアチェーン、service → repository マッピング |
+| `frontend.md` | ページツリー、コンポーネント階層、状態管理フロー |
+| `data.md` | データベーステーブル、リレーション、マイグレーション履歴 |
+| `dependencies.md` | 外部サービス、サードパーティ統合、共有ライブラリ |
 
-### Codemap Format
+### コードマップ形式 (Codemap Format)
 
-Each codemap should be token-lean — optimized for AI context consumption:
+各コードマップはトークン効率重視 — AI コンテキスト消費に最適化：
 
 ```markdown
 # Backend Architecture
@@ -45,32 +45,32 @@ src/repos/user.ts (database access, 80 lines)
 - Stripe (payment processing)
 ```
 
-## Step 3: Diff Detection
+## ステップ 3: 差分検出 (Step 3: Diff Detection)
 
-1. If previous codemaps exist, calculate the diff percentage
-2. If changes > 30%, show the diff and request user approval before overwriting
-3. If changes <= 30%, update in place
+1. 以前のコードマップが存在する場合、差分パーセンテージを計算
+2. 変更が 30% を超える場合、上書き前に差分を表示しユーザー承認を要求
+3. 変更が 30% 以下の場合、その場で更新
 
-## Step 4: Add Metadata
+## ステップ 4: メタデータの追加 (Step 4: Add Metadata)
 
-Add a freshness header to each codemap:
+各コードマップに鮮度ヘッダーを追加：
 
 ```markdown
 <!-- Generated: 2026-02-11 | Files scanned: 142 | Token estimate: ~800 -->
 ```
 
-## Step 5: Save Analysis Report
+## ステップ 5: 分析レポートの保存 (Step 5: Save Analysis Report)
 
-Write a summary to `.reports/codemap-diff.txt`:
-- Files added/removed/modified since last scan
-- New dependencies detected
-- Architecture changes (new routes, new services, etc.)
-- Staleness warnings for docs not updated in 90+ days
+`.reports/codemap-diff.txt` にサマリーを書き込む：
+- 前回スキャン以降に追加/削除/変更されたファイル
+- 新しく検出された依存関係
+- アーキテクチャの変更（新ルート、新サービスなど）
+- 90日以上更新されていないドキュメントの鮮度警告
 
-## Tips
+## ヒント (Tips)
 
-- Focus on **high-level structure**, not implementation details
-- Prefer **file paths and function signatures** over full code blocks
-- Keep each codemap under **1000 tokens** for efficient context loading
-- Use ASCII diagrams for data flow instead of verbose descriptions
-- Run after major feature additions or refactoring sessions
+- **高レベル構造**に焦点を当て、実装の詳細は避ける
+- 完全なコードブロックより **ファイルパスと関数シグネチャ** を優先
+- 効率的なコンテキスト読み込みのため、各コードマップを **1000 トークン未満** に保つ
+- 冗長な説明の代わりにデータフローには ASCII 図を使用
+- 大規模な機能追加やリファクタリングセッションの後に実行

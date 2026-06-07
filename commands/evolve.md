@@ -1,94 +1,94 @@
 ---
 name: evolve
-description: Analyze instincts and suggest or generate evolved structures
+description: instinct を分析し、進化した構造を提案または生成する
 command: true
 ---
 
-# Evolve Command
+# Evolve コマンド (Evolve Command)
 
-## Implementation
+## 実装 (Implementation)
 
-Run the instinct CLI using the plugin root path:
+プラグインルートパスを使って instinct CLI を実行:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" evolve [--generate]
 ```
 
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation):
+`CLAUDE_PLUGIN_ROOT` が未設定の場合（手動インストール）:
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py evolve [--generate]
 ```
 
-Analyzes instincts and clusters related ones into higher-level structures:
-- **Commands**: When instincts describe user-invoked actions
-- **Skills**: When instincts describe auto-triggered behaviors
-- **Agents**: When instincts describe complex, multi-step processes
+instinct を分析し、関連するものをクラスタリングして上位構造にまとめる:
+- **Commands**: instinct がユーザー起動のアクションを記述している場合
+- **Skills**: instinct が自動トリガーの振る舞いを記述している場合
+- **Agents**: instinct が複雑な多段階プロセスを記述している場合
 
-## Usage
+## 使い方 (Usage)
 
 ```
 /evolve                    # Analyze all instincts and suggest evolutions
 /evolve --generate         # Also generate files under evolved/{skills,commands,agents}
 ```
 
-## Evolution Rules
+## 進化ルール (Evolution Rules)
 
-### → Command (User-Invoked)
-When instincts describe actions a user would explicitly request:
-- Multiple instincts about "when user asks to..."
-- Instincts with triggers like "when creating a new X"
-- Instincts that follow a repeatable sequence
+### → Command（ユーザー起動）(→ Command (User-Invoked))
+instinct がユーザーが明示的に要求するアクションを記述している場合:
+- 「ユーザーが X を依頼したとき...」に関する複数の instinct
+- 「新しい X を作成するとき」のようなトリガーを持つ instinct
+- 繰り返し可能なシーケンスに従う instinct
 
-Example:
+例:
 - `new-table-step1`: "when adding a database table, create migration"
 - `new-table-step2`: "when adding a database table, update schema"
 - `new-table-step3`: "when adding a database table, regenerate types"
 
-→ Creates: **new-table** command
+→ 作成: **new-table** command
 
-### → Skill (Auto-Triggered)
-When instincts describe behaviors that should happen automatically:
-- Pattern-matching triggers
-- Error handling responses
-- Code style enforcement
+### → Skill（自動トリガー）(→ Skill (Auto-Triggered))
+instinct が自動的に起こるべき振る舞いを記述している場合:
+- パターンマッチングトリガー
+- エラーハンドリングの応答
+- コードスタイルの強制
 
-Example:
+例:
 - `prefer-functional`: "when writing functions, prefer functional style"
 - `use-immutable`: "when modifying state, use immutable patterns"
 - `avoid-classes`: "when designing modules, avoid class-based design"
 
-→ Creates: `functional-patterns` skill
+→ 作成: `functional-patterns` skill
 
-### → Agent (Needs Depth/Isolation)
-When instincts describe complex, multi-step processes that benefit from isolation:
-- Debugging workflows
-- Refactoring sequences
-- Research tasks
+### → Agent（深度/分離が必要）(→ Agent (Needs Depth/Isolation))
+instinct が分離の恩恵を受ける複雑な多段階プロセスを記述している場合:
+- デバッグワークフロー
+- リファクタリングシーケンス
+- リサーチタスク
 
-Example:
+例:
 - `debug-step1`: "when debugging, first check logs"
 - `debug-step2`: "when debugging, isolate the failing component"
 - `debug-step3`: "when debugging, create minimal reproduction"
 - `debug-step4`: "when debugging, verify fix with test"
 
-→ Creates: **debugger** agent
+→ 作成: **debugger** agent
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Detect current project context
-2. Read project + global instincts (project takes precedence on ID conflicts)
-3. Group instincts by trigger/domain patterns
-4. Identify:
-   - Skill candidates (trigger clusters with 2+ instincts)
-   - Command candidates (high-confidence workflow instincts)
-   - Agent candidates (larger, high-confidence clusters)
-5. Show promotion candidates (project -> global) when applicable
-6. If `--generate` is passed, write files to:
-   - Project scope: `~/.claude/homunculus/projects/<project-id>/evolved/`
-   - Global fallback: `~/.claude/homunculus/evolved/`
+1. 現在のプロジェクトコンテキストを検出
+2. プロジェクト + グローバル instinct を読む（ID 競合時はプロジェクトが優先）
+3. トリガー/ドメインパターンで instinct をグループ化
+4. 以下を特定:
+   - Skill 候補（2 つ以上の instinct を持つトリガークラスタ）
+   - Command 候補（高信頼度のワークフロー instinct）
+   - Agent 候補（より大きな高信頼度クラスタ）
+5. 該当する場合、昇格候補（project -> global）を表示
+6. `--generate` が渡された場合、以下にファイルを書き込む:
+   - プロジェクトスコープ: `~/.claude/homunculus/projects/<project-id>/evolved/`
+   - グローバルフォールバック: `~/.claude/homunculus/evolved/`
 
-## Output Format
+## 出力形式 (Output Format)
 
 ```
 ============================================================
@@ -117,11 +117,11 @@ High confidence instincts (>=80%): 5
     Avg confidence: 82%
 ```
 
-## Flags
+## フラグ (Flags)
 
-- `--generate`: Generate evolved files in addition to analysis output
+- `--generate`: 分析出力に加えて進化したファイルを生成
 
-## Generated File Format
+## 生成ファイル形式 (Generated File Format)
 
 ### Command
 ```markdown

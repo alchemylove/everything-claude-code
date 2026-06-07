@@ -1,92 +1,92 @@
-# Repo & Fork Assessment + Setup Recommendations
+# リポジトリとフォーク評価 + セットアップ推奨 (Repo & Fork Assessment + Setup Recommendations)
 
-**Date:** 2026-03-21
+**日付:** 2026-03-21
 
 ---
 
-## What's Available
+## 利用可能なもの (What's Available)
 
-### Repo: `Infiniteyieldai/everything-claude-code`
+### リポジトリ: `Infiniteyieldai/everything-claude-code`
 
-This is a **fork of `affaan-m/everything-claude-code`** (the upstream project with 50K+ stars, 6K+ forks).
+これは **`affaan-m/everything-claude-code` のフォーク**（50K+ スター、6K+ フォークの上流プロジェクト）です。
 
-| Attribute | Value |
+| 属性 | 値 |
 |-----------|-------|
-| Version | 1.9.0 (current) |
-| Status | Clean fork — 1 commit ahead of upstream `main` (the EVALUATION.md doc added in this session) |
-| Remote branches | `main`, `claude/evaluate-repo-comparison-ASZ9Y` |
-| Upstream sync | Fully synced — last upstream commit merged was the zh-CN docs PR (#728) |
-| License | MIT |
+| バージョン | 1.9.0（現行） |
+| 状態 | クリーンなフォーク — 上流 `main` より 1 コミット先行（このセッションで追加した EVALUATION.md） |
+| リモートブランチ | `main`、`claude/evaluate-repo-comparison-ASZ9Y` |
+| 上流同期 | 完全同期 — 最後にマージした上流コミットは zh-CN ドキュメント PR (#728) |
+| ライセンス | MIT |
 
-**This is the right repo to work from.** It's the latest upstream version with no divergence or merge conflicts.
+**作業にはこのリポジトリが適切です。** 最新の上流バージョンで、分岐やマージコンフリクトはありません。
 
 ---
 
-### Current `~/.claude/` Installation
+### 現在の `~/.claude/` インストール
 
-| Component | Installed | Available in Repo |
+| コンポーネント | インストール済み | リポジトリで利用可能 |
 |-----------|-----------|-------------------|
-| Agents | 0 | 28 |
-| Skills | 0 | 116 |
-| Commands | 0 | 59 |
-| Rules | 0 | 60+ files (12 languages) |
-| Hooks | 1 (git Stop check) | Full PreToolUse/PostToolUse matrix |
-| MCP configs | 0 | 1 (Context7) |
+| エージェント | 0 | 28 |
+| スキル | 0 | 116 |
+| コマンド | 0 | 59 |
+| ルール | 0 | 60+ ファイル（12 言語） |
+| フック | 1（git Stop チェック） | 完全な PreToolUse/PostToolUse マトリクス |
+| MCP 設定 | 0 | 1（Context7） |
 
-The existing Stop hook (`stop-hook-git-check.sh`) is solid — blocks session end on uncommitted/unpushed work. Keep it.
+既存の Stop フック（`stop-hook-git-check.sh`）は堅牢です — 未コミット/未プッシュの作業があるとセッション終了をブロックします。維持してください。
 
 ---
 
-## Install Profile Recommendations
+## インストールプロファイル推奨 (Install Profile Recommendations)
 
-The repo ships 5 install profiles. Choose based on your primary use case:
+リポジトリは 5 つのインストールプロファイルを同梱しています。主な用途に応じて選択してください：
 
-### Profile: `core` (Minimum viable setup)
-> Fastest to install. Gets you commands, core agents, hooks runtime, and quality workflow.
+### プロファイル: `core`（最小限の実用セットアップ）(Profile: `core` (Minimum viable setup))
+> 最速インストール。コマンド、コアエージェント、フック runtime、品質ワークフローを取得。
 
-**Best for:** Trying ECC out, minimal footprint, or a constrained environment.
+**最適な用途:** ECC を試す、最小フットプリント、制約のある環境。
 
 ```bash
 node scripts/install-plan.js --profile core
 node scripts/install-apply.js
 ```
 
-**Installs:** rules-core, agents-core, commands-core, hooks-runtime, platform-configs, workflow-quality
+**インストール内容:** rules-core、agents-core、commands-core、hooks-runtime、platform-configs、workflow-quality
 
 ---
 
-### Profile: `developer` (Recommended for daily dev work)
-> The default engineering profile for most ECC users.
+### プロファイル: `developer`（日常開発向け推奨）(Profile: `developer` (Recommended for daily dev work))
+> 多くの ECC ユーザー向けのデフォルトエンジニアリングプロファイル。
 
-**Best for:** General software development across app codebases.
+**最適な用途:** アプリコードベース横断の一般的なソフトウェア開発。
 
 ```bash
 node scripts/install-plan.js --profile developer
 node scripts/install-apply.js
 ```
 
-**Adds over core:** framework-language skills, database patterns, orchestration commands
+**core からの追加:** framework-language スキル、database パターン、orchestration コマンド
 
 ---
 
-### Profile: `security`
-> Baseline runtime + security-specific agents and rules.
+### プロファイル: `security` (Profile: `security`)
+> ベースライン runtime + セキュリティ特化のエージェントとルール。
 
-**Best for:** Security-focused workflows, code audits, vulnerability reviews.
-
----
-
-### Profile: `research`
-> Investigation, synthesis, and publishing workflows.
-
-**Best for:** Content creation, investor materials, market research, cross-posting.
+**最適な用途:** セキュリティ重視のワークフロー、コード監査、脆弱性レビュー。
 
 ---
 
-### Profile: `full`
-> Everything — all 18 modules.
+### プロファイル: `research` (Profile: `research`)
+> 調査、統合、公開ワークフロー。
 
-**Best for:** Power users who want the complete toolkit.
+**最適な用途:** コンテンツ作成、投資家向け資料、市場調査、クロスポスト。
+
+---
+
+### プロファイル: `full` (Profile: `full`)
+> すべて — 全 18 モジュール。
+
+**最適な用途:** 完全なツールキットを求めるパワーユーザー。
 
 ```bash
 node scripts/install-plan.js --profile full
@@ -95,102 +95,102 @@ node scripts/install-apply.js
 
 ---
 
-## Priority Additions (High Value, Low Risk)
+## 優先追加（高価値・低リスク）(Priority Additions (High Value, Low Risk))
 
-Regardless of profile, these components add immediate value:
+プロファイルに関わらず、これらのコンポーネントは即効性があります：
 
-### 1. Core Agents (highest ROI)
+### 1. コアエージェント（最高 ROI）(1. Core Agents (highest ROI))
 
-| Agent | Why it matters |
+| エージェント | 重要な理由 |
 |-------|----------------|
-| `planner.md` | Breaks complex tasks into implementation plans |
-| `code-reviewer.md` | Quality and maintainability review |
-| `tdd-guide.md` | TDD workflow (RED→GREEN→IMPROVE) |
-| `security-reviewer.md` | Vulnerability detection |
-| `architect.md` | System design & scalability decisions |
+| `planner.md` | 複雑なタスクを実装計画に分解 |
+| `code-reviewer.md` | 品質と保守性のレビュー |
+| `tdd-guide.md` | TDD ワークフロー（RED→GREEN→IMPROVE） |
+| `security-reviewer.md` | 脆弱性検出 |
+| `architect.md` | システム設計とスケーラビリティ判断 |
 
-### 2. Key Commands
+### 2. 主要コマンド (2. Key Commands)
 
-| Command | Why it matters |
+| コマンド | 重要な理由 |
 |---------|----------------|
-| `/plan` | Implementation planning before coding |
-| `/tdd` | Test-driven workflow |
-| `/code-review` | On-demand review |
-| `/build-fix` | Automated build error resolution |
-| `/learn` | Extract patterns from current session |
+| `/plan` | コーディング前の実装計画 |
+| `/tdd` | テスト駆動ワークフロー |
+| `/code-review` | オンデマンドレビュー |
+| `/build-fix` | ビルドエラーの自動解決 |
+| `/learn` | 現在のセッションからパターンを抽出 |
 
-### 3. Hook Upgrades (from `hooks/hooks.json`)
-The repo's hook system adds these over the current single Stop hook:
+### 3. フックアップグレード（`hooks/hooks.json` から）(3. Hook Upgrades (from `hooks/hooks.json`))
+リポジトリのフックシステムは、現在の単一 Stop フックに以下を追加します：
 
-| Hook | Trigger | Value |
+| フック | トリガー | 価値 |
 |------|---------|-------|
-| `block-no-verify` | PreToolUse: Bash | Blocks `--no-verify` git flag abuse |
-| `pre-bash-git-push-reminder` | PreToolUse: Bash | Pre-push review reminder |
-| `doc-file-warning` | PreToolUse: Write | Warns on non-standard doc files |
-| `suggest-compact` | PreToolUse: Edit/Write | Suggests compaction at logical intervals |
-| Continuous learning observer | PreToolUse: * | Captures tool use patterns for skill improvement |
+| `block-no-verify` | PreToolUse: Bash | `--no-verify` git フラグの悪用をブロック |
+| `pre-bash-git-push-reminder` | PreToolUse: Bash | プッシュ前レビューリマインダー |
+| `doc-file-warning` | PreToolUse: Write | 非標準ドキュメントファイルへの警告 |
+| `suggest-compact` | PreToolUse: Edit/Write | 論理的な間隔でのコンパクション提案 |
+| Continuous learning observer | PreToolUse: * | スキル改善のためのツール利用パターンを捕捉 |
 
-### 4. Rules (Always-on guidelines)
-The `rules/common/` directory provides baseline guidelines that fire on every session:
-- `security.md` — Security guardrails
-- `testing.md` — 80%+ coverage requirement
-- `git-workflow.md` — Conventional commits, branch strategy
-- `coding-style.md` — Cross-language style standards
+### 4. ルール（常時ガイドライン）(4. Rules (Always-on guidelines))
+`rules/common/` は毎セッション適用されるベースラインガイドラインを提供します：
+- `security.md` — セキュリティガードレール
+- `testing.md` — 80%+ カバレッジ要件
+- `git-workflow.md` — Conventional Commits、ブランチ戦略
+- `coding-style.md` — 言語横断のスタイル標準
 
 ---
 
-## What to Do With the Fork
+## フォークの扱い (What to Do With the Fork)
 
-### Option A: Use as upstream tracker (current state)
-Keep the fork synced with `affaan-m/everything-claude-code` upstream. Periodically merge upstream changes:
+### オプション A: 上流トラッカーとして使用（現状）(Option A: Use as upstream tracker (current state))
+フォークを `affaan-m/everything-claude-code` 上流と同期したまま維持。定期的に上流変更をマージ：
 ```bash
 git fetch upstream
 git merge upstream/main
 ```
-Install from the local clone. This is clean and maintainable.
+ローカルクローンからインストール。クリーンで保守しやすい。
 
-### Option B: Customize the fork
-Add personal skills, agents, or commands to the fork. Good for:
-- Business-specific domain skills (your vertical)
-- Team-specific coding conventions
-- Custom hooks for your stack
+### オプション B: フォークをカスタマイズ (Option B: Customize the fork)
+個人のスキル、エージェント、コマンドをフォークに追加。以下に適しています：
+- ビジネス固有のドメインスキル（自社の垂直領域）
+- チーム固有のコーディング規約
+- 自スタック向けカスタムフック
 
-The fork already has the EVALUATION.md and REPO-ASSESSMENT.md docs — that's fine for a working fork.
+フォークには既に EVALUATION.md と REPO-ASSESSMENT.md があります — 作業用フォークとして問題ありません。
 
-### Option C: Install from npm (simplest for fresh machines)
+### オプション C: npm からインストール（新規マシンで最も簡単）(Option C: Install from npm (simplest for fresh machines))
 ```bash
 npx ecc-universal install --profile developer
 ```
-No need to clone the repo. This is the recommended install method for most users.
+リポジトリのクローンは不要。多くのユーザーには推奨インストール方法です。
 
 ---
 
-## Recommended Setup Steps
+## 推奨セットアップ手順 (Recommended Setup Steps)
 
-1. **Keep the existing Stop hook** — it's doing its job
-2. **Run the developer profile install** from the local fork:
+1. **既存の Stop フックを維持** — 役割を果たしている
+2. **ローカルフォークから developer プロファイルをインストール**:
    ```bash
    cd /path/to/everything-claude-code
    node scripts/install-plan.js --profile developer
    node scripts/install-apply.js
    ```
-3. **Add language rules** for your primary stack (TypeScript, Python, Go, etc.):
+3. **主スタック向けに言語ルールを追加**（TypeScript、Python、Go など）:
    ```bash
    node scripts/install-plan.js --add rules/typescript
    node scripts/install-apply.js
    ```
-4. **Enable MCP Context7** for live documentation lookup:
-   - Copy `mcp-configs/mcp-servers.json` into your project's `.claude/` dir
-5. **Review hooks** — enable the `hooks/hooks.json` additions selectively, starting with `block-no-verify` and `pre-bash-git-push-reminder`
+4. **ライブドキュメント参照のため MCP Context7 を有効化**:
+   - `mcp-configs/mcp-servers.json` をプロジェクトの `.claude/` にコピー
+5. **フックをレビュー** — `block-no-verify` と `pre-bash-git-push-reminder` から始めて `hooks/hooks.json` の追加を選択的に有効化
 
 ---
 
-## Summary
+## サマリー (Summary)
 
-| Question | Answer |
+| 質問 | 回答 |
 |----------|--------|
-| Is the fork healthy? | Yes — fully synced with upstream v1.9.0 |
-| Other forks to consider? | None visible in this environment; upstream `affaan-m/everything-claude-code` is the source of truth |
-| Best install profile? | `developer` for day-to-day dev work |
-| Biggest gap in current setup? | 0 agents installed — add at minimum: planner, code-reviewer, tdd-guide, security-reviewer |
-| Quickest win? | Run `node scripts/install-plan.js --profile core && node scripts/install-apply.js` |
+| フォークは健全か？ | はい — 上流 v1.9.0 と完全同期 |
+| 検討すべき他のフォークは？ | この環境では見当たらない。上流 `affaan-m/everything-claude-code` が正 |
+| 最適なインストールプロファイルは？ | 日常開発には `developer` |
+| 現在のセットアップの最大ギャップは？ | エージェント 0 件 — 最低限 planner、code-reviewer、tdd-guide、security-reviewer を追加 |
+| 最速の勝ちは？ | `node scripts/install-plan.js --profile core && node scripts/install-apply.js` を実行 |

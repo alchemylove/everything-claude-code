@@ -1,13 +1,13 @@
-# LinkedIn Draft - ECC v1.8.0
+# LinkedIn ドラフト - ECC v1.8.0 (LinkedIn Draft - ECC v1.8.0)
 
-ECC v1.8.0 is now focused on harness performance at the system level.
+ECC v1.8.0 は、システムレベルでの harness パフォーマンスにフォーカスしています。
 
-This release improves:
-- hook reliability and lifecycle behavior
-- eval-driven engineering workflows
-- operator tooling for autonomous loops
-- cross-platform support for Claude Code, Cursor, OpenCode, and Codex
+このリリースで改善された点：
+- hook の信頼性とライフサイクル動作
+- eval-driven engineering ワークフロー
+- 自律 loop 向けの operator ツール
+- Claude Code、Cursor、OpenCode、Codex 向けのクロスプラットフォームサポート
 
-We also shipped NanoClaw v2 with stronger session operations for real workflow usage.
+また、実運用ワークフロー向けにセッション操作を強化した NanoClaw v2 も出荷しました。
 
-If your AI coding workflow feels inconsistent, start by treating the harness as a first-class engineering system.
+AI コーディングワークフローが不安定に感じるなら、まず harness を第一級のエンジニアリングシステムとして扱うことから始めてください。

@@ -1,20 +1,20 @@
 ---
-description: "TypeScript hooks extending common rules"
+description: "TypeScript hooks: common ルールの拡張"
 globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 alwaysApply: false
 ---
-# TypeScript/JavaScript Hooks
+# TypeScript/JavaScript Hooks (TypeScript/JavaScript Hooks)
 
-> This file extends the common hooks rule with TypeScript/JavaScript specific content.
+> このファイルは common hooks ルールを TypeScript/JavaScript 固有の内容で拡張する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **Prettier**: Auto-format JS/TS files after edit
-- **TypeScript check**: Run `tsc` after editing `.ts`/`.tsx` files
-- **console.log warning**: Warn about `console.log` in edited files
+- **Prettier**: 編集後に JS/TS ファイルを auto-format
+- **TypeScript check**: `.ts`/`.tsx` ファイル編集後に `tsc` を実行
+- **console.log warning**: 編集ファイルの `console.log` を警告
 
 ## Stop Hooks
 
-- **console.log audit**: Check all modified files for `console.log` before session ends
+- **console.log audit**: セッション終了前に変更されたすべてのファイルの `console.log` をチェック

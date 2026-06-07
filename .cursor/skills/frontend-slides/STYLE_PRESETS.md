@@ -1,19 +1,19 @@
-# Style Presets Reference
+# Style Presets リファレンス (Style Presets Reference)
 
-Curated visual styles for `frontend-slides`.
+`frontend-slides` 向けの curated visual style。
 
-Use this file for:
-- the mandatory viewport-fitting CSS base
-- preset selection and mood mapping
-- CSS gotchas and validation rules
+このファイルの用途:
+- mandatory viewport-fitting CSS base
+- preset 選択と mood mapping
+- CSS gotcha と validation ルール
 
-Abstract shapes only. Avoid illustrations unless the user explicitly asks for them.
+Abstract shape のみ。ユーザーが明示的に求めない限り illustration は避ける。
 
-## Viewport Fit Is Non-Negotiable
+## Viewport Fit は非交渉 (Viewport Fit Is Non-Negotiable)
 
-Every slide must fully fit in one viewport.
+各 slide は 1 viewport に完全に収まる。
 
-### Golden Rule
+### 黄金律 (Golden Rule)
 
 ```text
 Each slide = exactly one viewport height.
@@ -21,7 +21,7 @@ Too much content = split into more slides.
 Never scroll inside a slide.
 ```
 
-### Density Limits
+### Density 制限 (Density Limits)
 
 | Slide Type | Maximum Content |
 |------------|-----------------|
@@ -32,9 +32,9 @@ Never scroll inside a slide.
 | Quote slide | 1 quote + attribution |
 | Image slide | 1 image, ideally under 60vh |
 
-## Mandatory Base CSS
+## 必須 Base CSS (Mandatory Base CSS)
 
-Copy this block into every generated presentation and then theme on top of it.
+生成するすべてのプレゼンテーションにこの block をコピーし、その上で theme を適用。
 
 ```css
 /* ===========================================
@@ -163,17 +163,17 @@ img, .image-container {
 }
 ```
 
-## Viewport Checklist
+## Viewport チェックリスト (Viewport Checklist)
 
-- every `.slide` has `height: 100vh`, `height: 100dvh`, and `overflow: hidden`
-- all typography uses `clamp()`
-- all spacing uses `clamp()` or viewport units
-- images have `max-height` constraints
-- grids adapt with `auto-fit` + `minmax()`
-- short-height breakpoints exist at `700px`, `600px`, and `500px`
-- if anything feels cramped, split the slide
+- すべての `.slide` に `height: 100vh`、`height: 100dvh`、`overflow: hidden` がある
+- すべての typography が `clamp()` を使用
+- すべての spacing が `clamp()` または viewport unit を使用
+- image に `max-height` 制約がある
+- grid が `auto-fit` + `minmax()` で適応
+- `700px`、`600px`、`500px` の short-height breakpoint がある
+- 窮屈に感じたら slide を分割
 
-## Mood to Preset Mapping
+## Mood から Preset への Mapping (Mood to Preset Mapping)
 
 | Mood | Good Presets |
 |------|--------------|
@@ -182,7 +182,7 @@ img, .image-container {
 | Calm / Focused | Notebook Tabs, Paper & Ink, Swiss Modern |
 | Inspired / Moved | Dark Botanical, Vintage Editorial, Pastel Geometry |
 
-## Preset Catalog
+## Preset カタログ (Preset Catalog)
 
 ### 1. Bold Signal
 
@@ -280,9 +280,9 @@ img, .image-container {
 - Palette: warm cream, charcoal, crimson accent
 - Signature: pull quotes, drop caps, elegant rules
 
-## Direct Selection Prompts
+## 直接選択プロンプト (Direct Selection Prompts)
 
-If the user already knows the style they want, let them pick directly from the preset names above instead of forcing preview generation.
+ユーザーが既に望む style を知っている場合、preview 生成を強制せず上記 preset 名から直接選ばせる。
 
 ## Animation Feel Mapping
 
@@ -295,36 +295,36 @@ If the user already knows the style they want, let them pick directly from the p
 | Calm / Minimal | very restrained movement, whitespace-first |
 | Editorial / Magazine | strong hierarchy, staggered text and image interplay |
 
-## CSS Gotcha: Negating Functions
+## CSS Gotcha: 関数の否定 (CSS Gotcha: Negating Functions)
 
-Never write these:
+以下は書かない:
 
 ```css
 right: -clamp(28px, 3.5vw, 44px);
 margin-left: -min(10vw, 100px);
 ```
 
-Browsers ignore them silently.
+browser は黙って無視する。
 
-Always write this instead:
+代わりに以下を書く:
 
 ```css
 right: calc(-1 * clamp(28px, 3.5vw, 44px));
 margin-left: calc(-1 * min(10vw, 100px));
 ```
 
-## Validation Sizes
+## 検証サイズ (Validation Sizes)
 
-Test at minimum:
+最低でも以下で test:
 - Desktop: `1920x1080`, `1440x900`, `1280x720`
 - Tablet: `1024x768`, `768x1024`
 - Mobile: `375x667`, `414x896`
 - Landscape phone: `667x375`, `896x414`
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-Do not use:
-- purple-on-white startup templates
-- Inter / Roboto / Arial as the visual voice unless the user explicitly wants utilitarian neutrality
-- bullet walls, tiny type, or code blocks that require scrolling
-- decorative illustrations when abstract geometry would do the job better
+使用しない:
+- purple-on-white startup template
+- ユーザーが明示的に utilitarian neutrality を望まない限り Inter / Roboto / Arial を visual voice に
+- bullet wall、tiny type、スクロールが必要な code block
+- abstract geometry で十分なときの decorative illustration

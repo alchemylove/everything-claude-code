@@ -4,89 +4,62 @@ description: Set an ECC-specific frontend design direction for production UI wor
 origin: community
 ---
 
-# Frontend Design Direction
+# フロントエンド設計方向性 (Frontend Design Direction)
 
-Use this skill when the work is not just making UI function, but making it feel
-purposeful, polished, and appropriate to the product domain.
+UI を動かすだけでなく、目的を持ち、洗練され、プロダクトドメインに適したものに感じさせる作業にこのスキルを使用する。
 
-Source: salvaged from stale community PR #1659 by `linus707`.
+出典: コミュニティ PR #1659（`linus707`）からのサルベージ。
 
-Note: ECC intentionally does not rebundle the canonical Anthropic
-`frontend-design` skill. Install that from `anthropics/skills` when you want the
-official upstream skill. This skill is the ECC-specific design-direction salvage
-of the useful local guidance from #1659.
+注: ECC は意図的に正規の Anthropic `frontend-design` スキルを再バンドルしない。公式アップストリームスキルが欲しい場合は `anthropics/skills` からインストールする。このスキルは #1659 の有用なローカルガイダンスの ECC 固有 design-direction サルベージである。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- The user asks to build a web page, app, dashboard, artifact, component, or UI.
-- The user asks to make an interface more polished, distinctive, beautiful, or
-  less generic.
-- The implementation needs visual hierarchy, typography, color, motion, layout,
-  and interaction choices.
-- The current UI works but reads as flat, generic, templated, or mismatched to
-  the audience.
+- ユーザーが Web ページ、アプリ、ダッシュボード、アーティファクト、コンポーネント、UI の構築を求める。
+- ユーザーがインターフェースをより洗練、特徴的、美しく、または汎用的でなくしたい。
+- 実装に視覚階層、タイポグラフィ、色、モーション、レイアウト、インタラクション選択が必要。
+- 現在の UI は動くが、平坦、汎用、テンプレート的、またはオーディエンスに合わない。
 
-## Design Direction
+## 設計方向性 (Design Direction)
 
-Before coding, choose a specific direction:
+コーディング前に具体的な方向を選ぶ:
 
-1. Purpose: what job does the interface do?
-2. Audience: who repeats this workflow, and what do they need to scan first?
-3. Tone: utilitarian, editorial, playful, industrial, refined, technical,
-   maximal, minimal, dense, calm, or another explicit direction.
-4. Memorable detail: one design idea that makes the result feel intentional.
-5. Constraints: framework, accessibility, performance, responsiveness, and
-   existing design system.
+1. 目的: インターフェースは何の仕事をするか？
+2. オーディエンス: 誰がこのワークフローを繰り返し、最初に何をスキャンすべきか？
+3. トーン: utilitarian、editorial、playful、industrial、refined、technical、maximal、minimal、dense、calm、または別の明示的方向。
+4. 記憶に残る詳細: 結果を意図的に感じさせる 1 つのデザインアイデア。
+5. 制約: フレームワーク、アクセシビリティ、パフォーマンス、レスポンシブ、既存デザインシステム。
 
-Match the direction to the domain. A SaaS operations tool should usually be
-dense, quiet, and scannable. A portfolio, launch page, game, or editorial piece
-can be more expressive. Do not force a landing-page composition onto a tool that
-needs repeated daily use.
+方向をドメインに合わせる。SaaS 運用ツールは通常 dense、quiet、scannable であるべき。ポートフォリオ、ローンチページ、ゲーム、エディトリアルはより表現的にできる。毎日繰り返すツールにランディングページ構成を強制しない。
 
-## Implementation Guidance
+## 実装ガイダンス (Implementation Guidance)
 
-- Build the actual usable experience as the first screen unless the user
-  explicitly asks for marketing copy.
-- Use existing project components, tokens, icon libraries, and routing patterns
-  before introducing a new visual system.
-- Use real or generated visual assets when the interface depends on images,
-  products, places, people, gameplay, charts, or inspectable media.
-- Prefer contextual typography and spacing over generic oversized hero text.
-- Keep palettes multi-dimensional: avoid a UI dominated by one hue family.
-- Use CSS variables or existing design tokens so the direction remains
-  coherent across states.
-- Design responsive constraints explicitly: grids, aspect ratios, min/max
-  sizes, stable toolbars, and fixed-format controls should not shift when labels
-  or hover states appear.
-- Use motion sparingly but deliberately. Prefer high-signal transitions that
-  clarify state over decorative animation.
-- Verify text fit on mobile and desktop. Long labels must wrap or resize
-  cleanly rather than overflowing.
+- ユーザーが明示的にマーケティングコピーを求めない限り、最初の画面は実際に使える体験を構築する。
+- 新しいビジュアルシステムを導入する前に既存プロジェクトコンポーネント、トークン、アイコンライブラリ、ルーティングパターンを使う。
+- インターフェースが画像、プロダクト、場所、人物、ゲームプレイ、チャート、検査可能メディアに依存する場合は実際または生成ビジュアルアセットを使う。
+- 汎用の特大ヒーローテキストより文脈的タイポグラフィと間隔を優先する。
+- パレットは多次元的に: 1 色相ファミリーに支配された UI を避ける。
+- CSS 変数または既存デザイントークンで方向が状態全体で一貫するようにする。
+- レスポンシブ制約を明示的に設計: グリッド、アスペクト比、min/max サイズ、安定ツールバー、固定フォーマットコントロールはラベルやホバー状態でずれない。
+- モーションは控えめかつ意図的に。装飾的アニメーションより状態を明確にする高シグナル遷移を優先する。
+- モバイルとデスクトップでテキストフィットを検証。長いラベルはオーバーフローせずきれいに折り返すかリサイズする。
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Do not default to common generated patterns: purple gradients, decorative
-  blobs, oversized cards, vague hero copy, or stock-like atmospheric media.
-- Do not add UI cards inside other cards.
-- Do not use a single decorative style everywhere when the domain calls for
-  restraint.
-- Do not hide the primary product, tool, object, or workflow behind generic
-  marketing sections.
-- Do not add a new dependency for a design flourish unless it clearly pays for
-  itself.
-- Do not describe the UI's features inside the UI when the controls can speak
-  for themselves.
+- 一般的な生成パターンをデフォルトにしない: 紫グラデーション、装飾 blob、特大カード、曖昧ヒーローコピー、ストック的雰囲気メディア。
+- 他カード内に UI カードを追加しない。
+- ドメインが抑制を求めるとき、どこでも単一の装飾スタイルを使わない。
+- 主要プロダクト、ツール、オブジェクト、ワークフローを汎用マーケティングセクションの背後に隠さない。
+- 明確な見返りがない限り、デザイン装飾のための新依存を追加しない。
+- コントロールが自ら語れるとき、UI 内に UI の機能を説明しない。
 
-## Review Checklist
+## レビューチェックリスト (Review Checklist)
 
-- The first viewport immediately communicates the product, workflow, or object.
-- The visual hierarchy supports scanning and repeated use.
-- Typography fits the container and does not overlap adjacent content.
-- Color choices have contrast and do not collapse into a one-note palette.
-- Icons are used for familiar tool actions where available.
-- Responsive layout has stable dimensions for boards, grids, toolbars,
-  controls, tiles, and counters.
-- Assets render and carry the subject matter instead of acting as filler.
-- Motion improves orientation and does not mask sluggishness.
-- The result matches the repo's existing frontend conventions unless there is a
-  clear reason to depart.
+- 最初のビューポートが直ちにプロダクト、ワークフロー、オブジェクトを伝える。
+- 視覚階層がスキャンと繰り返し利用を支える。
+- タイポグラフィがコンテナに収まり隣接コンテンツと重ならない。
+- 色選択にコントラストがあり、単調パレットに潰れない。
+- 利用可能なら馴染みのあるツールアクションにアイコンを使う。
+- ボード、グリッド、ツールバー、コントロール、タイル、カウンターに安定寸法のレスポンシブレイアウト。
+- アセットがレンダリングされ、フィラーではなく主題を担う。
+- モーションが向きを改善し、遅さを隠さない。
+- 明確な理由がない限り、結果はリポジトリの既存フロントエンド規約に合う。

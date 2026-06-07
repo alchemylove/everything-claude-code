@@ -1,26 +1,26 @@
 ---
-description: Analyze a project and generate PM2 service commands for detected frontend, backend, or database services.
+description: プロジェクトを分析し、検出されたフロントエンド、バックエンド、データベースサービス向けのPM2サービスコマンドを生成します。
 ---
 
-# PM2 Init
+# PM2 初期化 (PM2 Init)
 
-Auto-analyze project and generate PM2 service commands.
+プロジェクトを自動分析し、PM2サービスコマンドを生成します。
 
-**Command**: `$ARGUMENTS`
-
----
-
-## Workflow
-
-1. Check PM2 (install via `npm install -g pm2` if missing)
-2. Scan project to identify services (frontend/backend/database)
-3. Generate config files and individual command files
+**コマンド**: `$ARGUMENTS`
 
 ---
 
-## Service Detection
+## ワークフロー (Workflow)
 
-| Type | Detection | Default Port |
+1. PM2をチェック（欠落している場合は`npm install -g pm2`でインストール）
+2. プロジェクトをスキャンしてサービスを識別（フロントエンド/バックエンド/データベース）
+3. 設定ファイルと個別のコマンドファイルを生成
+
+---
+
+## サービス検出 (Service Detection)
+
+| タイプ | 検出 | デフォルトポート |
 |------|-----------|--------------|
 | Vite | vite.config.* | 5173 |
 | Next.js | next.config.* | 3000 |
@@ -30,11 +30,11 @@ Auto-analyze project and generate PM2 service commands.
 | FastAPI/Flask | requirements.txt / pyproject.toml | 8000 |
 | Go | go.mod / main.go | 8080 |
 
-**Port Detection Priority**: User specified > .env > config file > scripts args > default port
+**ポート検出優先順位**: ユーザー指定 > .env > 設定ファイル > scripts args > デフォルトポート
 
 ---
 
-## Generated Files
+## 生成されるファイル (Generated Files)
 
 ```
 project/
@@ -57,11 +57,11 @@ project/
 
 ---
 
-## Windows Configuration (IMPORTANT)
+## Windows設定 (Windows Configuration (IMPORTANT))
 
 ### ecosystem.config.cjs
 
-**Must use `.cjs` extension**
+**`.cjs`拡張子を使用する必要があります**
 
 ```javascript
 module.exports = {
@@ -87,16 +87,16 @@ module.exports = {
 }
 ```
 
-**Framework script paths:**
+**フレームワークスクリプトパス (Framework script paths):**
 
-| Framework | script | args |
+| フレームワーク | script | args |
 |-----------|--------|------|
 | Vite | `node_modules/vite/bin/vite.js` | `--port {port}` |
 | Next.js | `node_modules/next/dist/bin/next` | `dev -p {port}` |
 | Nuxt | `node_modules/nuxt/bin/nuxt.mjs` | `dev --port {port}` |
 | Express | `src/index.js` or `server.js` | - |
 
-### Python Wrapper Script (start.cjs)
+### Pythonラッパースクリプト (Python Wrapper Script (start.cjs))
 
 ```javascript
 const { spawn } = require('child_process');
@@ -108,9 +108,9 @@ proc.on('close', (code) => process.exit(code));
 
 ---
 
-## Command File Templates (Minimal Content)
+## コマンドファイルテンプレート (Command File Templates (Minimal Content))
 
-### pm2-all.md (Start all + monit)
+### pm2-all.md（すべて起動 + monit）(pm2-all.md (Start all + monit))
 ````markdown
 Start all services and open PM2 monitor.
 ```bash
@@ -134,7 +134,7 @@ cd "{PROJECT_ROOT}" && pm2 restart all
 ```
 ````
 
-### pm2-{port}.md (Start single + logs)
+### pm2-{port}.md（単一起動 + ログ）(pm2-{port}.md (Start single + logs))
 ````markdown
 Start {name} ({port}) and open logs.
 ```bash
@@ -174,13 +174,13 @@ cd "{PROJECT_ROOT}" && pm2 status
 ```
 ````
 
-### PowerShell Scripts (pm2-logs-{port}.ps1)
+### PowerShellスクリプト (PowerShell Scripts (pm2-logs-{port}.ps1))
 ```powershell
 Set-Location "{PROJECT_ROOT}"
 pm2 logs {name}
 ```
 
-### PowerShell Scripts (pm2-monit.ps1)
+### PowerShellスクリプト (PowerShell Scripts (pm2-monit.ps1))
 ```powershell
 Set-Location "{PROJECT_ROOT}"
 pm2 monit
@@ -188,34 +188,34 @@ pm2 monit
 
 ---
 
-## Key Rules
+## 重要なルール (Key Rules)
 
-1. **Config file**: `ecosystem.config.cjs` (not .js)
-2. **Node.js**: Specify bin path directly + interpreter
-3. **Python**: Node.js wrapper script + `windowsHide: true`
-4. **Open new window**: `start wt.exe -d "{path}" pwsh -NoExit -c "command"`
-5. **Minimal content**: Each command file has only 1-2 lines description + bash block
-6. **Direct execution**: No AI parsing needed, just run the bash command
-
----
-
-## Execute
-
-Based on `$ARGUMENTS`, execute init:
-
-1. Scan project for services
-2. Generate `ecosystem.config.cjs`
-3. Generate `{backend}/start.cjs` for Python services (if applicable)
-4. Generate command files in `.claude/commands/`
-5. Generate script files in `.claude/scripts/`
-6. **Update project CLAUDE.md** with PM2 info (see below)
-7. **Display completion summary** with terminal commands
+1. **設定ファイル**: `ecosystem.config.cjs`（.jsではない）
+2. **Node.js**: binパスを直接指定 + interpreter
+3. **Python**: Node.jsラッパースクリプト + `windowsHide: true`
+4. **新しいウィンドウを開く**: `start wt.exe -d "{path}" pwsh -NoExit -c "command"`
+5. **最小限の内容**: 各コマンドファイルには1-2行の説明 + bashブロックのみ
+6. **直接実行**: AI解析不要、bashコマンドを実行するだけ
 
 ---
 
-## Post-Init: Update CLAUDE.md
+## 実行 (Execute)
 
-After generating files, append PM2 section to project's `CLAUDE.md` (create if not exists):
+`$ARGUMENTS`に基づいて初期化を実行:
+
+1. プロジェクトのサービスをスキャン
+2. `ecosystem.config.cjs`を生成
+3. Pythonサービス用の`{backend}/start.cjs`を生成（該当する場合）
+4. `.claude/commands/`にコマンドファイルを生成
+5. `.claude/scripts/`にスクリプトファイルを生成
+6. **プロジェクトのCLAUDE.md**をPM2情報で更新（下記参照）
+7. ターミナルコマンドを含む**完了サマリーを表示**
+
+---
+
+## 初期化後: CLAUDE.mdの更新 (Post-Init: Update CLAUDE.md)
+
+ファイル生成後、プロジェクトの`CLAUDE.md`にPM2セクションを追加（存在しない場合は作成）:
 
 ````markdown
 ## PM2 Services
@@ -236,16 +236,16 @@ pm2 resurrect                    # Restore saved list
 ```
 ````
 
-**Rules for CLAUDE.md update:**
-- If PM2 section exists, replace it
-- If not exists, append to end
-- Keep content minimal and essential
+**CLAUDE.md更新のルール (Rules for CLAUDE.md update):**
+- PM2セクションが存在する場合、置き換える
+- 存在しない場合、末尾に追加
+- 内容は最小限かつ必須のもののみ
 
 ---
 
-## Post-Init: Display Summary
+## 初期化後: サマリーの表示 (Post-Init: Display Summary)
 
-After all files generated, output:
+すべてのファイル生成後、以下を出力:
 
 ```
 ## PM2 Init Complete

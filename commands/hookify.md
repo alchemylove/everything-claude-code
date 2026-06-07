@@ -1,38 +1,38 @@
 ---
-description: Create hooks to prevent unwanted behaviors from conversation analysis or explicit instructions
+description: 会話分析または明示的な指示から、望ましくない動作を防ぐ hook を作成します。
 ---
 
-Create hook rules to prevent unwanted Claude Code behaviors by analyzing conversation patterns or explicit user instructions.
+会話パターンの分析またはユーザーの明示的な指示により、望ましくない Claude Code の動作を防ぐ hook rule を作成します。
 
-## Usage
+## 使い方 (Usage)
 
 `/hookify [description of behavior to prevent]`
 
-If no arguments are provided, analyze the current conversation to find behaviors worth preventing.
+引数が提供されない場合、現在の会話を分析して防止すべき動作を検出します。
 
-## Workflow
+## ワークフロー (Workflow)
 
-### Step 1: Gather Behavior Info
+### ステップ 1: 動作情報の収集 (Step 1: Gather Behavior Info)
 
-- With arguments: parse the user's description of the unwanted behavior
-- Without arguments: use the `conversation-analyzer` agent to find:
-  - explicit corrections
-  - frustrated reactions to repeated mistakes
-  - reverted changes
-  - repeated similar issues
+- 引数あり: ユーザーの unwanted behavior の説明を parse
+- 引数なし: `conversation-analyzer` エージェントを使用して以下を検出:
+  - explicit correction
+  - 繰り返されるミスへの frustrated reaction
+  - reverted change
+  - 繰り返される類似 issue
 
-### Step 2: Present Findings
+### ステップ 2: 所見の提示 (Step 2: Present Findings)
 
-Show the user:
+ユーザーに以下を表示:
 
 - behavior description
 - proposed event type
 - proposed pattern or matcher
 - proposed action
 
-### Step 3: Generate Rule Files
+### ステップ 3: ルールファイルの生成 (Step 3: Generate Rule Files)
 
-For each approved rule, create a file at `.claude/hookify.{name}.local.md`:
+承認された各 rule に対して、`.claude/hookify.{name}.local.md` に file を作成:
 
 ```yaml
 ---
@@ -45,6 +45,6 @@ pattern: "regex pattern"
 Message shown when rule triggers.
 ```
 
-### Step 4: Confirm
+### ステップ 4: 確認 (Step 4: Confirm)
 
-Report created rules and how to manage them with `/hookify-list` and `/hookify-configure`.
+作成された rule と、`/hookify-list` および `/hookify-configure` での管理方法を報告します。

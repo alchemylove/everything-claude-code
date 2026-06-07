@@ -4,7 +4,7 @@ description: Readiness checklist for homelab VLAN segmentation, local DNS filter
 origin: community
 ---
 
-# Homelab Network Readiness
+# Homelab Network Readiness (Homelab Network Readiness)
 
 Use this skill before changing a home or small-lab network that mixes VLANs,
 Pi-hole or another local DNS resolver, firewall rules, and remote VPN access.
@@ -13,7 +13,7 @@ This is a planning and review skill. Do not turn it into copy-paste router,
 firewall, or VPN configuration unless the target platform, current topology,
 rollback path, console access, and maintenance window are all known.
 
-## When to Use
+## When to Use (When to Use)
 
 - Preparing to split a flat network into trusted, IoT, guest, server, or
   management VLANs.
@@ -25,7 +25,7 @@ rollback path, console access, and maintenance window are all known.
 - Turning an informal home-network idea into a staged migration plan with
   validation evidence.
 
-## Safety Rules
+## Safety Rules (Safety Rules)
 
 - Keep the first answer read-only: inventory, risks, staged plan, validation,
   and rollback.
@@ -40,7 +40,7 @@ rollback path, console access, and maintenance window are all known.
 - Treat IoT, guest, camera, and lab-server networks as different trust zones
   until the operator explicitly chooses otherwise.
 
-## Required Inventory
+## Required Inventory (Required Inventory)
 
 Collect this before giving implementation steps:
 
@@ -55,7 +55,7 @@ Collect this before giving implementation steps:
 | Management | How will the operator reach the gateway, switch, and AP after changes? |
 | Recovery | What can be reverted locally if DNS, DHCP, VLANs, or VPN routes break? |
 
-## VLAN And Trust-Zone Plan
+## VLAN And Trust-Zone Plan (VLAN And Trust-Zone Plan)
 
 Start with intent rather than vendor syntax.
 
@@ -76,7 +76,7 @@ Before recommending VLAN IDs or subnets, confirm:
 4. The operator knows which port they are connected through during the change.
 5. The management network remains reachable after trunk and SSID changes.
 
-## DNS Filtering Readiness
+## DNS Filtering Readiness (DNS Filtering Readiness)
 
 Pi-hole or another local resolver should be introduced as a dependency, not as a
 single point of failure.
@@ -100,7 +100,7 @@ Blocked test domain is blocked only where intended
 Gateway and DNS admin interfaces are not reachable from guest or IoT networks
 ```
 
-## Remote Access Readiness
+## Remote Access Readiness (Remote Access Readiness)
 
 For WireGuard-style access, decide what the VPN is allowed to reach before
 generating keys or opening ports.
@@ -120,7 +120,7 @@ Do not recommend port forwarding until the operator confirms:
 - Peer keys can be revoked without rebuilding the whole network.
 - Logs or connection status can verify who connected and when.
 
-## Change Sequence
+## Change Sequence (Change Sequence)
 
 Prefer small, reversible changes:
 
@@ -137,7 +137,7 @@ Prefer small, reversible changes:
    the use case.
 8. Document final state, known exceptions, and rollback commands or UI steps.
 
-## Review Checklist
+## Review Checklist (Review Checklist)
 
 - Each network has a reason to exist and a clear trust boundary.
 - No management interface is reachable from guest, IoT, or the public internet.
@@ -149,7 +149,7 @@ Prefer small, reversible changes:
 - Rollback is documented in the same vocabulary as the chosen platform UI or
   CLI.
 
-## Anti-Patterns
+## Anti-Patterns (Anti-Patterns)
 
 - Segmenting networks before knowing which switch ports and SSIDs carry which
   VLANs.
@@ -162,7 +162,7 @@ Prefer small, reversible changes:
 - Copying commands from another vendor or firmware version without checking the
   exact platform syntax.
 
-## See Also
+## 関連項目 (See Also) (See Also)
 
 - Skill: `homelab-network-setup`
 - Skill: `network-config-validation`

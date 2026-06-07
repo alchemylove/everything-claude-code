@@ -4,22 +4,22 @@ paths:
   - "**/fastapi/**/*.py"
   - "**/*_api.py"
 ---
-# FastAPI Rules
+# FastAPI ルール (FastAPI Rules)
 
-Use these rules for FastAPI projects alongside the general Python rules.
+FastAPI プロジェクトでは、一般的な Python ルールと併せて本ルールを使用する。
 
-## Structure
+## 構造 (Structure)
 
-- Put app construction in `create_app()`.
-- Keep routers thin; move persistence and business behavior into services or CRUD helpers.
-- Keep request schemas, update schemas, and response schemas separate.
-- Keep database sessions and auth in dependencies.
+- アプリ構築は `create_app()` に置く。
+- router は薄く保ち、persistence とビジネスロジックは service または CRUD helper に移す。
+- request schema、update schema、response schema は分離する。
+- データベース session と auth は dependency に置く。
 
-## Async
+## 非同期 (Async)
 
-- Use `async def` for endpoints that perform I/O.
-- Use async database and HTTP clients from async endpoints.
-- Do not call `requests`, sync SQLAlchemy sessions, or blocking file/network operations from async routes.
+- I/O を行う endpoint には `async def` を使用する。
+- async endpoint からは async database と HTTP client を使用する。
+- async route から `requests`、sync SQLAlchemy session、ブロッキングな file／network 操作を呼び出さない。
 
 ## Dependency Injection
 
@@ -33,26 +33,26 @@ async def get_user(
     ...
 ```
 
-Do not create `SessionLocal()` or long-lived clients inside route handlers.
+route handler 内で `SessionLocal()` や長寿命 client を作成しない。
 
-## Schemas
+## Schema
 
-- Never include passwords, password hashes, access tokens, refresh tokens, or internal auth state in response models.
-- Use `response_model` on endpoints that return application data.
-- Use field constraints instead of hand-written validation when Pydantic can express the rule.
+- response model に password、password hash、access token、refresh token、内部 auth 状態を含めない。
+- アプリケーションデータを返す endpoint には `response_model` を使用する。
+- Pydantic で表現できるルールは手書き検証ではなく field constraint を使用する。
 
-## Security
+## セキュリティ (Security)
 
-- Keep CORS origins environment-specific.
-- Do not combine wildcard origins with credentialed CORS.
-- Validate JWT expiry, issuer, audience, and algorithm.
-- Rate-limit auth and write-heavy endpoints.
-- Redact credentials, cookies, authorization headers, and tokens from logs.
+- CORS origin は環境ごとに設定する。
+- wildcard origin と credentialed CORS を併用しない。
+- JWT の expiry、issuer、audience、algorithm を検証する。
+- auth と write 負荷の高い endpoint に rate limit を適用する。
+- ログから credential、cookie、authorization header、token をマスクする。
 
-## Testing
+## テスト (Testing)
 
-- Override the exact dependency used by `Depends`.
-- Clear `app.dependency_overrides` after tests.
-- Prefer async test clients for async applications.
+- `Depends` で使用している dependency を正確に override する。
+- テスト後に `app.dependency_overrides` をクリアする。
+- async アプリケーションには async test client を優先する。
 
-See skill: `fastapi-patterns`.
+skill: `fastapi-patterns` を参照。

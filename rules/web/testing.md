@@ -1,40 +1,40 @@
-> This file extends [common/testing.md](../common/testing.md) with web-specific testing content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Web 固有のテスト内容を追加する。
 
-# Web Testing Rules
+# Web テストルール (Web Testing Rules)
 
-## Priority Order
+## 優先順位 (Priority Order)
 
-### 1. Visual Regression
+### 1. ビジュアルリグレッション (Visual Regression)
 
-- Screenshot key breakpoints: 320, 768, 1024, 1440
-- Test hero sections, scrollytelling sections, and meaningful states
-- Use Playwright screenshots for visual-heavy work
-- If both themes exist, test both
+- 主要なブレークポイントでスクリーンショットを撮る: 320、768、1024、1440
+- ヒーローセクション、スクローリーテリングセクション、および意味のある状態をテストする
+- ビジュアル重視の作業には Playwright スクリーンショットを使用する
+- 両テーマが存在する場合は両方をテストする
 
-### 2. Accessibility
+### 2. アクセシビリティ (Accessibility)
 
-- Run automated accessibility checks
-- Test keyboard navigation
-- Verify reduced-motion behavior
-- Verify color contrast
+- 自動アクセシビリティチェックを実行する
+- キーボードナビゲーションをテストする
+- 動作軽減の動作を検証する
+- カラーコントラストを検証する
 
-### 3. Performance
+### 3. パフォーマンス (Performance)
 
-- Run Lighthouse or equivalent against meaningful pages
-- Keep CWV targets from [performance.md](performance.md)
+- 意味のあるページに対して Lighthouse または同等のものを実行する
+- [performance.md](performance.md) の CWV 目標を維持する
 
-### 4. Cross-Browser
+### 4. クロスブラウザ (Cross-Browser)
 
-- Minimum: Chrome, Firefox, Safari
-- Test scrolling, motion, and fallback behavior
+- 最低: Chrome、Firefox、Safari
+- スクロール、モーション、フォールバック動作をテストする
 
-### 5. Responsive
+### 5. レスポンシブ (Responsive)
 
-- Test 320, 375, 768, 1024, 1440, 1920
-- Verify no overflow
-- Verify touch interactions
+- 320、375、768、1024、1440、1920 でテストする
+- オーバーフローがないことを検証する
+- タッチインタラクションを検証する
 
-## E2E Shape
+## E2E の形式 (E2E Shape)
 
 ```ts
 import { test, expect } from '@playwright/test';
@@ -45,11 +45,11 @@ test('landing hero loads', async ({ page }) => {
 });
 ```
 
-- Avoid flaky timeout-based assertions
-- Prefer deterministic waits
+- 不安定なタイムアウトベースのアサーションを避ける
+- 決定的な待機を優先する
 
-## Unit Tests
+## ユニットテスト (Unit Tests)
 
-- Test utilities, data transforms, and custom hooks
-- For highly visual components, visual regression often carries more signal than brittle markup assertions
-- Visual regression supplements coverage targets; it does not replace them
+- ユーティリティ、データ変換、カスタムフックをテストする
+- 高度にビジュアルなコンポーネントでは、壊れやすいマークアップアサーションよりもビジュアルリグレッションの方がシグナルが高いことが多い
+- ビジュアルリグレッションはカバレッジ目標を補完するものであり、置き換えるものではない

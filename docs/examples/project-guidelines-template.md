@@ -1,25 +1,25 @@
-# Project Guidelines Template
+# プロジェクトガイドライン テンプレート (Project Guidelines Template)
 
-This is a project-specific skill template that was previously shipped as a live ECC skill.
+これは、以前 live ECC skill として配布されていた project-specific skill template である。
 
-It now lives in `docs/examples/` because it is reference material, not a reusable cross-project skill.
+cross-project skill ではなく reference material であるため、現在は `docs/examples/` に置かれている。
 
-This is an example of a project-specific skill. Use this as a template for your own projects.
+project-specific skill の例である。自身のプロジェクト向けテンプレートとして使用する。
 
-Based on a real production application: [Zenith](https://zenith.chat) - AI-powered customer discovery platform.
+実運用アプリケーション [Zenith](https://zenith.chat)（AI-powered customer discovery platform）に基づく。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Reference this skill when working on the specific project it's designed for. Project skills contain:
-- Architecture overview
-- File structure
-- Code patterns
-- Testing requirements
-- Deployment workflow
+対象プロジェクトで作業するときにこの skill を参照する。Project skills には以下が含まれる:
+- アーキテクチャ概要 (Architecture overview)
+- ファイル構造 (File structure)
+- コードパターン (Code patterns)
+- テスト要件 (Testing requirements)
+- デプロイワークフロー (Deployment workflow)
 
 ---
 
-## Architecture Overview
+## アーキテクチャ概要 (Architecture Overview)
 
 **Tech Stack:**
 - **Frontend**: Next.js 15 (App Router), TypeScript, React
@@ -54,7 +54,7 @@ Reference this skill when working on the specific project it's designed for. Pro
 
 ---
 
-## File Structure
+## ファイル構造 (File Structure)
 
 ```
 project/
@@ -89,9 +89,9 @@ project/
 
 ---
 
-## Code Patterns
+## コードパターン (Code Patterns)
 
-### API Response Format (FastAPI)
+### API Response Format (FastAPI) (API Response Format (FastAPI))
 
 ```python
 from pydantic import BaseModel
@@ -113,7 +113,7 @@ class ApiResponse(BaseModel, Generic[T]):
         return cls(success=False, error=error)
 ```
 
-### Frontend API Calls (TypeScript)
+### Frontend API Calls (TypeScript) (Frontend API Calls (TypeScript))
 
 ```typescript
 interface ApiResponse<T> {
@@ -146,7 +146,7 @@ async function fetchApi<T>(
 }
 ```
 
-### Claude AI Integration (Structured Output)
+### Claude AI Integration (Structured Output) (Claude AI Integration (Structured Output))
 
 ```python
 from anthropic import Anthropic
@@ -181,7 +181,7 @@ async def analyze_with_claude(content: str) -> AnalysisResult:
     return AnalysisResult(**tool_use.input)
 ```
 
-### Custom Hooks (React)
+### Custom Hooks (React) (Custom Hooks (React))
 
 ```typescript
 import { useState, useCallback } from 'react'
@@ -219,9 +219,9 @@ export function useApi<T>(
 
 ---
 
-## Testing Requirements
+## テスト要件 (Testing Requirements)
 
-### Backend (pytest)
+### Backend (pytest) (Backend (pytest))
 
 ```bash
 # Run all tests
@@ -234,7 +234,7 @@ poetry run pytest tests/ --cov=. --cov-report=html
 poetry run pytest tests/test_auth.py -v
 ```
 
-**Test structure:**
+**テスト構成 (Test structure):**
 ```python
 import pytest
 from httpx import AsyncClient
@@ -252,7 +252,7 @@ async def test_health_check(client: AsyncClient):
     assert response.json()["status"] == "healthy"
 ```
 
-### Frontend (React Testing Library)
+### Frontend (React Testing Library) (Frontend (React Testing Library))
 
 ```bash
 # Run tests
@@ -265,7 +265,7 @@ npm run test -- --coverage
 npm run test:e2e
 ```
 
-**Test structure:**
+**テスト構成 (Test structure):**
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react'
 import { WorkspacePanel } from './WorkspacePanel'
@@ -286,18 +286,18 @@ describe('WorkspacePanel', () => {
 
 ---
 
-## Deployment Workflow
+## デプロイワークフロー (Deployment Workflow)
 
-### Pre-Deployment Checklist
+### デプロイ前チェックリスト (Pre-Deployment Checklist)
 
-- [ ] All tests passing locally
-- [ ] `npm run build` succeeds (frontend)
-- [ ] `poetry run pytest` passes (backend)
-- [ ] No hardcoded secrets
-- [ ] Environment variables documented
-- [ ] Database migrations ready
+- [ ] すべてのテストがローカルでパスしている
+- [ ] `npm run build` が成功する (frontend)
+- [ ] `poetry run pytest` がパスする (backend)
+- [ ] ハードコードされた secret がない
+- [ ] 環境変数が文書化されている
+- [ ] データベースマイグレーションの準備ができている
 
-### Deployment Commands
+### デプロイコマンド (Deployment Commands)
 
 ```bash
 # Build and deploy frontend
@@ -309,7 +309,7 @@ cd backend
 gcloud run deploy backend --source .
 ```
 
-### Environment Variables
+### 環境変数 (Environment Variables)
 
 ```bash
 # Frontend (.env.local)
@@ -326,22 +326,22 @@ SUPABASE_KEY=eyJ...
 
 ---
 
-## Critical Rules
+## 重要なルール (Critical Rules)
 
-1. **No emojis** in code, comments, or documentation
-2. **Immutability** - never mutate objects or arrays
-3. **TDD** - write tests before implementation
-4. **80% coverage** minimum
-5. **Many small files** - 200-400 lines typical, 800 max
-6. **No console.log** in production code
-7. **Proper error handling** with try/catch
-8. **Input validation** with Pydantic/Zod
+1. **絵文字禁止** — code、comments、documentation に使用しない
+2. **不変性 (Immutability)** — オブジェクトや配列を決して mutate しない
+3. **TDD** — 実装前にテストを書く
+4. **80% coverage** 以上を最低ラインとする
+5. **小さなファイルを多数** — 典型的には 200-400 行、最大 800 行
+6. **本番コードに console.log を置かない**
+7. **try/catch による適切なエラーハンドリング**
+8. **Pydantic/Zod による入力バリデーション**
 
 ---
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `coding-standards.md` - General coding best practices
-- `backend-patterns.md` - API and database patterns
-- `frontend-patterns.md` - React and Next.js patterns
-- `tdd-workflow/` - Test-driven development methodology
+- `coding-standards.md` - 一般的なコーディングのベストプラクティス
+- `backend-patterns.md` - API とデータベースのパターン
+- `frontend-patterns.md` - React と Next.js のパターン
+- `tdd-workflow/` - テスト駆動開発の方法論

@@ -9,28 +9,28 @@ paths:
   - "**/*.resolver.ts"
   - "**/*.module.ts"
 ---
-# Angular Coding Style
+# Angular コーディングスタイル (Angular Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Angular specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Angular 固有の内容を追加する。
 
-## Version Awareness
+## バージョンの確認 (Version Awareness)
 
-Always check the project's Angular version before writing code — features differ significantly between versions. Run `ng version` or inspect `package.json`. When creating a new project, do not pin a version unless the user specifies one.
+コードを書く前に、必ずプロジェクトの Angular バージョンを確認してください — バージョン間で機能が大きく異なります。`ng version` を実行するか、`package.json` を確認してください。新しいプロジェクトを作成する場合、ユーザーが指定しない限りバージョンを固定しないでください。
 
-After generating or modifying Angular code, always run `ng build` to catch errors before finishing.
+Angular コードを生成または変更した後は、完了前に必ず `ng build` を実行してエラーを検出してください。
 
-## File Naming
+## ファイル命名 (File Naming)
 
-Follow Angular CLI conventions — one artifact per file:
+Angular CLI の規約に従い、1ファイルにつき1つの成果物を配置します:
 
 - `user-profile.component.ts` + `user-profile.component.html` + `user-profile.component.spec.ts`
-- `user.service.ts`, `auth.guard.ts`, `date-format.pipe.ts`
-- Feature folders: `features/users/`, `features/auth/`
-- Generate with the CLI: `ng generate component features/users/user-card`
+- `user.service.ts`、`auth.guard.ts`、`date-format.pipe.ts`
+- 機能フォルダ: `features/users/`、`features/auth/`
+- CLI で生成: `ng generate component features/users/user-card`
 
-## Components
+## コンポーネント (Components)
 
-Prefer standalone components (v17+ default). Use `OnPush` change detection on all new components.
+スタンドアロンコンポーネント（v17+ デフォルト）を優先します。すべての新しいコンポーネントで `OnPush` 変更検知を使用してください。
 
 ```typescript
 @Component({
@@ -46,37 +46,37 @@ export class UserCardComponent {
 }
 ```
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-Use `inject()` over constructor injection. Keep constructors empty or remove them entirely.
+コンストラクタ注入よりも `inject()` を使用してください。コンストラクタは空にするか、完全に削除してください。
 
 ```typescript
-// CORRECT
+// 正しい
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
   private router = inject(Router);
 }
 
-// WRONG: Constructor injection is verbose and harder to tree-shake
+// 誤り: コンストラクタ注入は冗長で、ツリーシェイキングが困難
 constructor(private http: HttpClient, private router: Router) {}
 ```
 
-Use `InjectionToken` for non-class dependencies:
+非クラス依存関係には `InjectionToken` を使用してください:
 
 ```typescript
 const API_URL = new InjectionToken<string>('API_URL');
 
-// Provide:
+// 提供:
 { provide: API_URL, useValue: 'https://api.example.com' }
 
-// Consume:
+// 使用:
 private apiUrl = inject(API_URL);
 ```
 
-## Signals
+## シグナル (Signals)
 
-### Core Primitives
+### 基本プリミティブ (Core Primitives)
 
 ```typescript
 count = signal(0);
@@ -87,18 +87,18 @@ increment() {
 }
 ```
 
-### `linkedSignal` — Writable Derived State
+### `linkedSignal` — 書き込み可能な派生状態 (`linkedSignal` — Writable Derived State)
 
-Use `linkedSignal` when a signal must reset or adapt when a source changes, but also be independently writable:
+ソースが変更されたときにリセットまたは適応する必要があるが、独立して書き込み可能なシグナルには `linkedSignal` を使用してください:
 
 ```typescript
 selectedOption = linkedSignal(() => this.options()[0]);
-// Resets to first option when options changes, but user can override
+// options が変更されると最初のオプションにリセットされるが、ユーザーはオーバーライド可能
 ```
 
-### `resource` — Async Data into Signals
+### `resource` — 非同期データをシグナルに変換 (`resource` — Async Data into Signals)
 
-Use `resource()` to fetch async data reactively without manual subscriptions:
+手動サブスクリプションなしで非同期データをリアクティブに取得するには `resource()` を使用してください:
 
 ```typescript
 userResource = resource({
@@ -106,24 +106,24 @@ userResource = resource({
   loader: ({ request }) => fetch(`/api/users/${request.id}`).then(r => r.json()),
 });
 
-// Access: userResource.value(), userResource.isLoading(), userResource.error()
+// アクセス: userResource.value(), userResource.isLoading(), userResource.error()
 ```
 
-### `effect` Usage
+### `effect` の使用法 (`effect` Usage)
 
-Use `effect()` only for side effects that must react to signal changes (logging, third-party DOM manipulation). Never use effects to synchronize signals — use `computed` or `linkedSignal` instead. For DOM work after render, use `afterRenderEffect`.
+`effect()` はシグナルの変更に反応する必要がある副作用（ログ記録、サードパーティの DOM 操作）にのみ使用してください。シグナルの同期にエフェクトを使用しないでください — 代わりに `computed` または `linkedSignal` を使用してください。レンダリング後の DOM 作業には `afterRenderEffect` を使用してください。
 
 ```typescript
-// CORRECT: Side effect
+// 正しい: 副作用
 effect(() => console.log('User changed:', this.user()));
 
-// WRONG: Use computed instead
+// 誤り: 代わりに computed を使用
 effect(() => { this.fullName.set(`${this.first()} ${this.last()}`); });
 ```
 
-## Templates
+## テンプレート (Templates)
 
-Use v17+ block syntax. Always provide `track` in `@for`:
+v17+ のブロック構文を使用してください。`@for` では必ず `track` を指定してください:
 
 ```html
 @for (item of items(); track item.id) {
@@ -139,18 +139,18 @@ Use v17+ block syntax. Always provide `track` in `@for`:
 }
 ```
 
-No logic in templates beyond simple conditionals — move to component methods or pipes.
+テンプレート内のロジックは単純な条件式に留め、コンポーネントメソッドまたはパイプに移動してください。
 
-## Forms
+## フォーム (Forms)
 
-Choose the form strategy that matches the project's existing approach:
+プロジェクトの既存アプローチに合ったフォーム戦略を選択してください:
 
-- **Signal Forms** (v21+): Preferred for new projects on v21+. Signal-based form state.
-- **Reactive Forms**: `FormBuilder` + `FormGroup` + `FormControl`. Best for complex forms with dynamic validation.
-- **Template-Driven Forms**: `ngModel`. Suitable for simple forms only.
+- **Signal Forms**（v21+）: v21+ の新規プロジェクトで推奨。シグナルベースのフォーム状態。
+- **Reactive Forms**: `FormBuilder` + `FormGroup` + `FormControl`。動的バリデーションを持つ複雑なフォームに最適。
+- **Template-Driven Forms**: `ngModel`。シンプルなフォームにのみ適しています。
 
 ```typescript
-// Reactive Forms — standard approach for most apps
+// Reactive Forms — ほとんどのアプリの標準的なアプローチ
 export class LoginComponent {
   private fb = inject(FormBuilder);
 
@@ -161,22 +161,22 @@ export class LoginComponent {
 
   submit() {
     if (this.form.valid) {
-      // use this.form.value
+      // this.form.value を使用
     }
   }
 }
 ```
 
-## Component Styles
+## コンポーネントスタイル (Component Styles)
 
-Use component-level styles with `ViewEncapsulation.Emulated` (default). Avoid `ViewEncapsulation.None` unless building a design system that intentionally bleeds styles.
+`ViewEncapsulation.Emulated`（デフォルト）でコンポーネントレベルのスタイルを使用してください。意図的にスタイルを漏洩させるデザインシステムを構築する場合を除き、`ViewEncapsulation.None` を避けてください。
 
-- Scope styles to the component — do not use global class names inside component stylesheets
-- Use `:host` for host element styling
-- Prefer CSS custom properties for themeable values
+- スタイルをコンポーネントにスコープし、コンポーネントスタイルシート内でグローバルクラス名を使用しない
+- ホスト要素のスタイリングには `:host` を使用
+- テーマ設定可能な値には CSS カスタムプロパティを優先
 
-## Change Detection
+## 変更検知 (Change Detection)
 
-- Default to `ChangeDetectionStrategy.OnPush` on all new components
-- Signals and `async` pipe handle detection automatically — avoid `markForCheck()` and `detectChanges()`
-- Never mutate `@Input()` objects in place when using OnPush
+- すべての新しいコンポーネントでデフォルトとして `ChangeDetectionStrategy.OnPush` を使用
+- シグナルと `async` パイプが検知を自動的に処理 — `markForCheck()` と `detectChanges()` を避ける
+- OnPush 使用時に `@Input()` オブジェクトをインプレースで変更しない

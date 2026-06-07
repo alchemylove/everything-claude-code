@@ -1,31 +1,31 @@
 ---
-description: Enforce TDD workflow for React. Write React Testing Library tests first (behavior-focused, accessibility-first), then implement components. Detects Vitest or Jest and verifies coverage targets.
+description: React 向けに TDD workflow を強制する。React Testing Library でテストを先に書き（behavior 重視、accessibility 優先）、その後 component を実装する。Vitest または Jest を検出し、coverage 目標を検証する。
 ---
 
-# React TDD Command
+# React TDD コマンド (React TDD Command)
 
-This command enforces test-driven development for React using React Testing Library plus Vitest or Jest, detected at runtime.
+このコマンドは、実行時に検出した React Testing Library と Vitest または Jest を用いて、React の test-driven development を強制する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Define Component Signature**: Scaffold the component, prop type, and exports
-2. **Write Behavior Tests First**: RTL queries (role-first), `userEvent`, MSW for network — RED
-3. **Run Tests**: Verify they fail for the right reason
-4. **Implement Minimal Code**: Just enough to pass — GREEN
-5. **Refactor**: Improve while keeping tests green
-6. **Check Coverage**: Hit the targets in [rules/react/testing.md](../rules/react/testing.md)
+1. **Component シグネチャの定義**: component、prop type、export を scaffold
+2. **Behavior テストを先に記述**: RTL クエリ（role 優先）、`userEvent`、ネットワークは MSW — RED
+3. **テストの実行**: 正しい理由で失敗することを確認
+4. **最小実装**: 通過に足るだけ — GREEN
+5. **リファクタ**: テストを green のまま改善
+6. **Coverage の確認**: [rules/react/testing.md](../rules/react/testing.md) の目標を満たす
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/react-test` when:
+`/react-test` を使う場面:
 
-- Implementing a new React component or custom hook
-- Adding test coverage to an untested component
-- Fixing a bug (write failing test first that reproduces it)
-- Building forms, state machines, or accessibility-critical UI
-- Onboarding to RTL + Vitest/Jest workflow
+- 新しい React component または custom hook を実装するとき
+- 未テストの component に coverage を追加するとき
+- bug 修正（再現する失敗テストを先に書く）
+- フォーム、state machine、accessibility が重要な UI を構築するとき
+- RTL + Vitest/Jest workflow のオンボーディング
 
-## TDD Cycle
+## TDD サイクル (TDD Cycle)
 
 ```
 RED      -> Write failing test for the next behavior
@@ -34,16 +34,16 @@ REFACTOR -> Improve component, tests stay green
 REPEAT   -> Next behavior
 ```
 
-## Runner Detection
+## Runner 検出 (Runner Detection)
 
 ```bash
 test -f vitest.config.ts -o -f vitest.config.js -o -f vite.config.ts   # Vitest
 grep -l '"jest"' package.json                                          # Jest
 ```
 
-Prefer Vitest for new Vite-based projects; respect Jest for existing setups.
+新しい Vite ベースのプロジェクトでは Vitest を優先し、既存セットアップでは Jest を尊重する。
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /react-test I need a SearchInput component with debounced search
@@ -175,20 +175,20 @@ $ vitest run --coverage src/components/SearchInput.test.tsx
 ## TDD Complete!
 ````
 
-## Test Patterns
+## テストパターン (Test Patterns)
 
-### Behavior, not implementation
+### Behavior、implementation ではない (Behavior, not implementation)
 
-Use `getByRole`, `getByLabelText`, `getByText`. Avoid `container.querySelector` and asserting on component state.
+`getByRole`、`getByLabelText`、`getByText` を使う。`container.querySelector` や component state の assertion は避ける。
 
-### `userEvent.setup()` per test
+### テストごとに `userEvent.setup()`
 
 ```tsx
 const user = userEvent.setup();
 await user.click(screen.getByRole("button", { name: /save/i }));
 ```
 
-### MSW for network
+### ネットワークは MSW
 
 ```tsx
 beforeAll(() => server.listen({ onUnhandledRequest: "error" }));
@@ -213,7 +213,7 @@ import { axe } from "vitest-axe";
 expect(await axe(container)).toHaveNoViolations();
 ```
 
-## Coverage Targets
+## Coverage 目標 (Coverage Targets)
 
 | Layer | Target |
 |---|---|
@@ -223,18 +223,18 @@ expect(await axe(container)).toHaveNoViolations();
 | Container components | >=70% |
 | Pages | E2E covered separately |
 
-Configure in `vitest.config.ts` / `jest.config.js` to enforce thresholds in CI.
+CI で閾値を強制するには `vitest.config.ts` / `jest.config.js` を設定する。
 
-## Anti-Patterns to Avoid
+## 避けるべきアンチパターン (Anti-Patterns to Avoid)
 
-- `container.querySelector(...)` — bypasses accessibility queries
-- Asserting on render count
-- Mocking `react` itself (`jest.mock("react", ...)`)
-- Mocking child components by default (mock only when child has heavy side effects)
-- Ignoring `act()` warnings — they signal real bugs
-- Snapshot tests of rendered components (brittle, rubber-stamped) — use Playwright/Cypress visual diff instead
+- `container.querySelector(...)` — accessibility クエリをバイパスする
+- render 回数の assertion
+- `react` 自体のモック（`jest.mock("react", ...)`）
+- デフォルトで child component をモック（重い副作用がある child のみ）
+- `act()` warning の無視 — 実際の bug を示す
+- レンダー済み component の snapshot テスト（脆く、形式的承認になりがち）— Playwright/Cypress の visual diff を使う
 
-## Test Commands
+## テストコマンド (Test Commands)
 
 ```bash
 # Vitest
@@ -252,14 +252,14 @@ jest path/to/file.test.tsx
 CI=true vitest run --coverage
 ```
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/react-build` — fix build errors before running tests
-- `/react-review` — review after implementation
-- `verification-loop` skill — full verification loop
+- `/react-build` — テスト実行前にビルドエラーを修正
+- `/react-review` — 実装後にレビュー
+- `verification-loop` skill — フル verification loop
 
-## Related
+## 関連 (Related)
 
 - Skills: `skills/react-testing/`, `skills/tdd-workflow/`, `skills/accessibility/`, `skills/e2e-testing/`
 - Rules: `rules/react/testing.md`
-- Agents: `react-reviewer` (reviews test quality), `tdd-guide` (enforces TDD process)
+- Agents: `react-reviewer`（テスト品質をレビュー）、`tdd-guide`（TDD プロセスを強制）

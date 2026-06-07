@@ -5,19 +5,19 @@ paths:
   - "**/*.js"
   - "**/*.jsx"
 ---
-# TypeScript/JavaScript Coding Style
+# TypeScript/JavaScript コーディングスタイル (TypeScript/JavaScript Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with TypeScript/JavaScript specific content.
+> 本ファイルは [common/coding-style.md](../common/coding-style.md) を TypeScript/JavaScript 固有の内容で拡張します。
 
-## Types and Interfaces
+## 型と Interface (Types and Interfaces)
 
-Use types to make public APIs, shared models, and component props explicit, readable, and reusable.
+公開 API、共有モデル、コンポーネント props を型で明示的・読みやすく・再利用可能にする。
 
-### Public APIs
+### 公開 API (Public APIs)
 
-- Add parameter and return types to exported functions, shared utilities, and public class methods
-- Let TypeScript infer obvious local variable types
-- Extract repeated inline object shapes into named types or interfaces
+- export 関数、共有ユーティリティ、公開 class メソッドにパラメータ型と戻り値型を付ける
+- 自明なローカル変数の型は TypeScript に推論させる
+- 繰り返すインライン object 形状は名前付き型または interface に抽出する
 
 ```typescript
 // WRONG: Exported function without explicit types
@@ -36,11 +36,11 @@ export function formatUser(user: User): string {
 }
 ```
 
-### Interfaces vs. Type Aliases
+### Interface vs. Type Alias (Interfaces vs. Type Aliases)
 
-- Use `interface` for object shapes that may be extended or implemented
-- Use `type` for unions, intersections, tuples, mapped types, and utility types
-- Prefer string literal unions over `enum` unless an `enum` is required for interoperability
+- 拡張・実装されうる object 形状には `interface` を使用する
+- union、intersection、tuple、mapped type、utility type には `type` を使用する
+- 相互運用に `enum` が必要でない限り、string literal union を `enum` より優先する
 
 ```typescript
 interface User {
@@ -54,11 +54,11 @@ type UserWithRole = User & {
 }
 ```
 
-### Avoid `any`
+### `any` の回避 (Avoid `any`)
 
-- Avoid `any` in application code
-- Use `unknown` for external or untrusted input, then narrow it safely
-- Use generics when a value's type depends on the caller
+- アプリケーションコードでは `any` を避ける
+- 外部または信頼できない入力には `unknown` を使い、安全に narrow する
+- 値の型が呼び出し側に依存する場合は generics を使用する
 
 ```typescript
 // WRONG: any removes type safety
@@ -78,9 +78,9 @@ function getErrorMessage(error: unknown): string {
 
 ### React Props
 
-- Define component props with a named `interface` or `type`
-- Type callback props explicitly
-- Do not use `React.FC` unless there is a specific reason to do so
+- コンポーネント props は名前付き `interface` または `type` で定義する
+- callback props は明示的に型付けする
+- 特別な理由がない限り `React.FC` は使わない
 
 ```typescript
 interface User {
@@ -98,10 +98,10 @@ function UserCard({ user, onSelect }: UserCardProps) {
 }
 ```
 
-### JavaScript Files
+### JavaScript ファイル (JavaScript Files)
 
-- In `.js` and `.jsx` files, use JSDoc when types improve clarity and a TypeScript migration is not practical
-- Keep JSDoc aligned with runtime behavior
+- `.js` と `.jsx` では、型が明確さを高め、TypeScript 移行が現実的でない場合に JSDoc を使用する
+- JSDoc を実行時の挙動と一致させる
 
 ```javascript
 /**
@@ -113,9 +113,9 @@ export function formatUser(user) {
 }
 ```
 
-## Immutability
+## 不変性 (Immutability)
 
-Use spread operator for immutable updates:
+不変更新には spread operator を使用する:
 
 ```typescript
 interface User {
@@ -138,9 +138,9 @@ function updateUser(user: Readonly<User>, name: string): User {
 }
 ```
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Use async/await with try-catch and narrow unknown errors safely:
+async/await と try-catch を使い、unknown エラーを安全に narrow する:
 
 ```typescript
 interface User {
@@ -175,9 +175,9 @@ async function loadUser(userId: string): Promise<User> {
 }
 ```
 
-## Input Validation
+## 入力検証 (Input Validation)
 
-Use Zod for schema-based validation and infer types from the schema:
+schema ベース検証に Zod を使い、schema から型を推論する:
 
 ```typescript
 import { z } from 'zod'
@@ -194,6 +194,6 @@ const validated: UserInput = userSchema.parse(input)
 
 ## Console.log
 
-- No `console.log` statements in production code
-- Use proper logging libraries instead
-- See hooks for automatic detection
+- 本番コードに `console.log` 文を置かない
+- 適切なロギングライブラリを使用する
+- 自動検出は hooks を参照

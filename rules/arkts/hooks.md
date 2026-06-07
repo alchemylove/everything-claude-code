@@ -5,43 +5,43 @@ paths:
   - "**/module.json5"
   - "**/oh-package.json5"
 ---
-# HarmonyOS / ArkTS Hooks
+# HarmonyOS / ArkTS フック (HarmonyOS / ArkTS Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with HarmonyOS-specific build and validation hooks.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、HarmonyOS / ArkTS 固有の内容を追加する。
 
-## Build Commands
+## ビルドコマンド (Build Commands)
 
-### HAP Package Build
+### HAP パッケージのビルド (HAP Package Build)
 
 ```bash
-# Build HAP package (global hvigor environment)
+# HAP パッケージをビルドする（グローバル hvigor 環境） (Build HAP package (global hvigor environment))
 hvigorw assembleHap -p product=default
 
-# Build with specific module
+# 特定のモジュールでビルドする (Build with specific module)
 hvigorw assembleHap -p module=entry -p product=default
 
-# Clean build
+# クリーンビルド (Clean build)
 hvigorw clean
 ```
 
-### DevEco Studio CLI
+### DevEco Studio CLI (DevEco Studio CLI)
 
 ```bash
-# Check project structure
+# プロジェクト構造を確認する (Check project structure)
 hvigorw --version
 
-# Install dependencies
+# 依存関係をインストールする (Install dependencies)
 ohpm install
 
-# Update dependencies
+# 依存関係を更新する (Update dependencies)
 ohpm update
 ```
 
-## Recommended PostToolUse Hooks
+## 推奨 PostToolUse フック (Recommended PostToolUse Hooks)
 
-### After Editing .ets/.ts Files
+### .ets/.ts ファイル編集後 (After Editing .ets/.ts Files)
 
-Run hvigor build to check for ArkTS compilation errors:
+ArkTS のコンパイルエラーを確認するために hvigor ビルドを実行する:
 
 ```json
 {
@@ -60,9 +60,9 @@ Run hvigor build to check for ArkTS compilation errors:
 }
 ```
 
-### After Editing module.json5
+### module.json5 編集後 (After Editing module.json5)
 
-Validate permission and ability declarations:
+パーミッションとアビリティの宣言を検証する:
 
 ```json
 {
@@ -80,9 +80,9 @@ Validate permission and ability declarations:
 }
 ```
 
-### After Editing oh-package.json5
+### oh-package.json5 編集後 (After Editing oh-package.json5)
 
-Reinstall dependencies:
+依存関係を再インストールする:
 
 ```json
 {
@@ -101,11 +101,11 @@ Reinstall dependencies:
 }
 ```
 
-## PreToolUse Hooks
+## PreToolUse フック (PreToolUse Hooks)
 
-### V1 Decorator Guard
+### V1 デコレーターガード (V1 Decorator Guard)
 
-Warn when code contains V1 state management decorators:
+コードに V1 状態管理デコレーターが含まれている場合に警告する:
 
 ```json
 {
@@ -122,14 +122,14 @@ Warn when code contains V1 state management decorators:
 }
 ```
 
-## Validation Checklist
+## 検証チェックリスト (Validation Checklist)
 
-After each implementation cycle, verify:
+各実装サイクルの後、以下を確認する:
 
-- [ ] `hvigorw assembleHap` completes without errors
-- [ ] No V1 decorators in new or modified `.ets` files
-- [ ] No `@ohos.router` imports in new or modified files
-- [ ] All API permissions declared in `module.json5`
-- [ ] All dependencies listed in `oh-package.json5`
-- [ ] Resource strings added to all i18n directories
-- [ ] Dark theme colors provided for new color resources
+- [ ] `hvigorw assembleHap` がエラーなしで完了する
+- [ ] 新規または変更した `.ets` ファイルに V1 デコレーターがない
+- [ ] 新規または変更したファイルに `@ohos.router` のインポートがない
+- [ ] すべての API パーミッションが `module.json5` に宣言されている
+- [ ] すべての依存関係が `oh-package.json5` に記載されている
+- [ ] リソース文字列がすべての i18n ディレクトリに追加されている
+- [ ] 新しいカラーリソースにダークテーマのカラーが提供されている

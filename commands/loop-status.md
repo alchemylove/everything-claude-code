@@ -1,77 +1,58 @@
 ---
-description: Inspect active loop state, progress, failure signals, and recommended intervention.
+description: アクティブな loop の状態、進捗、障害シグナル、推奨される介入を検査する。
 ---
 
-# Loop Status Command
+# Loop ステータスコマンド (Loop Status Command)
 
-Inspect active loop state, progress, and failure signals.
+アクティブな loop の状態、進捗、障害シグナルを検査します。
 
-This slash command can only run after the current session dequeues it. If you
-need to inspect a wedged or sibling session, run the packaged CLI from another
-terminal:
+この slash command は、現在のセッションが dequeue した後にのみ実行できます。wedged または sibling session を検査する必要がある場合は、別のターミナルからパッケージ化された CLI を実行してください:
 
 ```bash
 npx --package ecc-universal ecc loop-status --json
 ```
 
-The CLI scans local Claude transcript JSONL files under
-`~/.claude/projects/**` and reports stale `ScheduleWakeup` calls or `Bash`
-tool calls that have no matching `tool_result`.
+CLI は `~/.claude/projects/**` 配下のローカル Claude transcript JSONL ファイルをスキャンし、古い `ScheduleWakeup` 呼び出しや、マッチする `tool_result` がない `Bash` tool 呼び出しを報告します。
 
-## Usage
+## 使い方 (Usage)
 
 `/loop-status [--watch]`
 
-## What to Report
+## 報告内容 (What to Report)
 
-- active loop pattern
-- current phase and last successful checkpoint
-- failing checks (if any)
-- estimated time/cost drift
-- recommended intervention (continue/pause/stop)
+- アクティブな loop パターン
+- 現在のフェーズと最後の成功 checkpoint
+- 失敗しているチェック（ある場合）
+- 推定時間/コストのドリフト
+- 推奨される介入（continue/pause/stop）
 
-## Cross-Session CLI
+## クロスセッション CLI (Cross-Session CLI)
 
-- `ecc loop-status --json` emits machine-readable status for recent local
-  Claude transcripts.
-- `ecc loop-status --home <dir>` scans a different home directory when
-  inspecting another local profile or mounted workspace.
-- `ecc loop-status --transcript <session.jsonl>` inspects one transcript
-  directly.
-- `ecc loop-status --bash-timeout-seconds 1800` adjusts the stale Bash
-  threshold.
-- `ecc loop-status --exit-code` exits `2` when stale loop or tool signals are
-  found, or `1` when transcripts cannot be scanned.
-- `--exit-code` with `--watch` requires `--watch-count` so watchdog scripts do
-  not wait forever for a process exit.
-- `ecc loop-status --watch` refreshes status until interrupted.
-- `ecc loop-status --watch --watch-count 3 --exit-code` refreshes a bounded
-  number of times, then exits with the highest status seen.
-- `ecc loop-status --watch --watch-count 3` emits a bounded watch stream for
-  scripts and handoffs.
-- `ecc loop-status --watch --write-dir ~/.claude/loops` maintains
-  `index.json` and per-session JSON snapshots for sibling terminals or
-  watchdog scripts.
+- `ecc loop-status --json` は最近のローカル Claude transcript の機械読み取り可能なステータスを出力する。
+- `ecc loop-status --home <dir>` は別のホームディレクトリをスキャンする（別のローカル profile やマウントされた workspace の検査時）。
+- `ecc loop-status --transcript <session.jsonl>` は 1 つの transcript を直接検査する。
+- `ecc loop-status --bash-timeout-seconds 1800` は古い Bash の閾値を調整する。
+- `ecc loop-status --exit-code` は古い loop または tool シグナルが検出された場合に `2` で終了し、transcript をスキャンできない場合は `1` で終了する。
+- `--exit-code` と `--watch` の併用時は `--watch-count` が必要（watchdog スクリプトがプロセス終了を永遠に待たないように）。
+- `ecc loop-status --watch` は中断されるまでステータスを更新する。
+- `ecc loop-status --watch --watch-count 3 --exit-code` は限定回数更新し、確認された最高ステータスで終了する。
+- `ecc loop-status --watch --watch-count 3` はスクリプトや handoff 用の限定 watch ストリームを出力する。
+- `ecc loop-status --watch --write-dir ~/.claude/loops` は sibling ターミナルや watchdog スクリプト用に `index.json` とセッションごとの JSON スナップショットを維持する。
 
-## Watch Mode
+## ウォッチモード (Watch Mode)
 
-When `--watch` is present, refresh status periodically. With `--json`, each
-refresh is emitted as one JSON object per line so another terminal or script can
-consume the stream.
+`--watch` が指定されている場合、定期的にステータスを更新します。`--json` 併用時は、各更新が 1 行あたり 1 つの JSON オブジェクトとして出力され、別のターミナルやスクリプトがストリームを消費できます。
 
-## Snapshot Files
+## スナップショットファイル (Snapshot Files)
 
-Use `--write-dir <dir>` when a separate process needs to inspect loop state
-without waiting for the current Claude session to dequeue `/loop-status`. The
-CLI writes:
+別のプロセスが現在の Claude セッションの `/loop-status` dequeue を待たずに loop 状態を検査する必要がある場合は、`--write-dir <dir>` を使用します。CLI は以下を書き込みます:
 
-- `index.json` with one row per inspected session.
-- `<session-id>.json` with the full status payload for that session.
+- 検査されたセッションごとに 1 行の `index.json`。
+- そのセッションの完全なステータスペイロードを含む `<session-id>.json`。
 
-These files are snapshots of local transcript analysis. They do not control or
-timeout Claude Code runtime tool calls.
+これらのファイルはローカル transcript 分析のスナップショットです。Claude Code runtime の tool 呼び出しを制御したりタイムアウトさせたりするものではありません。
 
-## Arguments
+## 引数 (Arguments)
 
 $ARGUMENTS:
 - `--watch` optional

@@ -3,22 +3,22 @@ paths:
   - "**/*.fs"
   - "**/*.fsx"
 ---
-# F# Coding Style
+# F# コーディングスタイル (F# Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with F#-specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、F# 固有の内容を追加する。
 
-## Standards
+## 標準 (Standards)
 
-- Follow standard F# conventions and leverage the type system for correctness
-- Prefer immutability by default; use `mutable` only when justified by performance
-- Keep modules focused and cohesive
+- 標準的な F# の規約に従い、正確性のために型システムを活用する
+- デフォルトでイミュータビリティを優先する。パフォーマンス上の理由がある場合のみ `mutable` を使用する
+- モジュールを焦点を絞り、凝集性を保つ
 
-## Types and Models
+## 型とモデル (Types and Models)
 
-- Prefer discriminated unions for domain modeling over class hierarchies
-- Use records for data with named fields
-- Use single-case unions for type-safe wrappers around primitives
-- Avoid classes unless interop or mutable state requires them
+- ドメインモデリングにはクラス階層よりも判別共用体を優先する
+- 名前付きフィールドを持つデータにはレコードを使用する
+- プリミティブ型に対する型安全なラッパーには単一ケース共用体を使用する
+- 相互運用またはミュータブルなステートが必要でない限り、クラスの使用を避ける
 
 ```fsharp
 type EmailAddress = EmailAddress of string
@@ -36,23 +36,23 @@ type Order =
       Items: OrderItem list }
 ```
 
-## Immutability
+## イミュータビリティ (Immutability)
 
-- Records are immutable by default; use `with` expressions for updates
-- Prefer `list`, `map`, `set` over mutable collections
-- Avoid `ref` cells and mutable fields in domain logic
+- レコードはデフォルトでイミュータブル。更新には `with` 式を使用する
+- ミュータブルなコレクションよりも `list`、`map`、`set` を優先する
+- ドメインロジックで `ref` セルとミュータブルフィールドを避ける
 
 ```fsharp
 let rename (profile: UserProfile) newName =
     { profile with Name = newName }
 ```
 
-## Function Style
+## 関数スタイル (Function Style)
 
-- Prefer small, composable functions over large methods
-- Use the pipe operator `|>` to build readable data pipelines
-- Prefer pattern matching over if/else chains
-- Use `Option` instead of null; use `Result` for operations that can fail
+- 大きなメソッドよりも小さく合成可能な関数を優先する
+- パイプ演算子 `|>` を使用して読みやすいデータパイプラインを構築する
+- if/else チェーンよりもパターンマッチングを優先する
+- null の代わりに `Option` を使用する。失敗する可能性のある操作には `Result` を使用する
 
 ```fsharp
 let processOrder order =
@@ -63,12 +63,12 @@ let processOrder order =
     |> Result.mapError OrderError
 ```
 
-## Async and Error Handling
+## 非同期とエラーハンドリング (Async and Error Handling)
 
-- Use `task { }` for interop with .NET async APIs
-- Use `async { }` for F#-native async workflows
-- Propagate `CancellationToken` through public async APIs
-- Prefer `Result` and railway-oriented programming over exceptions for expected failures
+- .NET の非同期 API との相互運用には `task { }` を使用する
+- F# ネイティブの非同期ワークフローには `async { }` を使用する
+- パブリック非同期 API を通じて `CancellationToken` を伝播する
+- 予期されるエラーには例外ではなく `Result` とRailway指向プログラミングを優先する
 
 ```fsharp
 let loadOrderAsync (orderId: Guid) (ct: CancellationToken) =
@@ -81,20 +81,20 @@ let loadOrderAsync (orderId: Guid) (ct: CancellationToken) =
     }
 ```
 
-## Formatting
+## フォーマット (Formatting)
 
-- Use `fantomas` for automatic formatting
-- Prefer significant whitespace; avoid unnecessary parentheses
-- Remove unused `open` declarations
+- 自動フォーマットには `fantomas` を使用する
+- 意味のある空白を優先する。不要な括弧を避ける
+- 未使用の `open` 宣言を削除する
 
-### Open Declaration Order
+### open 宣言の順序 (Open Declaration Order)
 
-Group `open` statements into four sections separated by a blank line, each section sorted lexically within itself:
+`open` 文を4つのセクションに空行で区切ってグループ化し、各セクション内は辞書順で並べる:
 
 1. `System.*`
 2. `Microsoft.*`
-3. Third-party namespaces
-4. First-party / project namespaces
+3. サードパーティの名前空間
+4. ファーストパーティ / プロジェクトの名前空間
 
 ```fsharp
 open System

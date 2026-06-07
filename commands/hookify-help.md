@@ -1,24 +1,24 @@
 ---
-description: Get help with the hookify system
+description: hookify システムのヘルプを取得します。
 ---
 
-Display comprehensive hookify documentation.
+hookify の包括的な documentation を表示します。
 
-## Hook System Overview
+## フックシステムの概要 (Hook System Overview)
 
-Hookify creates rule files that integrate with Claude Code's hook system to prevent unwanted behaviors.
+Hookify は、望ましくない動作を防ぐために、Claude Code の hook system と統合する rule file を作成します。
 
-### Event Types
+### イベントタイプ (Event Types)
 
-- `bash`: triggers on Bash tool use and matches command patterns
-- `file`: triggers on Write/Edit tool use and matches file paths
-- `stop`: triggers when a session ends
-- `prompt`: triggers on user message submission and matches input patterns
-- `all`: triggers on all events
+- `bash`: Bash tool 使用時に trigger し、command pattern に match
+- `file`: Write/Edit tool 使用時に trigger し、file path に match
+- `stop`: session 終了時に trigger
+- `prompt`: user message 送信時に trigger し、input pattern に match
+- `all`: すべての event で trigger
 
-### Rule File Format
+### ルールファイル形式 (Rule File Format)
 
-Files are stored as `.claude/hookify.{name}.local.md`:
+file は `.claude/hookify.{name}.local.md` として保存:
 
 ```yaml
 ---
@@ -32,15 +32,15 @@ Message to display when rule triggers.
 Supports multiple lines.
 ```
 
-### Commands
+### コマンド (Commands)
 
-- `/hookify [description]` creates new rules and auto-analyzes the conversation when no description is given
-- `/hookify-list` lists configured rules
-- `/hookify-configure` toggles rules on or off
+- `/hookify [description]` 新しい rule を作成し、description がない場合は会話を auto-analyze
+- `/hookify-list` 設定済み rule を list
+- `/hookify-configure` rule の on/off を toggle
 
-### Pattern Tips
+### パターンのヒント (Pattern Tips)
 
-- use regex syntax
-- for `bash`, match against the full command string
-- for `file`, match against the file path
-- test patterns before deploying
+- regex syntax を使用
+- `bash` の場合、full command string に対して match
+- `file` の場合、file path に対して match
+- deploy 前に pattern を test

@@ -1,24 +1,24 @@
-# Git 工作流
+# Git ワークフロー (Git Workflow)
 
-## 提交消息格式
+## コミットメッセージ形式 (Commit Message Format)
 ```
-<类型>: <描述>
+<type>: <description>
 
-<可选正文>
+<optional body>
 ```
 
-类型：feat, fix, refactor, docs, test, chore, perf, ci
+Types: feat, fix, refactor, docs, test, chore, perf, ci
 
-注意：通过 ~/.claude/settings.json 全局禁用归属。
+Note: Attribution disabled globally via ~/.claude/settings.json.
 
-## Pull Request 工作流
+## Pull Request ワークフロー (Pull Request Workflow)
 
-创建 PR 时：
-1. 分析完整提交历史（不仅是最新提交）
-2. 使用 `git diff [base-branch]...HEAD` 查看所有更改
-3. 起草全面的 PR 摘要
-4. 包含带有 TODO 的测试计划
-5. 如果是新分支，使用 `-u` 标志推送
+PR 作成時:
+1. 全コミット履歴を分析する（最新コミットだけでなく）
+2. `git diff [base-branch]...HEAD` で全変更を確認する
+3. 包括的な PR サマリーを起草する
+4. TODO 付きのテストプランを含める
+5. 新規ブランチなら `-u` フラグで push する
 
-> 对于 git 操作之前的完整开发流程（规划、TDD、代码审查），
-> 参见 [development-workflow.md](./development-workflow.md)。
+> git 操作の前の開発プロセス（計画、TDD、コードレビュー）の全体は
+> [development-workflow.md](./development-workflow.md) を参照。

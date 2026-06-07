@@ -4,50 +4,44 @@ description: Research prediction markets as data sources or oracle signals for p
 origin: ECC
 ---
 
-# Prediction Market Oracle Research
+# Prediction Market Oracle 調査 (Prediction Market Oracle Research)
 
-Use this skill when prediction markets are being considered as a data source,
-forecasting input, oracle-like signal, or decision-intelligence layer.
+prediction market を data source、forecasting input、oracle 的 signal、decision-intelligence 層として検討するときにこの skill を使用する。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not treat market prices as objective truth.
-- Do not provide investment advice or trading recommendations.
-- Separate venue mechanics, liquidity, incentives, and resolution rules from the
-  implied signal.
-- Call out manipulation, thin liquidity, stale markets, and ambiguous outcomes.
-- For on-chain or execution-linked systems, run `llm-trading-agent-security`
-  before granting any write authority.
+- market price を客観的真実と扱わない。
+- 投資助言や trading 推奨を提供しない。
+- venue mechanics、liquidity、incentive、resolution ルールを implied signal から分離する。
+- manipulation、thin liquidity、stale market、曖昧な outcome を明示する。
+- on-chain または execution 連動システムでは、write 権限付与前に `llm-trading-agent-security` を実行する。
 
-## Research Workflow
+## 調査ワークフロー (Research Workflow)
 
-1. Define the decision the signal is meant to inform.
-2. Find relevant markets, events, tags, and venues.
-3. Record market-implied probabilities with timestamps and source links.
-4. Evaluate signal quality:
+1. signal が支える意思決定を定義する。
+2. 関連 market、event、tag、venue を特定する。
+3. timestamp と source link 付きで market-implied probability を記録する。
+4. signal 品質を評価:
    - liquidity
    - spread
    - market age
-   - trader/incentive concentration if known
+   - 既知なら trader/incentive 集中
    - resolution authority
-   - geography or account restrictions
-5. Compare against non-market sources such as filings, news, polls, research,
-   customer data, or internal KPIs.
-6. Recommend whether the signal is usable, weak, or unsuitable for the stated
-   decision.
+   - 地域・アカウント制限
+5. filing、news、poll、research、customer data、internal KPI など非 market source と比較する。
+6. 述べた意思決定に対して signal が usable、weak、unsuitable のいずれかを推奨する。
 
-## Integration Patterns
+## 統合パターン (Integration Patterns)
 
-- Research assistant: source-grounded context for a human analyst.
-- Dashboard signal: market-implied probability alongside internal metrics.
-- Agent memory input: a time-stamped signal that can be retrieved later.
-- Alerting input: notify when probabilities, spreads, or liquidity cross a
-  threshold.
-- Scenario planning: compare multiple event outcomes without automating trades.
+- Research assistant: human analyst 向け source 根拠コンテキスト
+- Dashboard signal: internal metric と並べた market-implied probability
+- Agent memory input: 後から取得可能な timestamp 付き signal
+- Alerting input: probability、spread、liquidity が閾値を超えたら通知
+- Scenario planning: trade 自動化なしで複数 event outcome を比較
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Use:
+次を使用:
 
 1. decision context
 2. market sources
@@ -56,7 +50,7 @@ Use:
 5. integration recommendation
 6. caveats
 
-End with:
+末尾に:
 
 ```text
 Prediction-market signals are informational inputs, not investment advice.

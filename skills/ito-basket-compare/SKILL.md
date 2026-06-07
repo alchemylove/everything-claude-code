@@ -4,59 +4,54 @@ description: Compare Itô prediction-market baskets against a user's knowledge b
 origin: ECC
 ---
 
-# Itô Basket Compare
+# Itô バスケット比較 (Itô Basket Compare)
 
-Use this skill to compare a basket, theme, or market set against a user's
-knowledge base, portfolio notes, research memo, CRM context, or stated thesis.
+バスケット、テーマ、市場セットをユーザーのナレッジベース、ポートフォリオメモ、リサーチメモ、CRM 文脈、または表明されたテーゼと比較するためにこのスキルを使用する。
 
-This skill is read-only. It does not recommend trades. It helps a user inspect
-fit, exposure, assumptions, and missing context before they decide what to do.
+このスキルは読み取り専用である。取引を推奨しない。ユーザーが次に何をするか決める前に、適合性、エクスポージャー、前提、欠落文脈を検査するのに役立つ。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not provide investment advice or tell the user to buy, sell, hold, hedge,
-  lever, or size a trade.
-- Do not execute, prepare, or submit orders.
-- Do not use private documents unless the user explicitly points to them.
-- Use `ITO_API_KEY` only for read-only Itô basket/market data after explicit
-  user request.
-- If comparing against financials, preserve privacy and summarize only the
-  fields needed for the comparison.
+- 投資アドバイスを提供したり、買い、売り、保有、ヘッジ、レバレッジ、ポジションサイズを指示したりしない。
+- 注文の実行、準備、送信を行わない。
+- ユーザーが明示的に指し示さない限り、非公開ドキュメントを使用しない。
+- 明示的なユーザー要求の後にのみ、読み取り専用の Itô バスケット/市場データに `ITO_API_KEY` を使用する。
+- 財務情報と比較する場合、プライバシーを保護し、比較に必要なフィールドのみを要約する。
 
-## Comparison Modes
+## 比較モード (Comparison Modes)
 
-### Basket vs Knowledge Base
+### バスケット vs ナレッジベース (Basket vs Knowledge Base)
 
-1. Identify the basket theme and underliers.
-2. Retrieve the user's relevant notes, docs, or memory snippets.
-3. Map each underlier to claims, sources, uncertainties, and stale assumptions.
-4. Return aligned signals, conflicting signals, and missing research.
+1. バスケットテーマと原資産を特定する。
+2. ユーザーの関連メモ、ドキュメント、メモリスニペットを取得する。
+3. 各原資産を主張、ソース、不確実性、古い前提にマッピングする。
+4. 整合するシグナル、矛盾するシグナル、不足リサーチを返す。
 
-### Basket vs Portfolio Notes
+### バスケット vs ポートフォリオメモ (Basket vs Portfolio Notes)
 
-1. Parse the user's watchlist, holdings summary, or exposure notes.
-2. Compare themes, geographies, time horizons, and event outcomes.
-3. Flag concentration, correlation, and duplicated narrative exposure.
-4. Avoid recommendations; phrase output as inspection and questions.
+1. ユーザーのウォッチリスト、保有要約、エクスポージャーメモを解析する。
+2. テーマ、地域、時間軸、イベント結果を比較する。
+3. 集中、相関、重複するナラティブエクスポージャーをフラグする。
+4. 推奨を避ける。出力は検査と質問として表現する。
 
-### Basket vs Financial Context
+### バスケット vs 財務文脈 (Basket vs Financial Context)
 
-1. Accept only user-provided or explicitly selected financial context.
-2. Identify liquidity, drawdown, time-horizon, and constraint mismatches.
-3. Ask for missing constraints instead of guessing.
+1. ユーザー提供または明示的に選択された財務文脈のみを受け入れる。
+2. 流動性、ドローダウン、時間軸、制約のミスマッチを特定する。
+3. 推測せず、不足している制約を尋ねる。
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Use this structure:
+次の構造を使用する:
 
-1. Basket summary
-2. Comparison target
-3. Matches
-4. Conflicts or stale assumptions
-5. Missing context
-6. User-action checklist
+1. バスケット要約
+2. 比較対象
+3. 一致
+4. 矛盾または古い前提
+5. 欠落文脈
+6. ユーザーアクションチェックリスト
 
-End with:
+末尾に次を付ける:
 
 ```text
 This comparison is informational and not investment or trading advice.

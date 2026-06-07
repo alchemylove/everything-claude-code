@@ -5,15 +5,15 @@ paths:
   - "**/*.fsproj"
   - "**/appsettings*.json"
 ---
-# F# Security
+# F# セキュリティ (F# Security)
 
-> This file extends [common/security.md](../common/security.md) with F#-specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、F# 固有の内容を追加する。
 
-## Secret Management
+## シークレット管理 (Secret Management)
 
-- Never hardcode API keys, tokens, or connection strings in source code
-- Use environment variables, user secrets for local development, and a secret manager in production
-- Keep `appsettings.*.json` free of real credentials
+- ソースコードに API キー、トークン、接続文字列をハードコードしない
+- ローカル開発には環境変数とユーザーシークレットを使用し、本番環境ではシークレットマネージャーを使用する
+- `appsettings.*.json` に実際の認証情報を含めない
 
 ```fsharp
 // BAD
@@ -26,11 +26,11 @@ let apiKey =
     |> Option.defaultWith (fun () -> failwith "OpenAI:ApiKey is not configured.")
 ```
 
-## SQL Injection Prevention
+## SQL インジェクション対策 (SQL Injection Prevention)
 
-- Always use parameterized queries with ADO.NET, Dapper, or EF Core
-- Never concatenate user input into SQL strings
-- Validate sort fields and filter operators before using dynamic query composition
+- ADO.NET、Dapper、または EF Core でパラメータ化クエリを常に使用する
+- ユーザー入力を SQL 文字列に連結しない
+- 動的クエリ合成を使用する前に、並び替えフィールドとフィルター演算子を検証する
 
 ```fsharp
 let findByCustomer (connection: IDbConnection) customerId =
@@ -40,11 +40,11 @@ let findByCustomer (connection: IDbConnection) customerId =
     }
 ```
 
-## Input Validation
+## 入力バリデーション (Input Validation)
 
-- Validate inputs at the application boundary using types
-- Use single-case discriminated unions for validated values
-- Reject invalid input before it enters domain logic
+- 型を使用してアプリケーション境界で入力を検証する
+- 検証済みの値には単一ケース判別共用体を使用する
+- 無効な入力がドメインロジックに入る前に拒否する
 
 ```fsharp
 type ValidatedEmail = private ValidatedEmail of string
@@ -59,18 +59,18 @@ module ValidatedEmail =
     let value (ValidatedEmail v) = v
 ```
 
-## Authentication and Authorization
+## 認証と認可 (Authentication and Authorization)
 
-- Prefer framework auth handlers instead of custom token parsing
-- Enforce authorization policies at endpoint or handler boundaries
-- Never log raw tokens, passwords, or PII
+- カスタムトークン解析ではなくフレームワークの認証ハンドラーを優先する
+- エンドポイントまたはハンドラー境界で認可ポリシーを強制する
+- 生のトークン、パスワード、PII をログに記録しない
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Return safe client-facing messages
-- Log detailed exceptions with structured context server-side
-- Do not expose stack traces, SQL text, or filesystem paths in API responses
+- クライアントに返す安全なメッセージを返す
+- 詳細な例外はサーバーサイドで構造化コンテキストと共にログに記録する
+- API レスポンスにスタックトレース、SQL テキスト、ファイルシステムパスを公開しない
 
-## References
+## 参考資料 (References)
 
-See skill: `security-review` for broader application security review checklists.
+より広範なアプリケーションセキュリティレビューチェックリストはスキル `security-review` を参照。

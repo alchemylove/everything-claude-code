@@ -1,19 +1,19 @@
 ---
-description: "Go testing extending common rules"
+description: "Go testing: common ルールの拡張"
 globs: ["**/*.go", "**/go.mod", "**/go.sum"]
 alwaysApply: false
 ---
-# Go Testing
+# Go Testing (Go Testing)
 
-> This file extends the common testing rule with Go specific content.
+> このファイルは common testing ルールを Go 固有の内容で拡張する。
 
 ## Framework
 
-Use the standard `go test` with **table-driven tests**.
+標準の `go test` と **table-driven tests** を使用。
 
 ## Race Detection
 
-Always run with the `-race` flag:
+常に `-race` フラグで実行:
 
 ```bash
 go test -race ./...
@@ -25,6 +25,6 @@ go test -race ./...
 go test -cover ./...
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `golang-testing` for detailed Go testing patterns and helpers.
+詳細な Go testing パターンと helper は skill: `golang-testing` を参照。

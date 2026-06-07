@@ -1,140 +1,140 @@
-# Capability Surface Selection
+# Capability Surface 選択 (Capability Surface Selection)
 
-Use this as the routing guide when deciding whether a capability belongs in a rule, a skill, an MCP server, or a plain CLI/API workflow.
+capability が rule、skill、MCP server、またはプレーン CLI/API ワークフローのどれに属するかを決めるときのルーティングガイドとして使う。
 
-ECC does not treat these surfaces as interchangeable. The goal is to put each capability in the narrowest surface that preserves correctness, keeps token cost under control, and does not create unnecessary runtime or supply-chain drag.
+ECC はこれらの面を interchangeable とは扱いません。目標は、正確性を保ち、token コストを抑え、不要な runtime や supply-chain drag を作らない最も狭い面に各 capability を置くことです。
 
-## The Short Version
+## 短い版 (The Short Version)
 
-- `rules/` are for deterministic, always-on constraints that should be injected when a path or event matches.
-- `skills/` are for on-demand workflows, richer playbooks, and token-expensive guidance that should load only when relevant.
-- `MCP` is for interactive structured capabilities that benefit from a long-lived tool/resource surface across sessions or clients.
-- local `CLI` or repo scripts are for simple deterministic actions that do not need a persistent server.
-- direct `API` calls inside a skill are for narrow remote actions where a full MCP server would be heavier than the problem.
+- `rules/` は path または event が一致したとき注入されるべき決定論的、常時オン制約向け。
+- `skills/` はオンデマンドワークフロー、より豊富な playbook、関連するときだけ読み込むべき token 高コストガイダンス向け。
+- `MCP` は session や client 横断で長寿命 tool/resource 面の恩恵がある対話型 structured capability 向け。
+- ローカル `CLI` または repo script は永続 server を必要としない単純な決定論的アクション向け。
+- skill 内の直接 `API` 呼び出しは、フル MCP server が問題より重い狭いリモートアクション向け。
 
-## Decision Order
+## 決定順序 (Decision Order)
 
-Ask these questions in order:
+次の質問を順に：
 
-1. Should this happen every time a path or event matches, with no model judgment involved?
-   - Use a `rule`.
-2. Is this mostly a playbook, workflow, or advisory layer that should load only when the task actually needs it?
-   - Use a `skill`.
-3. Does the capability need a structured interactive tool/resource interface that multiple harnesses or clients should call repeatedly?
-   - Use `MCP`.
-4. Is it a simple local action that can run as a script without keeping a server alive?
-   - Use a local `CLI` entrypoint or repo script, then wrap it with a skill if needed.
-5. Is it just one narrow remote integration step inside a larger workflow?
-   - Call the external `API` directly from the skill or script.
+1. path や event が一致するたびに、モデル判断なしで毎回起きるべきか？
+   - `rule` を使う。
+2. これは主に playbook、ワークフロー、またはタスクが実際に必要なときだけ読み込むべき助言レイヤーか？
+   - `skill` を使う。
+3. capability は複数 harness や client が繰り返し呼ぶ structured 対話型 tool/resource インターフェースを必要とするか？
+   - `MCP` を使う。
+4. server を生かさず script として走らせられる単純なローカルアクションか？
+   - ローカル `CLI` エントリポイントまたは repo script を使い、必要なら skill でラップ。
+5. より大きなワークフロー内の狭いリモート統合ステップだけか？
+   - skill または script から外部 `API` を直接呼ぶ。
 
-## Surface-by-Surface Guidance
+## 面ごとのガイダンス (Surface-by-Surface Guidance)
 
 ### Rules
 
-Use rules for:
+rules を使う場合：
 
-- path-scoped coding invariants
-- safety floors and permission constraints
-- harness/runtime constraints that should always apply
-- deterministic reminders that should not depend on model discretion
+- path スコープのコーディング不変条件
+- safety floor と permission 制約
+- 常に適用されるべき harness/runtime 制約
+- モデル裁量に依存すべきでない決定論的リマインダー
 
-Do not use rules for:
+rules を使わない場合：
 
-- large playbooks that would bloat every matching edit
-- optional workflows
-- expensive domain context that only matters some of the time
+- 一致する編集ごとに肥大化する大きな playbook
+- オプショナルワークフロー
+- たまにしか関係しない高コストドメイン context
 
 ### Skills
 
-Use skills for:
+skills を使う場合：
 
-- multi-step workflows
-- judgment-heavy guidance
-- domain playbooks that are expensive enough to load only on demand
-- orchestration across scripts, APIs, MCP tools, and adjacent skills
+- マルチステップワークフロー
+- 判断重視のガイダンス
+- オンデマンドでのみ読み込むのに十分高コストなドメイン playbook
+- script、API、MCP tool、隣接 skill 横断のオーケストレーション
 
-Do not use skills as a dumping ground for static invariants that really want deterministic routing.
+決定論的ルーティングを本当に望む静的不変条件のダンプ場所として skills を使わない。
 
 ### MCP
 
-Use MCP when the capability benefits from:
+capability が次の恩恵を受けるとき MCP を使う：
 
-- structured tool inputs/outputs
-- reusable resources or prompts
-- repeated cross-client usage
-- a stable interface that should work across Claude Code, Codex, Cursor, OpenCode, and related harnesses
-- a long-lived server process being worth the operational overhead
+- structured tool 入出力
+- 再利用可能な resource または prompt
+- 繰り返しのクロスクライアント利用
+- Claude Code、Codex、Cursor、OpenCode、関連 harness で動く安定インターフェース
+- 長寿命 server プロセスが運用オーバーヘッドに見合う
 
-Avoid MCP when:
+MCP を避ける場合：
 
-- the job is a one-shot local command
-- the only thing the server would do is shell out once
-- the server adds more install/runtime burden than product value
+- one-shot ローカルコマンドの仕事
+- server が一度 shell out するだけ
+- server がプロダクト価値より install/runtime 負担を増やす
 
 ### CLI / Repo Scripts
 
-Prefer a local script or CLI when:
+次のときローカル script または CLI を優先：
 
-- the action is deterministic
-- startup is cheap
-- the workflow is mostly local
-- there is no benefit to exposing a persistent tool/resource surface
+- アクションが決定論的
+- 起動が安い
+- ワークフローがほぼローカル
+- 永続 tool/resource 面を露出する利点がない
 
-This is often the right choice for:
+しばしば正しい選択：
 
-- lint/test/build wrappers
-- local transforms
-- small installers
-- content generation that runs once per invocation
+- lint/test/build ラッパー
+- ローカル変換
+- 小さな installer
+- 呼び出しごとに一度走るコンテンツ生成
 
-### Direct API Calls
+### 直接 API 呼び出し (Direct API Calls)
 
-Prefer direct API calls inside an existing skill or script when:
+既存 skill または script 内の直接 API を優先する場合：
 
-- the integration is narrow
-- the remote action is part of a larger workflow
-- you do not need a reusable transport surface yet
+- 統合が狭い
+- リモートアクションがより大きなワークフローの一部
+- まだ再利用可能な transport 面が不要
 
-If the same remote integration becomes central, repeated, and multi-client, that is the signal to graduate it into an MCP surface.
+同じリモート統合が中心的で繰り返しでマルチクライアントになるのが、MCP 面へ昇格するシグナル。
 
-## Cost and Reliability Bias
+## コストと信頼性バイアス (Cost and Reliability Bias)
 
-When two options are both viable:
+両方 viable なとき：
 
-- prefer the smaller runtime surface
-- prefer the lower token overhead
-- prefer the path with fewer external moving parts
-- prefer ECC-native packaging over introducing another third-party dependency
+- より小さい runtime 面を優先
+- より低い token オーバーヘッドを優先
+- 外部 moving part が少ない経路を優先
+- 別の第三者依存を導入するより ECC-native packaging を優先
 
-Do not normalize external plugin or package dependencies as first-class ECC surfaces unless the capability is clearly worth the maintenance, security, and install burden.
+capability が明らかに maintenance、security、install 負担に見合う場合を除き、外部 plugin や package 依存を first-class ECC 面として正規化しない。
 
-## Repo Policy
+## リポジトリポリシー (Repo Policy)
 
-When bringing in ideas from external repos:
+外部リポジトリからアイデアを持ち込むとき：
 
-- copy the underlying idea, not the external dependency
-- repackage it as an ECC-native rule, skill, script, or MCP surface
-- rename it if the functionality has been materially expanded or reshaped for ECC
-- avoid shipping instructions that require users to install unrelated third-party packages unless that dependency is intentional, audited, and central to the workflow
+- 外部依存ではなく根本アイデアをコピー
+- ECC-native rule、skill、script、または MCP 面として再パッケージ
+- ECC 向けに実質的に拡張または再形成された場合は改名
+- その依存が意図的で監査済みでワークフローの中心でない限り、無関係な第三者パッケージのインストールを要求する指示を出荷しない
 
-## Examples
+## 例 (Examples)
 
-- A backend auth invariant that should always apply to `api/**` edits:
+- `api/**` 編集に常に適用すべき backend auth 不変条件：
   - `rule`
-- A deeper API design and pagination playbook:
+- より深い API 設計と pagination playbook：
   - `skill`
-- A reusable remote search surface used across multiple harnesses:
+- 複数 harness で使う再利用可能なリモート検索面：
   - `MCP`
-- A one-shot repo analyzer that reads local files and writes a report:
-  - local `CLI` or script, optionally wrapped by a `skill`
-- A single billing-portal session creation step inside a broader customer-ops workflow:
-  - direct `API` call inside the workflow
+- ローカルファイルを読みレポートを書く one-shot repo analyzer：
+  - ローカル `CLI` または script、必要なら `skill` でラップ
+- より広い customer-ops ワークフロー内の単一 billing-portal session 作成ステップ：
+  - ワークフロー内の直接 `API` 呼び出し
 
-## Practical Heuristic
+## 実用ヒューリスティック (Practical Heuristic)
 
-If you are unsure, start smaller:
+不明なら、小さく始める：
 
-- start with a `rule` for deterministic invariants
-- start with a `skill` for guidance/workflow
-- start with a script for one-shot execution
-- promote to `MCP` only when the structured server boundary is clearly paying for itself
+- 決定論的不変条件は `rule` から
+- ガイダンス/ワークフローは `skill` から
+- one-shot 実行は script から
+- structured server 境界が明らかに自分を賄うときだけ `MCP` に昇格

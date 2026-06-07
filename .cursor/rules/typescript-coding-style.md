@@ -1,15 +1,15 @@
 ---
-description: "TypeScript coding style extending common rules"
+description: "TypeScript coding style: common ルールの拡張"
 globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 alwaysApply: false
 ---
-# TypeScript/JavaScript Coding Style
+# TypeScript/JavaScript Coding Style (TypeScript/JavaScript Coding Style)
 
-> This file extends the common coding style rule with TypeScript/JavaScript specific content.
+> このファイルは common coding style ルールを TypeScript/JavaScript 固有の内容で拡張する。
 
-## Immutability
+## 不変性 (Immutability)
 
-Use spread operator for immutable updates:
+不変更新には spread operator を使用:
 
 ```typescript
 // WRONG: Mutation
@@ -27,9 +27,9 @@ function updateUser(user, name) {
 }
 ```
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Use async/await with try-catch:
+async/await と try-catch を使用:
 
 ```typescript
 try {
@@ -41,9 +41,9 @@ try {
 }
 ```
 
-## Input Validation
+## 入力バリデーション (Input Validation)
 
-Use Zod for schema-based validation:
+schema ベースのバリデーションに Zod を使用:
 
 ```typescript
 import { z } from 'zod'
@@ -58,6 +58,6 @@ const validated = schema.parse(input)
 
 ## Console.log
 
-- No `console.log` statements in production code
-- Use proper logging libraries instead
-- See hooks for automatic detection
+- 本番コードに `console.log` 文を置かない
+- 代わりに適切な logging library を使用
+- 自動検出は hooks を参照

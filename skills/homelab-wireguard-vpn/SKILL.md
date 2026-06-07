@@ -4,7 +4,7 @@ description: WireGuard VPN server setup, peer configuration, key generation, spl
 origin: community
 ---
 
-# Homelab WireGuard VPN
+# Homelab WireGuard VPN (Homelab WireGuard VPN)
 
 WireGuard is a fast, modern VPN protocol. It is the right choice for remote access to a
 home network — simpler to configure than OpenVPN and faster than most alternatives.
@@ -13,7 +13,7 @@ All configuration examples show common setups. Review each command — especiall
 iptables forwarding rules and key file permissions — before applying them to your
 system, and make changes in a maintenance window.
 
-## When to Use
+## When to Use (When to Use)
 
 - Setting up WireGuard server on a Raspberry Pi, Linux host, pfSense, or router
 - Generating WireGuard keypairs and writing peer config files
@@ -22,7 +22,7 @@ system, and make changes in a maintenance window.
 - Troubleshooting WireGuard connections that will not come up
 - Automating peer configuration generation for multiple clients
 
-## How WireGuard Works
+## How WireGuard Works (How WireGuard Works)
 
 ```
 Your phone (WireGuard client)
@@ -39,7 +39,7 @@ The client knows the server's public key + endpoint (IP:port).
 Traffic is encrypted end-to-end with no central server or certificate authority.
 ```
 
-## Server Setup (Linux)
+## Server Setup (Server Setup)
 
 ```bash
 # Install WireGuard
@@ -90,7 +90,7 @@ sudo wg-quick up wg0
 sudo systemctl enable wg-quick@wg0
 ```
 
-## Client Configuration
+## Client Configuration (Client Configuration)
 
 ```bash
 # Generate a unique keypair for each client device
@@ -113,7 +113,7 @@ AllowedIPs = 192.168.1.0/24            # Split tunnel: only home network traffic
 PersistentKeepalive = 25              # Keep NAT hole open (required for mobile clients)
 ```
 
-## Split Tunnel vs Full Tunnel
+## Split Tunnel vs Full Tunnel (Split Tunnel vs Full Tunnel)
 
 ```
 # Split tunnel: AllowedIPs = 192.168.1.0/24
@@ -131,7 +131,7 @@ PersistentKeepalive = 25              # Keep NAT hole open (required for mobile 
   Routes all your VLANs through the tunnel; internet stays direct.
 ```
 
-## Key Generation and Peer Management
+## Key Generation and Peer Management (Key Generation and Peer Management)
 
 ```python
 import subprocess
@@ -183,7 +183,7 @@ AllowedIPs = {client_vpn_ip}/32
 Keep private keys out of source control. If you use this script, write key material
 to files with mode 600 and never log or print it.
 
-## pfSense / OPNsense WireGuard
+## pfSense / OPNsense WireGuard (pfSense / OPNsense WireGuard)
 
 ```
 # pfSense: VPN → WireGuard → Add Tunnel
@@ -204,7 +204,7 @@ to files with mode 600 and never log or print it.
   WireGuard interface → Allow traffic to LAN networks you want reachable
 ```
 
-## DDNS (Dynamic DNS) for Home Servers
+## DDNS (Dynamic DNS) for Home Servers (DDNS (Dynamic DNS) for Home Servers)
 
 Most home internet connections have a dynamic IP. Use DDNS so your VPN endpoint
 stays reachable after an IP change.
@@ -239,7 +239,7 @@ stays reachable after an IP change.
   */5 * * * * /usr/local/bin/update-duckdns >/dev/null 2>&1
 ```
 
-## Troubleshooting
+## トラブルシューティング (Troubleshooting) (Troubleshooting)
 
 ```bash
 # Check WireGuard status and last handshake
@@ -266,7 +266,7 @@ dmesg | grep wireguard
 sudo wg-quick down wg0 && sudo wg-quick up wg0
 ```
 
-## Anti-Patterns
+## Anti-Patterns (Anti-Patterns)
 
 ```
 # BAD: Storing private keys in version control or sharing them
@@ -288,7 +288,7 @@ sudo wg-quick down wg0 && sudo wg-quick up wg0
 # Scope forwarding rules to the wg0 interface and direction only
 ```
 
-## Best Practices
+## Best Practices (Best Practices)
 
 - Generate a unique keypair per client device — never reuse keys
 - Use split tunneling (`AllowedIPs = <home subnets>`) for mobile
@@ -298,7 +298,7 @@ sudo wg-quick down wg0 && sudo wg-quick up wg0
 - Add Pi-hole's IP as `DNS =` in client configs to get ad blocking over the VPN
 - Rotate the server keypair periodically and update all client configs
 
-## Related Skills
+## Related Skills (Related Skills)
 
 - homelab-network-setup
 - homelab-vlan-segmentation

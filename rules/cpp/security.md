@@ -8,44 +8,44 @@ paths:
   - "**/*.h"
   - "**/CMakeLists.txt"
 ---
-# C++ Security
+# C++ セキュリティ (C++ Security)
 
-> This file extends [common/security.md](../common/security.md) with C++ specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、C++ 固有の内容を追加する。
 
-## Memory Safety
+## メモリ安全性 (Memory Safety)
 
-- Never use raw `new`/`delete` — use smart pointers
-- Never use C-style arrays — use `std::array` or `std::vector`
-- Never use `malloc`/`free` — use C++ allocation
-- Avoid `reinterpret_cast` unless absolutely necessary
+- 生の `new`/`delete` は使わない — smart pointer を使う
+- C スタイル配列は使わない — `std::array` または `std::vector` を使う
+- `malloc`/`free` は使わない — C++ の割り当てを使う
+- 絶対に必要な場合以外は `reinterpret_cast` を避ける
 
-## Buffer Overflows
+## バッファオーバーフロー (Buffer Overflows)
 
-- Use `std::string` over `char*`
-- Use `.at()` for bounds-checked access when safety matters
-- Never use `strcpy`, `strcat`, `sprintf` — use `std::string` or `fmt::format`
+- `char*` より `std::string` を使う
+- 安全性が重要な場合は境界チェック付きアクセスに `.at()` を使う
+- `strcpy`、`strcat`、`sprintf` は使わない — `std::string` または `fmt::format` を使う
 
-## Undefined Behavior
+## 未定義動作 (Undefined Behavior)
 
-- Always initialize variables
-- Avoid signed integer overflow
-- Never dereference null or dangling pointers
-- Use sanitizers in CI:
+- 変数は必ず初期化する
+- 符号付き整数のオーバーフローを避ける
+- null または dangling pointer を dereference しない
+- CI で sanitizer を使う:
   ```bash
   cmake -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined" ..
   ```
 
-## Static Analysis
+## 静的解析 (Static Analysis)
 
-- Use **clang-tidy** for automated checks:
+- 自動チェックに **clang-tidy** を使う:
   ```bash
   clang-tidy --checks='*' src/*.cpp
   ```
-- Use **cppcheck** for additional analysis:
+- 追加解析に **cppcheck** を使う:
   ```bash
   cppcheck --enable=all src/
   ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `cpp-coding-standards` for detailed security guidelines.
+詳細なセキュリティガイドラインについては skill: `cpp-coding-standards` を参照。

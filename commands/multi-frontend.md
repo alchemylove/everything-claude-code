@@ -1,37 +1,37 @@
 ---
-description: Run a frontend-focused multi-model workflow for components, layouts, animation, and UI polish.
+description: コンポーネント、レイアウト、アニメーション、UI仕上げ向けのフロントエンド中心マルチモデルワークフローを実行します。
 ---
 
-# Frontend - Frontend-Focused Development
+# Frontend - フロントエンド中心の開発 (Frontend-Focused Development)
 
-Frontend-focused workflow (Research → Ideation → Plan → Execute → Optimize → Review), Gemini-led.
+フロントエンド中心のワークフロー（Research → Ideation → Plan → Execute → Optimize → Review）、Gemini主導。
 
-## Usage
+## 使い方 (Usage)
 
 ```bash
 /frontend <UI task description>
 ```
 
-## Context
+## コンテキスト (Context)
 
-- Frontend task: $ARGUMENTS
-- Gemini-led, Codex for auxiliary reference
-- Applicable: Component design, responsive layout, UI animations, style optimization
+- フロントエンドタスク: $ARGUMENTS
+- Gemini主導、Codexは補助的な参照用
+- 適用範囲: コンポーネント設計、レスポンシブレイアウト、UIアニメーション、スタイル最適化
 
-## Your Role
+## 役割 (Your Role)
 
-You are the **Frontend Orchestrator**, coordinating multi-model collaboration for UI/UX tasks (Research → Ideation → Plan → Execute → Optimize → Review).
+あなたは**フロントエンドオーケストレーター**として、UI/UXタスクのためのマルチモデル連携を調整します（Research → Ideation → Plan → Execute → Optimize → Review）。
 
-**Collaborative Models**:
-- **Gemini** – Frontend UI/UX (**Frontend authority, trustworthy**)
-- **Codex** – Backend perspective (**Frontend opinions for reference only**)
-- **Claude (self)** – Orchestration, planning, execution, delivery
+**連携モデル (Collaborative Models)**:
+- **Gemini** – フロントエンドUI/UX（**フロントエンドの権威、信頼できる**）
+- **Codex** – バックエンドの視点（**フロントエンドの意見は参考のみ**）
+- **Claude (self)** – オーケストレーション、計画、実装、配信
 
 ---
 
-## Multi-Model Call Specification
+## マルチモデル呼び出し仕様 (Multi-Model Call Specification)
 
-**Call Syntax**:
+**呼び出し構文 (Call Syntax)**:
 
 ```
 # New session call
@@ -65,98 +65,98 @@ EOF",
 })
 ```
 
-**Role Prompts**:
+**ロールプロンプト (Role Prompts)**:
 
-| Phase | Gemini |
+| フェーズ | Gemini |
 |-------|--------|
-| Analysis | `~/.claude/.ccg/prompts/gemini/analyzer.md` |
-| Planning | `~/.claude/.ccg/prompts/gemini/architect.md` |
-| Review | `~/.claude/.ccg/prompts/gemini/reviewer.md` |
+| 分析 | `~/.claude/.ccg/prompts/gemini/analyzer.md` |
+| 計画 | `~/.claude/.ccg/prompts/gemini/architect.md` |
+| レビュー | `~/.claude/.ccg/prompts/gemini/reviewer.md` |
 
-**Session Reuse**: Each call returns `SESSION_ID: xxx`, use `resume xxx` for subsequent phases. Save `GEMINI_SESSION` in Phase 2, use `resume` in Phases 3 and 5.
-
----
-
-## Communication Guidelines
-
-1. Start responses with mode label `[Mode: X]`, initial is `[Mode: Research]`
-2. Follow strict sequence: `Research → Ideation → Plan → Execute → Optimize → Review`
-3. Use `AskUserQuestion` tool for user interaction when needed (e.g., confirmation/selection/approval)
+**セッション再利用 (Session Reuse)**: 各呼び出しは`SESSION_ID: xxx`を返します。後続のフェーズでは`resume xxx`を使用してください。フェーズ2で`GEMINI_SESSION`を保存し、フェーズ3と5で`resume`を使用します。
 
 ---
 
-## Core Workflow
+## コミュニケーションガイドライン (Communication Guidelines)
 
-### Phase 0: Prompt Enhancement (Optional)
+1. レスポンスの開始時にモードラベル`[Mode: X]`を付ける、初期は`[Mode: Research]`
+2. 厳格な順序に従う: `Research → Ideation → Plan → Execute → Optimize → Review`
+3. 必要に応じて`AskUserQuestion`ツールを使用してユーザーとやり取りする（例: 確認/選択/承認）
 
-`[Mode: Prepare]` - If ace-tool MCP available, call `mcp__ace-tool__enhance_prompt`, **replace original $ARGUMENTS with enhanced result for subsequent Gemini calls**. If unavailable, use `$ARGUMENTS` as-is.
+---
 
-### Phase 1: Research
+## コアワークフロー (Core Workflow)
 
-`[Mode: Research]` - Understand requirements and gather context
+### フェーズ 0: プロンプト強化 (Prompt Enhancement (Optional))
 
-1. **Code Retrieval** (if ace-tool MCP available): Call `mcp__ace-tool__search_context` to retrieve existing components, styles, design system. If unavailable, use built-in tools: `Glob` for file discovery, `Grep` for component/style search, `Read` for context gathering, `Task` (Explore agent) for deeper exploration.
-2. Requirement completeness score (0-10): >=7 continue, <7 stop and supplement
+`[Mode: Prepare]` - ace-tool MCPが利用可能な場合、`mcp__ace-tool__enhance_prompt`を呼び出し、**後続のGemini呼び出しのために元の$ARGUMENTSを強化結果で置き換える**。利用できない場合は`$ARGUMENTS`をそのまま使用。
 
-### Phase 2: Ideation
+### フェーズ 1: 調査 (Research)
 
-`[Mode: Ideation]` - Gemini-led analysis
+`[Mode: Research]` - 要件の理解とコンテキストの収集
 
-**MUST call Gemini** (follow call specification above):
+1. **コード取得 (Code Retrieval)**（ace-tool MCPが利用可能な場合）: `mcp__ace-tool__search_context`を呼び出して既存のコンポーネント、スタイル、デザインシステムを取得。利用できない場合は組み込みツールを使用: `Glob`でファイル検索、`Grep`でコンポーネント/スタイル検索、`Read`でコンテキスト収集、`Task`（Explore agent）でより深い探索。
+2. 要件の完全性スコア（0-10）: >=7で継続、<7で停止して補足
+
+### フェーズ 2: アイデア創出 (Ideation)
+
+`[Mode: Ideation]` - Gemini主導の分析
+
+**Geminiを呼び出す必要があります**（上記の呼び出し仕様に従う）:
 - ROLE_FILE: `~/.claude/.ccg/prompts/gemini/analyzer.md`
-- Requirement: Enhanced requirement (or $ARGUMENTS if not enhanced)
-- Context: Project context from Phase 1
-- OUTPUT: UI feasibility analysis, recommended solutions (at least 2), UX evaluation
+- Requirement: 強化された要件（または強化されていない場合は$ARGUMENTS）
+- Context: フェーズ1からのプロジェクトコンテキスト
+- OUTPUT: UIの実現可能性分析、推奨ソリューション（少なくとも2つ）、UX評価
 
-**Save SESSION_ID** (`GEMINI_SESSION`) for subsequent phase reuse.
+**SESSION_ID**（`GEMINI_SESSION`）を保存して後続のフェーズで再利用します。
 
-Output solutions (at least 2), wait for user selection.
+ソリューション（少なくとも2つ）を出力し、ユーザーの選択を待ちます。
 
-### Phase 3: Planning
+### フェーズ 3: 計画 (Planning)
 
-`[Mode: Plan]` - Gemini-led planning
+`[Mode: Plan]` - Gemini主導の計画
 
-**MUST call Gemini** (use `resume <GEMINI_SESSION>` to reuse session):
+**Geminiを呼び出す必要があります**（`resume <GEMINI_SESSION>`を使用してセッションを再利用）:
 - ROLE_FILE: `~/.claude/.ccg/prompts/gemini/architect.md`
-- Requirement: User's selected solution
-- Context: Analysis results from Phase 2
-- OUTPUT: Component structure, UI flow, styling approach
+- Requirement: ユーザーが選択したソリューション
+- Context: フェーズ2からの分析結果
+- OUTPUT: コンポーネント構造、UIフロー、スタイリングアプローチ
 
-Claude synthesizes plan, save to `.claude/plan/task-name.md` after user approval.
+Claudeが計画を統合し、ユーザーの承認後に`.claude/plan/task-name.md`に保存します。
 
-### Phase 4: Implementation
+### フェーズ 4: 実装 (Implementation)
 
-`[Mode: Execute]` - Code development
+`[Mode: Execute]` - コード開発
 
-- Strictly follow approved plan
-- Follow existing project design system and code standards
-- Ensure responsiveness, accessibility
+- 承認された計画に厳密に従う
+- 既存プロジェクトのデザインシステムとコード標準に従う
+- レスポンシブ性、アクセシビリティを保証
 
-### Phase 5: Optimization
+### フェーズ 5: 最適化 (Optimization)
 
-`[Mode: Optimize]` - Gemini-led review
+`[Mode: Optimize]` - Gemini主導のレビュー
 
-**MUST call Gemini** (follow call specification above):
+**Geminiを呼び出す必要があります**（上記の呼び出し仕様に従う）:
 - ROLE_FILE: `~/.claude/.ccg/prompts/gemini/reviewer.md`
 - Requirement: Review the following frontend code changes
 - Context: git diff or code content
 - OUTPUT: Accessibility, responsiveness, performance, design consistency issues list
 
-Integrate review feedback, execute optimization after user confirmation.
+レビューフィードバックを統合し、ユーザー確認後に最適化を実行します。
 
-### Phase 6: Quality Review
+### フェーズ 6: 品質レビュー (Quality Review)
 
-`[Mode: Review]` - Final evaluation
+`[Mode: Review]` - 最終評価
 
-- Check completion against plan
-- Verify responsiveness and accessibility
-- Report issues and recommendations
+- 計画に対する完成度をチェック
+- レスポンシブ性とアクセシビリティを検証
+- 問題と推奨事項を報告
 
 ---
 
-## Key Rules
+## 重要なルール (Key Rules)
 
-1. **Gemini frontend opinions are trustworthy**
-2. **Codex frontend opinions for reference only**
-3. External models have **zero filesystem write access**
-4. Claude handles all code writes and file operations
+1. **Geminiのフロントエンド意見は信頼できる**
+2. **Codexのフロントエンド意見は参考のみ**
+3. 外部モデルは**ファイルシステムへの書き込みアクセスがゼロ**
+4. Claudeがすべてのコード書き込みとファイル操作を処理

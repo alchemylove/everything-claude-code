@@ -3,22 +3,22 @@ paths:
   - "**/*.spec.ts"
   - "**/*.test.ts"
 ---
-# Angular Testing
+# Angular テスト (Angular Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Angular specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Angular 固有の内容を追加する。
 
-## Test Runner
+## テストランナー (Test Runner)
 
-Use the test runner configured by the project. Check `angular.json` and `package.json`; Angular projects commonly use Vitest, Jest, or Jasmine + Karma.
+プロジェクトで設定されているテストランナーを使用してください。`angular.json` と `package.json` を確認してください。Angular プロジェクトでは一般的に Vitest、Jest、または Jasmine + Karma が使用されます。
 
 ```bash
-ng test               # watch mode
-ng test --no-watch    # CI mode
+ng test               # ウォッチモード
+ng test --no-watch    # CI モード
 ```
 
-## TestBed Setup
+## TestBed セットアップ (TestBed Setup)
 
-For standalone components, import the component directly. Call `compileComponents()` for components with external templates.
+スタンドアロンコンポーネントの場合、コンポーネントを直接インポートします。外部テンプレートを持つコンポーネントには `compileComponents()` を呼び出してください。
 
 ```typescript
 describe('UserCardComponent', () => {
@@ -34,18 +34,18 @@ describe('UserCardComponent', () => {
 });
 ```
 
-## Signal Inputs
+## シグナル入力 (Signal Inputs)
 
-Set signal-based inputs via `fixture.componentRef.setInput()`:
+シグナルベースの入力は `fixture.componentRef.setInput()` で設定します:
 
 ```typescript
 fixture.componentRef.setInput('user', mockUser);
 fixture.detectChanges();
 ```
 
-## Component Harnesses
+## コンポーネントハーネス (Component Harnesses)
 
-Prefer Angular CDK component harnesses over direct DOM queries for UI interaction. Harnesses are more resilient to markup changes.
+UI インタラクションには直接の DOM クエリよりも Angular CDK コンポーネントハーネスを優先してください。ハーネスはマークアップの変更に対してより耐性があります。
 
 ```typescript
 import { HarnessLoader } from '@angular/cdk/testing';
@@ -65,9 +65,9 @@ it('triggers save on button click', async () => {
 });
 ```
 
-## Router Testing
+## ルーターテスト (Router Testing)
 
-Use `RouterTestingHarness` for components that depend on the router:
+ルーターに依存するコンポーネントには `RouterTestingHarness` を使用してください:
 
 ```typescript
 import { RouterTestingHarness } from '@angular/router/testing';
@@ -79,9 +79,9 @@ it('renders user on navigation', async () => {
 });
 ```
 
-## Async Testing
+## 非同期テスト (Async Testing)
 
-Use `fakeAsync` + `tick` for controlled async. Use `waitForAsync` for real async with `fixture.whenStable()`.
+制御された非同期には `fakeAsync` + `tick` を使用してください。実際の非同期には `waitForAsync` と `fixture.whenStable()` を使用してください。
 
 ```typescript
 it('loads user after delay', fakeAsync(() => {
@@ -96,7 +96,7 @@ it('loads user after delay', fakeAsync(() => {
 }));
 ```
 
-## HTTP Testing
+## HTTP テスト (HTTP Testing)
 
 ```typescript
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -112,9 +112,9 @@ beforeEach(() => {
 afterEach(() => httpMock.verify());
 ```
 
-## Service Testing
+## サービステスト (Service Testing)
 
-Inject services directly without a component fixture:
+コンポーネントフィクスチャなしでサービスを直接注入します:
 
 ```typescript
 describe('UserService', () => {
@@ -129,16 +129,16 @@ describe('UserService', () => {
 });
 ```
 
-## What to Test
+## テスト対象 (What to Test)
 
-- **Services**: All public methods, error paths, HTTP interactions
-- **Components**: Input/output bindings, rendered output for key states, user interactions via harnesses
-- **Pipes**: Pure transformation — plain unit tests, no TestBed needed
-- **Guards/Resolvers**: Return values for allowed and denied states using `RouterTestingHarness`
+- **サービス**: すべてのパブリックメソッド、エラーパス、HTTP インタラクション
+- **コンポーネント**: 入力/出力バインディング、主要な状態のレンダリング結果、ハーネスを使用したユーザーインタラクション
+- **パイプ**: 純粋な変換 — TestBed 不要のプレーンなユニットテスト
+- **ガード/リゾルバ**: `RouterTestingHarness` を使用した許可および拒否状態の戻り値
 
-## E2E Testing
+## E2E テスト (E2E Testing)
 
-Use the project's configured E2E framework, such as Cypress or Playwright, for critical user flows.
+重要なユーザーフローには、Cypress や Playwright などプロジェクトで設定されている E2E フレームワークを使用してください。
 
 ```typescript
 describe('Login flow', () => {
@@ -152,13 +152,13 @@ describe('Login flow', () => {
 });
 ```
 
-- Add `data-cy` attributes to interactive elements for stable selectors
-- Do not rely on CSS classes or text content for selectors in E2E tests
+- 安定したセレクタのためにインタラクティブ要素に `data-cy` 属性を追加
+- E2E テストでセレクタに CSS クラスやテキストコンテンツに依存しない
 
-## Coverage
+## カバレッジ (Coverage)
 
-Target ≥80% for services and pipes. Components: test behaviour, not implementation details.
+サービスとパイプのカバレッジは80%以上を目標にしてください。コンポーネント: 実装の詳細ではなく、振る舞いをテストしてください。
 
-## Skill Reference
+## スキルリファレンス (Skill Reference)
 
-See skill: `angular-developer` for comprehensive testing patterns, harness usage, and async best practices.
+包括的なテストパターン、ハーネスの使用法、非同期のベストプラクティスについては、スキル: `angular-developer` を参照してください。

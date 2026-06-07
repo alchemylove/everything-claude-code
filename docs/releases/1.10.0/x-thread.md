@@ -1,18 +1,18 @@
-# X Thread Draft — ECC v1.10.0
+# X スレッドドラフト — ECC v1.10.0 (X Thread Draft — ECC v1.10.0)
 
-ECC crossed 140K stars and the public surface had drifted too far from the actual repo.
+ECC は14万スターを超え、公開面が実際のリポジトリから大きく乖離していました。
 
-so v1.10.0 is the sync release.
+だから v1.10.0 は sync リリースです。
 
 38 agents
 156 skills
 72 commands
 
-plugin metadata fixed
-install surfaces corrected
-docs and release story brought back in line with the live repo
+plugin metadata を修正
+install 面を修正
+docs とリリースストーリーをライブリポジトリに再整合
 
-also shipped the operator / media lane that grew out of real usage:
+また、実利用から成長した operator / media lane も出荷しました：
 
 - brand-voice
 - social-graph-ranker
@@ -24,11 +24,11 @@ also shipped the operator / media lane that grew out of real usage:
 - manim-video
 - remotion-video-creation
 
-and most importantly:
+そして最も重要なこと：
 
-ECC 2.0 is no longer just roadmap talk.
+ECC 2.0 はもう roadmap の話だけではありません。
 
-the `ecc2/` control-plane alpha is in-tree, builds today, and already exposes:
+`ecc2/` control-plane alpha が in-tree にあり、今日ビルドでき、すでに次を公開しています：
 
 - dashboard
 - start
@@ -38,8 +38,8 @@ the `ecc2/` control-plane alpha is in-tree, builds today, and already exposes:
 - resume
 - daemon
 
-not calling it GA yet.
+まだ GA と呼びません。
 
-calling it what it is:
+実態をそのまま呼びます：
 
-an actual alpha control plane sitting on top of the harness/workflow layer we’ve been building in public.
+公開で構築してきた harness/workflow レイヤーの上に乗る、実際の alpha control plane です。

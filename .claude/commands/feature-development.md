@@ -1,38 +1,38 @@
 ---
 name: feature-development
-description: Workflow command scaffold for feature-development in everything-claude-code.
+description: everything-claude-code における feature-development 向けワークフローコマンドの雛形。
 allowed_tools: ["Bash", "Read", "Write", "Grep", "Glob"]
 ---
 
 # /feature-development
 
-Use this workflow when working on **feature-development** in `everything-claude-code`.
+`everything-claude-code` で **feature-development** に取り組むときはこのワークフローを使う。
 
-## Goal
+## 目的 (Goal)
 
-Standard feature implementation workflow
+標準的な機能実装ワークフロー
 
-## Common Files
+## よく使うファイル (Common Files)
 
 - `manifests/*`
 - `schemas/*`
 - `**/*.test.*`
 - `**/api/**`
 
-## Suggested Sequence
+## 推奨手順 (Suggested Sequence)
 
-1. Understand the current state and failure mode before editing.
-2. Make the smallest coherent change that satisfies the workflow goal.
-3. Run the most relevant verification for touched files.
-4. Summarize what changed and what still needs review.
+1. 編集前に現状と失敗モードを把握する。
+2. ワークフローの目的を満たす最小の一貫した変更を行う。
+3. 変更したファイルに最も関連する検証を実行する。
+4. 何を変更したか、何がまだレビュー待ちかを要約する。
 
-## Typical Commit Signals
+## 典型的なコミットシグナル (Typical Commit Signals)
 
-- Add feature implementation
-- Add tests for feature
-- Update documentation
+- 機能実装を追加
+- 機能のテストを追加
+- ドキュメントを更新
 
-## Notes
+## 注意事項 (Notes)
 
-- Treat this as a scaffold, not a hard-coded script.
-- Update the command if the workflow evolves materially.
+- これは雛形であり、ハードコードされたスクリプトではない。
+- ワークフローが大きく変わったらコマンドを更新する。

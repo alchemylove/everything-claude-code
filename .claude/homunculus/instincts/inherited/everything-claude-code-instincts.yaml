@@ -1,5 +1,5 @@
-# Curated instincts for affaan-m/everything-claude-code
-# Import with: /instinct-import .claude/homunculus/instincts/inherited/everything-claude-code-instincts.yaml
+# affaan-m/everything-claude-code 向けにキュレーションされた instinct
+# インポート: /instinct-import .claude/homunculus/instincts/inherited/everything-claude-code-instincts.yaml
 
 ---
 id: everything-claude-code-conventional-commits
@@ -12,14 +12,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Conventional Commits
 
-## Action
+## アクション (Action)
 
-Use conventional commit prefixes such as `feat:`, `fix:`, `docs:`, `test:`, `chore:`, and `refactor:`.
+`feat:`、`fix:`、`docs:`、`test:`、`chore:`、`refactor:` などの Conventional Commits プレフィックスを使用する。
 
-## Evidence
+## 根拠 (Evidence)
 
-- Mainline history consistently uses conventional commit subjects.
-- Release and changelog automation expect readable commit categorization.
+- mainline の履歴は一貫して conventional commit の件名を使用している。
+- リリースと changelog の自動化は、読みやすいコミット分類を前提としている。
 
 ---
 id: everything-claude-code-commit-length
@@ -32,14 +32,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Commit Length
 
-## Action
+## アクション (Action)
 
-Keep commit subjects concise and close to the repository norm of about 70 characters.
+コミット件名は簡潔に保ち、リポジトリの規範である約 70 文字に近づける。
 
-## Evidence
+## 根拠 (Evidence)
 
-- Recent history clusters around ~70 characters, not ~50.
-- Short, descriptive subjects read well in release notes and PR summaries.
+- 最近の履歴は ~50 ではなく ~70 文字付近に集中している。
+- 短く説明的な件名は、リリースノートと PR サマリーで読みやすい。
 
 ---
 id: everything-claude-code-js-file-naming
@@ -52,14 +52,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code JS File Naming
 
-## Action
+## アクション (Action)
 
-Prefer camelCase for JavaScript and TypeScript module filenames, and keep skill or command directories in kebab-case.
+JavaScript と TypeScript のモジュールファイル名は camelCase を優先し、skill や command のディレクトリは kebab-case を維持する。
 
-## Evidence
+## 根拠 (Evidence)
 
-- `scripts/` and test helpers mostly use camelCase module names.
-- `skills/` and `commands/` directories use kebab-case consistently.
+- `scripts/` とテストヘルパーは主に camelCase のモジュール名を使用している。
+- `skills/` と `commands/` のディレクトリは一貫して kebab-case を使用している。
 
 ---
 id: everything-claude-code-test-runner
@@ -72,14 +72,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Test Runner
 
-## Action
+## アクション (Action)
 
-Use the repository's existing Node-based test flow: targeted `*.test.js` files first, then `node tests/run-all.js` or `npm test` for broader verification.
+リポジトリ既存の Node ベースのテストフローを使用する。まず対象の `*.test.js` を実行し、広範な検証には `node tests/run-all.js` または `npm test` を使う。
 
-## Evidence
+## 根拠 (Evidence)
 
-- The repo uses `tests/run-all.js` as the central test orchestrator.
-- Test files follow the `*.test.js` naming pattern across hook, CI, and integration coverage.
+- リポジトリは `tests/run-all.js` を中央のテストオーケストレーターとして使用している。
+- テストファイルは hook、CI、integration カバレッジ全体で `*.test.js` 命名に従っている。
 
 ---
 id: everything-claude-code-hooks-change-set
@@ -92,14 +92,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Hooks Change Set
 
-## Action
+## アクション (Action)
 
-Update the hook script, its configuration, its tests, and its user-facing documentation together.
+フックスクリプト、設定、テスト、ユーザー向けドキュメントをまとめて更新する。
 
-## Evidence
+## 根拠 (Evidence)
 
-- Hook fixes routinely span `hooks/hooks.json`, `scripts/hooks/`, `tests/hooks/`, `tests/integration/`, and `hooks/README.md`.
-- Partial hook changes are a common source of regressions and stale docs.
+- フック修正は `hooks/hooks.json`、`scripts/hooks/`、`tests/hooks/`、`tests/integration/`、`hooks/README.md` にまたがるのが通常である。
+- フック変更の一部だけを入れると、回帰と古いドキュメントの原因になりやすい。
 
 ---
 id: everything-claude-code-cross-platform-sync
@@ -112,14 +112,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Cross Platform Sync
 
-## Action
+## アクション (Action)
 
-Treat the root repo as the source of truth, then mirror shipped changes to `.cursor/`, `.codex/`, `.opencode/`, and `.agents/` only where the feature actually exists.
+ルートリポジトリを正とし、機能が実際に存在する範囲でのみ `.cursor/`、`.codex/`、`.opencode/`、`.agents/` へミラーリングする。
 
-## Evidence
+## 根拠 (Evidence)
 
-- ECC maintains multiple harness-specific surfaces with overlapping but not identical files.
-- The safest workflow is root-first followed by explicit parity updates.
+- ECC は重複するが同一ではないファイルを持つ複数の harness 向けサーフェスを維持している。
+- 最も安全なワークフローは、ルートファーストの後に明示的なパリティ更新を行うことである。
 
 ---
 id: everything-claude-code-release-sync
@@ -132,14 +132,14 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Release Sync
 
-## Action
+## アクション (Action)
 
-Keep package versions, plugin manifests, and release-facing docs synchronized before publishing.
+公開前に package のバージョン、plugin manifest、リリース向けドキュメントを同期する。
 
-## Evidence
+## 根拠 (Evidence)
 
-- Release work spans `package.json`, `.claude-plugin/*`, `.opencode/package.json`, and release-note content.
-- Version drift causes broken update paths and confusing install surfaces.
+- リリース作業は `package.json`、`.claude-plugin/*`、`.opencode/package.json`、リリースノートにまたがる。
+- バージョンのずれは、壊れた更新パスと混乱するインストールサーフェスの原因になる。
 
 ---
 id: everything-claude-code-learning-curation
@@ -152,11 +152,11 @@ source_repo: affaan-m/everything-claude-code
 
 # Everything Claude Code Learning Curation
 
-## Action
+## アクション (Action)
 
-Prefer a small set of accurate instincts over bulk-generated, duplicated, or contradictory instincts.
+一括生成された重複や矛盾する instinct より、少数の正確な instinct を優先する。
 
-## Evidence
+## 根拠 (Evidence)
 
-- Auto-generated instinct dumps can duplicate rules, widen triggers too far, or preserve placeholder detector output.
-- Curated instincts are easier to import, audit, and trust during continuous-learning workflows.
+- 自動生成された instinct のダンプは、ルールの重複、トリガーの過拡張、プレースホルダー検出結果の残留を招きうる。
+- キュレーションされた instinct の方が、continuous-learning ワークフローでインポート、監査、信頼しやすい。

@@ -1,14 +1,14 @@
-> This file extends [common/hooks.md](../common/hooks.md) with web-specific hook recommendations.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Web 固有のフック推奨事項の内容を追加する。
 
-# Web Hooks
+# Web フック (Web Hooks)
 
-## Recommended PostToolUse Hooks
+## 推奨 PostToolUse フック (Recommended PostToolUse Hooks)
 
-Prefer project-local tooling. Do not wire hooks to remote one-off package execution.
+プロジェクトローカルのツールを優先する。リモートの使い捨てパッケージ実行にフックを接続しない。
 
-### Format on Save
+### 保存時フォーマット (Format on Save)
 
-Use the project's existing formatter entrypoint after edits:
+編集後にプロジェクトの既存フォーマッタエントリポイントを使用する:
 
 ```json
 {
@@ -24,9 +24,9 @@ Use the project's existing formatter entrypoint after edits:
 }
 ```
 
-Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine when they use repo-owned dependencies.
+`yarn prettier` や `npm exec prettier --` による同等のローカルコマンドも、リポジトリが所有する依存関係を使用する場合は問題ない。
 
-### Lint Check
+### リントチェック (Lint Check)
 
 ```json
 {
@@ -42,9 +42,9 @@ Equivalent local commands via `yarn prettier` or `npm exec prettier --` are fine
 }
 ```
 
-### Type Check
+### 型チェック (Type Check)
 
-Use `--incremental` so re-runs reuse the previous `.tsbuildinfo` (1-3s on unchanged code instead of 30-60s every time). Wrap in `timeout` so a stuck tsc gets reaped by the OS instead of accumulating across edits — this prevents the multi-process buildup that happens when edits fire faster than tsc finishes.
+`--incremental` を使用して再実行時に前回の `.tsbuildinfo` を再利用する（変更のないコードでは30-60秒ではなく1-3秒）。`timeout` でラップして、停止した tsc が OS によって回収されるようにする — これにより、編集が tsc の完了よりも速く発生した場合のマルチプロセス蓄積を防止する。
 
 ```json
 {
@@ -60,14 +60,14 @@ Use `--incremental` so re-runs reuse the previous `.tsbuildinfo` (1-3s on unchan
 }
 ```
 
-**Why both flags matter:**
-- Without `--incremental`, every edit re-checks the entire program from scratch. On a real Next.js project this stacks fast: edits at 5-10s intervals + 30-60s tsc runs = N concurrent tsc processes.
-- Without `timeout`, a tsc that hangs (transitive dep change, type-checker stuck on a recursive type) never exits and orphans when the parent shell does.
-- `--tsBuildInfoFile` is required because `--noEmit` normally suppresses the buildinfo write; specifying the path explicitly keeps incremental working.
+**両方のフラグが重要な理由 (Why both flags matter):**
+- `--incremental` なしでは、すべての編集でプログラム全体をゼロから再チェックする。実際の Next.js プロジェクトでは、これが急速に積み重なる: 5-10秒間隔の編集 + 30-60秒の tsc 実行 = N個の並行 tsc プロセス。
+- `timeout` なしでは、ハングした tsc（推移的依存関係の変更、再帰型で停止した型チェッカー）は終了せず、親シェルが終了したときに孤児になる。
+- `--tsBuildInfoFile` が必要なのは、`--noEmit` が通常 buildinfo の書き込みを抑制するため。パスを明示的に指定することでインクリメンタルが機能し続ける。
 
-If you're on Windows without GNU coreutils, swap `timeout 60` for a PowerShell wrapper or rely on a Stop/SessionEnd hook to sweep stale tsc processes.
+Windows で GNU coreutils がない場合は、`timeout 60` を PowerShell ラッパーに置き換えるか、Stop/SessionEnd フックに頼って停滞した tsc プロセスを掃除する。
 
-### CSS Lint
+### CSS リント (CSS Lint)
 
 ```json
 {
@@ -83,11 +83,11 @@ If you're on Windows without GNU coreutils, swap `timeout 60` for a PowerShell w
 }
 ```
 
-## PreToolUse Hooks
+## PreToolUse フック (PreToolUse Hooks)
 
-### Guard File Size
+### ファイルサイズガード (Guard File Size)
 
-Block oversized writes from tool input content, not from a file that may not exist yet:
+まだ存在しない可能性のあるファイルからではなく、ツール入力コンテンツからの巨大な書き込みをブロックする:
 
 ```json
 {
@@ -103,9 +103,9 @@ Block oversized writes from tool input content, not from a file that may not exi
 }
 ```
 
-## Stop Hooks
+## Stop フック (Stop Hooks)
 
-### Final Build Verification
+### 最終ビルド検証 (Final Build Verification)
 
 ```json
 {
@@ -120,10 +120,10 @@ Block oversized writes from tool input content, not from a file that may not exi
 }
 ```
 
-## Ordering
+## 順序 (Ordering)
 
-Recommended order:
-1. format
-2. lint
-3. type check
-4. build verification
+推奨順序:
+1. フォーマット
+2. リント
+3. 型チェック
+4. ビルド検証

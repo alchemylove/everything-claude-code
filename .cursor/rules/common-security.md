@@ -1,33 +1,33 @@
 ---
-description: "Security: mandatory checks, secret management, response protocol"
+description: "Security: 必須チェック、secret 管理、対応プロトコル"
 alwaysApply: true
 ---
-# Security Guidelines
+# Security Guidelines (Security Guidelines)
 
-## Mandatory Security Checks
+## 必須セキュリティチェック (Mandatory Security Checks)
 
-Before ANY commit:
-- [ ] No hardcoded secrets (API keys, passwords, tokens)
-- [ ] All user inputs validated
-- [ ] SQL injection prevention (parameterized queries)
-- [ ] XSS prevention (sanitized HTML)
-- [ ] CSRF protection enabled
-- [ ] Authentication/authorization verified
-- [ ] Rate limiting on all endpoints
-- [ ] Error messages don't leak sensitive data
+commit 前に必ず:
+- [ ] ハードコードされた secret がない（API key、password、token）
+- [ ] すべてのユーザー入力がバリデーション済み
+- [ ] SQL injection 防止（parameterized query）
+- [ ] XSS 防止（sanitized HTML）
+- [ ] CSRF 保護が有効
+- [ ] Authentication/authorization が検証済み
+- [ ] すべての endpoint に rate limiting
+- [ ] エラーメッセージが機微データを漏らさない
 
-## Secret Management
+## Secret 管理 (Secret Management)
 
-- NEVER hardcode secrets in source code
-- ALWAYS use environment variables or a secret manager
-- Validate that required secrets are present at startup
-- Rotate any secrets that may have been exposed
+- ソースコードに secret をハードコードしない
+- 常に環境変数または secret manager を使用
+- 起動時に必要な secret が存在することをバリデーション
+- 露出した可能性のある secret はローテーション
 
-## Security Response Protocol
+## セキュリティ対応プロトコル (Security Response Protocol)
 
-If security issue found:
-1. STOP immediately
-2. Use **security-reviewer** agent
-3. Fix CRITICAL issues before continuing
-4. Rotate any exposed secrets
-5. Review entire codebase for similar issues
+セキュリティ issue が見つかった場合:
+1. 直ちに STOP
+2. **security-reviewer** agent を使用
+3. 続行前に CRITICAL issue を修正
+4. 露出した secret をローテーション
+5. 同様の issue がないか codebase 全体をレビュー

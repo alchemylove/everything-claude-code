@@ -1,55 +1,55 @@
-# 性能优化
+# パフォーマンス最適化 (Performance Optimization)
 
-## 模型选择策略
+## モデル選択戦略 (Model Selection Strategy)
 
-**Haiku 4.5**（Sonnet 90% 的能力，3 倍成本节省）：
-- 频繁调用的轻量级代理
-- 结对编程和代码生成
-- 多代理系统中的工作者代理
+**Haiku 4.5**（Sonnet 能力の 90%、コスト 3 倍削減）:
+- 頻繁に呼び出す軽量 agent
+- ペアプログラミングとコード生成
+- マルチ agent システムの worker agent
 
-**Sonnet 4.6**（最佳编码模型）：
-- 主要开发工作
-- 编排多代理工作流
-- 复杂编码任务
+**Sonnet 4.6**（最高のコーディングモデル）:
+- メインの開発作業
+- マルチ agent ワークフローのオーケストレーション
+- 複雑なコーディングタスク
 
-**Opus 4.5**（最深度推理）：
-- 复杂架构决策
-- 最大推理需求
-- 研究和分析任务
+**Opus 4.5**（最深の推論）:
+- 複雑なアーキテクチャ判断
+- 最大限の推論が必要な要件
+- 調査と分析タスク
 
-## 上下文窗口管理
+## コンテキストウィンドウ管理 (Context Window Management)
 
-避免在上下文窗口的最后 20% 进行以下操作：
-- 大规模重构
-- 跨多个文件的功能实现
-- 调试复杂交互
+次の作業ではコンテキストウィンドウの最後の 20% を避ける:
+- 大規模リファクタリング
+- 複数ファイルにまたがる feature 実装
+- 複雑な相互作用のデバッグ
 
-上下文敏感度较低的任务：
-- 单文件编辑
-- 独立工具创建
-- 文档更新
-- 简单 bug 修复
+コンテキスト感度が低いタスク:
+- 単一ファイルの編集
+- 独立したユーティリティの作成
+- ドキュメント更新
+- 単純な bug 修正
 
-## 扩展思考 + 规划模式
+## Extended Thinking + Plan Mode
 
-扩展思考默认启用，为内部推理保留最多 31,999 个 token。
+Extended thinking はデフォルトで有効で、内部推論に最大 31,999 tokens を確保します。
 
-通过以下方式控制扩展思考：
-- **切换**：Option+T（macOS）/ Alt+T（Windows/Linux）
-- **配置**：在 `~/.claude/settings.json` 中设置 `alwaysThinkingEnabled`
-- **预算上限**：`export MAX_THINKING_TOKENS=10000`
-- **详细模式**：Ctrl+O 查看思考输出
+Extended thinking の制御:
+- **Toggle**: Option+T（macOS）/ Alt+T（Windows/Linux）
+- **Config**: `~/.claude/settings.json` で `alwaysThinkingEnabled` を設定
+- **Budget cap**: `export MAX_THINKING_TOKENS=10000`
+- **Verbose mode**: Ctrl+O で thinking 出力を表示
 
-对于需要深度推理的复杂任务：
-1. 确保扩展思考已启用（默认开启）
-2. 启用**规划模式**进行结构化方法
-3. 使用多轮审查进行彻底分析
-4. 使用分角色子代理获得多样化视角
+深い推論が必要な複雑タスクでは:
+1. extended thinking が有効であることを確認する（デフォルトでオン）
+2. 構造化アプローチのため **Plan Mode** を有効化する
+3. 徹底分析のため複数ラウンドの critique を行う
+4. 多様な視点のため役割分割 sub-agent を使用する
 
-## 构建排查
+## ビルドのトラブルシューティング (Build Troubleshooting)
 
-如果构建失败：
-1. 使用 **build-error-resolver** 代理
-2. 分析错误消息
-3. 增量修复
-4. 每次修复后验证
+ビルドが失敗した場合:
+1. **build-error-resolver** agent を使用する
+2. エラーメッセージを分析する
+3. 段階的に修正する
+4. 各修正後に検証する

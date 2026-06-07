@@ -1,39 +1,39 @@
 ---
-description: "Kotlin coding style extending common rules"
+description: "Kotlin coding style: common ルールの拡張"
 globs: ["**/*.kt", "**/*.kts", "**/build.gradle.kts"]
 alwaysApply: false
 ---
-# Kotlin Coding Style
+# Kotlin Coding Style (Kotlin Coding Style)
 
-> This file extends the common coding style rule with Kotlin-specific content.
+> このファイルは common coding style ルールを Kotlin 固有の内容で拡張する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- Auto-formatting via **ktfmt** or **ktlint** (configured in `kotlin-hooks.md`)
-- Use trailing commas in multiline declarations
+- **ktfmt** または **ktlint** による auto-formatting（`kotlin-hooks.md` で設定）
+- 複数行宣言では trailing comma を使用
 
-## Immutability
+## 不変性 (Immutability)
 
-The global immutability requirement is enforced in the common coding style rule.
-For Kotlin specifically:
+グローバルな不変性要件は common coding style ルールで強制。
+Kotlin 固有には:
 
-- Prefer `val` over `var`
-- Use immutable collection types (`List`, `Map`, `Set`)
-- Use `data class` with `copy()` for immutable updates
+- `var` より `val` を優先
+- 不変 collection 型（`List`, `Map`, `Set`）を使用
+- 不変更新には `copy()` 付き `data class` を使用
 
 ## Null Safety
 
-- Avoid `!!` -- use `?.`, `?:`, `require`, or `checkNotNull`
-- Handle platform types explicitly at Java interop boundaries
+- `!!` を避け — `?.`, `?:`, `require`, または `checkNotNull` を使用
+- Java interop 境界では platform type を明示的に処理
 
 ## Expression Bodies
 
-Prefer expression bodies for single-expression functions:
+単一式関数では expression body を優先:
 
 ```kotlin
 fun isAdult(age: Int): Boolean = age >= 18
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `kotlin-patterns` for comprehensive Kotlin idioms and patterns.
+包括的な Kotlin イディオムとパターンは skill: `kotlin-patterns` を参照。

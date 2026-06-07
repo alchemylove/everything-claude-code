@@ -3,11 +3,11 @@ name: foundation-models-on-device
 description: Apple FoundationModels framework for on-device LLM — text generation, guided generation with @Generable, tool calling, and snapshot streaming in iOS 26+.
 ---
 
-# FoundationModels: On-Device LLM (iOS 26)
+# FoundationModels: On-Device LLM (FoundationModels: On-Device LLM)
 
 Patterns for integrating Apple's on-device language model into apps using the FoundationModels framework. Covers text generation, structured output with `@Generable`, custom tool calling, and snapshot streaming — all running on-device for privacy and offline support.
 
-## When to Activate
+## When to Activate (When to Activate)
 
 - Building AI-powered features using Apple Intelligence on-device
 - Generating or summarizing text without cloud dependency
@@ -16,7 +16,7 @@ Patterns for integrating Apple's on-device language model into apps using the Fo
 - Streaming structured responses for real-time UI updates
 - Need privacy-preserving AI (no data leaves the device)
 
-## Core Pattern — Availability Check
+## Core Pattern — Availability Check (Core Pattern — Availability Check)
 
 Always check model availability before creating a session:
 
@@ -41,7 +41,7 @@ struct GenerativeView: View {
 }
 ```
 
-## Core Pattern — Basic Session
+## Core Pattern — Basic Session (Core Pattern — Basic Session)
 
 ```swift
 // Single-turn: create a new session each time
@@ -66,11 +66,11 @@ Key points for instructions:
 - Set style preferences ("Respond as briefly as possible")
 - Add safety measures ("Respond with 'I can't help with that' for dangerous requests")
 
-## Core Pattern — Guided Generation with @Generable
+## Core Pattern — Guided Generation with @Generable (Core Pattern — Guided Generation with @Generable)
 
 Generate structured Swift types instead of raw strings:
 
-### 1. Define a Generable Type
+### 1. Define a Generable Type (1. Define a Generable Type)
 
 ```swift
 @Generable(description: "Basic profile information about a cat")
@@ -85,7 +85,7 @@ struct CatProfile {
 }
 ```
 
-### 2. Request Structured Output
+### 2. Request Structured Output (2. Request Structured Output)
 
 ```swift
 let response = try await session.respond(
@@ -99,17 +99,17 @@ print("Age: \(response.content.age)")
 print("Profile: \(response.content.profile)")
 ```
 
-### Supported @Guide Constraints
+### Supported @Guide Constraints (Supported @Guide Constraints)
 
 - `.range(0...20)` — numeric range
 - `.count(3)` — array element count
 - `description:` — semantic guidance for generation
 
-## Core Pattern — Tool Calling
+## Core Pattern — Tool Calling (Core Pattern — Tool Calling)
 
 Let the model invoke custom code for domain-specific tasks:
 
-### 1. Define a Tool
+### 1. Define a Tool (1. Define a Tool)
 
 ```swift
 struct RecipeSearchTool: Tool {
@@ -132,14 +132,14 @@ struct RecipeSearchTool: Tool {
 }
 ```
 
-### 2. Create Session with Tools
+### 2. Create Session with Tools (2. Create Session with Tools)
 
 ```swift
 let session = LanguageModelSession(tools: [RecipeSearchTool()])
 let response = try await session.respond(to: "Find me some pasta recipes")
 ```
 
-### 3. Handle Tool Errors
+### 3. Handle Tool Errors (3. Handle Tool Errors)
 
 ```swift
 do {
@@ -152,7 +152,7 @@ do {
 }
 ```
 
-## Core Pattern — Snapshot Streaming
+## Core Pattern — Snapshot Streaming (Core Pattern — Snapshot Streaming)
 
 Stream structured responses for real-time UI with `PartiallyGenerated` types:
 
@@ -174,7 +174,7 @@ for try await partial in stream {
 }
 ```
 
-### SwiftUI Integration
+### SwiftUI Integration (SwiftUI Integration)
 
 ```swift
 @State private var partialResult: TripIdeas.PartiallyGenerated?
@@ -202,7 +202,7 @@ var body: some View {
 }
 ```
 
-## Key Design Decisions
+## 主要な設計判断 (Key Design Decisions) (Key Design Decisions)
 
 | Decision | Rationale |
 |----------|-----------|
@@ -213,7 +213,7 @@ var body: some View {
 | Single request per session | `isResponding` prevents concurrent requests; create multiple sessions if needed |
 | `response.content` (not `.output`) | Correct API — always access results via `.content` property |
 
-## Best Practices
+## Best Practices (Best Practices)
 
 - **Always check `model.availability`** before creating a session — handle all unavailability cases
 - **Use `instructions`** to guide model behavior — they take priority over prompts
@@ -224,7 +224,7 @@ var body: some View {
 - **Use `GenerationOptions(temperature:)`** to tune creativity (higher = more creative)
 - **Monitor with Instruments** — use Xcode Instruments to profile request performance
 
-## Anti-Patterns to Avoid
+## Anti-Patterns to Avoid (Anti-Patterns to Avoid)
 
 - Creating sessions without checking `model.availability` first
 - Sending inputs exceeding the 4,096 token context window
@@ -234,7 +234,7 @@ var body: some View {
 - Building complex multi-step logic in a single prompt — break into multiple focused prompts
 - Assuming the model is always available — device eligibility and settings vary
 
-## When to Use
+## When to Use (When to Use)
 
 - On-device text generation for privacy-sensitive apps
 - Structured data extraction from user input (forms, natural language commands)

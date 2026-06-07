@@ -3,15 +3,15 @@ name: hookify-rules
 description: This skill should be used when the user asks to create a hookify rule, write a hook rule, configure hookify, add a hookify rule, or needs guidance on hookify rule syntax and patterns.
 ---
 
-# Writing Hookify Rules
+# Hookify ルールの記述 (Writing Hookify Rules)
 
-## Overview
+## 概要 (Overview)
 
-Hookify rules are markdown files with YAML frontmatter that define patterns to watch for and messages to show when those patterns match. Rules are stored in `.claude/hookify.{rule-name}.local.md` files.
+Hookify ルールは、監視パターンとマッチ時に表示するメッセージを定義する YAML frontmatter 付き Markdown ファイル。ルールは `.claude/hookify.{rule-name}.local.md` に保存される。
 
-## Rule File Format
+## ルールファイル形式 (Rule File Format)
 
-### Basic Structure
+### 基本構造 (Basic Structure)
 
 ```markdown
 ---
@@ -25,7 +25,7 @@ Message to show Claude when this rule triggers.
 Can include markdown formatting, warnings, suggestions, etc.
 ```
 
-### Frontmatter Fields
+### Frontmatter フィールド (Frontmatter Fields)
 
 | Field | Required | Values | Description |
 |-------|----------|--------|-------------|
@@ -35,7 +35,7 @@ Can include markdown formatting, warnings, suggestions, etc.
 | action | No | warn/block | warn (default) shows message; block prevents operation |
 | pattern | Yes* | regex string | Pattern to match (*or use conditions for complex rules) |
 
-### Advanced Format (Multiple Conditions)
+### 高度な形式 (Advanced Format)
 
 ```markdown
 ---
@@ -54,69 +54,69 @@ conditions:
 You're adding an API key to a .env file. Ensure this file is in .gitignore!
 ```
 
-**Condition fields by event:**
+**イベント別 condition フィールド:**
 - bash: `command`
 - file: `file_path`, `new_text`, `old_text`, `content`
 - prompt: `user_prompt`
 
-**Operators:** `regex_match`, `contains`, `equals`, `not_contains`, `starts_with`, `ends_with`
+**演算子:** `regex_match`, `contains`, `equals`, `not_contains`, `starts_with`, `ends_with`
 
-All conditions must match for rule to trigger.
+すべての condition が一致したときのみルール発火。
 
-## Event Type Guide
+## イベントタイプガイド (Event Type Guide)
 
-### bash Events
-Match Bash command patterns:
-- Dangerous commands: `rm\s+-rf`, `dd\s+if=`, `mkfs`
-- Privilege escalation: `sudo\s+`, `su\s+`
-- Permission issues: `chmod\s+777`
+### bash イベント (bash Events)
+Bash コマンドパターンにマッチ:
+- 危険コマンド: `rm\s+-rf`, `dd\s+if=`, `mkfs`
+- 権限昇格: `sudo\s+`, `su\s+`
+- 権限問題: `chmod\s+777`
 
-### file Events
-Match Edit/Write/MultiEdit operations:
-- Debug code: `console\.log\(`, `debugger`
-- Security risks: `eval\(`, `innerHTML\s*=`
-- Sensitive files: `\.env$`, `credentials`, `\.pem$`
+### file イベント (file Events)
+Edit/Write/MultiEdit 操作にマッチ:
+- デバッグコード: `console\.log\(`, `debugger`
+- セキュリティリスク: `eval\(`, `innerHTML\s*=`
+- 機微ファイル: `\.env$`, `credentials`, `\.pem$`
 
-### stop Events
-Completion checks and reminders. Pattern `.*` matches always.
+### stop イベント (stop Events)
+完了チェックとリマインダー。パターン `.*` は常にマッチ。
 
-### prompt Events
-Match user prompt content for workflow enforcement.
+### prompt イベント (prompt Events)
+ワークフロー強制のためユーザープロンプト内容にマッチ。
 
-## Pattern Writing Tips
+## パターン記述のヒント (Pattern Writing Tips)
 
-### Regex Basics
-- Escape special chars: `.` to `\.`, `(` to `\(`
-- `\s` whitespace, `\d` digit, `\w` word char
-- `+` one or more, `*` zero or more, `?` optional
-- `|` OR operator
+### 正規表現の基礎 (Regex Basics)
+- 特殊文字をエスケープ: `.` → `\.`, `(` → `\(`
+- `\s` 空白, `\d` 数字, `\w` 単語文字
+- `+` 1 回以上, `*` 0 回以上, `?` 任意
+- `|` OR 演算子
 
-### Common Pitfalls
-- **Too broad**: `log` matches "login", "dialog" — use `console\.log\(`
-- **Too specific**: `rm -rf /tmp` — use `rm\s+-rf`
-- **YAML escaping**: Use unquoted patterns; quoted strings need `\\s`
+### よくある落とし穴 (Common Pitfalls)
+- **広すぎ**: `log` は "login", "dialog" にマッチ — `console\.log\(` を使う
+- **狭すぎ**: `rm -rf /tmp` — `rm\s+-rf` を使う
+- **YAML エスケープ**: パターンは非引用; 引用文字列では `\\s` が必要
 
-### Testing
+### テスト (Testing)
 ```bash
 python3 -c "import re; print(re.search(r'your_pattern', 'test text'))"
 ```
 
-## File Organization
+## ファイル構成 (File Organization)
 
-- **Location**: `.claude/` directory in project root
-- **Naming**: `.claude/hookify.{descriptive-name}.local.md`
-- **Gitignore**: Add `.claude/*.local.md` to `.gitignore`
+- **場所**: プロジェクトルートの `.claude/` ディレクトリ
+- **命名**: `.claude/hookify.{descriptive-name}.local.md`
+- **Gitignore**: `.claude/*.local.md` を `.gitignore` に追加
 
-## Commands
+## コマンド (Commands)
 
-- `/hookify [description]` - Create new rules (auto-analyzes conversation if no args)
-- `/hookify-list` - View all rules in table format
-- `/hookify-configure` - Toggle rules on/off interactively
-- `/hookify-help` - Full documentation
+- `/hookify [description]` - 新規ルール作成（引数なしで会話を自動分析）
+- `/hookify-list` - 表形式ですべてのルール表示
+- `/hookify-configure` - ルールのオン/オフを対話的に切替
+- `/hookify-help` - 完全ドキュメント
 
-## Quick Reference
+## クイックリファレンス (Quick Reference)
 
-Minimum viable rule:
+最小限のルール:
 ```markdown
 ---
 name: my-rule

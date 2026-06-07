@@ -6,122 +6,122 @@ paths:
   - "**/oh-package.json5"
   - "**/build-profile.json5"
 ---
-# HarmonyOS / ArkTS Coding Style
+# HarmonyOS / ArkTS コーディングスタイル (HarmonyOS / ArkTS Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with HarmonyOS and ArkTS-specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、HarmonyOS / ArkTS 固有の内容を追加する。
 
-## ArkTS Language Constraints
+## ArkTS 言語の制約 (ArkTS Language Constraints)
 
-ArkTS is a strict, statically-typed subset of TypeScript. Violating these constraints causes **compilation failures**.
+ArkTS は TypeScript の厳格な静的型付きサブセットです。これらの制約に違反すると**コンパイルエラー**が発生します。
 
-### Type System
+### 型システム (Type System)
 
-- No `any` or `unknown` types - always use explicit types
-- No index access types - use type names directly
-- No conditional type aliases or `infer` keyword
-- No intersection types - use inheritance
-- No mapped types - use classes and regular idioms
-- No `typeof` for type annotations - use explicit type declarations
-- No `as const` assertions - use explicit type annotations
-- No structural typing - use inheritance, interfaces, or type aliases
-- No TypeScript utility types except `Partial`, `Required`, `Readonly`, `Record`
-- For `Record<K, V>`, index expression type is `V | undefined`
-- Omit type annotations in `catch` clauses (ArkTS does not support `any`/`unknown`)
+- `any` や `unknown` 型は使用不可 — 常に明示的な型を使用する
+- インデックスアクセス型は使用不可 — 型名を直接使用する
+- 条件付き型エイリアスや `infer` キーワードは使用不可
+- 交差型は使用不可 — 継承を使用する
+- マップ型は使用不可 — クラスと通常のイディオムを使用する
+- 型注釈に `typeof` は使用不可 — 明示的な型宣言を使用する
+- `as const` アサーションは使用不可 — 明示的な型注釈を使用する
+- 構造的型付けは使用不可 — 継承、インターフェース、型エイリアスを使用する
+- `Partial`、`Required`、`Readonly`、`Record` 以外の TypeScript ユーティリティ型は使用不可
+- `Record<K, V>` のインデックス式の型は `V | undefined`
+- `catch` 句では型注釈を省略する（ArkTS は `any`/`unknown` をサポートしない）
 
-### Functions & Classes
+### 関数とクラス (Functions & Classes)
 
-- No function expressions - use arrow functions
-- No nested functions - use lambdas
-- No generator functions - use `async`/`await` for multitasking
-- No `Function.apply`, `Function.call`, `Function.bind` - follow traditional OOP for `this`
-- No constructor type expressions - use lambdas
-- No constructor signatures in interfaces or object types - use methods or classes
-- No declaring class fields in constructors - declare in class body
-- No `this` in standalone functions or static methods - only in instance methods
-- No `new.target`
-- No definite assignment assertions (`let v!: T`) - use initialized declarations
-- No class literals - introduce named class types
-- No using classes as objects (assigning to variables) - class declarations introduce types, not values
-- Only one static block per class - merge all static statements
+- 関数式は使用不可 — アロー関数を使用する
+- ネストした関数は使用不可 — ラムダを使用する
+- ジェネレーター関数は使用不可 — マルチタスクには `async`/`await` を使用する
+- `Function.apply`、`Function.call`、`Function.bind` は使用不可 — `this` には従来の OOP を使用する
+- コンストラクタ型式は使用不可 — ラムダを使用する
+- インターフェースやオブジェクト型のコンストラクタシグネチャは使用不可 — メソッドかクラスを使用する
+- コンストラクタ内でのクラスフィールド宣言は不可 — クラス本体で宣言する
+- スタンドアロン関数や静的メソッドで `this` は使用不可 — インスタンスメソッド内のみ
+- `new.target` は使用不可
+- 確実な代入アサーション（`let v!: T`）は使用不可 — 初期化済み宣言を使用する
+- クラスリテラルは使用不可 — 名前付きクラス型を導入する
+- クラスをオブジェクトとして使用（変数への代入）は不可 — クラス宣言は値ではなく型を導入する
+- クラスごとに静的ブロックは1つのみ — すべての静的ステートメントをまとめる
 
-### Object & Property Access
+### オブジェクトとプロパティアクセス (Object & Property Access)
 
-- No dynamic field declaration or `obj["field"]` access - use `obj.field` syntax
-- No `delete` operator - use nullable type with `null` to mark absence
-- No prototype assignment - use classes and interfaces
-- No `in` operator - use `instanceof`
-- No reassigning object methods - use wrapper functions or inheritance
-- No `Symbol()` API (except `Symbol.iterator`)
-- No `globalThis` or global scope - use explicit module exports/imports
-- No namespaces as objects - use classes or modules
-- No statements inside namespaces - use functions
+- 動的フィールド宣言や `obj["field"]` アクセスは使用不可 — `obj.field` 構文を使用する
+- `delete` 演算子は使用不可 — 不在を示すには `null` を持つ nullable 型を使用する
+- プロトタイプへの代入は使用不可 — クラスとインターフェースを使用する
+- `in` 演算子は使用不可 — `instanceof` を使用する
+- オブジェクトメソッドの再代入は不可 — ラッパー関数や継承を使用する
+- `Symbol()` API は使用不可（`Symbol.iterator` を除く）
+- `globalThis` やグローバルスコープは使用不可 — 明示的なモジュールのエクスポート/インポートを使用する
+- 名前空間をオブジェクトとして使用は不可 — クラスかモジュールを使用する
+- 名前空間内のステートメントは不可 — 関数を使用する
 
-### Destructuring & Spread
+### 分割代入とスプレッド (Destructuring & Spread)
 
-- No destructuring assignments or variable declarations - use intermediate objects and field-by-field access
-- No destructuring parameter declarations - pass parameters directly, assign local names manually
-- Spread operator only for expanding arrays (or array-derived classes) into rest parameters or array literals
+- 分割代入や変数宣言は使用不可 — 中間オブジェクトとフィールドごとのアクセスを使用する
+- 分割代入のパラメータ宣言は使用不可 — パラメータを直接渡し、ローカル名を手動で割り当てる
+- スプレッド演算子は配列（または配列派生クラス）をレストパラメータや配列リテラルに展開する場合のみ使用可
 
-### Modules & Imports
+### モジュールとインポート (Modules & Imports)
 
-- No `require()` - use regular `import` syntax
-- No `export = ...` - use normal export/import
-- No import assertions - imports are compile-time in ArkTS
-- No UMD modules
-- No wildcards in module names
-- All `import` statements must appear before all other statements
-- TypeScript codebases must not depend on ArkTS codebases via import (reverse is supported)
+- `require()` は使用不可 — 通常の `import` 構文を使用する
+- `export = ...` は使用不可 — 通常のエクスポート/インポートを使用する
+- インポートアサーションは使用不可 — ArkTS ではインポートはコンパイル時に解決される
+- UMD モジュールは使用不可
+- モジュール名にワイルドカードは使用不可
+- すべての `import` ステートメントは他のすべてのステートメントより前に記述する
+- TypeScript のコードベースは import 経由で ArkTS のコードベースに依存してはならない（逆はサポート）
 
-### Other Restrictions
+### その他の制限 (Other Restrictions)
 
-- No `var` - use `let`
-- No `for...in` loops - use regular `for` loops for arrays
-- No `with` statements
-- No JSX expressions
-- No `#` private identifiers - use `private` keyword
-- No declaration merging (classes, interfaces, enums) - keep definitions compact
-- No index signatures - use arrays
-- Comma operator only in `for` loops
-- Unary operators `+`, `-`, `~` only for numeric types (no implicit string conversion)
-- Enum members: only same-type compile-time expressions for explicit initializers
-- Function return type inference is limited - specify return types explicitly when calling functions with omitted return types
+- `var` は使用不可 — `let` を使用する
+- `for...in` ループは使用不可 — 配列には通常の `for` ループを使用する
+- `with` ステートメントは使用不可
+- JSX 式は使用不可
+- `#` プライベート識別子は使用不可 — `private` キーワードを使用する
+- 宣言のマージ（クラス、インターフェース、列挙型）は不可 — 定義をコンパクトに保つ
+- インデックスシグネチャは使用不可 — 配列を使用する
+- カンマ演算子は `for` ループ内のみ
+- 単項演算子 `+`、`-`、`~` は数値型のみ（暗黙の文字列変換なし）
+- 列挙型のメンバー: 明示的な初期化子には同じ型のコンパイル時式のみ
+- 関数の戻り値型推論は制限あり — 戻り値型を省略した関数呼び出し時は明示的に指定する
 
-### Object Literals
+### オブジェクトリテラル (Object Literals)
 
-- Supported only when compiler can infer the corresponding class or interface
-- NOT supported for: `any`/`Object`/`object` types, classes/interfaces with methods, classes with parameterized constructors, classes with `readonly` fields
+- コンパイラが対応するクラスやインターフェースを推論できる場合のみサポート
+- 次の場合はサポートされない: `any`/`Object`/`object` 型、メソッドを持つクラス/インターフェース、パラメータ付きコンストラクタを持つクラス、`readonly` フィールドを持つクラス
 
-## Naming Conventions
+## 命名規則 (Naming Conventions)
 
-- Variables / functions: `camelCase` (e.g., `getUserInfo`, `goodsList`)
-- Classes / interfaces: `PascalCase` (e.g., `UserViewModel`, `IGoodsModel`)
-- Constants: `UPPER_SNAKE_CASE` (e.g., `MAX_PAGE_SIZE`, `COLOR_PRIMARY`)
-- File names: `PascalCase` for components (e.g., `HomePage.ets`), `camelCase` for utilities
+- 変数 / 関数: `camelCase`（例: `getUserInfo`、`goodsList`）
+- クラス / インターフェース: `PascalCase`（例: `UserViewModel`、`IGoodsModel`）
+- 定数: `UPPER_SNAKE_CASE`（例: `MAX_PAGE_SIZE`、`COLOR_PRIMARY`）
+- ファイル名: コンポーネントは `PascalCase`（例: `HomePage.ets`）、ユーティリティは `camelCase`
 
-## Formatting
+## フォーマット (Formatting)
 
-- Prefer double quotes for strings
-- Semicolons at end of statements
-- Never use `var` - prefer `const`, then `let`
-- All methods, parameters, return values must have complete type annotations
+- 文字列にはダブルクォートを優先する
+- ステートメント末尾にセミコロンを付ける
+- `var` は絶対に使用しない — `const` を優先し、次に `let`
+- すべてのメソッド、パラメータ、戻り値には完全な型注釈を付ける
 
-## File Organization
+## ファイル構成 (File Organization)
 
-- Component files (`.ets`): one `@ComponentV2` per file
-- ViewModel files: one ViewModel class per file
-- Model files: related data models may share a file
-- Keep files under 400 lines; extract helpers for files approaching 800 lines
+- コンポーネントファイル（`.ets`）: ファイルごとに1つの `@ComponentV2`
+- ViewModel ファイル: ファイルごとに1つの ViewModel クラス
+- モデルファイル: 関連するデータモデルは同じファイルに共存可能
+- ファイルは400行以内に収める。800行に近づく場合はヘルパーを抽出する
 
-## Comments
+## コメント (Comments)
 
-- File header: `@file` (file purpose) + `@author` (developer), if the project already uses file headers
-- Public methods: JSDoc with `@param`, `@returns`; add `@example` for complex methods
-- Match the project's existing documentation language; use English unless the repository has already standardized on Chinese comments
+- ファイルヘッダー: `@file`（ファイルの目的）+ `@author`（開発者）— プロジェクトがすでにファイルヘッダーを使用している場合
+- パブリックメソッド: JSDoc に `@param`、`@returns` を付ける。複雑なメソッドには `@example` を追加する
+- プロジェクトの既存のドキュメント言語に合わせる。リポジトリが中国語コメントを標準化していない限り英語を使用する
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
 ```typescript
-// Use try/catch with proper error handling
+// 適切なエラーハンドリングで try/catch を使用する
 try {
   const result = await riskyOperation()
   return result
@@ -131,18 +131,18 @@ try {
 }
 ```
 
-## Immutability
+## イミュータビリティ (Immutability)
 
-Follow the common immutability principles - create new objects instead of mutating:
+共通のイミュータビリティ原則に従う — ミューテートするのではなく新しいオブジェクトを作成する:
 
 ```typescript
-// BAD: mutation
+// BAD: ミューテーション
 function updateUser(user: UserModel, name: string): UserModel {
-  user.name = name  // direct mutation
+  user.name = name  // 直接変更
   return user
 }
 
-// GOOD: immutable - create new instance
+// GOOD: イミュータブル — 新しいインスタンスを作成
 function updateUser(user: UserModel, name: string): UserModel {
   const updated = new UserModel()
   updated.id = user.id

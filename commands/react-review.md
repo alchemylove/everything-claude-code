@@ -1,82 +1,82 @@
 ---
-description: Comprehensive React/JSX code review for hook correctness, render performance, server/client component boundaries, accessibility, and React-specific security. Invokes the react-reviewer agent (and typescript-reviewer alongside on TSX/JSX changes).
+description: hook の正しさ、render performance、server/client component boundary、accessibility、React 固有のセキュリティを含む包括的な React/JSX コードレビュー。react-reviewer agent を起動する（TSX/JSX 変更時は typescript-reviewer も併用）。
 ---
 
-# React Code Review
+# React コードレビュー (React Code Review)
 
-This command invokes the **react-reviewer** agent for React-specific code review. For pull requests touching `.tsx`/`.jsx` files, both `react-reviewer` and `typescript-reviewer` should run — each owns a distinct lane.
+このコマンドは React 固有のコードレビューのため **react-reviewer** agent を起動する。`.tsx`/`.jsx` を触る pull request では、`react-reviewer` と `typescript-reviewer` の両方を実行すべき — それぞれが別 lane を担当する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Identify React Changes**: Find modified `.tsx`/`.jsx` files (and React-containing `.ts`/`.js` files) via `git diff`
-2. **Run Lint**: Execute `eslint` with `eslint-plugin-react-hooks` and `eslint-plugin-jsx-a11y`
-3. **Typecheck**: Run `tsc --noEmit` or the project's canonical typecheck command
-4. **Review React Lanes Only**: Hook rules, RSC boundaries, accessibility, render performance, React-specific security
-5. **Generate Report**: Categorize issues by severity (CRITICAL / HIGH / MEDIUM)
+1. **React 変更の特定**: `git diff` で変更された `.tsx`/`.jsx`（および React を含む `.ts`/`.js`）を検出
+2. **Lint の実行**: `eslint-plugin-react-hooks` と `eslint-plugin-jsx-a11y` 付きで `eslint` を実行
+3. **Typecheck**: `tsc --noEmit` またはプロジェクトの canonical typecheck コマンドを実行
+4. **React lane のみレビュー**: Hook rules、RSC boundary、accessibility、render performance、React 固有のセキュリティ
+5. **レポート生成**: 重大度（CRITICAL / HIGH / MEDIUM）で issue を分類
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/react-review` when:
+`/react-review` を使う場面:
 
-- A PR or commit touches `.tsx`/`.jsx` files
-- After writing or modifying React components, custom hooks, or pages
-- Before merging React code
-- Auditing accessibility on UI components
-- Reviewing a new hook for rules-of-hooks and dependency correctness
-- Auditing a Next.js App Router server/client component boundary
+- PR または commit が `.tsx`/`.jsx` を触るとき
+- React component、custom hook、page を書いた・変更したあと
+- React コードをマージする前
+- UI component の accessibility を監査するとき
+- 新しい hook の rules-of-hooks と dependency の正しさをレビューするとき
+- Next.js App Router の server/client component boundary を監査するとき
 
-For pure `.ts`/`.js` changes with no React imports, use `/code-review` (general) or invoke `typescript-reviewer` directly.
+React import のない純粋な `.ts`/`.js` 変更には、`/code-review`（汎用）を使うか `typescript-reviewer` を直接起動する。
 
-## Scope vs `/code-review` and TypeScript Review
+## スコープ: `/code-review` と TypeScript レビューとの違い (Scope vs `/code-review` and TypeScript Review)
 
 | Tool | Scope |
 |---|---|
-| `react-reviewer` (this command) | Hooks rules, JSX, RSC, a11y, React-specific security, render perf |
-| `typescript-reviewer` | Generic TS/JS — `any` abuse, async correctness, Node security |
-| `security-reviewer` | Project-wide security audit |
-| `/code-review` | Generic uncommitted-changes or PR review |
+| `react-reviewer` (this command) | Hooks rules、JSX、RSC、a11y、React 固有のセキュリティ、render perf |
+| `typescript-reviewer` | 汎用 TS/JS — `any` の乱用、async の正しさ、Node セキュリティ |
+| `security-reviewer` | プロジェクト全体のセキュリティ監査 |
+| `/code-review` | 未コミット変更または PR の汎用レビュー |
 
-On a TSX/JSX PR, invoke both `react-reviewer` and `typescript-reviewer`. Findings from each are non-overlapping by design.
+TSX/JSX の PR では `react-reviewer` と `typescript-reviewer` の両方を起動する。各所見は設計上重複しない。
 
-## Review Categories
+## レビューカテゴリ (Review Categories)
 
-### CRITICAL (Must Fix)
+### CRITICAL（必須修正） (CRITICAL (Must Fix))
 
-- `dangerouslySetInnerHTML` with unsanitized input
-- `href`/`src` with unvalidated user URLs (`javascript:`, `data:`)
-- Server Action without input validation
-- Secret in client bundle (`NEXT_PUBLIC_*`, `VITE_*`, `REACT_APP_*`)
-- `localStorage`/`sessionStorage` for session tokens
-- Conditional hook calls (violates Rules of Hooks)
-- Direct state mutation
-- Hook called outside a component or custom hook
+- サニタイズされていない入力への `dangerouslySetInnerHTML`
+- 未検証のユーザー URL（`javascript:`、`data:`）を使った `href`/`src`
+- 入力検証のない Server Action
+- client bundle 内の secret（`NEXT_PUBLIC_*`、`VITE_*`、`REACT_APP_*`）
+- セッショントークンを `localStorage`/`sessionStorage` に保存
+- 条件付き hook 呼び出し（Rules of Hooks 違反）
+- state の直接変更
+- component または custom hook 外での hook 呼び出し
 
-### HIGH (Should Fix)
+### HIGH（修正推奨） (HIGH (Should Fix))
 
-- Missing `useEffect`/`useMemo`/`useCallback` deps (disabled `exhaustive-deps` without justification)
-- Effect for derived state
-- Effect missing cleanup
-- Stale closures in handlers/intervals
-- Server-only imports in Client Components
-- Sensitive data leaked via props to Client Components
-- Server Actions without auth checks
-- Accessibility violations (missing labels, non-semantic interactive elements, ARIA misuse)
-- `key={index}` in dynamic lists
-- Duplicated state, useEffect chains
+- `useEffect`/`useMemo`/`useCallback` の deps 不足（根拠なく `exhaustive-deps` を無効化）
+- 派生 state のための effect
+- cleanup のない effect
+- handler/interval での stale closure
+- Client Component 内の server-only import
+- Client Component への props 経由の機微データ漏洩
+- 認証チェックのない Server Actions
+- accessibility 違反（label 不足、非セマンティックなインタラクティブ要素、ARIA の誤用）
+- 動的リストでの `key={index}`
+- 重複 state、useEffect チェーン
 
-### MEDIUM (Consider)
+### MEDIUM（検討） (MEDIUM (Consider))
 
-- Over-memoization without measured win
-- Inline new object/function as prop to memoized child
-- Suspense at route root only (no progressive reveal)
-- Long lists without virtualization
-- High-frequency value via `useContext`
-- Roll-your-own validation in non-trivial forms
-- Prop drilling beyond 3 levels
-- Component over 200 lines
-- Class components in new code
+- 計測された利得のない過剰 memoization
+- memoized child への prop としてのインライン新規 object/function
+- route root のみの Suspense（progressive reveal なし）
+- virtualization のない長いリスト
+- `useContext` 経由の高頻度値
+- 非自明なフォームでの自作 validation
+- 3 階層を超える prop drilling
+- 200 行超の component
+- 新規コードでの class component
 
-## Automated Checks Run
+## 実行する自動チェック (Automated Checks Run)
 
 ```bash
 # Lint (required for any meaningful review)
@@ -95,9 +95,9 @@ npx eslint . --rule 'jsx-a11y/alt-text: error' \
 npm audit
 ```
 
-If `eslint-plugin-react-hooks` or `eslint-plugin-jsx-a11y` is not configured, the review will flag the gap as a HIGH config issue and continue.
+`eslint-plugin-react-hooks` または `eslint-plugin-jsx-a11y` が未設定の場合、レビューはその gap を HIGH の config issue として報告し、続行する。
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ````text
 User: /react-review
@@ -147,7 +147,7 @@ useEffect(() => {
 Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 ````
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
 | Status | Condition |
 |---|---|
@@ -155,16 +155,16 @@ Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 | WARNING: Warning | Only MEDIUM issues (merge with caution) |
 | FAIL: Block | CRITICAL or HIGH issues found |
 
-## Integration with Other Commands
+## 他コマンドとの連携 (Integration with Other Commands)
 
-- Run `/react-build` first if the build is broken
-- Run `/react-test` to ensure component tests pass
-- Run `/react-review` before merging
-- Use `/code-review` for non-React-specific concerns on the same PR
+- ビルドが壊れている場合は先に `/react-build` を実行
+- component テストが通ることを `/react-test` で確認
+- マージ前に `/react-review` を実行
+- 同一 PR の非 React 固有の懸念には `/code-review` を使用
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/react-reviewer.md`
-- Companion agent: `agents/typescript-reviewer.md` (run alongside for TSX/JSX PRs)
+- Companion agent: `agents/typescript-reviewer.md`（TSX/JSX PR では併用）
 - Skills: `skills/react-patterns/`, `skills/react-testing/`, `skills/accessibility/`
 - Rules: `rules/react/`

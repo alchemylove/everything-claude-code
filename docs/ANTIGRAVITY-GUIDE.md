@@ -1,38 +1,38 @@
-# Antigravity Setup and Usage Guide
+# Antigravity セットアップと利用ガイド (Antigravity Setup and Usage Guide)
 
-Google's [Antigravity](https://antigravity.dev) is an AI coding IDE that uses a `.agent/` directory convention for configuration. ECC provides first-class support for Antigravity through its selective install system.
+Google の [Antigravity](https://antigravity.dev) は、設定に `.agent/` ディレクトリ規約を使う AI コーディング IDE です。ECC は selective install システムを通じて Antigravity を first-class でサポートしています。
 
-## Quick Start
+## クイックスタート (Quick Start)
 
 ```bash
-# Install ECC with Antigravity target
+# Antigravity target で ECC をインストール
 ./install.sh --target antigravity typescript
 
-# Or with multiple language modules
+# 複数の言語モジュール付きでも可
 ./install.sh --target antigravity typescript python go
 ```
 
-This installs ECC components into your project's `.agent/` directory, ready for Antigravity to pick up.
+これにより ECC コンポーネントがプロジェクトの `.agent/` ディレクトリにインストールされ、Antigravity が読み込める状態になります。
 
-## How the Install Mapping Works
+## インストールマッピングの仕組み (How the Install Mapping Works)
 
-ECC remaps its component structure to match Antigravity's expected layout:
+ECC はコンポーネント構造を Antigravity の期待レイアウトに合わせてリマップします:
 
-| ECC Source | Antigravity Destination | What It Contains |
+| ECC Source | Antigravity Destination | 内容 (What It Contains) |
 |------------|------------------------|------------------|
-| `rules/` | `.agent/rules/` | Language rules and coding standards (flattened) |
-| `commands/` | `.agent/workflows/` | Slash commands become Antigravity workflows |
-| `agents/` | `.agent/skills/` | Agent definitions become Antigravity skills |
+| `rules/` | `.agent/rules/` | 言語 rule とコーディング標準（フラット化） |
+| `commands/` | `.agent/workflows/` | slash command は Antigravity workflow になる |
+| `agents/` | `.agent/skills/` | agent 定義は Antigravity skill になる |
 
-> **Note on `.agents/` vs `.agent/` vs `agents/`**: The installer only handles three source paths explicitly: `rules` → `.agent/rules/`, `commands` → `.agent/workflows/`, and `agents` (no dot prefix) → `.agent/skills/`. The dot-prefixed `.agents/` directory in the ECC repo is a **static layout** for Codex/Antigravity skill definitions and `openai.yaml` configs — it is not directly mapped by the installer. Any `.agents/` path falls through to the default scaffold operation. If you want `.agents/skills/` content available in the Antigravity runtime, you must manually copy it to `.agent/skills/`.
+> **`.agents/` vs `.agent/` vs `agents/` について**: installer が明示的に扱う source path は3つのみです: `rules` → `.agent/rules/`、`commands` → `.agent/workflows/`、`agents`（ドットなし）→ `.agent/skills/`。ECC リポジトリ内のドット付き `.agents/` ディレクトリは Codex/Antigravity 向け skill 定義と `openai.yaml` 設定の**静的レイアウト**であり、installer では直接マップされません。`.agents/` パスはデフォルトの scaffold 操作にフォールスルーします。`.agents/skills/` の内容を Antigravity ランタイムで使いたい場合は、手動で `.agent/skills/` にコピーする必要があります。
 
-### Key Differences from Claude Code
+### Claude Code との主な違い (Key Differences from Claude Code)
 
-- **Rules are flattened**: Claude Code nests rules under subdirectories (`rules/common/`, `rules/typescript/`). Antigravity expects a flat `rules/` directory — the installer handles this automatically.
-- **Commands become workflows**: ECC's `/command` files land in `.agent/workflows/`, which is Antigravity's equivalent of slash commands.
-- **Agents become skills**: ECC agent definitions map to `.agent/skills/`, where Antigravity looks for skill configurations.
+- **Rules はフラット化**: Claude Code は `rules/common/`、`rules/typescript/` のように rules をサブディレクトリにネストします。Antigravity はフラットな `rules/` を期待します — installer が自動で処理します。
+- **Commands は workflows になる**: ECC の `/command` ファイルは `.agent/workflows/` に配置され、これが Antigravity における slash command 相当です。
+- **Agents は skills になる**: ECC の agent 定義は `.agent/skills/` にマップされ、Antigravity が skill 設定を参照する場所です。
 
-## Directory Structure After Install
+## インストール後のディレクトリ構造 (Directory Structure After Install)
 
 ```
 your-project/
@@ -55,9 +55,9 @@ your-project/
 │   └── ecc-install-state.json     # tracks what ECC installed
 ```
 
-## The `openai.yaml` Agent Config
+## `openai.yaml` Agent 設定 (The `openai.yaml` Agent Config)
 
-Each skill directory under `.agents/skills/` contains an `agents/openai.yaml` file at the path `.agents/skills/<skill-name>/agents/openai.yaml` that configures the skill for Antigravity:
+`.agents/skills/` 配下の各 skill ディレクトリには、`.agents/skills/<skill-name>/agents/openai.yaml` に Antigravity 向け skill 設定を含む `agents/openai.yaml` があります:
 
 ```yaml
 interface:
@@ -69,88 +69,88 @@ policy:
   allow_implicit_invocation: true
 ```
 
-| Field | Purpose |
+| フィールド (Field) | 目的 (Purpose) |
 |-------|---------|
-| `display_name` | Human-readable name shown in Antigravity's UI |
-| `short_description` | Brief description of what the skill does |
-| `brand_color` | Hex color for the skill's visual badge |
-| `default_prompt` | Suggested prompt when the skill is invoked manually |
-| `allow_implicit_invocation` | When `true`, Antigravity can activate the skill automatically based on context |
+| `display_name` | Antigravity UI に表示される人間可読名 |
+| `short_description` | skill の簡潔な説明 |
+| `brand_color` | skill の視覚バッジ用の hex 色 |
+| `default_prompt` | skill を手動起動したときの推奨 prompt |
+| `allow_implicit_invocation` | `true` のとき、Antigravity が context に基づいて skill を自動有効化できる |
 
-## Managing Your Installation
+## インストールの管理 (Managing Your Installation)
 
-### Check What's Installed
+### インストール内容の確認 (Check What's Installed)
 
 ```bash
 node scripts/list-installed.js --target antigravity
 ```
 
-### Repair a Broken Install
+### 壊れたインストールの修復 (Repair a Broken Install)
 
 ```bash
-# First, diagnose what's wrong
+# まず診断
 node scripts/doctor.js --target antigravity
 
-# Then, restore missing or drifted files
+# 欠落または drift したファイルを復元
 node scripts/repair.js --target antigravity
 ```
 
-### Uninstall
+### アンインストール (Uninstall)
 
 ```bash
 node scripts/uninstall.js --target antigravity
 ```
 
-### Install State
+### Install State（インストール状態）
 
-The installer writes `.agent/ecc-install-state.json` to track which files ECC owns. This enables safe uninstall and repair — ECC will never touch files it didn't create.
+installer は `.agent/ecc-install-state.json` を書き込み、ECC が所有するファイルを追跡します。これにより安全な uninstall と repair が可能になり — ECC は自分が作っていないファイルには触れません。
 
-## Adding Custom Skills for Antigravity
+## Antigravity 向けカスタム Skill の追加 (Adding Custom Skills for Antigravity)
 
-If you're contributing a new skill and want it available on Antigravity:
+新しい skill を貢献し Antigravity で使えるようにする場合:
 
-1. Create the skill under `skills/your-skill-name/SKILL.md` as usual
-2. Add an agent definition at `agents/your-skill-name.md` — this is the path the installer maps to `.agent/skills/` at runtime, making your skill available in the Antigravity harness
-3. Add the Antigravity agent config at `.agents/skills/your-skill-name/agents/openai.yaml` — this is a static repo layout consumed by Codex for implicit invocation metadata
-4. Mirror the `SKILL.md` content to `.agents/skills/your-skill-name/SKILL.md` — this static copy is used by Codex and serves as a reference for Antigravity
-5. Mention in your PR that you added Antigravity support
+1. 通常どおり `skills/your-skill-name/SKILL.md` に skill を作成
+2. `agents/your-skill-name.md` に agent 定義を追加 — これが installer により `.agent/skills/` にマップされ、Antigravity harness で skill が使えるようになります
+3. `.agents/skills/your-skill-name/agents/openai.yaml` に Antigravity agent 設定を追加 — Codex の implicit invocation メタデータ用の静的リポジトリレイアウトです
+4. `SKILL.md` の内容を `.agents/skills/your-skill-name/SKILL.md` にミラー — Codex が使う静的コピーで、Antigravity の参照にもなります
+5. PR で Antigravity サポートを追加したことを明記
 
-> **Key distinction**: The installer deploys `agents/` (no dot) → `.agent/skills/` — this is what makes skills available at runtime. The `.agents/` (dot-prefixed) directory is a separate static layout for Codex `openai.yaml` configs and is not auto-deployed by the installer.
+> **重要な区別**: installer は `agents/`（ドットなし）→ `.agent/skills/` をデプロイします — これがランタイムで skill を使えるようにする部分です。`.agents/`（ドット付き）は Codex `openai.yaml` 用の別の静的レイアウトで、installer では自動デプロイされません。
 
-See [CONTRIBUTING.md](../CONTRIBUTING.md) for the full contribution guide.
+詳細は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照してください。
 
-## Comparison with Other Targets
+## 他 Target との比較 (Comparison with Other Targets)
 
-| Feature | Claude Code | Cursor | Codex | Antigravity |
+| 機能 (Feature) | Claude Code | Cursor | Codex | Antigravity |
 |---------|-------------|--------|-------|-------------|
 | Install target | `claude-home` | `cursor-project` | `codex-home` | `antigravity` |
 | Config root | `~/.claude/` | `.cursor/` | `~/.codex/` | `.agent/` |
-| Scope | User-level | Project-level | User-level | Project-level |
+| スコープ (Scope) | User-level | Project-level | User-level | Project-level |
 | Rules format | Nested dirs | Flat | Flat | Flat |
 | Commands | `commands/` | N/A | N/A | `workflows/` |
 | Agents/Skills | `agents/` | N/A | N/A | `skills/` |
 | Install state | `ecc-install-state.json` | `ecc-install-state.json` | `ecc-install-state.json` | `ecc-install-state.json` |
 
-## Troubleshooting
+## トラブルシューティング (Troubleshooting)
 
-### Skills not loading in Antigravity
+### Antigravity で skill が読み込まれない (Skills not loading in Antigravity)
 
-- Verify the `.agent/` directory exists in your project root (not home directory)
-- Check that `ecc-install-state.json` was created — if missing, re-run the installer
-- Ensure files have `.md` extension and valid frontmatter
+- プロジェクトルート（ホームディレクトリではない）に `.agent/` があることを確認
+- `ecc-install-state.json` が作成されているか確認 — なければ installer を再実行
+- ファイルが `.md` 拡張子で有効な frontmatter であることを確認
 
-### Rules not applying
+### Rule が適用されない (Rules not applying)
 
-- Rules must be in `.agent/rules/`, not nested in subdirectories
-- Run `node scripts/doctor.js --target antigravity` to verify the install
+- Rule はサブディレクトリではなく `.agent/rules/` にある必要がある
+- `node scripts/doctor.js --target antigravity` でインストールを検証
 
-### Workflows not available
+### Workflow が使えない (Workflows not available)
 
-- Antigravity looks for workflows in `.agent/workflows/`, not `commands/`
-- If you manually copied ECC commands, rename the directory
+- Antigravity は `commands/` ではなく `.agent/workflows/` を参照する
+- ECC command を手動コピーした場合はディレクトリ名を変更する
 
-## Related Resources
+## 関連リソース (Related Resources)
 
-- [Selective Install Architecture](./SELECTIVE-INSTALL-ARCHITECTURE.md) — how the install system works under the hood
-- [Selective Install Design](./SELECTIVE-INSTALL-DESIGN.md) — design decisions and target adapter contracts
-- [CONTRIBUTING.md](../CONTRIBUTING.md) — how to contribute skills, agents, and commands
+- [Selective Install Architecture](./SELECTIVE-INSTALL-ARCHITECTURE.md) — install システムの内部動作
+- [Selective Install Design](./SELECTIVE-INSTALL-DESIGN.md) — 設計判断と target adapter 契約
+- [CONTRIBUTING.md](../CONTRIBUTING.md) — skill、agent、command の貢献方法

@@ -9,7 +9,7 @@ origin: community
 Use this skill to review network configuration before a change window or before
 an automation run touches production devices.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - Reviewing Cisco IOS or IOS-XE style snippets before deployment.
 - Auditing generated config from scripts or templates.
@@ -18,7 +18,7 @@ an automation run touches production devices.
   but not defined.
 - Building lightweight pre-flight scripts for network automation.
 
-## How It Works
+## 仕組み (How It Works)
 
 Treat config validation as layered evidence, not as a complete parser. Regex
 checks are useful for pre-flight warnings, but final approval still needs a
@@ -32,7 +32,7 @@ Validate in this order:
 4. Stale references to ACLs, route-maps, prefix-lists, and interfaces.
 5. Operational hygiene such as NTP, timestamps, remote logging, and banners.
 
-## Dangerous Command Detection
+## 危険コマンド検出 (Dangerous Command Detection)
 
 ```python
 import re
@@ -61,7 +61,7 @@ def find_dangerous_commands(lines: list[str]) -> list[dict[str, str | int]]:
     return findings
 ```
 
-## Duplicate IPs And Subnet Overlaps
+## 重複 IP とサブネット重複 (Duplicate IPs And Subnet Overlaps)
 
 ```python
 import ipaddress
@@ -105,7 +105,7 @@ def find_subnet_overlaps(config: str) -> list[tuple[str, str]]:
     return overlaps
 ```
 
-## Management-Plane Checks
+## 管理プレーンチェック (Management-Plane Checks)
 
 Parse VTY blocks by section so access-class checks do not spill across unrelated
 lines.
@@ -144,7 +144,7 @@ def check_vty_blocks(config: str) -> list[str]:
     return issues
 ```
 
-## Security Hygiene Checks
+## セキュリティ衛生チェック (Security Hygiene Checks)
 
 ```python
 SECURITY_PATTERNS = [
@@ -179,7 +179,7 @@ def check_missing_hygiene(config: str) -> list[str]:
     ]
 ```
 
-## Examples
+## 例 (Examples)
 
 ### Change-Window Preflight
 
@@ -195,7 +195,7 @@ Use validation as a blocking gate before Netmiko, NAPALM, Ansible, or vendor API
 automation pushes a generated config. Fail closed on dangerous commands and
 credentials. Warn on best-practice gaps that are outside the change scope.
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 - Treating regex validation as a device parser.
 - Applying generated config without a dry-run diff.
@@ -203,7 +203,7 @@ credentials. Warn on best-practice gaps that are outside the change scope.
 - Checking VTY blocks with regex that can accidentally span unrelated sections.
 - Testing firewall behavior by disabling ACLs instead of reading counters/logs.
 
-## See Also
+## 関連項目 (See Also)
 
 - Agent: `network-config-reviewer`
 - Agent: `network-troubleshooter`

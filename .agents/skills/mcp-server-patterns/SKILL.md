@@ -3,38 +3,38 @@ name: mcp-server-patterns
 description: Build MCP servers with Node/TypeScript SDK — tools, resources, prompts, Zod validation, stdio vs Streamable HTTP. Use Context7 or official MCP docs for latest API.
 ---
 
-# MCP Server Patterns
+# MCP サーバーパターン (MCP Server Patterns)
 
-The Model Context Protocol (MCP) lets AI assistants call tools, read resources, and use prompts from your server. Use this skill when building or maintaining MCP servers. The SDK API evolves; check Context7 (query-docs for "MCP") or the official MCP documentation for current method names and signatures.
+Model Context Protocol（MCP）は、AI アシスタントがサーバーからツールを呼び出し、リソースを読み取り、プロンプトを使用できるようにする。MCP サーバーの構築・保守時にこのスキルを使用する。SDK API は進化するため、現在のメソッド名とシグネチャは Context7（"MCP" で query-docs）または公式 MCP ドキュメントを確認すること。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use when: implementing a new MCP server, adding tools or resources, choosing stdio vs HTTP, upgrading the SDK, or debugging MCP registration and transport issues.
+次の場合に使用: 新規 MCP サーバーの実装、ツールやリソースの追加、stdio と HTTP の選択、SDK のアップグレード、MCP 登録とトランスポートの問題のデバッグ。
 
-## How It Works
+## 仕組み (How It Works)
 
-### Core concepts
+### コア概念 (Core concepts)
 
-- **Tools**: Actions the model can invoke (e.g. search, run a command). Register with `registerTool()` or `tool()` depending on SDK version.
-- **Resources**: Read-only data the model can fetch (e.g. file contents, API responses). Register with `registerResource()` or `resource()`. Handlers typically receive a `uri` argument.
-- **Prompts**: Reusable, parameterised prompt templates the client can surface (e.g. in Claude Desktop). Register with `registerPrompt()` or equivalent.
-- **Transport**: stdio for local clients (e.g. Claude Desktop); Streamable HTTP is preferred for remote (Cursor, cloud). Legacy HTTP/SSE is for backward compatibility.
+- **Tools**: モデルが呼び出せるアクション（例: 検索、コマンド実行）。SDK バージョンにより `registerTool()` または `tool()` で登録。
+- **Resources**: モデルが取得できる読み取り専用データ（例: ファイル内容、API レスポンス）。`registerResource()` または `resource()` で登録。ハンドラは通常 `uri` 引数を受け取る。
+- **Prompts**: クライアントが表示できる再利用可能なパラメータ化プロンプトテンプレート（例: Claude Desktop）。`registerPrompt()` または同等の API で登録。
+- **Transport**: ローカルクライアント（例: Claude Desktop）には stdio。リモート（Cursor、クラウド）には Streamable HTTP を推奨。レガシー HTTP/SSE は後方互換性のため。
 
-The Node/TypeScript SDK may expose `tool()` / `resource()` or `registerTool()` / `registerResource()`; the official SDK has changed over time. Always verify against the current [MCP docs](https://modelcontextprotocol.io) or Context7.
+Node/TypeScript SDK は `tool()` / `resource()` または `registerTool()` / `registerResource()` を公開する場合がある。公式 SDK は時期により変更されている。常に現在の [MCP docs](https://modelcontextprotocol.io) または Context7 で確認すること。
 
-### Connecting with stdio
+### stdio での接続 (Connecting with stdio)
 
-For local clients, create a stdio transport and pass it to your server’s connect method. The exact API varies by SDK version (e.g. constructor vs factory). See the official MCP documentation or query Context7 for "MCP stdio server" for the current pattern.
+ローカルクライアントでは、stdio トランスポートを作成し、サーバーの connect メソッドに渡す。正確な API は SDK バージョンにより異なる（例: コンストラクタ vs ファクトリ）。現在のパターンは公式 MCP ドキュメントまたは Context7 で "MCP stdio server" を検索すること。
 
-Keep server logic (tools + resources) independent of transport so you can plug in stdio or HTTP in the entrypoint.
+サーバーロジック（tools + resources）はトランスポートから独立させ、エントリポイントで stdio または HTTP を差し替え可能にする。
 
-### Remote (Streamable HTTP)
+### リモート（Streamable HTTP）(Remote (Streamable HTTP)) (Remote)
 
-For Cursor, cloud, or other remote clients, use **Streamable HTTP** (single MCP HTTP endpoint per current spec). Support legacy HTTP/SSE only when backward compatibility is required.
+Cursor、クラウド、その他のリモートクライアントには **Streamable HTTP**（現行仕様の単一 MCP HTTP エンドポイント）を使用。後方互換性が必要な場合のみレガシー HTTP/SSE をサポート。
 
-## Examples
+## 例 (Examples)
 
-### Install and server setup
+### インストールとサーバー設定 (Install and server setup)
 
 ```bash
 npm install @modelcontextprotocol/sdk zod
@@ -47,20 +47,20 @@ import { z } from "zod";
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
 ```
 
-Register tools and resources using the API your SDK version provides: some versions use `server.tool(name, description, schema, handler)` (positional args), others use `server.tool({ name, description, inputSchema }, handler)` or `registerTool()`. Same for resources — include a `uri` in the handler when the API provides it. Check the official MCP docs or Context7 for the current `@modelcontextprotocol/sdk` signatures to avoid copy-paste errors.
+ツールとリソースは、使用中の SDK バージョンが提供する API で登録する。一部バージョンは `server.tool(name, description, schema, handler)`（位置引数）、他は `server.tool({ name, description, inputSchema }, handler)` または `registerTool()` を使用。リソースも同様 — API が提供する場合はハンドラに `uri` を含める。コピペエラーを避けるため、現在の `@modelcontextprotocol/sdk` シグネチャは公式 MCP ドキュメントまたは Context7 で確認すること。
 
-Use **Zod** (or the SDK’s preferred schema format) for input validation.
+入力バリデーションには **Zod**（または SDK が推奨するスキーマ形式）を使用する。
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-- **Schema first**: Define input schemas for every tool; document parameters and return shape.
-- **Errors**: Return structured errors or messages the model can interpret; avoid raw stack traces.
-- **Idempotency**: Prefer idempotent tools where possible so retries are safe.
-- **Rate and cost**: For tools that call external APIs, consider rate limits and cost; document in the tool description.
-- **Versioning**: Pin SDK version in package.json; check release notes when upgrading.
+- **Schema first**: すべてのツールに入力スキーマを定義し、パラメータと戻り値の形状を文書化する。
+- **Errors**: モデルが解釈できる構造化エラーまたはメッセージを返す。生のスタックトレースは避ける。
+- **Idempotency**: 可能な限りべき等なツールを優先し、リトライを安全にする。
+- **Rate and cost**: 外部 API を呼ぶツールではレート制限とコストを考慮し、ツール説明に記載する。
+- **Versioning**: package.json で SDK バージョンを固定し、アップグレード時はリリースノートを確認する。
 
-## Official SDKs and Docs
+## 公式 SDK とドキュメント (Official SDKs and Docs)
 
-- **JavaScript/TypeScript**: `@modelcontextprotocol/sdk` (npm). Use Context7 with library name "MCP" for current registration and transport patterns.
-- **Go**: Official Go SDK on GitHub (`modelcontextprotocol/go-sdk`).
-- **C#**: Official C# SDK for .NET.
+- **JavaScript/TypeScript**: `@modelcontextprotocol/sdk`（npm）。現在の登録とトランスポートパターンは Context7 でライブラリ名 "MCP" を使用。
+- **Go**: GitHub の公式 Go SDK（`modelcontextprotocol/go-sdk`）。
+- **C#**: .NET 向け公式 C# SDK。

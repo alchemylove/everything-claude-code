@@ -3,38 +3,38 @@ paths:
   - "**/*.php"
   - "**/composer.json"
 ---
-# PHP Coding Style
+# PHP コーディングスタイル (PHP Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with PHP specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、PHP 固有の内容を追加する。
 
-## Standards
+## 標準 (Standards)
 
-- Follow **PSR-12** formatting and naming conventions.
-- Prefer `declare(strict_types=1);` in application code.
-- Use scalar type hints, return types, and typed properties everywhere new code permits.
+- **PSR-12** のフォーマットと命名規約に従う。
+- アプリケーションコードでは `declare(strict_types=1);` を優先する。
+- 新規コードでは可能な限りスカラー型ヒント、戻り値型、型付きプロパティを使用する。
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer immutable DTOs and value objects for data crossing service boundaries.
-- Use `readonly` properties or immutable constructors for request/response payloads where possible.
-- Keep arrays for simple maps; promote business-critical structures into explicit classes.
+- サービス境界を跨ぐデータには不変 DTO と value object を優先する。
+- 可能な場合は `readonly` プロパティまたは不変コンストラクタをリクエスト/レスポンスペイロードに使用する。
+- 単純なマップには配列を使い、ビジネス上重要な構造は明示的なクラスに昇格させる。
 
-## Formatting
+## フォーマット (Formatting)
 
-- Use **PHP-CS-Fixer** or **Laravel Pint** for formatting.
-- Use **PHPStan** or **Psalm** for static analysis.
-- Keep Composer scripts checked in so the same commands run locally and in CI.
+- フォーマットには **PHP-CS-Fixer** または **Laravel Pint** を使用する。
+- 静的解析には **PHPStan** または **Psalm** を使用する。
+- ローカルと CI で同じコマンドが実行されるよう Composer scripts をリポジトリに含める。
 
-## Imports
+## インポート (Imports)
 
-- Add `use` statements for all referenced classes, interfaces, and traits.
-- Avoid relying on the global namespace unless the project explicitly prefers fully qualified names.
+- 参照するクラス、インターフェース、trait には `use` 文を追加する。
+- プロジェクトが完全修飾名を明示的に好む場合を除き、グローバル名前空間への依存は避ける。
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Throw exceptions for exceptional states; avoid returning `false`/`null` as hidden error channels in new code.
-- Convert framework/request input into validated DTOs before it reaches domain logic.
+- 例外的な状態には例外を投げる。新規コードでは `false`/`null` を隠れたエラーチャネルとして返さない。
+- ドメインロジックに到達する前に、フレームワーク/リクエスト入力を検証済み DTO に変換する。
 
-## Reference
+## 参照 (Reference)
 
-See skill: `backend-patterns` for broader service/repository layering guidance.
+サービス/リポジトリのレイヤリングに関するより広いガイダンスは skill: `backend-patterns` を参照。

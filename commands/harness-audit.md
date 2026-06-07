@@ -1,32 +1,32 @@
 ---
-description: Run a deterministic repository harness audit and return a prioritized scorecard.
+description: 決定論的なリポジトリ harness audit を実行し、優先順位付き scorecard を返します。
 ---
 
-# Harness Audit Command
+# Harness 監査コマンド (Harness Audit Command)
 
-Run a deterministic repository harness audit and return a prioritized scorecard.
+決定論的なリポジトリ harness audit を実行し、優先順位付き scorecard を返します。
 
-## Usage
+## 使い方 (Usage)
 
 `/harness-audit [scope] [--format text|json] [--root path]`
 
-- `scope` (optional): `repo` (default), `hooks`, `skills`, `commands`, `agents`
-- `--format`: output style (`text` default, `json` for automation)
-- `--root`: audit a specific path instead of the current working directory
+- `scope`（オプション）: `repo`（デフォルト）、`hooks`、`skills`、`commands`、`agents`
+- `--format`: output style（`text` がデフォルト、automation には `json`）
+- `--root`: 現在の working directory の代わりに特定の path を audit
 
-## Deterministic Engine
+## 決定論的エンジン (Deterministic Engine)
 
-Always run:
+常に実行:
 
 ```bash
 node scripts/harness-audit.js <scope> --format <text|json> [--root <path>]
 ```
 
-This script is the source of truth for scoring and checks. Do not invent additional dimensions or ad-hoc points.
+この script が scoring と check の source of truth です。追加の dimension や ad-hoc な point を作り出さないでください。
 
 Rubric version: `2026-05-19`.
 
-The script computes up to 12 fixed categories (`0-10` normalized each). The first seven are always applicable; GitHub Integration is always applicable; deploy-target categories are applicable only when a matching marker is detected.
+script は最大 12 の固定 category（各 `0-10` normalized）を計算します。最初の 7 つは常に applicable、GitHub Integration は常に applicable、deploy-target category は matching marker が検出された場合のみ applicable です。
 
 1. Tool Coverage
 2. Context Efficiency
@@ -41,28 +41,28 @@ The script computes up to 12 fixed categories (`0-10` normalized each). The firs
 11. Cloudflare Integration *(when `wrangler.toml` or `wrangler.jsonc` is present)*
 12. Fly Integration *(when `fly.toml` is present)*
 
-Scores are derived from explicit file/rule checks and are reproducible for the same commit.
-The script audits the current working directory by default and auto-detects whether the target is the ECC repo itself or a consumer project using ECC.
+score は explicit file/rule check から導出され、同じ commit に対して reproducible です。
+script はデフォルトで現在の working directory を audit し、target が ECC repo 自体か、ECC を使用する consumer project かを auto-detect します。
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Return:
+返却内容:
 
-1. `overall_score` out of `max_score`. `max_score` depends on which categories are applicable to the target; never assume a fixed total.
-2. `applicable_categories[]` and `category_count` describing which categories contributed.
-3. Category scores and concrete findings.
-4. Failed checks with exact file paths.
-5. Top 3 actions from the deterministic output (`top_actions`).
-6. Suggested ECC skills to apply next.
+1. `overall_score` out of `max_score`。`max_score` は target に applicable な category によって異なります。fixed total を assume しないでください。
+2. `applicable_categories[]` と `category_count` — どの category が寄与したかを記述
+3. category score と concrete findings
+4. exact file path 付きの failed check
+5. deterministic output からの Top 3 action（`top_actions`）
+6. 次に適用すべき suggested ECC skill
 
-## Checklist
+## チェックリスト (Checklist)
 
-- Use script output directly; do not rescore manually.
-- If `--format json` is requested, return the script JSON unchanged.
-- If text is requested, summarize failing checks and top actions.
-- Include exact file paths from `checks[]` and `top_actions[]`.
+- script output を直接使用。手動で rescore しない。
+- `--format json` が要求された場合、script JSON をそのまま返す。
+- text が要求された場合、failing check と top action を summarize。
+- `checks[]` と `top_actions[]` からの exact file path を含める。
 
-## Example Result
+## 結果の例 (Example Result)
 
 ```text
 Harness Audit (repo, repo): 71/80
@@ -77,8 +77,8 @@ Top 3 Actions:
 3) [Eval Coverage] Increase automated test coverage across scripts/hooks/lib. (tests/)
 ```
 
-## Arguments
+## 引数 (Arguments)
 
 $ARGUMENTS:
-- `repo|hooks|skills|commands|agents` (optional scope)
-- `--format text|json` (optional output format)
+- `repo|hooks|skills|commands|agents`（オプション scope）
+- `--format text|json`（オプション output format）

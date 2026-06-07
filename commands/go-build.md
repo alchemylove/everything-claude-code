@@ -1,29 +1,29 @@
 ---
-description: Fix Go build errors, go vet warnings, and linter issues incrementally. Invokes the go-build-resolver agent for minimal, surgical fixes.
+description: Go ビルドエラー、go vet 警告、linter 問題を段階的に修正します。最小限の外科的修正のために go-build-resolver エージェントを呼び出します。
 ---
 
-# Go Build and Fix
+# Go ビルドと修正 (Go Build and Fix)
 
-This command invokes the **go-build-resolver** agent to incrementally fix Go build errors with minimal changes.
+このコマンドは **go-build-resolver** エージェントを呼び出し、最小限の変更で Go ビルドエラーを段階的に修正します。
 
-## What This Command Does
+## このコマンドの機能 (What This Command Does)
 
-1. **Run Diagnostics**: Execute `go build`, `go vet`, `staticcheck`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **診断の実行**: `go build`、`go vet`、`staticcheck` を実行
+2. **エラーの解析**: ファイル別にグループ化し、重要度順にソート
+3. **段階的修正**: 一度に 1 つのエラーを修正
+4. **各修正の検証**: 各変更後にビルドを再実行
+5. **サマリーのレポート**: 修正されたものと残っているものを表示
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/go-build` when:
-- `go build ./...` fails with errors
-- `go vet ./...` reports issues
-- `golangci-lint run` shows warnings
-- Module dependencies are broken
-- After pulling changes that break the build
+以下の場合に `/go-build` を使用します:
+- `go build ./...` がエラーで失敗する場合
+- `go vet ./...` が問題を報告する場合
+- `golangci-lint run` が警告を表示する場合
+- module 依存関係が壊れている場合
+- ビルドを壊す変更を pull した後
 
-## Diagnostic Commands Run
+## 実行される診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # Primary build check
@@ -41,7 +41,7 @@ go mod verify
 go mod tidy -v
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ```text
 User: /go-build
@@ -143,7 +143,7 @@ ok      project/internal/handler   0.023s
 Build Status: PASS: SUCCESS
 ```
 
-## Common Errors Fixed
+## 修正される一般的なエラー (Common Errors Fixed)
 
 | Error | Typical Fix |
 |-------|-------------|
@@ -155,7 +155,7 @@ Build Status: PASS: SUCCESS
 | `declared but not used` | Remove or use variable |
 | `cannot find package` | `go get` or `go mod tidy` |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
 1. **Build errors first** - Code must compile
 2. **Vet warnings second** - Fix suspicious constructs
@@ -163,21 +163,21 @@ Build Status: PASS: SUCCESS
 4. **One fix at a time** - Verify each change
 5. **Minimal changes** - Don't refactor, just fix
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Missing external dependencies
+以下の場合、エージェントは停止してレポートします:
+- 同じエラーが 3 回の試行後も持続
+- 修正がさらなるエラーを引き起こす
+- アーキテクチャの変更が必要
+- 外部依存関係が欠落
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/go-test` - Run tests after build succeeds
-- `/go-review` - Review code quality
-- `verification-loop` skill - Full verification loop
+- `/go-test` - ビルド成功後にテストを実行
+- `/go-review` - コード品質をレビュー
+- `verification-loop` skill - 完全な verification loop
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/go-build-resolver.md`
 - Skill: `skills/golang-patterns/`

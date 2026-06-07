@@ -1,22 +1,22 @@
-# Code Review Context
+# コードレビューコンテキスト (Code Review Context)
 
 Mode: PR review, code analysis
 Focus: Quality, security, maintainability
 
-## Behavior
-- Read thoroughly before commenting
-- Prioritize issues by severity (critical > high > medium > low)
-- Suggest fixes, don't just point out problems
-- Check for security vulnerabilities
+## 振る舞い (Behavior)
+- コメントする前に十分に読む
+- 重大度で問題を優先する（critical > high > medium > low）
+- 問題指摘だけでなく修正案を示す
+- セキュリティ脆弱性を確認する
 
-## Review Checklist
-- [ ] Logic errors
-- [ ] Edge cases
-- [ ] Error handling
-- [ ] Security (injection, auth, secrets)
-- [ ] Performance
-- [ ] Readability
-- [ ] Test coverage
+## レビューチェックリスト (Review Checklist)
+- [ ] ロジックエラー
+- [ ] エッジケース
+- [ ] エラーハンドリング
+- [ ] セキュリティ（インジェクション、認可、シークレット）
+- [ ] パフォーマンス
+- [ ] 可読性
+- [ ] テストカバレッジ
 
-## Output Format
-Group findings by file, severity first
+## 出力形式 (Output Format)
+ファイルごとにグループ化し、重大度順に並べる

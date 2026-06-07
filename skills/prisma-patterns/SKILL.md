@@ -17,7 +17,7 @@ npx prisma --version
 
 Prisma 5 introduced `relationJoins`, which can load relations via JOIN rather than separate queries depending on query strategy and configuration. The `omit` field modifier and `prisma.$extends` Client Extensions API were also added. Note: `relationJoins` can cause row explosion on large 1:N relations or deep nested `include` — benchmark both approaches when relations may return many rows per parent.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Designing or modifying Prisma schema models and relations
 - Writing queries, transactions, or pagination logic
@@ -26,7 +26,7 @@ Prisma 5 introduced `relationJoins`, which can load relations via JOIN rather th
 - Deploying to serverless environments (Vercel, Lambda, Cloudflare Workers)
 - Implementing soft delete or multi-tenant row filtering
 
-## Core Concepts
+## コア概念 (Core Concepts)
 
 ### ID Strategy
 
@@ -153,7 +153,7 @@ const users = await prisma.user.findMany({ include: { posts: true } });
 
 With Prisma 5+ `relationJoins`, the `include` form uses a single JOIN. On large 1:N sets this may increase result set size — benchmark both approaches if the relation can return many rows per parent.
 
-## Code Examples
+## コード例 (Code Examples)
 
 ### Cursor Pagination (preferred for feeds and large datasets)
 
@@ -227,7 +227,7 @@ DATABASE_URL="postgresql://user:pass@host/db?pgbouncer=true&connection_limit=1"
 const prisma = new PrismaClient();
 ```
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 ### `updateMany` returns a count, not records
 
@@ -351,7 +351,7 @@ await prisma.post.deleteMany();
 await prisma.post.deleteMany({ where: { authorId: userId } });
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
 | Rule | Reason |
 |---|---|
@@ -363,7 +363,7 @@ await prisma.post.deleteMany({ where: { authorId: userId } });
 | Always provide `where` on `deleteMany` | Prevents accidental table wipe |
 | Set `updatedAt: new Date()` manually in `updateMany` | `@updatedAt` skips bulk writes |
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - `nestjs-patterns` — NestJS service layer that integrates Prisma
 - `postgres-patterns` — PostgreSQL-level indexing and connection tuning

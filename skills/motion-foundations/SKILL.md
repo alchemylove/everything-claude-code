@@ -13,7 +13,7 @@ The base layer of the motion system. Defines every value, constraint, and
 rule that downstream skills (`motion-patterns`, `motion-advanced`) inherit.
 Load this skill before any animation work begins.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Starting any animated component from scratch
 - Setting up tokens, spring presets, or easing values
@@ -21,7 +21,7 @@ Load this skill before any animation work begins.
 - Debugging hydration mismatches from animation initial states
 - Evaluating whether an animation should exist at all
 
-## Outputs
+## 出力 (Outputs)
 
 This skill produces:
 
@@ -31,7 +31,7 @@ This skill produces:
 - Accessibility-compliant animation defaults via `useReducedMotion`
 - SSR-safe initial states with zero hydration warnings
 
-## Principles
+## 原則 (Principles)
 
 Motion must do at least one of the following or it must be removed:
 
@@ -42,7 +42,7 @@ Motion must do at least one of the following or it must be removed:
 Responsiveness always outranks smoothness. A 60 fps animation that causes
 input delay is worse than no animation.
 
-## Rules
+## ルール (Rules)
 
 These are non-negotiable. They apply to every component in the system.
 
@@ -55,7 +55,7 @@ These are non-negotiable. They apply to every component in the system.
 7. **`"use client"` is required** on every file that imports from `motion/react`.
 8. **Never read `window` or `navigator` at module level.** Always guard with `typeof window !== "undefined"`.
 
-## Decision Guidance
+## 判断ガイド (Decision Guidance)
 
 ### Choosing a duration
 
@@ -86,7 +86,7 @@ Disable (make `shouldAnimate()` return `false`) when:
 - The element is off-screen and will never enter the viewport
 - The animation is purely decorative with no UX purpose
 
-## Core Concepts
+## コア概念 (Core Concepts)
 
 ### Token system
 
@@ -220,7 +220,7 @@ useEffect(() => setMounted(true), [])
 />
 ```
 
-## Code Examples
+## コード例 (Code Examples)
 
 ### End-to-end: tokens + springs + accessibility + SSR guard
 
@@ -270,7 +270,7 @@ export function FadeInCard({ children, delay = 0 }: FadeInCardProps) {
 }
 ```
 
-## Constraints / Non-Goals
+## 制約 / 非目標 (Constraints / Non-Goals)
 
 This skill does **not** cover:
 
@@ -280,7 +280,7 @@ This skill does **not** cover:
 - Third-party animation libraries (GSAP, anime.js, etc.)
 - Motion design decisions (when to animate, what to emphasize) — that is a design concern, not a code constraint
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 | Anti-pattern | Rule violated | Fix |
 | --------------------------------------- | ------- | ------------------------------- |
@@ -293,7 +293,7 @@ This skill does **not** cover:
 | Missing `"use client"` directive | Rule 7 | Add to top of file |
 | `navigator.hardwareConcurrency` at module level | Rule 8 | Wrap in `typeof navigator !== "undefined"` |
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - **`motion-patterns`** — consumes tokens and springs defined here to build button, modal, stagger, page transition, and scroll patterns. Does not redefine any values.
 - **`motion-advanced`** — consumes tokens and springs defined here for drag, SVG, text, and gesture patterns. Adds `useAnimate` sequences and custom hooks on top of this foundation.

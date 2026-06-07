@@ -1,20 +1,20 @@
 ---
-description: "Swift hooks extending common rules"
+description: "Swift hooks: common ルールの拡張"
 globs: ["**/*.swift", "**/Package.swift"]
 alwaysApply: false
 ---
-# Swift Hooks
+# Swift Hooks (Swift Hooks)
 
-> This file extends the common hooks rule with Swift specific content.
+> このファイルは common hooks ルールを Swift 固有の内容で拡張する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **SwiftFormat**: Auto-format `.swift` files after edit
-- **SwiftLint**: Run lint checks after editing `.swift` files
-- **swift build**: Type-check modified packages after edit
+- **SwiftFormat**: 編集後に `.swift` ファイルを auto-format
+- **SwiftLint**: `.swift` ファイル編集後に lint check を実行
+- **swift build**: 編集後に変更された package を型チェック
 
-## Warning
+## 警告 (Warning)
 
-Flag `print()` statements -- use `os.Logger` or structured logging instead for production code.
+`print()` 文をフラグ — 本番コードでは `os.Logger` または structured logging を使用。

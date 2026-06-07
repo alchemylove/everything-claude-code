@@ -2,13 +2,13 @@
 paths:
   - "**/*.rs"
 ---
-# Rust Patterns
+# Rust パターン (Rust Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Rust-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Rust 固有の内容を追加する。
 
-## Repository Pattern with Traits
+## Trait による Repository パターン (Repository Pattern with Traits)
 
-Encapsulate data access behind a trait:
+データアクセスを trait の背後にカプセル化:
 
 ```rust
 pub trait OrderRepository: Send + Sync {
@@ -19,11 +19,11 @@ pub trait OrderRepository: Send + Sync {
 }
 ```
 
-Concrete implementations handle storage details (Postgres, SQLite, in-memory for tests).
+具象実装がストレージの詳細（Postgres、SQLite、テスト用インメモリ）を扱う。
 
-## Service Layer
+## Service レイヤー (Service Layer)
 
-Business logic in service structs; inject dependencies via constructor:
+ビジネスロジックは service struct に。コンストラクタで依存を注入:
 
 ```rust
 pub struct OrderService {
@@ -45,9 +45,9 @@ impl OrderService {
 }
 ```
 
-## Newtype Pattern for Type Safety
+## 型安全性のための Newtype パターン (Newtype Pattern for Type Safety)
 
-Prevent argument mix-ups with distinct wrapper types:
+別々のラッパー型で引数の取り違えを防ぐ:
 
 ```rust
 struct UserId(u64);
@@ -59,9 +59,9 @@ fn get_order(user: UserId, order: OrderId) -> anyhow::Result<Order> {
 }
 ```
 
-## Enum State Machines
+## Enum 状態マシン (Enum State Machines)
 
-Model states as enums — make illegal states unrepresentable:
+状態を enum でモデル化 — 不正な状態を表現不能にする:
 
 ```rust
 enum ConnectionState {
@@ -83,11 +83,11 @@ fn handle(state: &ConnectionState) {
 }
 ```
 
-Always match exhaustively — no wildcard `_` for business-critical enums.
+ビジネスクリティカルな enum は常に網羅的に match — ワイルドカード `_` は使わない。
 
-## Builder Pattern
+## Builder パターン (Builder Pattern)
 
-Use for structs with many optional parameters:
+多くのオプションパラメータを持つ struct に使用:
 
 ```rust
 pub struct ServerConfig {
@@ -128,9 +128,9 @@ impl ServerConfigBuilder {
 }
 ```
 
-## Sealed Traits for Extensibility Control
+## 拡張性制御のための Sealed Trait (Sealed Traits for Extensibility Control)
 
-Use a private module to seal a trait, preventing external implementations:
+private モジュールで trait を seal し、外部実装を防ぐ:
 
 ```rust
 mod private {
@@ -148,9 +148,9 @@ impl Format for Json {
 }
 ```
 
-## API Response Envelope
+## API レスポンスエンベロープ (API Response Envelope)
 
-Consistent API responses using a generic enum:
+汎用 enum による一貫した API レスポンス:
 
 ```rust
 #[derive(Debug, serde::Serialize)]
@@ -163,6 +163,6 @@ pub enum ApiResponse<T: serde::Serialize> {
 }
 ```
 
-## References
+## 参照 (References)
 
-See skill: `rust-patterns` for comprehensive patterns including ownership, traits, generics, concurrency, and async.
+所有権、trait、ジェネリクス、並行性、async を含む包括的パターンは skill: `rust-patterns` を参照。

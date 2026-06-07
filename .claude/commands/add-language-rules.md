@@ -1,18 +1,18 @@
 ---
 name: add-language-rules
-description: Workflow command scaffold for add-language-rules in everything-claude-code.
+description: everything-claude-code における add-language-rules 向けワークフローコマンドの雛形。
 allowed_tools: ["Bash", "Read", "Write", "Grep", "Glob"]
 ---
 
 # /add-language-rules
 
-Use this workflow when working on **add-language-rules** in `everything-claude-code`.
+`everything-claude-code` で **add-language-rules** に取り組むときはこのワークフローを使う。
 
-## Goal
+## 目的 (Goal)
 
-Adds a new programming language to the rules system, including coding style, hooks, patterns, security, and testing guidelines.
+rules システムに新しいプログラミング言語を追加する。coding style、hooks、patterns、security、testing のガイドラインを含む。
 
-## Common Files
+## よく使うファイル (Common Files)
 
 - `rules/*/coding-style.md`
 - `rules/*/hooks.md`
@@ -20,20 +20,20 @@ Adds a new programming language to the rules system, including coding style, hoo
 - `rules/*/security.md`
 - `rules/*/testing.md`
 
-## Suggested Sequence
+## 推奨手順 (Suggested Sequence)
 
-1. Understand the current state and failure mode before editing.
-2. Make the smallest coherent change that satisfies the workflow goal.
-3. Run the most relevant verification for touched files.
-4. Summarize what changed and what still needs review.
+1. 編集前に現状と失敗モードを把握する。
+2. ワークフローの目的を満たす最小の一貫した変更を行う。
+3. 変更したファイルに最も関連する検証を実行する。
+4. 何を変更したか、何がまだレビュー待ちかを要約する。
 
-## Typical Commit Signals
+## 典型的なコミットシグナル (Typical Commit Signals)
 
-- Create a new directory under rules/{language}/
-- Add coding-style.md, hooks.md, patterns.md, security.md, and testing.md files with language-specific content
-- Optionally reference or link to related skills
+- `rules/{language}/` 配下に新しいディレクトリを作成
+- 言語固有の内容で coding-style.md、hooks.md、patterns.md、security.md、testing.md を追加
+- 必要に応じて関連 skill を参照またはリンク
 
-## Notes
+## 注意事項 (Notes)
 
-- Treat this as a scaffold, not a hard-coded script.
-- Update the command if the workflow evolves materially.
+- これは雛形であり、ハードコードされたスクリプトではない。
+- ワークフローが大きく変わったらコマンドを更新する。

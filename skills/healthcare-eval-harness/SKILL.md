@@ -5,13 +5,13 @@ origin: Health1 Super Speciality Hospitals — contributed by Dr. Keyur Patel
 version: "1.0.0"
 ---
 
-# Healthcare Eval Harness — Patient Safety Verification
+# Healthcare Eval Harness — Patient Safety Verification (Healthcare Eval Harness — Patient Safety Verification)
 
 Automated verification system for healthcare application deployments. A single CRITICAL failure blocks deployment. Patient safety is non-negotiable.
 
 > **Note:** Examples use Jest as the reference test runner. Adapt commands for your framework (Vitest, pytest, PHPUnit, etc.) — the test categories and pass thresholds are framework-agnostic.
 
-## When to Use
+## When to Use (When to Use)
 
 - Before any deployment of EMR/EHR applications
 - After modifying CDSS logic (drug interactions, dose validation, scoring)
@@ -20,13 +20,13 @@ Automated verification system for healthcare application deployments. A single C
 - During CI/CD pipeline configuration for healthcare apps
 - After resolving merge conflicts in clinical modules
 
-## How It Works
+## How It Works (How It Works)
 
 The eval harness runs five test categories in order. The first three (CDSS Accuracy, PHI Exposure, Data Integrity) are CRITICAL gates requiring 100% pass rate — a single failure blocks deployment. The remaining two (Clinical Workflow, Integration) are HIGH gates requiring 95%+ pass rate.
 
 Each category maps to a Jest test path pattern. The CI pipeline runs CRITICAL gates with `--bail` (stop on first failure) and enforces coverage thresholds with `--coverage --coverageThreshold`.
 
-### Eval Categories
+### Eval Categories (Eval Categories)
 
 **1. CDSS Accuracy (CRITICAL — 100% required)**
 
@@ -86,7 +86,7 @@ rate=$(echo "scale=2; $passed * 100 / $total" | bc)
 echo "Integration pass rate: ${rate}% ($passed/$total)"
 ```
 
-### Pass/Fail Matrix
+### Pass/Fail Matrix (Pass/Fail Matrix)
 
 | Category | Threshold | On Failure |
 |----------|-----------|------------|
@@ -96,7 +96,7 @@ echo "Integration pass rate: ${rate}% ($passed/$total)"
 | Clinical Workflow | 95%+ | WARN, allow with review |
 | Integration | 95%+ | WARN, allow with review |
 
-### CI/CD Integration
+### CI/CD Integration (CI/CD Integration)
 
 ```yaml
 name: Healthcare Safety Gate
@@ -155,7 +155,7 @@ jobs:
           fi
 ```
 
-### Anti-Patterns
+### Anti-Patterns (Anti-Patterns)
 
 - Skipping CDSS tests "because they passed last time"
 - Setting CRITICAL thresholds below 100%
@@ -164,9 +164,9 @@ jobs:
 - Allowing deployments when safety gate is red
 - Running tests without `--coverage` on CDSS suites
 
-## Examples
+## Examples (Examples)
 
-### Example 1: Run All Critical Gates Locally
+### Example 1: Run All Critical Gates Locally (Example 1: Run All Critical Gates Locally)
 
 ```bash
 npx jest --testPathPattern='tests/cdss' --bail --ci --coverage && \
@@ -174,7 +174,7 @@ npx jest --testPathPattern='tests/security/phi' --bail --ci && \
 npx jest --testPathPattern='tests/data-integrity' --bail --ci
 ```
 
-### Example 2: Check HIGH Gate Pass Rate
+### Example 2: Check HIGH Gate Pass Rate (Example 2: Check HIGH Gate Pass Rate)
 
 ```bash
 tmp_json=$(mktemp)
@@ -187,10 +187,10 @@ jq '{
 # Expected: { "passed": 21, "total": 22, "rate": 95.45 }
 ```
 
-### Example 3: Eval Report
+### Example 3: Eval Report (Example 3: Eval Report)
 
 ```
-## Healthcare Eval: 2026-03-27 [commit abc1234]
+## ヘルスケア評価: 2026-03-27 [commit abc1234] (Healthcare Eval: 2026-03-27 [commit abc1234])
 
 ### Patient Safety: PASS
 

@@ -8,7 +8,7 @@ origin: ECC
 
 Bridge a plan document to `/orchestrate custom` by emitting one ready-to-paste invocation per step. The skill is generative only — it never executes `/orchestrate`. The user pastes each line when ready.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - User has a multi-step plan document (PRD, RFC, implementation plan) and wants to drive it through `/orchestrate`.
 - User says "orchestrate this plan", "give me orchestrate prompts for each step", "compose chains for this plan".
@@ -18,7 +18,7 @@ Skip when:
 - The work is one ad-hoc step → call `/orchestrate custom` directly.
 - The plan is unreadable or empty. Lack of explicit numbering alone is not a skip condition — see the "No clear steps" edge case below.
 
-## Inputs
+## 入力 (Inputs)
 
 ```
 <plan-doc-path> [--lang=python|typescript|go|rust|cpp|java|kotlin|flutter|auto] [--scope=all|step:<n>|range:<a>-<b>] [--dry-run]
@@ -42,7 +42,7 @@ Where `{ORCH_CMD}` is determined in Phase 0 (see below). The command string in t
 - No `--mode` / `--gate` / `--agents=...` flags exist — never invent them.
 - Agent names come from the catalogue in this skill. Embedded double quotes in the task description are escaped as `\"`.
 
-## ECC install form and namespacing
+## ECC install 形式と名前空間 (ECC install form and namespacing)
 
 Two install forms determine the prefix on **both** the slash command and every agent name. The two MUST stay in sync — one form per output, never mixed:
 
@@ -80,7 +80,7 @@ Code reviewers:
 
 A misspelled agent name fails `/orchestrate`. Cross-check against this list before emitting.
 
-## How It Works
+## 仕組み (How It Works)
 
 ### Phase 0 — Detect ECC mode + language
 
@@ -176,7 +176,7 @@ Output structure:
 **Steps**: <N>
 **Scope**: <all | step:n | range:a-b>
 
-## Steps overview
+## ステップ概要 (Steps overview)
 
 | # | Title | Tags | Chain |
 |---|---|---|---|
@@ -185,7 +185,7 @@ Output structure:
 
 ---
 
-## Step 1 — <title>
+## ステップ 1 — <title> (Step 1 — <title>)
 
 **Intent**: <1–3 sentences>
 **Tags**: <a, b>
@@ -215,7 +215,7 @@ Append a final "Batch execution" block aggregating every step's command in order
 - [ ] Overview table lists every step in the plan, regardless of `--scope`.
 - [ ] Per-step detail block count matches the resolved `--scope` (full plan when `--scope=all`; one block for `step:n`; range size for `range:a-b`). In overview-only mode, no per-step blocks and no Batch block are emitted.
 
-## Edge cases
+## エッジケース (Edge cases)
 
 - **No clear steps**: prefer H2/H3 splitting; if still ambiguous, report "no structured steps detected" with the document outline and ask the user to confirm running by outline.
 - **Large plan (>1500 lines)**: enter **overview-only mode** — emit only the overview table and ask the user to narrow with `--scope` before re-running for details. In this mode, skip per-step detail blocks and skip the Batch execution block.
@@ -223,7 +223,7 @@ Append a final "Batch execution" block aggregating every step's command in order
 - **Plan declares agents** (rare): first **strip any `everything-claude-code:` prefix** to get the bare catalogue name (Phase 0 step 5), then validate against the catalogue. Replace invalid agents and explain under "Chain rationale". The bare name is re-prefixed at output time per `ECC_MODE`.
 - **Polyglot project where `--lang=auto` cannot pick a winner**: set `lang=unknown`; reviewer resolves to `code-reviewer` and build resolver to `build-error-resolver`. Mention the fallback under "Chain rationale".
 
-## Examples
+## 例 (Examples)
 
 ### Example 1 — Plugin mode, Python plan
 
@@ -234,7 +234,7 @@ plan-orchestrate @docs/plan/example-feature.md --lang=python
 
 Excerpt of expected output:
 ````markdown
-## Step 2 — Encrypt sensitive UserProfile fields
+## ステップ 2 — UserProfile の機密フィールドを暗号化 (Step 2 — Encrypt sensitive UserProfile fields)
 
 **Intent**: Introduce an `EncryptedString` SQLAlchemy type and AES-GCM encrypt `birth_datetime` / `location` before persistence; load the key from an environment variable.
 **Tags**: impl, security, db
@@ -255,7 +255,7 @@ If `ECC_MODE=legacy` were detected, the same step would be emitted as a single u
 
 The two examples above illustrate **the two possible outputs** for two different environments. A single skill invocation produces only one of them, end to end.
 
-## Notes
+## 備考 (Notes)
 
 - Generative only. Never invoke `/orchestrate` from inside this skill.
 - Match the language of the plan document for task descriptions (agent names always remain English).

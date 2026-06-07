@@ -4,11 +4,11 @@ paths:
   - "**/go.mod"
   - "**/go.sum"
 ---
-# Go Security
+# Go セキュリティ (Go Security)
 
-> This file extends [common/security.md](../common/security.md) with Go specific content.
+> 本ファイルは [common/security.md](../common/security.md) を Go 固有の内容で拡張します。
 
-## Secret Management
+## Secret 管理 (Secret Management)
 
 ```go
 apiKey := os.Getenv("OPENAI_API_KEY")
@@ -17,16 +17,16 @@ if apiKey == "" {
 }
 ```
 
-## Security Scanning
+## セキュリティスキャン (Security Scanning)
 
-- Use **gosec** for static security analysis:
+- 静的セキュリティ分析に **gosec** を使用する:
   ```bash
   gosec ./...
   ```
 
-## Context & Timeouts
+## Context とタイムアウト (Context & Timeouts)
 
-Always use `context.Context` for timeout control:
+タイムアウト制御には常に `context.Context` を使用する:
 
 ```go
 ctx, cancel := context.WithTimeout(ctx, 5*time.Second)

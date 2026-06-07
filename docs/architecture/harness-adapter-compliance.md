@@ -1,11 +1,10 @@
-# Harness Adapter Compliance Matrix
+# Harness Adapter 準拠マトリクス (Harness Adapter Compliance Matrix)
 
-This matrix is the public onramp for teams that want to use ECC across more
-than one coding harness. It turns the cross-harness architecture into a
-practical scorecard: what works today, what is instruction-only, what needs an
-adapter, and what evidence an operator should collect before trusting a setup.
+このマトリクスは、複数のコーディング harness で ECC を使いたいチーム向けの公開オンプラムです。cross-harness アーキテクチャを
+実用的 scorecard に変換します：今日何が動くか、instruction-only か、adapter が必要か、
+operator がセットアップを信頼する前に収集すべき evidence。
 
-ECC's durable units stay in shared sources:
+ECC の durable unit は共有ソースに残ります：
 
 - `skills/*/SKILL.md`
 - `rules/`
@@ -15,10 +14,10 @@ ECC's durable units stay in shared sources:
 - MCP reference configs
 - session and observability contracts
 
-Harness-specific files should only adapt loading, event shape, command names,
-or platform limits.
+Harness 固有ファイルは loading、event shape、command 名、
+または platform 制限の適応のみを行うべきです。
 
-## Compliance States
+## 準拠状態 (Compliance States)
 
 | State | Meaning |
 | --- | --- |
@@ -27,11 +26,11 @@ or platform limits.
 | Instruction-backed | ECC can provide the guidance and files, but the harness does not expose the runtime hook/session surface ECC needs for enforcement. |
 | Reference-only | The tool is useful as a design pressure or external runtime, but ECC does not yet ship a direct installer or adapter for it. |
 
-## Matrix
+## マトリクス (Matrix)
 
-The matrix below is rendered from
-`scripts/lib/harness-adapter-compliance.js` and verified by
-`npm run harness:adapters -- --check`.
+以下のマトリクスは
+`scripts/lib/harness-adapter-compliance.js` から描画され、
+`npm run harness:adapters -- --check` で検証されます。
 
 <!-- harness-adapter-compliance:matrix-start -->
 | Harness or runtime | State | Supported assets | Unsupported or different surfaces | Install or onramp | Verification command | Risk notes |
@@ -49,10 +48,9 @@ The matrix below is rendered from
 | Terminal-only | Native | skills; rules; commands; scripts; harness audit; observability readiness; handoffs | No external UI, no automatic session control unless scripts are run explicitly | Clone repo; run commands directly; use minimal profile for project installs | `npm run harness:audit -- --format json`; `npm run observability:ready` | This is the fallback contract; every higher-level adapter should degrade to it. |
 <!-- harness-adapter-compliance:matrix-end -->
 
-## Scorecard Onramp
+## Scorecard オンプラム (Scorecard Onramp)
 
-Use this sequence before asking ECC to make a team or repo setup more
-autonomous:
+チームまたはリポジトリセットアップをより自律的にするよう ECC に頼る前に、この順序を使ってください：
 
 ```bash
 npm run harness:adapters -- --check
@@ -62,22 +60,20 @@ node scripts/session-inspect.js --list-adapters
 node scripts/loop-status.js --json --write-dir .ecc/loop-status
 ```
 
-Read the result as a setup scorecard, not a product badge:
+結果をプロダクトバッジではなくセットアップ scorecard として読む：
 
-- `harness:adapters -- --check` proves this public matrix still matches the
-  adapter source data and required evidence fields.
-- `harness:audit` scores tool coverage, context efficiency, quality gates,
-  memory persistence, eval coverage, security guardrails, and cost efficiency.
-- `observability:ready` proves the repo still exposes the local status,
-  session, tool-activity, risk-ledger, and release-onramp signals.
-- `session-inspect --list-adapters` shows which session surfaces are actually
-  inspectable in the current environment.
-- `loop-status --json` creates a machine-readable handoff/status payload for
-  longer autonomous runs.
+- `harness:adapters -- --check` はこの公開マトリクスがまだ adapter ソースデータと
+  必須 evidence フィールドに一致することを証明する。
+- `harness:audit` は tool coverage、context efficiency、quality gate、
+  memory persistence、eval coverage、security guardrail、cost efficiency をスコアリングする。
+- `observability:ready` はリポジトリがまだローカル status、
+  session、tool-activity、risk-ledger、release-onramp signal を露出することを証明する。
+- `session-inspect --list-adapters` は現在の環境で実際に inspect 可能な session 面を示す。
+- `loop-status --json` はより長い自律 run 向けに machine-readable handoff/status payload を作成する。
 
-## Data-Backed Scorecard Contract
+## データバックド Scorecard 契約 (Data-Backed Scorecard Contract)
 
-Each adapter record exposes:
+各 adapter レコードは次を公開：
 
 - `id`
 - `state`
@@ -90,16 +86,13 @@ Each adapter record exposes:
 - `owner`
 - `source_docs`
 
-The validator fails if a public adapter claim has no install path,
-verification command, risk note, owner, source doc, or verification date.
+公開 adapter クレームに install path、
+verification command、risk note、owner、source doc、verification 日付のいずれかが欠けていると validator は失敗します。
 
-## Operating Rules
+## 運用ルール (Operating Rules)
 
-- Prefer small, additive adapters over harness-specific forks of the same
-  workflow.
-- Do not call a harness native until the adapter has an install path and a
-  verification command.
-- Keep Codex, Gemini, and Zed surfaces honest when enforcement is
-  instruction-backed rather than runtime-backed.
-- Treat reference-only tools as design pressure until ECC has a direct adapter.
-- Keep the terminal-only path healthy; it is the portability floor.
+- 同じワークフローの harness 固有 fork より小さな additive adapter を優先する。
+- adapter に install path と verification command があるまで harness を native と呼ばない。
+- enforcement が runtime-backed ではなく instruction-backed のとき、Codex、Gemini、Zed 面を正直に保つ。
+- ECC に直接 adapter があるまで reference-only ツールを design pressure として扱う。
+- terminal-only path を健全に保つ；それは portability floor である。

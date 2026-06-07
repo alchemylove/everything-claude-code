@@ -2,19 +2,19 @@
 paths:
   - "**/*.rs"
 ---
-# Rust Testing
+# Rust テスト (Rust Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Rust-specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Rust 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-- **`#[test]`** with `#[cfg(test)]` modules for unit tests
-- **rstest** for parameterized tests and fixtures
-- **proptest** for property-based testing
-- **mockall** for trait-based mocking
-- **`#[tokio::test]`** for async tests
+- ユニットテストには **`#[test]`** と `#[cfg(test)]` モジュール
+- パラメータ化テストと fixture には **rstest**
+- プロパティベーステストには **proptest**
+- trait ベースのモックには **mockall**
+- async テストには **`#[tokio::test]`**
 
-## Test Organization
+## テスト構成 (Test Organization)
 
 ```text
 my_crate/
@@ -33,9 +33,9 @@ my_crate/
     └── benchmark.rs
 ```
 
-Unit tests go inside `#[cfg(test)]` modules in the same file. Integration tests go in `tests/`.
+ユニットテストは同じファイル内の `#[cfg(test)]` モジュールに。統合テストは `tests/` に配置。
 
-## Unit Test Pattern
+## ユニットテストパターン (Unit Test Pattern)
 
 ```rust
 #[cfg(test)]
@@ -57,7 +57,7 @@ mod tests {
 }
 ```
 
-## Parameterized Tests
+## パラメータ化テスト (Parameterized Tests)
 
 ```rust
 use rstest::rstest;
@@ -71,7 +71,7 @@ fn test_string_length(#[case] input: &str, #[case] expected: usize) {
 }
 ```
 
-## Async Tests
+## Async テスト (Async Tests)
 
 ```rust
 #[tokio::test]
@@ -82,9 +82,9 @@ async fn fetches_data_successfully() {
 }
 ```
 
-## Mocking with mockall
+## mockall によるモック (Mocking with mockall)
 
-Define traits in production code; generate mocks in test modules:
+本番コードで trait を定義。テストモジュールでモックを生成:
 
 ```rust
 // Production trait — pub so integration tests can import it
@@ -119,18 +119,18 @@ mod tests {
 }
 ```
 
-## Test Naming
+## テスト命名 (Test Naming)
 
-Use descriptive names that explain the scenario:
+シナリオを説明する説明的な名前を使用:
 - `creates_user_with_valid_email()`
 - `rejects_order_when_insufficient_stock()`
 - `returns_none_when_not_found()`
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Target 80%+ line coverage
-- Use **cargo-llvm-cov** for coverage reporting
-- Focus on business logic — exclude generated code and FFI bindings
+- 行カバレッジ 80%+ を目標
+- カバレッジレポートに **cargo-llvm-cov** を使用
+- ビジネスロジックに集中 — 生成コードと FFI バインディングは除外
 
 ```bash
 cargo llvm-cov                       # Summary
@@ -138,7 +138,7 @@ cargo llvm-cov --html                # HTML report
 cargo llvm-cov --fail-under-lines 80 # Fail if below threshold
 ```
 
-## Testing Commands
+## テストコマンド (Testing Commands)
 
 ```bash
 cargo test                       # Run all tests
@@ -149,6 +149,6 @@ cargo test --test api_test       # Specific integration test (tests/api_test.rs)
 cargo test --doc                 # Doc tests only
 ```
 
-## References
+## 参照 (References)
 
-See skill: `rust-testing` for comprehensive testing patterns including property-based testing, fixtures, and benchmarking with Criterion.
+プロパティベーステスト、fixture、Criterion ベンチマークを含む包括的テストパターンは skill: `rust-testing` を参照。

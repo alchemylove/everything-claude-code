@@ -1,78 +1,75 @@
-# Article Outline - ECC v2.0.0-rc.1
+# 記事アウトライン - ECC v2.0.0-rc.1 (Article Outline - ECC v2.0.0-rc.1)
 
-## Working Title
+## 仮タイトル (Working Title)
 
-Turning ECC Into a Cross-Harness Operating System
+ECC を Cross-Harness Operating System に変える (Turning ECC Into a Cross-Harness Operating System)
 
-## Core Argument
+## 中核論点 (Core Argument)
 
-Most agentic work breaks down because the tools stay isolated.
+ほとんどのエージェント作業はツールが孤立したままだと破綻する。
 
-The leverage comes from treating the harness, reusable workflow layer, and operator shell as one system:
+レバレッジは harness、再利用可能 workflow レイヤー、operator shell を1システムとして扱うことから来る：
 
-- skills for repeatable work
-- hooks and tests for enforcement
-- MCPs for tool access
-- memory and handoffs for continuity
-- one operator shell that can route daily execution
+- 繰り返し作業向け skills
+- 強制向け hooks と tests
+- tool アクセス向け MCP
+- 継続性向け memory と handoff
+- 日次実行をルーティングできる1つの operator shell
 
-## Structure
+## 構成 (Structure)
 
-### 1. The Problem
+### 1. 問題 (1. The Problem)
 
-- too many chat windows
-- too many tool-specific workflows
-- too much context living in personal habit instead of reusable system shape
+- チャットウィンドウが多すぎる
+- ツール固有ワークフローが多すぎる
+- 再利用可能なシステム形状ではなく個人習慣に context が住みすぎている
 
-### 2. What ECC Already Solved
+### 2. ECC がすでに解いたこと (2. What ECC Already Solved)
 
-- reusable skill format
-- cross-harness install surfaces
-- hooks and verification discipline
-- security and review patterns
-- operator workflow skills around content, research, and business ops
-- queue, discussion, Linear, legacy, and release-evidence checks that make the
-  operating state inspectable
-- supply-chain IOC scanning and no-lifecycle install hardening after the
-  Mini Shai-Hulud/TanStack campaign
+- 再利用可能 skill 形式
+- cross-harness install 面
+- hooks と verification 規律
+- security と review パターン
+- コンテンツ、research、ビジネス ops 周辺の operator workflow skills
+- 運用状態を inspectable にする queue、discussion、Linear、legacy、release-evidence チェック
+- Mini Shai-Hulud/TanStack キャンペーン後の supply-chain IOC スキャンと no-lifecycle install hardening
 
-### 3. Why Hermes Is the Operator Layer
+### 3. なぜ Hermes が Operator レイヤーか (3. Why Hermes Is the Operator Layer)
 
-- chat, CLI, TUI, cron, and handoffs can sit above the reusable ECC layer
-- business and content work can run next to engineering work
-- the daily loop becomes easier to inspect and improve
+- chat、CLI、TUI、cron、handoff は再利用可能 ECC レイヤーの上に乗れる
+- エンジニアリング作業の隣でビジネスとコンテンツ作業を走らせられる
+- 日次ループが inspect と改善しやすくなる
 
-### 4. What Ships in rc.1
+### 4. rc.1 で出荷するもの (4. What Ships in rc.1)
 
-- sanitized Hermes setup guide
-- release and distribution collateral
-- cross-harness architecture doc
-- Hermes import guidance
-- clearer 2.0 positioning in the repo
+- サニタイズされた Hermes セットアップガイド
+- リリースと配布コラテラル
+- cross-harness アーキテクチャ doc
+- Hermes import ガイダンス
+- リポジトリ内のより明確な 2.0 ポジショニング
 - preview-pack smoke gate
-- launch drafts for GitHub release copy, X, LinkedIn, article, Telegram/Hermes
-  handoff, and demo prompts
+- GitHub リリースコピー、X、LinkedIn、記事、Telegram/Hermes handoff、デモプロンプト向けローンチドラフト
 
-### 5. What Changed Since v1.10.0
+### 5. v1.10.0 以降の変化 (5. What Changed Since v1.10.0)
 
-- Claude Code remains the core target, but ECC now treats Codex, OpenCode,
-  Cursor, Gemini, Zed, and terminal-only workflows as shared execution surfaces.
-- The release process now has repeatable platform, discussion, observability,
-  supply-chain, Linear progress, and preview-pack checks.
-- AgentShield and ECC Tools work is mirrored into the roadmap so enterprise
-  security, hosted review, policy promotion, and billing-readiness lanes do not
-  drift away from the main release.
+- Claude Code はコアターゲットのままだが、ECC は Codex、OpenCode、
+  Cursor、Gemini、Zed、ターミナルのみ workflow を共有実行面として扱う。
+- リリースプロセスに反復可能な platform、discussion、observability、
+  supply-chain、Linear progress、preview-pack チェックがある。
+- AgentShield と ECC Tools 作業は roadmap にミラーされ、enterprise
+  security、hosted review、policy promotion、billing-readiness lane が
+  メインリリースから乖離しない。
 
-### 6. What Stays Local
+### 6. ローカルに残すもの (6. What Stays Local)
 
-- secrets and auth
-- raw workspace exports
-- personal datasets
-- operator-specific automations that have not been sanitized
-- deeper CRM, finance, and Google Workspace playbooks
+- secret と auth
+- 生ワークスペースエクスポート
+- 個人データセット
+- サニタイズされていない operator 固有 automation
+- より深い CRM、finance、Google Workspace playbook
 
-### 7. Closing Point
+### 7. 締めのポイント (7. Closing Point)
 
-The goal is not to copy one exact stack.
+目標は正確に同じスタックをコピーすることではない。
 
-The goal is to build an operating system around the agent that turns repeated work into reusable, measurable surfaces.
+目標は、繰り返し作業を再利用可能で測定可能な面に変えるエージェント周辺の operating system を構築することだ。

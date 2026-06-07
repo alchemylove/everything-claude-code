@@ -1,16 +1,16 @@
-# ECC v1.10.0 is live
+# ECC v1.10.0 がリリースされました (ECC v1.10.0 is live)
 
-ECC just crossed **140K stars**, and the public release surface had drifted too far from the actual repo.
+ECC は **14万スター** を超え、公開リリース面が実際のリポジトリから大きく乖離していました。
 
-So v1.10.0 is a hard sync release:
+だから v1.10.0 はハード sync リリースです：
 
 - **38 agents**
 - **156 skills**
 - **72 commands**
-- plugin/install metadata corrected
-- top-line docs and release surfaces brought back in line
+- plugin/install metadata を修正
+- トップライン docs とリリース面を再整合
 
-This release also folds in the operator/media lane that has been growing around the core harness system:
+このリリースは、コア harness システム周辺で成長してきた operator/media lane も取り込みます：
 
 - `brand-voice`
 - `social-graph-ranker`
@@ -22,11 +22,11 @@ This release also folds in the operator/media lane that has been growing around 
 - `manim-video`
 - `remotion-video-creation`
 
-And on the 2.0 side:
+2.0 側では：
 
-ECC 2.0 is now **real as an alpha control-plane surface** in-tree under `ecc2/`.
+ECC 2.0 は `ecc2/` 配下で in-tree の **実際の alpha control-plane 面** になりました。
 
-It builds today and exposes:
+今日ビルドでき、次を公開しています：
 
 - `dashboard`
 - `start`
@@ -36,20 +36,20 @@ It builds today and exposes:
 - `resume`
 - `daemon`
 
-That does **not** mean the full ECC 2.0 roadmap is done.
+これは **ECC 2.0 roadmap 全体が完了した** という意味ではありません。
 
-It means the control-plane alpha is here, usable, and moving out of the “just a vision” category.
+control-plane alpha がここにあり、使え、かつ「ビジョンだけ」のカテゴリから動き出しているという意味です。
 
-The shortest honest framing right now:
+今の最も正直なフレーミング：
 
-- ECC 1.x is the battle-tested harness/workflow layer shipping broadly today
-- ECC 2.0 is the alpha control-plane growing on top of it
+- ECC 1.x は今日広く出荷されている実戦済み harness/workflow レイヤー
+- ECC 2.0 はその上に成長する alpha control-plane
 
-If you have been waiting for:
+次を待っていたなら：
 
-- cleaner install surfaces
-- stronger cross-harness parity
-- operator workflows instead of just coding primitives
-- a real control-plane direction instead of scattered notes
+- よりクリーンな install 面
+- より強い cross-harness parity
+- コーディング primitive だけでなく operator workflow
+- 散在したメモではなく実際の control-plane 方向性
 
-this is the release that makes the repo feel coherent again.
+このリリースでリポジトリが再び一貫して感じられるようになります。

@@ -1,19 +1,19 @@
 ---
-description: "Python hooks extending common rules"
+description: "Python hooks: common ルールの拡張"
 globs: ["**/*.py", "**/*.pyi"]
 alwaysApply: false
 ---
-# Python Hooks
+# Python Hooks (Python Hooks)
 
-> This file extends the common hooks rule with Python specific content.
+> このファイルは common hooks ルールを Python 固有の内容で拡張する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **black/ruff**: Auto-format `.py` files after edit
-- **mypy/pyright**: Run type checking after editing `.py` files
+- **black/ruff**: 編集後に `.py` ファイルを auto-format
+- **mypy/pyright**: `.py` ファイル編集後に型チェックを実行
 
-## Warnings
+## 警告 (Warnings)
 
-- Warn about `print()` statements in edited files (use `logging` module instead)
+- 編集ファイルの `print()` 文を警告（代わりに `logging` モジュールを使用）

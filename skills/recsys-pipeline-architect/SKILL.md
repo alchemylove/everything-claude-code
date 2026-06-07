@@ -4,111 +4,107 @@ description: Design composable recommendation, ranking, and feed pipelines using
 origin: community
 ---
 
-# recsys-pipeline-architect
+# recsys-pipeline-architect (recsys-pipeline-architect)
 
-A spec-and-scaffold skill for building composable recommendation, ranking, and feed pipelines. It encodes the **six-stage pattern** — Source → Hydrator → Filter → Scorer → Selector → SideEffect — popularized by xAI's open-sourced [For You algorithm](https://github.com/xai-org/x-algorithm) (Apache 2.0). This skill is an independent reimplementation of the pattern (MIT) — no code copied from the original.
+composable recommendation、ranking、feed pipeline 向け spec-and-scaffold skill。**6 段階パターン** — Source → Hydrator → Filter → Scorer → Selector → SideEffect — をエンコード。xAI 公開 [For You algorithm](https://github.com/xai-org/x-algorithm) (Apache 2.0) で普及。本 skill は pattern の独立再実装 (MIT) — 元コードはコピーしない。
 
 Upstream: <https://github.com/mturac/recsys-pipeline-architect>
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- User wants to build any system that picks "the top K items for a user/context"
-- User asks "how should I rank X" or describes a feed/personalization problem
-- User has a scoring function and needs the pipeline plumbing around it
-- User wants to migrate from a single relevance score to multi-action prediction with tunable weights
-- User is wrapping an LLM/ML scorer and needs filters, hydrators, side-effects, and a runnable scaffold in their stack (TypeScript / Go / Python)
-- Triggers: "recommendation system", "feed algorithm", "ranking pipeline", "for you feed", "candidate pipeline", "content recommender", "pipeline architecture for recsys", "RAG retrieval reranker"
+- user が「(user/context) に top K item」を選ぶシステムを構築したい
+- user が「X をどう rank すべきか」や feed/personalization 問題を説明
+- scoring function はあるが周辺 pipeline plumbing が必要
+- 単一 relevance score から tunable weight 付き multi-action prediction へ移行
+- LLM/ML scorer を包み、filter、hydrator、side-effect、実行可能 scaffold が必要（TypeScript / Go / Python）
+- トリガー: "recommendation system", "feed algorithm", "ranking pipeline", "for you feed", "candidate pipeline", "content recommender", "pipeline architecture for recsys", "RAG retrieval reranker"
 
-## When NOT to Use
+## 使用しないとき (When NOT to Use)
 
-- Model architecture work (transformer design, two-tower retrieval, embedding training) — this skill is plumbing *around* the model, not the model itself
-- Pure ML training pipelines — the scoring function is the user's responsibility
-- Operating a deployed pipeline (monitoring, autoscaling) — out of scope
+- model architecture 作業（transformer design、two-tower retrieval、embedding training）— 本 skill は model 周辺の plumbing であり model 自体ではない
+- 純 ML training pipeline — scoring function は user 責任
+- デプロイ済み pipeline の運用（monitoring、autoscaling）— 範囲外
 
-## The six-stage framework
+## 6 段階フレームワーク (The six-stage framework)
 
 | # | Stage | Job | Parallel? |
 |---|---|---|---|
-| 1 | **Source** | Fetch candidates from one or more origins | Yes — multiple sources run in parallel |
-| 2 | **Hydrator** | Enrich each candidate with metadata needed for filtering and scoring | Yes — independent hydrators run in parallel |
-| 3 | **Filter** | Drop candidates that should never be shown (blocked, expired, duplicate, ineligible) | Sequential — each filter sees fewer items |
-| 4 | **Scorer** | Assign each surviving candidate one or more scores | Sequential — later scorers see earlier scores |
-| 5 | **Selector** | Sort by final score, return top K | Single op |
-| 6 | **SideEffect** | Cache served IDs, log impressions, emit events, update counters | Async — must never block the response |
+| 1 | **Source** | 1 つ以上の origin から candidate を取得 | Yes — 複数 source は parallel |
+| 2 | **Hydrator** | filter/score に必要な metadata で各 candidate を enrich | Yes — 独立 hydrator は parallel |
+| 3 | **Filter** | 表示すべきでない candidate を drop（blocked、expired、duplicate、ineligible） | Sequential — 各 filter はより少ない item を見る |
+| 4 | **Scorer** | 残った candidate に 1 つ以上の score を付与 | Sequential — 後続 scorer は先行 score を見る |
+| 5 | **Selector** | final score で sort し top K を返す | Single op |
+| 6 | **SideEffect** | 配信 ID を cache、impression を log、event 発行、counter 更新 | Async — response をブロックしてはならない |
 
-### Why this exact order
+### この順序の理由 (Why this exact order)
 
-- Sources before hydration: know what candidates exist before paying to enrich them
-- Hydration before filtering: many filters need metadata the source did not provide
-- Filtering before scoring: scoring is the expensive stage; drop the ineligible first
-- Scorer chain (not single scorer): real systems compose ML scoring + diversity reranking + business rules
-- Selector after scoring: keeps scoring deterministic and cacheable
-- SideEffects last and async: side effects must never block the user response
+- hydration 前に source: enrich のコストを払う前に candidate を把握
+- filter 前に hydration: 多くの filter は source が持たない metadata を必要とする
+- score 前に filter: score は高コスト。不適格を先に落とす
+- Scorer chain（単一 scorer ではない）: 実システムは ML score + diversity rerank + business rule を合成
+- score 後に selector: scoring を deterministic・cacheable に保つ
+- SideEffect は最後かつ async: user response をブロックしない
 
-## Workflow when invoked
+## 起動時ワークフロー (Workflow when invoked)
 
-Walk the user through these eight steps:
+8 ステップで user を導く:
 
-1. **Clarify the use case** (one round, three questions): items being ranked? input context? language/runtime?
-2. **Identify the candidate sources**: usually in-network (followed/owned/subscribed) + out-of-network (ML retrieval / trending / similar-to-liked)
-3. **List required hydrations**: for each filter and scorer, what data does it need that the source did not provide?
-4. **List the filters**: duplicate, self, age, block/mute, previously-served, eligibility. Order matters — cheap before expensive.
-5. **Design the scorer chain**: primary (ML) → combiner (multi-action with weights) → diversity → business rules
-6. **Selector**: sort descending by final score, take top K (or stratified mix for in-network/out-of-network)
-7. **SideEffects**: cache served IDs, emit impression events, update counters, log analytics — all fire-and-forget
-8. **Generate the scaffold** in the user's stack
+1. **use case を明確化**（1 ラウンド、3 問）: rank 対象 item？input context？language/runtime？
+2. **candidate source を特定**: 通常 in-network（followed/owned/subscribed）+ out-of-network（ML retrieval / trending / similar-to-liked）
+3. **必要 hydration を列挙**: 各 filter/scorer が source が持たない data を何必要とするか
+4. **filter を列挙**: duplicate、self、age、block/mute、previously-served、eligibility。順序重要 — 安いものを先に
+5. **scorer chain を設計**: primary (ML) → combiner (weight 付き multi-action) → diversity → business rules
+6. **Selector**: final score 降順、top K（または in/out-network の stratified mix）
+7. **SideEffects**: served ID cache、impression event、counter 更新、analytics — すべて fire-and-forget
+8. **user の stack で scaffold を生成**
 
-## Key trade-offs to surface (don't default silently)
+## 表面化すべき主要トレードオフ (Key trade-offs to surface)
 
 ### 1. Single score vs multi-action prediction
 
-- **Single score**: train one model to predict relevance. To change behavior → retrain.
-- **Multi-action**: predict `P(action)` for many actions (read, like, share, skip, report), combine with weights at serving time. To change behavior → change weights. No retraining.
+- **Single score**: relevance 用に 1 model。挙動変更 → retrain
+- **Multi-action**: 多数 action の `P(action)` を予測し serving 時に weight で合成。挙動変更 → weight 変更。retrain 不要
 
-The X For You system uses multi-action with both positive and negative weights. Recommend multi-action when the user expects to tune frequently.
+X For You は positive/negative weight 付き multi-action。頻繁チューニングが想定なら multi-action を推奨。
 
 ### 2. Candidate isolation in scoring
 
-- **Isolated**: each candidate scored independently. Deterministic, cacheable.
-- **Joint**: candidates attend to each other during scoring (e.g., transformer over batch). More expressive but non-deterministic across batches.
+- **Isolated**: 各 candidate を独立 score。deterministic、cacheable
+- **Joint**: batch 中で candidate が互いに attend（例: transformer over batch）。表現力は高いが batch 間で non-deterministic
 
-Default to isolation. Joint only when there's a specific reason (e.g., explicit batch-aware diversity).
+デフォルトは isolation。明示的理由（batch-aware diversity 等）があるときのみ joint。
 
 ### 3. Online vs offline
 
-- **Request-time (online)**: pipeline runs on each request. Latency budget: 100–300ms. Default.
-- **Pre-computed (offline batch)**: pipeline runs periodically, results cached. Lower latency, lower freshness.
-- **Hybrid**: candidate retrieval offline, ranking online.
+- **Request-time (online)**: 各 request で pipeline。latency budget 100–300ms。デフォルト
+- **Pre-computed (offline batch)**: 定期実行、結果 cache。低 latency、低 freshness
+- **Hybrid**: candidate retrieval offline、ranking online
 
-## Hard rules
+## 厳守ルール (Hard rules)
 
-1. **Do not invent benchmark numbers.** "How much faster?" → "depends on workload, run it yourself."
-2. **Attribution discipline.** When the pattern is referenced, attribute as "popularized by xAI's open-sourced For You algorithm" / `github.com/xai-org/x-algorithm` (Apache 2.0).
-3. **No trademark use.** Do not name the user's artifact "X-like" or use "For You" branding. Pattern is free; brand is not. Suggested naming: "candidate pipeline", "feed pipeline", "ranking pipeline", "recsys pipeline".
-4. **Surface trade-offs.** Multi-action vs single, isolation vs joint, online vs offline — never default silently.
-5. **The generated scaffold must run.** No pseudocode passing as code.
-6. **Filter order matters.** Cheap before expensive. Universal before user-specific.
-7. **Side effects never block.** Wrap in fire-and-forget patterns (goroutines / promises without await / asyncio tasks).
+1. **benchmark 数値を捏造しない。**「どれだけ速い？」→「workload 次第、自分で計測」
+2. **帰属規律。** pattern 言及時は "popularized by xAI's open-sourced For You algorithm" / `github.com/xai-org/x-algorithm` (Apache 2.0)
+3. **商標不使用。** artifact を "X-like" と名付けたり "For You" branding を使わない。pattern は自由、brand は不可。推奨名: "candidate pipeline", "feed pipeline", "ranking pipeline", "recsys pipeline"
+4. **トレードオフを表面化。** multi-action vs single、isolation vs joint、online vs offline — 黙ってデフォルトしない
+5. **生成 scaffold は実行可能であること。** pseudocode を code のふりをしない
+6. **Filter 順序が重要。** 安い → 高い。universal → user-specific
+7. **Side effect はブロックしない。** goroutine / promise without await / asyncio task 等の fire-and-forget
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Scoring before filtering (wastes compute on candidates that will be dropped anyway)
-- Synchronous side effects (cache writes / impression emits blocking the response)
-- A single "relevance" score when the product needs to tune for multiple objectives (engagement vs safety vs diversity vs ads)
-- Joint scoring as default (non-deterministic, harder to cache, doesn't compose with reranking stages)
-- Generating pseudocode "for illustration" — the scaffold must actually run
+- filter 前に score（drop される candidate に compute を浪費）
+- 同期 side effect（cache write / impression が response をブロック）
+- 複数 objective（engagement vs safety vs diversity vs ads）なのに単一 "relevance" score
+- デフォルトで joint scoring（non-deterministic、cache 困難、rerank stage と合成しにくい）
+- 実行不能な pseudocode を「説明用」として生成
 
-## Upstream contents
+## Upstream 内容 (Upstream contents)
 
-The upstream repository at <https://github.com/mturac/recsys-pipeline-architect> ships:
+<https://github.com/mturac/recsys-pipeline-architect> には:
 
-- Full `SKILL.md` with the complete 8-step workflow
-- 5 load-on-demand reference docs: interfaces in 4 languages (TS/Go/Python/Rust), multi-action scoring pattern, candidate isolation, filter cookbook (12 patterns), scorer cookbook (weighted sum, MMR, diversity penalty, position debiasing)
-- 3 runnable example scaffolds, every one green on its test suite:
-  - Strapi v5 plugin (TypeScript / Jest — 3/3 pass)
-  - Zentra-compatible pipeline (Go with generics — 3/3 pass)
-  - PMAI task prioritizer (Python / FastAPI / pytest — 3/3 pass)
-- v0.1.0 release tagged
-- MIT license; pattern attributed to xAI X For You algorithm (Apache 2.0)
+- 完全 8 ステップ workflow 付き `SKILL.md`
+- 5 本の on-demand reference doc: 4 言語 interface (TS/Go/Python/Rust)、multi-action scoring、candidate isolation、filter cookbook (12 patterns)、scorer cookbook
+- 3 つの実行可能 example scaffold（各 test suite green）
+- v0.1.0 tag、MIT license、pattern は xAI X For You (Apache 2.0) に帰属
 
-Install via skills.sh: `npx skills add mturac/recsys-pipeline-architect`
+Install: `npx skills add mturac/recsys-pipeline-architect`

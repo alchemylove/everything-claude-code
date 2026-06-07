@@ -4,20 +4,20 @@ description: Idiomatic C# and .NET patterns, conventions, dependency injection, 
 origin: ECC
 ---
 
-# .NET Development Patterns
+# .NET Development Patterns (.NET Development Patterns)
 
 Idiomatic C# and .NET patterns for building robust, performant, and maintainable applications.
 
-## When to Activate
+## When to Activate (When to Activate)
 
 - Writing new C# code
 - Reviewing C# code
 - Refactoring existing .NET applications
 - Designing service architectures with ASP.NET Core
 
-## Core Principles
+## Core Principles (Core Principles)
 
-### 1. Prefer Immutability
+### 1. Prefer Immutability (1. Prefer Immutability)
 
 Use records and init-only properties for data models. Mutability should be an explicit, justified choice.
 
@@ -40,7 +40,7 @@ public class Order
 }
 ```
 
-### 2. Explicit Over Implicit
+### 2. Explicit Over Implicit (2. Explicit Over Implicit)
 
 Be clear about nullability, access modifiers, and intent.
 
@@ -64,7 +64,7 @@ public sealed class UserService
 }
 ```
 
-### 3. Depend on Abstractions
+### 3. Depend on Abstractions (3. Depend on Abstractions)
 
 Use interfaces for service boundaries. Register via DI container.
 
@@ -81,9 +81,9 @@ public interface IOrderRepository
 builder.Services.AddScoped<IOrderRepository, SqlOrderRepository>();
 ```
 
-## Async/Await Patterns
+## Async/Await Patterns (Async/Await Patterns)
 
-### Proper Async Usage
+### Proper Async Usage (Proper Async Usage)
 
 ```csharp
 // Good: Async all the way, with CancellationToken
@@ -107,7 +107,7 @@ public OrderSummary GetOrderSummary(Guid orderId)
 }
 ```
 
-### Parallel Async Operations
+### Parallel Async Operations (Parallel Async Operations)
 
 ```csharp
 // Good: Concurrent independent operations
@@ -126,7 +126,7 @@ public async Task<DashboardData> LoadDashboardAsync(CancellationToken cancellati
 }
 ```
 
-## Options Pattern
+## Options Pattern (Options Pattern)
 
 Bind configuration sections to strongly-typed objects.
 
@@ -152,7 +152,7 @@ public class EmailService(IOptions<SmtpOptions> options)
 }
 ```
 
-## Result Pattern
+## Result Pattern (Result Pattern)
 
 Return explicit success/failure instead of throwing for expected failures.
 
@@ -182,7 +182,7 @@ public async Task<Result<Order>> PlaceOrderAsync(CreateOrderRequest request)
 }
 ```
 
-## Repository Pattern with EF Core
+## Repository Pattern with EF Core (Repository Pattern with EF Core)
 
 ```csharp
 public sealed class SqlOrderRepository : IOrderRepository
@@ -218,7 +218,7 @@ public sealed class SqlOrderRepository : IOrderRepository
 }
 ```
 
-## Middleware and Pipeline
+## Middleware and Pipeline (Middleware and Pipeline)
 
 ```csharp
 // Custom middleware
@@ -254,7 +254,7 @@ public sealed class RequestTimingMiddleware
 }
 ```
 
-## Minimal API Patterns
+## Minimal API Patterns (Minimal API Patterns)
 
 ```csharp
 // Organized with route groups
@@ -285,7 +285,7 @@ orders.MapPost("/", async (
 });
 ```
 
-## Guard Clauses
+## Guard Clauses (Guard Clauses)
 
 ```csharp
 // Good: Early returns with clear validation
@@ -307,7 +307,7 @@ public async Task<ProcessResult> ProcessPaymentAsync(
 }
 ```
 
-## Anti-Patterns to Avoid
+## Anti-Patterns to Avoid (Anti-Patterns to Avoid)
 
 | Anti-Pattern | Fix |
 |---|---|

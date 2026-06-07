@@ -1,29 +1,29 @@
 ---
-description: Fix C++ build errors, CMake issues, and linker problems incrementally. Invokes the cpp-build-resolver agent for minimal, surgical fixes.
+description: C++ のビルドエラー、CMake の問題、リンカーエラーを段階的に修正。最小限の外科的修正のため cpp-build-resolver エージェントを起動する。
 ---
 
-# C++ Build and Fix
+# C++ ビルドと修正 (C++ Build and Fix)
 
-This command invokes the **cpp-build-resolver** agent to incrementally fix C++ build errors with minimal changes.
+このコマンドは **cpp-build-resolver** エージェントを起動し、最小限の変更で C++ ビルドエラーを段階的に修正する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Run Diagnostics**: Execute `cmake --build`, `clang-tidy`, `cppcheck`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **診断の実行**: `cmake --build`、`clang-tidy`、`cppcheck` を実行
+2. **エラーの解析**: ファイルごとにグループ化し、severity でソート
+3. **段階的修正**: 一度に 1 エラーずつ
+4. **各修正の検証**: 変更のたびにビルドを再実行
+5. **サマリーの報告**: 修正内容と残件を表示
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/cpp-build` when:
-- `cmake --build build` fails with errors
-- Linker errors (undefined references, multiple definitions)
-- Template instantiation failures
-- Include/dependency issues
-- After pulling changes that break the build
+`/cpp-build` を使用する場合:
+- `cmake --build build` がエラーで失敗する
+- リンカーエラー（未定義参照、多重定義）
+- テンプレートインスタンス化の失敗
+- include/依存関係の問題
+- pull 後にビルドが壊れた場合
 
-## Diagnostic Commands Run
+## 実行される診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # CMake configure
@@ -37,7 +37,7 @@ clang-tidy src/*.cpp -- -std=c++17
 cppcheck --enable=all src/
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ```text
 User: /cpp-build
@@ -132,42 +132,42 @@ All tests passed.
 Build Status: PASS: SUCCESS
 ```
 
-## Common Errors Fixed
+## よくある修正対象エラー (Common Errors Fixed)
 
 | Error | Typical Fix |
 |-------|-------------|
-| `undeclared identifier` | Add `#include` or fix typo |
-| `no matching function` | Fix argument types or add overload |
-| `undefined reference` | Link library or add implementation |
-| `multiple definition` | Use `inline` or move to .cpp |
-| `incomplete type` | Replace forward decl with `#include` |
-| `no member named X` | Fix member name or include |
-| `cannot convert X to Y` | Add appropriate cast |
-| `CMake Error` | Fix CMakeLists.txt configuration |
+| `undeclared identifier` | `#include` を追加するか typo を修正 |
+| `no matching function` | 引数型を修正するか overload を追加 |
+| `undefined reference` | ライブラリをリンクするか実装を追加 |
+| `multiple definition` | `inline` を使うか .cpp に移動 |
+| `incomplete type` | forward decl を `#include` に置き換え |
+| `no member named X` | メンバー名を修正するか include を追加 |
+| `cannot convert X to Y` | 適切なキャストを追加 |
+| `CMake Error` | CMakeLists.txt の設定を修正 |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
-1. **Compilation errors first** - Code must compile
-2. **Linker errors second** - Resolve undefined references
-3. **Warnings third** - Fix with `-Wall -Wextra`
-4. **One fix at a time** - Verify each change
-5. **Minimal changes** - Don't refactor, just fix
+1. **コンパイルエラーを最優先** — コードはコンパイル可能であること
+2. **リンカーエラーを次に** — 未定義参照を解決
+3. **警告を 3 番目** — `-Wall -Wextra` で修正
+4. **一度に 1 修正** — 各変更を検証
+5. **最小限の変更** — リファクタリングせず、修正のみ
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Missing external dependencies
+エージェントは以下の場合に停止して報告する:
+- 3 回試行後も同じエラーが続く
+- 修正がさらに多くのエラーを導入する
+- アーキテクチャ変更が必要
+- 外部依存関係が不足
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/cpp-test` - Run tests after build succeeds
-- `/cpp-review` - Review code quality
-- `verification-loop` skill - Full verification loop
+- `/cpp-test` — ビルド成功後にテストを実行
+- `/cpp-review` — コード品質をレビュー
+- `verification-loop` skill — フル検証ループ
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/cpp-build-resolver.md`
 - Skill: `skills/cpp-coding-standards/`

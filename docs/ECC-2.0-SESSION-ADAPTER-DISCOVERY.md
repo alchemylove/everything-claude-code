@@ -1,52 +1,47 @@
-# ECC 2.0 Session Adapter Discovery
+# ECC 2.0 Session Adapter Discovery (ECC 2.0 Session Adapter Discovery)
 
-## Purpose
+## 目的 (Purpose)
 
-This document turns the March 11 ECC 2.0 control-plane direction into a
-concrete adapter and snapshot design grounded in the orchestration code that
-already exists in this repo.
+このドキュメントは、2026年3月11日の ECC 2.0 control-plane 方針を、このリポジトリに既に存在する orchestration code に基づいた具体的な adapter と snapshot 設計に落とし込む。
 
-## Current Implemented Substrate
+## 現在実装済みの基盤 (Current Implemented Substrate)
 
-The repo already has a real first-pass orchestration substrate:
+リポジトリには既に実在する first-pass orchestration substrate がある:
 
 - `scripts/lib/tmux-worktree-orchestrator.js`
-  provisions tmux panes plus isolated git worktrees
+  は tmux panes と isolated git worktrees をプロビジョニングする
 - `scripts/orchestrate-worktrees.js`
-  is the current session launcher
+  は現在の session launcher である
 - `scripts/lib/orchestration-session.js`
-  collects machine-readable session snapshots
+  は machine-readable session snapshots を収集する
 - `scripts/orchestration-status.js`
-  exports those snapshots from a session name or plan file
+  は session name または plan file からそれらの snapshots をエクスポートする
 - `commands/sessions.md`
-  already exposes adjacent session-history concepts from Claude's local store
+  は Claude の local store から隣接する session-history concepts を既に公開している
 - `scripts/lib/session-adapters/canonical-session.js`
-  defines the canonical `ecc.session.v1` normalization layer
+  は canonical `ecc.session.v1` normalization layer を定義する
 - `scripts/lib/session-adapters/dmux-tmux.js`
-  wraps the current orchestration snapshot collector as adapter `dmux-tmux`
+  は現在の orchestration snapshot collector を adapter `dmux-tmux` としてラップする
 - `scripts/lib/session-adapters/claude-history.js`
-  normalizes Claude local session history as a second adapter
+  は Claude local session history を second adapter として正規化する
 - `scripts/lib/session-adapters/registry.js`
-  selects adapters from explicit targets and target types
+  は explicit targets と target types から adapters を選択する
 - `scripts/session-inspect.js`
-  emits canonical read-only session snapshots through the adapter registry
+  は adapter registry 経由で canonical read-only session snapshots を出力する
 
-In practice, ECC can already answer:
+実際には、ECC は既に以下に答えられる:
 
-- what workers exist in a tmux-orchestrated session
-- what pane each worker is attached to
-- what task, status, and handoff files exist for each worker
-- whether the session is active and how many panes/workers exist
-- what the most recent Claude local session looked like in the same canonical
-  snapshot shape as orchestration sessions
+- tmux-orchestrated session にどの workers が存在するか
+- 各 worker がどの pane にアタッチされているか
+- 各 worker にどの task、status、handoff files が存在するか
+- session が active か、panes/workers がいくつあるか
+- 直近の Claude local session が orchestration sessions と同じ canonical snapshot shape でどう見えたか
 
-That is enough to prove the substrate. It is not yet enough to qualify as a
-general ECC 2.0 control plane.
+これは substrate を証明するのに十分である。general ECC 2.0 control plane として認定するにはまだ不十分である。
 
-## What The Current Snapshot Actually Models
+## 現在の Snapshot が実際にモデル化しているもの (What The Current Snapshot Actually Models)
 
-The current snapshot model coming out of `scripts/lib/orchestration-session.js`
-has these effective fields:
+`scripts/lib/orchestration-session.js` から出力される現在の snapshot model には、以下の effective fields がある:
 
 ```json
 {
@@ -109,40 +104,37 @@ has these effective fields:
 }
 ```
 
-This is already a useful operator payload. The main limitation is that it is
-implicitly tied to one execution style:
+これは既に有用な operator payload である。主な制限は、暗黙的に1つの execution style に結び付いていることである:
 
 - tmux pane identity
 - worker slug equals pane title
 - markdown coordination files
-- plan-file or session-name lookup rules
+- plan-file または session-name lookup rules
 
-## Gap Between ECC 1.x And ECC 2.0
+## ECC 1.x と ECC 2.0 のギャップ (Gap Between ECC 1.x And ECC 2.0)
 
-ECC 1.x currently has two different "session" surfaces:
+ECC 1.x には現在、2つの異なる "session" surfaces がある:
 
 1. Claude local session history
 2. Orchestration runtime/session snapshots
 
-Those surfaces are adjacent but not unified.
+これらの surfaces は隣接しているが、統一されていない。
 
-The missing ECC 2.0 layer is a harness-neutral session adapter boundary that
-can normalize:
+欠けている ECC 2.0 layer は、以下を正規化できる harness-neutral session adapter boundary である:
 
 - tmux-orchestrated workers
 - plain Claude sessions
 - Codex worktree sessions
 - OpenCode sessions
-- future GitHub/App or remote-control sessions
+- 将来の GitHub/App または remote-control sessions
 
-Without that adapter layer, any future operator UI would be forced to read
-tmux-specific details and coordination markdown directly.
+この adapter layer がなければ、将来の operator UI は tmux-specific details と coordination markdown を直接読むことを強いられる。
 
-## Adapter Boundary
+## Adapter 境界 (Adapter Boundary)
 
-ECC 2.0 should introduce a canonical session adapter contract.
+ECC 2.0 は canonical session adapter contract を導入すべきである。
 
-Suggested minimal interface:
+推奨する最小インターフェース:
 
 ```ts
 type SessionAdapter = {
@@ -158,9 +150,9 @@ type AdapterHandle = {
 };
 ```
 
-### Canonical Snapshot Shape
+### Canonical Snapshot Shape (Canonical Snapshot Shape)
 
-Suggested first-pass canonical payload:
+推奨する first-pass canonical payload:
 
 ```json
 {
@@ -216,23 +208,20 @@ Suggested first-pass canonical payload:
 }
 ```
 
-This preserves the useful signal already present while removing tmux-specific
-details from the control-plane contract.
+これは既に存在する有用な signal を保持しつつ、control-plane contract から tmux-specific details を除去する。
 
-## First Adapters To Support
+## 最初にサポートする Adapters (First Adapters To Support)
 
 ### 1. `dmux-tmux`
 
-Wrap the logic already living in
-`scripts/lib/orchestration-session.js`.
+`scripts/lib/orchestration-session.js` に既にあるロジックをラップする。
 
-This is the easiest first adapter because the substrate is already real.
+substrate が既に実在するため、これが最も容易な first adapter である。
 
 ### 2. `claude-history`
 
-Normalize the data that
 `commands/sessions.md`
-and the existing session-manager utilities already expose:
+と既存の session-manager utilities が既に公開しているデータを正規化する:
 
 - session id / alias
 - branch
@@ -240,38 +229,36 @@ and the existing session-manager utilities already expose:
 - project path
 - recency / file size / item counts
 
-This provides a non-orchestrated baseline for ECC 2.0.
+これは ECC 2.0 向けの non-orchestrated baseline を提供する。
 
 ### 3. `codex-worktree`
 
-Use the same canonical shape, but back it with Codex-native execution metadata
-instead of tmux assumptions where available.
+同じ canonical shape を使用するが、利用可能な箇所では tmux assumptions の代わりに Codex-native execution metadata で裏付ける。
 
 ### 4. `opencode`
 
-Use the same adapter boundary once OpenCode session metadata is stable enough to
-normalize.
+OpenCode session metadata が正規化に十分安定したら、同じ adapter boundary を使用する。
 
-## What Should Stay Out Of The Adapter Layer
+## Adapter Layer に含めるべきでないもの (What Should Stay Out Of The Adapter Layer)
 
-The adapter layer should not own:
+adapter layer が所有すべきでないもの:
 
-- business logic for merge sequencing
+- merge sequencing の business logic
 - operator UI layout
-- pricing or monetization decisions
+- pricing または monetization decisions
 - install profile selection
-- tmux lifecycle orchestration itself
+- tmux lifecycle orchestration 自体
 
-Its job is narrower:
+その役割はより狭い:
 
-- detect session targets
-- load normalized snapshots
-- optionally stream runtime events
-- optionally expose safe actions
+- session targets を検出する
+- normalized snapshots を読み込む
+- オプションで runtime events をストリームする
+- オプションで safe actions を公開する
 
-## Current File Layout
+## 現在のファイルレイアウト (Current File Layout)
 
-The adapter layer now lives in:
+adapter layer は現在以下に存在する:
 
 ```text
 scripts/lib/session-adapters/
@@ -284,39 +271,30 @@ tests/lib/session-adapters.test.js
 tests/scripts/session-inspect.test.js
 ```
 
-The current orchestration snapshot parser is now being consumed as an adapter
-implementation rather than remaining the only product contract.
+現在の orchestration snapshot parser は、唯一の product contract のまま残るのではなく、adapter implementation として消費されるようになった。
 
-## Immediate Next Steps
+## 直近の次のステップ (Immediate Next Steps)
 
-1. Add a third adapter, likely `codex-worktree`, so the abstraction moves
-   beyond tmux plus Claude-history.
-2. Decide whether canonical snapshots need separate `state` and `health`
-   fields before UI work starts.
-3. Decide whether event streaming belongs in v1 or stays out until after the
-   snapshot layer proves itself.
-4. Build operator-facing panels only on top of the adapter registry, not by
-   reading orchestration internals directly.
+1. 抽象化を tmux plus Claude-history を超えて進めるため、3つ目の adapter（おそらく `codex-worktree`）を追加する。
+2. UI 作業を開始する前に、canonical snapshots に別々の `state` と `health` fields が必要かどうかを決定する。
+3. event streaming が v1 に属するか、snapshot layer が自分を証明するまで外に置くかを決定する。
+4. orchestration internals を直接読むのではなく、adapter registry の上にのみ operator-facing panels を構築する。
 
-## Open Questions
+## 未解決の質問 (Open Questions)
 
-1. Should worker identity be keyed by worker slug, branch, or stable UUID?
-2. Do we need separate `state` and `health` fields at the canonical layer?
-3. Should event streaming be part of v1, or should ECC 2.0 ship snapshot-only
-   first?
-4. How much path information should be redacted before snapshots leave the local
-   machine?
-5. Should the adapter registry live inside this repo long-term, or move into the
-   eventual ECC 2.0 control-plane app once the interface stabilizes?
+1. worker identity は worker slug、branch、stable UUID のどれをキーにすべきか?
+2. canonical layer で別々の `state` と `health` fields が必要か?
+3. event streaming は v1 の一部とすべきか、ECC 2.0 はまず snapshot-only で ship すべきか?
+4. snapshots が local machine を離れる前に、どれだけの path information を redact すべきか?
+5. adapter registry は長期的にこのリポジトリ内に留まるべきか、interface が安定したら eventual ECC 2.0 control-plane app に移動すべきか?
 
-## Recommendation
+## 推奨 (Recommendation)
 
-Treat the current tmux/worktree implementation as adapter `0`, not as the final
-product surface.
+現在の tmux/worktree implementation を final product surface ではなく、adapter `0` として扱う。
 
-The shortest path to ECC 2.0 is:
+ECC 2.0 への最短経路は:
 
-1. preserve the current orchestration substrate
-2. wrap it in a canonical session adapter contract
-3. add one non-tmux adapter
-4. only then start building operator panels on top
+1. 現在の orchestration substrate を保持する
+2. canonical session adapter contract でラップする
+3. non-tmux adapter を1つ追加する
+4. その上で初めて operator panels の構築を開始する

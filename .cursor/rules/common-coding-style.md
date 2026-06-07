@@ -1,12 +1,12 @@
 ---
-description: "ECC coding style: immutability, file organization, error handling, validation"
+description: "ECC coding style: 不変性、ファイル構成、エラーハンドリング、バリデーション"
 alwaysApply: true
 ---
-# Coding Style
+# Coding Style (Coding Style)
 
-## Immutability (CRITICAL)
+## 不変性 (Immutability)（CRITICAL）
 
-ALWAYS create new objects, NEVER mutate existing ones:
+常に新しいオブジェクトを作成し、既存のものを変更しない:
 
 ```
 // Pseudocode
@@ -14,39 +14,39 @@ WRONG:  modify(original, field, value) → changes original in-place
 CORRECT: update(original, field, value) → returns new copy with change
 ```
 
-Rationale: Immutable data prevents hidden side effects, makes debugging easier, and enables safe concurrency.
+根拠: 不変データは隠れた副作用を防ぎ、デバッグを容易にし、安全な並行処理を可能にする。
 
-## File Organization
+## ファイル構成 (File Organization)
 
-MANY SMALL FILES > FEW LARGE FILES:
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max
-- Extract utilities from large modules
-- Organize by feature/domain, not by type
+少数の大きなファイルより多数の小さなファイル:
+- 高凝集、低結合
+- 典型的には 200-400 行、最大 800 行
+- 大きなモジュールから utility を抽出
+- 型ではなく feature/domain 単位で整理
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-ALWAYS handle errors comprehensively:
-- Handle errors explicitly at every level
-- Provide user-friendly error messages in UI-facing code
-- Log detailed error context on the server side
-- Never silently swallow errors
+常に包括的にエラーを処理:
+- すべてのレベルで明示的にエラーを処理
+- UI 向けコードではユーザーフレンドリーなエラーメッセージを提供
+- サーバー側では詳細なエラーコンテキストをログ
+- エラーを黙って握りつぶさない
 
-## Input Validation
+## 入力バリデーション (Input Validation)
 
-ALWAYS validate at system boundaries:
-- Validate all user input before processing
-- Use schema-based validation where available
-- Fail fast with clear error messages
-- Never trust external data (API responses, user input, file content)
+システム境界で常にバリデーション:
+- 処理前にすべてのユーザー入力をバリデーション
+- 可能な場合は schema ベースのバリデーションを使用
+- 明確なエラーメッセージで fail fast
+- 外部データ（API レスポンス、ユーザー入力、ファイル内容）を信頼しない
 
-## Code Quality Checklist
+## コード品質チェックリスト (Code Quality Checklist)
 
-Before marking work complete:
-- [ ] Code is readable and well-named
-- [ ] Functions are small (<50 lines)
-- [ ] Files are focused (<800 lines)
-- [ ] No deep nesting (>4 levels)
-- [ ] Proper error handling
-- [ ] No hardcoded values (use constants or config)
-- [ ] No mutation (immutable patterns used)
+作業完了前に:
+- [ ] コードが読みやすく、命名が適切
+- [ ] 関数が小さい（<50 行）
+- [ ] ファイルが焦点を絞っている（<800 行）
+- [ ] 深いネストがない（>4 レベル）
+- [ ] 適切なエラーハンドリング
+- [ ] ハードコードされた値がない（定数または config を使用）
+- [ ] 変更がない（不変パターンを使用）

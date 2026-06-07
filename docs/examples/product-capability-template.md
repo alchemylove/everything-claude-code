@@ -1,8 +1,8 @@
-# Product Capability Template
+# プロダクト Capability テンプレート (Product Capability Template)
 
-Use this when product intent exists but the implementation constraints are still implicit.
+プロダクト intent はあるが実装制約がまだ暗黙のときにこれを使う。
 
-The purpose is to create a durable capability contract, not another vague planning doc.
+目的は、もう一つの曖昧な planning doc ではなく durable capability contract を作ること。
 
 ## Capability
 
@@ -12,13 +12,13 @@ The purpose is to create a durable capability contract, not another vague planni
 - **Outcome after ship:**
 - **Success signal:**
 
-## Product Intent
+## プロダクト Intent (Product Intent)
 
-Describe the user-visible promise in one short paragraph.
+ユーザーに見える約束を1短い段落で記述。
 
-## Constraints
+## 制約 (Constraints)
 
-List the rules that must be true before implementation starts:
+実装開始前に真であるべきルールを列挙：
 
 - business rules
 - scope boundaries
@@ -28,7 +28,7 @@ List the rules that must be true before implementation starts:
 - backwards compatibility constraints
 - billing / auth / compliance constraints
 
-## Actors and Surfaces
+## Actor と Surface (Actors and Surfaces)
 
 - actor(s)
 - UI surfaces
@@ -36,16 +36,16 @@ List the rules that must be true before implementation starts:
 - automation / operator surfaces
 - reporting / dashboard surfaces
 
-## States and Transitions
+## 状態と遷移 (States and Transitions)
 
-Describe the lifecycle in terms of explicit states and allowed transitions.
+明示的状態と許可遷移でライフサイクルを記述。
 
-Example:
+例：
 
 - `draft -> active -> paused -> completed`
 - `pending -> approved -> provisioned -> revoked`
 
-## Interface Contract
+## インターフェース契約 (Interface Contract)
 
 - inputs
 - outputs
@@ -54,29 +54,29 @@ Example:
 - retries / recovery
 - idempotency expectations
 
-## Data Implications
+## データへの含意 (Data Implications)
 
 - source of truth
 - new entities or fields
 - ownership boundaries
 - retention / deletion expectations
 
-## Security and Policy
+## セキュリティとポリシー (Security and Policy)
 
 - trust boundaries
 - permission requirements
 - abuse paths
 - policy / governance requirements
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-List what this capability explicitly does not own.
+この capability が明示的に担わないものを列挙。
 
-## Open Questions
+## 未解決質問 (Open Questions)
 
-Capture the unresolved decisions blocking implementation.
+実装をブロックする未解決決定を記録。
 
-## Handoff
+## ハンドオフ (Handoff)
 
 - **Ready for implementation?**
 - **Needs architecture review?**

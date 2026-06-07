@@ -4,59 +4,59 @@ paths:
   - "**/*.fsx"
   - "**/*.fsproj"
 ---
-# F# Testing
+# F# テスト (F# Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with F#-specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、F# 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-- Prefer **xUnit** with **FsUnit.xUnit** for F#-friendly assertions
-- Use **Unquote** for quotation-based assertions with clear failure messages
-- Use **FsCheck.xUnit** for property-based testing
-- Use **NSubstitute** or function stubs for mocking dependencies
-- Use **Testcontainers** when integration tests need real infrastructure
+- F# フレンドリーなアサーションのために **xUnit** と **FsUnit.xUnit** を優先する
+- 明確な失敗メッセージを持つクォーテーションベースのアサーションには **Unquote** を使用する
+- プロパティベーステストには **FsCheck.xUnit** を使用する
+- 依存関係のモックには **NSubstitute** または関数スタブを使用する
+- インテグレーションテストで実際のインフラが必要な場合は **Testcontainers** を使用する
 
-## Test Organization
+## テストの構成 (Test Organization)
 
-- Mirror `src/` structure under `tests/`
-- Separate unit, integration, and end-to-end coverage clearly
-- Name tests by behavior, not implementation details
+- `tests/` 配下に `src/` の構造を反映させる
+- ユニット、インテグレーション、エンドツーエンドのカバレッジを明確に分離する
+- 実装の詳細ではなく、振る舞いでテストに名前を付ける
 
 ```fsharp
 open Xunit
 open Swensen.Unquote
 
 [<Fact>]
-let ``PlaceOrder returns success when request is valid`` () =
+let ``リクエストが有効な場合、PlaceOrder は成功を返す`` () =
     let request = { CustomerId = "cust-123"; Items = [ validItem ] }
     let result = OrderService.placeOrder request
     test <@ Result.isOk result @>
 
 [<Fact>]
-let ``PlaceOrder returns error when items are empty`` () =
+let ``アイテムが空の場合、PlaceOrder はエラーを返す`` () =
     let request = { CustomerId = "cust-123"; Items = [] }
     let result = OrderService.placeOrder request
     test <@ Result.isError result @>
 ```
 
-## Property-Based Testing with FsCheck
+## FsCheck を使ったプロパティベーステスト (Property-Based Testing with FsCheck)
 
 ```fsharp
 open FsCheck.Xunit
 
 [<Property>]
-let ``order total is never negative`` (items: OrderItem list) =
+let ``注文合計が負になることはない`` (items: OrderItem list) =
     let total = Order.calculateTotal items
     total >= 0m
 ```
 
-## ASP.NET Core Integration Tests
+## ASP.NET Core インテグレーションテスト (ASP.NET Core Integration Tests)
 
-- Use `WebApplicationFactory<TEntryPoint>` for API integration coverage
-- Test auth, validation, and serialization through HTTP, not by bypassing middleware
+- API インテグレーションカバレッジには `WebApplicationFactory<TEntryPoint>` を使用する
+- ミドルウェアをバイパスするのではなく、HTTP を通じて認証、バリデーション、シリアライゼーションをテストする
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Target 80%+ line coverage
-- Focus coverage on domain logic, validation, auth, and failure paths
-- Run `dotnet test` in CI with coverage collection enabled where available
+- 80%以上の行カバレッジを目標とする
+- ドメインロジック、バリデーション、認証、失敗パスのカバレッジに重点を置く
+- 利用可能な場合はカバレッジ収集を有効にして CI で `dotnet test` を実行する

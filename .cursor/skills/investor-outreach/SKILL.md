@@ -1,76 +1,90 @@
 ---
 name: investor-outreach
 description: Draft cold emails, warm intro blurbs, follow-ups, update emails, and investor communications for fundraising. Use when the user wants outreach to angels, VCs, strategic investors, or accelerators and needs concise, personalized, investor-facing messaging.
-origin: ECC
 ---
 
-# Investor Outreach
+# 投資家アウトリーチ (Investor Outreach)
 
-Write investor communication that is short, personalized, and easy to act on.
+短く、具体的で、行動しやすい投資家コミュニケーションを書く。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- writing a cold email to an investor
-- drafting a warm intro request
-- sending follow-ups after a meeting or no response
-- writing investor updates during a process
-- tailoring outreach based on fund thesis or partner fit
+- 投資家へのコールドメールを書くとき
+- ウォームイントロ依頼を起草するとき
+- ミーティング後または無応答後のフォローアップを送るとき
+- プロセス中の投資家アップデートを書くとき
+- ファンドテーゼやパートナーフィットに基づいてアウトリーチを調整するとき
 
-## Core Rules
+## コアルール (Core Rules)
 
-1. Personalize every outbound message.
-2. Keep the ask low-friction.
-3. Use proof, not adjectives.
-4. Stay concise.
-5. Never send generic copy that could go to any investor.
+1. すべてのアウトバウンドメッセージをパーソナライズする。
+2. ask のハードルを低くする。
+3. 形容詞ではなく証拠を使う。
+4. 簡潔に保つ。
+5. どの投資家にも送れるコピーは送らない。
 
-## Cold Email Structure
+## ボイス処理 (Voice Handling)
 
-1. subject line: short and specific
-2. opener: why this investor specifically
-3. pitch: what the company does, why now, what proof matters
-4. ask: one concrete next step
-5. sign-off: name, role, one credibility anchor if needed
+ユーザーのボイスが重要な場合は、先に `brand-voice` を実行し、その `VOICE PROFILE` を再利用する。
+このスキルは投資家向けの構造と ask の規律を維持し、独自の並行ボイスシステムは作らない。
 
-## Personalization Sources
+## 禁止表現 (Hard Bans)
 
-Reference one or more of:
-- relevant portfolio companies
-- a public thesis, talk, post, or article
-- a mutual connection
-- a clear market or product fit with the investor's focus
+以下は削除して書き直す:
+- "I'd love to connect"
+- "excited to share"
+- 実際の関連性のない汎用的なテーゼ称賛
+- 曖昧な創業者形容詞
+- 懇願的な言葉
+- 直接的な ask の方が明確なのに柔らかい締めの質問
 
-If that context is missing, ask for it or state that the draft is a template awaiting personalization.
+## コールドメール構成 (Cold Email Structure)
 
-## Follow-Up Cadence
+1. subject line: 短く具体的に
+2. opener: なぜこの投資家なのか
+3. pitch: 会社の事業、why now、重要な証拠
+4. ask: 一つの具体的な次のステップ
+5. sign-off: 名前、役職、必要なら一つの信頼性アンカー
 
-Default:
-- day 0: initial outbound
-- day 4-5: short follow-up with one new data point
-- day 10-12: final follow-up with a clean close
+## パーソナライズの情報源 (Personalization Sources)
 
-Do not keep nudging after that unless the user wants a longer sequence.
+以下の一つ以上を参照する:
+- 関連ポートフォリオ企業
+- 公開テーゼ、トーク、投稿、記事
+- 共通のコネクション
+- 投資家のフォーカスとの明確な市場・プロダクト適合
 
-## Warm Intro Requests
+そのコンテキストが不足している場合は、完成したふりをせず、ドラフトにまだパーソナライズが必要であると明記する。
 
-Make life easy for the connector:
-- explain why the intro is a fit
-- include a forwardable blurb
-- keep the forwardable blurb under 100 words
+## フォローアップの頻度 (Follow-Up Cadence)
 
-## Post-Meeting Updates
+デフォルト:
+- day 0: 初回アウトバウンド
+- day 4 or 5: 新しいデータポイント一つ付きの短いフォローアップ
+- day 10 to 12: きれいに締める最終フォローアップ
 
-Include:
-- the specific thing discussed
-- the answer or update promised
-- one new proof point if available
-- the next step
+ユーザーがより長いシーケンスを望まない限り、それ以降は催促しない。
 
-## Quality Gate
+## ウォームイントロ依頼 (Warm Intro Requests)
 
-Before delivering:
-- message is personalized
-- the ask is explicit
-- there is no fluff or begging language
-- the proof point is concrete
-- word count stays tight
+コネクターの負担を減らす:
+- なぜイントロが適合するか説明する
+- 転送可能なブリーフを含める
+- 転送可能なブリーフは 100 語以内に収める
+
+## ミーティング後のアップデート (Post-Meeting Updates)
+
+含める項目:
+- 議論した具体的な内容
+- 約束した回答またはアップデート
+- 利用可能なら新しい証拠ポイント一つ
+- 次のステップ
+
+## 品質ゲート (Quality Gate)
+
+納品前に確認:
+- メッセージが本当にパーソナライズされている
+- ask が明示的
+- 証拠ポイントが具体的
+- フィラー称賛と緩和表現が除去されている
+- 語数がタイトに保たれている

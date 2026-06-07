@@ -1,21 +1,21 @@
-# Hermes x ECC Setup
+# Hermes x ECC セットアップ (Hermes x ECC Setup)
 
-Hermes is the operator shell. ECC is the reusable system behind it.
+Hermes は operator shell です。ECC はその背後の再利用可能システムです。
 
-This guide is the public, sanitized version of the Hermes stack used to run content, outreach, research, sales ops, finance checks, and engineering workflows from one terminal-native surface.
+このガイドは、1つのターミナルネイティブ面からコンテンツ、アウトリーチ、リサーチ、セールス ops、ファイナンスチェック、エンジニアリングワークフローを走らせるために使う Hermes スタックの公開・サニタイズ版です。
 
-## What Ships Publicly
+## 公開で出荷するもの (What Ships Publicly)
 
-- ECC skills, agents, commands, hooks, and MCP configs from this repo
-- Hermes-generated workflow skills that are stable enough to reuse
-- a documented operator topology for chat, crons, workspace memory, and distribution flows
-- launch collateral for sharing the stack publicly
+- このリポジトリの ECC skills、agents、commands、hooks、MCP configs
+- 再利用に十分安定した Hermes 生成ワークフロー skills
+- chat、cron、ワークスペース memory、配布フロー向けの文書化された operator トポロジー
+- スタックを公開共有するためのローンチコラテラル
 
-This guide does not include private secrets, live tokens, personal data, or a raw `~/.hermes` export.
+このガイドにはプライベート secret、ライブ token、個人データ、生の `~/.hermes` エクスポートは含みません。
 
-## Architecture
+## アーキテクチャ (Architecture)
 
-Use Hermes as the front door and ECC as the reusable workflow substrate.
+Hermes を正面玄関、ECC を再利用可能 workflow substrate として使う。
 
 ```text
 Telegram / CLI / TUI
@@ -27,99 +27,99 @@ Telegram / CLI / TUI
  Google Drive / GitHub / browser automation / research APIs / media tools / finance tools
 ```
 
-## Public Workspace Map
+## 公開ワークスペースマップ (Public Workspace Map)
 
-Use this as the minimal surface to reproduce the setup without leaking private state.
+プライベート状態を漏らさずセットアップを再現する最小面として使う。
 
 - `~/.hermes/config.yaml`
   - model routing
-  - MCP server registration
-  - plugin loading
+  - MCP server 登録
+  - plugin 読み込み
 - `~/.hermes/skills/ecc-imports/`
-  - ECC skills copied in for Hermes-native use
+  - Hermes ネイティブ利用向けにコピーされた ECC skills
 - `skills/hermes-generated/`
-  - operator patterns distilled from repeated Hermes sessions
+  - 繰り返し Hermes セッションから蒸留された operator パターン
 - `~/.hermes/plugins/`
-  - bridge plugins for hooks, reminders, and workflow-specific tool glue
+  - hooks、reminder、ワークフロー固有 tool glue 向け bridge plugin
 - `~/.hermes/cron/jobs.json`
-  - scheduled automation runs with explicit prompts and channels
+  - 明示的プロンプトとチャネル付きスケジュール automation run
 - `~/.hermes/workspace/`
-  - business, ops, health, content, and memory artifacts
+  - ビジネス、ops、health、コンテンツ、memory artifact
 
-## Recommended Capability Stack
+## 推奨 Capability スタック (Recommended Capability Stack)
 
-### Core
+### コア (Core)
 
-- Hermes for chat, cron, orchestration, and workspace state
-- ECC for skills, rules, prompts, and cross-harness conventions
-- GitHub + Context7 + Exa + Firecrawl + Playwright as the baseline MCP layer
+- chat、cron、オーケストレーション、ワークスペース状態向け Hermes
+- skills、rules、prompt、cross-harness 規約向け ECC
+- ベースライン MCP レイヤーとして GitHub + Context7 + Exa + Firecrawl + Playwright
 
-### Content
+### コンテンツ (Content)
 
-- FFmpeg for local edit and assembly
-- Remotion for programmable clips
-- fal.ai for image/video generation
-- ElevenLabs for voice, cleanup, and audio packaging
-- CapCut or VectCutAPI for final social-native polish
+- ローカル編集・組み立て向け FFmpeg
+- プログラム可能クリップ向け Remotion
+- 画像/動画生成向け fal.ai
+- 音声、cleanup、オーディオ packaging 向け ElevenLabs
+- 最終ソーシャルネイティブ仕上げ向け CapCut または VectCutAPI
 
-### Business Ops
+### ビジネス Ops (Business Ops)
 
-- Google Drive as the system of record for docs, sheets, decks, and research dumps
-- Stripe for revenue and payment operations
-- GitHub for engineering execution
-- Telegram and iMessage-style channels for urgent nudges and approvals
+- docs、sheet、deck、research dump の system of record として Google Drive
+- 収益と支払い運用向け Stripe
+- エンジニアリング実行向け GitHub
+- 緊急 nudge と承認向け Telegram と iMessage スタイルチャネル
 
-## What Still Requires Local Auth
+## ローカル Auth がまだ必要なもの (What Still Requires Local Auth)
 
-These stay local and should be configured per operator:
+これらはローカルに残し、operator ごとに設定すべき：
 
-- Google OAuth token for Drive / Docs / Sheets / Slides
-- X / LinkedIn / outbound distribution credentials
-- Stripe keys
-- browser automation credentials and stealth/proxy settings
-- any CRM or project system credentials such as Linear or Apollo
-- Apple Health export or ingest path if health automations are enabled
+- Drive / Docs / Sheets / Slides 向け Google OAuth token
+- X / LinkedIn / アウトバウンド配布認証情報
+- Stripe key
+- browser automation 認証情報と stealth/proxy 設定
+- Linear や Apollo など CRM またはプロジェクトシステム認証情報
+- health automation を有効にする場合の Apple Health エクスポートまたは ingest path
 
-## Suggested Bring-Up Order
+## 推奨ブリングアップ順序 (Suggested Bring-Up Order)
 
-0. Run `ecc migrate audit --source ~/.hermes` first to inventory the legacy workspace and see which parts already map onto ECC2.
-0.5. Plan and scaffold migration artifacts before importing anything:
-   - generate reviewable plans with `ecc migrate plan` and `ecc migrate scaffold`
-   - scaffold reusable legacy skills with `ecc migrate import-skills --output-dir migration-artifacts/skills`
-   - scaffold tool translation templates with `ecc migrate import-tools --output-dir migration-artifacts/tools`
-   - scaffold bridge plugin templates with `ecc migrate import-plugins --output-dir migration-artifacts/plugins`
-   - preview recurring jobs with `ecc migrate import-schedules --dry-run`
-   - preview gateway dispatch with `ecc migrate import-remote --dry-run`
-   - preview safe env/service context with `ecc migrate import-env --dry-run`
-   - import sanitized workspace memory with `ecc migrate import-memory`
-1. Install ECC and verify the baseline harness setup with `node tests/run-all.js`; the expected result is a zero-failure test summary.
-2. Install Hermes and point it at ECC-imported skills.
-3. Register the MCP servers you actually use every day.
-4. Authenticate Google Drive first, then GitHub, then distribution channels.
-5. Start with a small cron surface: readiness check, content accountability, inbox triage, revenue monitor.
-6. Only then add heavier personal workflows like health, relationship graphing, or outbound sequencing.
+0. まず `ecc migrate audit --source ~/.hermes` を実行し、レガシーワークスペースを棚卸し、どの部分がすでに ECC2 にマップするか確認。
+0.5. 何かを import する前に migration artifact を計画・scaffold：
+   - `ecc migrate plan` と `ecc migrate scaffold` でレビュー可能プランを生成
+   - `ecc migrate import-skills --output-dir migration-artifacts/skills` で再利用可能レガシー skill を scaffold
+   - `ecc migrate import-tools --output-dir migration-artifacts/tools` で tool 翻訳テンプレートを scaffold
+   - `ecc migrate import-plugins --output-dir migration-artifacts/plugins` で bridge plugin テンプレートを scaffold
+   - `ecc migrate import-schedules --dry-run` で定期 job をプレビュー
+   - `ecc migrate import-remote --dry-run` で gateway dispatch をプレビュー
+   - `ecc migrate import-env --dry-run` で安全な env/service context をプレビュー
+   - `ecc migrate import-memory` でサニタイズされたワークスペース memory を import
+1. ECC をインストールし `node tests/run-all.js` でベースライン harness セットアップを検証；期待結果は失敗ゼロのテストサマリー。
+2. Hermes をインストールし ECC import 済み skills を指す。
+3. 実際に毎日使う MCP server を登録。
+4. まず Google Drive を認証し、次に GitHub、次に配布チャネル。
+5. 小さな cron 面から始める：readiness check、content accountability、inbox triage、revenue monitor。
+6. その後で health、relationship graphing、アウトバウンド sequencing など重い個人ワークフローを追加。
 
-## Related Docs
+## 関連 Docs (Related Docs)
 
 - [Hermes/OpenClaw migration guide](HERMES-OPENCLAW-MIGRATION.md)
 - [Cross-harness architecture](architecture/cross-harness.md)
 
-## Why Hermes x ECC
+## なぜ Hermes x ECC (Why Hermes x ECC)
 
-This stack is useful when you want:
+このスタックは次が欲しいときに有用：
 
-- one terminal-native place to run business and engineering operations
-- reusable skills instead of one-off prompts
-- automation that can nudge, audit, and escalate
-- a public repo that shows the system shape without exposing your private operator state
+- ビジネスとエンジニアリング運用を走らせる1つのターミナルネイティブ場所
+- 使い捨てプロンプトではなく再利用可能 skills
+- nudge、監査、エスカレーションできる automation
+- プライベート operator 状態を露出せずシステム形状を示す公開リポジトリ
 
-## Public Release Candidate Scope
+## 公開 Release Candidate スコープ (Public Release Candidate Scope)
 
-ECC v2.0.0-rc.1 documents the Hermes surface and ships launch collateral now.
+ECC v2.0.0-rc.1 は Hermes 面を文書化し、ローンチコラテラルを今出荷します。
 
-The remaining private pieces can be layered later:
+残りのプライベート部分は後から重ねられる：
 
-- additional sanitized templates
-- richer public examples
-- more generated workflow packs
-- tighter CRM and Google Workspace integrations
+- 追加のサニタイズテンプレート
+- より豊富な公開例
+- より多くの生成ワークフローパック
+- より密な CRM と Google Workspace 統合

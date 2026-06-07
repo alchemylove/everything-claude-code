@@ -5,15 +5,15 @@ paths:
   - "**/phpunit.xml.dist"
   - "**/composer.json"
 ---
-# PHP Testing
+# PHP テスト (PHP Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with PHP specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、PHP 固有の内容を追加する。
 
-## Framework
+## フレームワーク (Framework)
 
-Use **PHPUnit** as the default test framework. If **Pest** is configured in the project, prefer Pest for new tests and avoid mixing frameworks.
+デフォルトのテストフレームワークは **PHPUnit**。プロジェクトで **Pest** が設定されている場合は新規テストに Pest を優先し、フレームワークの混在を避ける。
 
-## Coverage
+## カバレッジ (Coverage)
 
 ```bash
 vendor/bin/phpunit --coverage-text
@@ -21,19 +21,19 @@ vendor/bin/phpunit --coverage-text
 vendor/bin/pest --coverage
 ```
 
-Prefer **pcov** or **Xdebug** in CI, and keep coverage thresholds in CI rather than as tribal knowledge.
+CI では **pcov** または **Xdebug** を優先し、カバレッジ閾値は口伝ではなく CI に保持する。
 
-## Test Organization
+## テスト構成 (Test Organization)
 
-- Separate fast unit tests from framework/database integration tests.
-- Use factory/builders for fixtures instead of large hand-written arrays.
-- Keep HTTP/controller tests focused on transport and validation; move business rules into service-level tests.
+- 高速な unit テストとフレームワーク/データベース統合テストを分離する。
+- 大きな手書き配列の代わりに factory/builder で fixture を用意する。
+- HTTP/コントローラテストは transport とバリデーションに集中し、ビジネスルールはサービスレベルのテストへ移す。
 
-## Inertia
+## Inertia (Inertia)
 
-If the project uses Inertia.js, prefer `assertInertia` with `AssertableInertia` to verify component names and props instead of raw JSON assertions.
+プロジェクトが Inertia.js を使用する場合、生 JSON アサーションの代わりに `assertInertia` と `AssertableInertia` でコンポーネント名と props を検証することを優先する。
 
-## Reference
+## 参照 (Reference)
 
-See skill: `tdd-workflow` for the repo-wide RED -> GREEN -> REFACTOR loop.
-See skill: `laravel-tdd` for Laravel-specific testing patterns (PHPUnit and Pest).
+リポジトリ全体の RED -> GREEN -> REFACTOR ループは skill: `tdd-workflow` を参照。
+Laravel 固有のテストパターン（PHPUnit と Pest）は skill: `laravel-tdd` を参照。

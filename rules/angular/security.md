@@ -5,60 +5,60 @@ paths:
   - "**/*.service.ts"
   - "**/*.interceptor.ts"
 ---
-# Angular Security
+# Angular セキュリティ (Angular Security)
 
-> This file extends [common/security.md](../common/security.md) with Angular specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、Angular 固有の内容を追加する。
 
-## XSS Prevention
+## XSS 防止 (XSS Prevention)
 
-Angular auto-sanitizes bound values. Never bypass the sanitizer on user-controlled input.
+Angular はバインドされた値を自動的にサニタイズします。ユーザー制御の入力に対してサニタイザをバイパスしないでください。
 
 ```typescript
-// WRONG: Bypasses sanitization — XSS risk
+// 誤り: サニタイゼーションをバイパス — XSS リスク
 this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(userInput);
 
-// CORRECT: Sanitize explicitly before trusting
+// 正しい: 信頼する前に明示的にサニタイズ
 this.safeHtml = this.sanitizer.sanitize(SecurityContext.HTML, userInput);
 ```
 
-- Never use `bypassSecurityTrust*` methods without a documented, reviewed reason
-- Avoid `[innerHTML]` with untrusted content — use `innerText` or a sanitizing pipe
-- Never bind `[href]` to user input — Angular does not block `javascript:` URLs in all contexts
-- Never construct template strings from user data
+- 文書化されレビューされた理由なしに `bypassSecurityTrust*` メソッドを使用しない
+- 信頼できないコンテンツに `[innerHTML]` を使用しない — `innerText` またはサニタイズパイプを使用
+- ユーザー入力に `[href]` をバインドしない — Angular はすべてのコンテキストで `javascript:` URL をブロックするわけではない
+- ユーザーデータからテンプレート文字列を構築しない
 
-## HTTP Security
+## HTTP セキュリティ (HTTP Security)
 
-Use `HttpClient` exclusively — never raw `fetch()` or `XHR` unless no alternative exists.
+`HttpClient` のみを使用してください — 代替手段がない場合を除き、生の `fetch()` や `XHR` を使用しないでください。
 
 ```typescript
-// WRONG: Bypasses interceptors (auth headers, error handling, logging)
+// 誤り: インターセプターをバイパス（認証ヘッダー、エラーハンドリング、ログ記録）
 const res = await fetch('/api/users');
 
-// CORRECT
+// 正しい
 users$ = this.http.get<User[]>('/api/users');
 ```
 
-- Attach auth tokens via interceptors — never hardcode in individual service calls
-- Type and validate API responses — treat external data as `unknown` at the boundary
-- Never log HTTP responses that may contain tokens, PII, or credentials
+- インターセプター経由で認証トークンを添付 — 個々のサービス呼び出しにハードコードしない
+- API レスポンスを型付けしてバリデーション — 境界では外部データを `unknown` として扱う
+- トークン、PII、または認証情報を含む可能性のある HTTP レスポンスをログに記録しない
 
-## Secret Management
+## シークレット管理 (Secret Management)
 
 ```typescript
-// WRONG: Hardcoded secret in source
+// 誤り: ソースにハードコードされたシークレット
 const apiKey = 'sk-live-xxxx';
 
-// CORRECT: Injected via environment
+// 正しい: 環境経由で注入
 import { environment } from '../environments/environment';
 const apiKey = environment.apiKey;
 ```
 
-- Treat `environment.ts` as a config shape — never store real secrets in source-controlled environment files
-- Inject production secrets via CI/CD (environment variables, secret managers)
+- `environment.ts` を設定の形として扱う — ソース管理されている環境ファイルに実際のシークレットを格納しない
+- CI/CD 経由で本番シークレットを注入（環境変数、シークレットマネージャー）
 
-## Route Guards
+## ルートガード (Route Guards)
 
-Every authenticated or role-restricted route must have a guard. Never rely on hiding UI elements alone.
+すべての認証済みまたはロール制限されたルートにはガードが必要です。UI 要素の非表示だけに頼らないでください。
 
 ```typescript
 {
@@ -68,20 +68,20 @@ Every authenticated or role-restricted route must have a guard. Never rely on hi
 }
 ```
 
-Use `canMatch` for sensitive routes — it prevents the route module from loading at all for unauthorized users.
+機密性の高いルートには `canMatch` を使用してください — 未認証ユーザーに対してルートモジュールの読み込み自体を防止します。
 
-## SSR Security
+## SSR セキュリティ (SSR Security)
 
-When using Angular SSR:
+Angular SSR を使用する場合:
 
-- Never expose server-side environment variables to the client via `TransferState` unless they are intentionally public
-- Sanitize all inputs before server-side rendering — DOM-based XSS can occur server-side too
-- Avoid `window`, `document`, `localStorage` on the server — gate with `isPlatformBrowser` or inject via `DOCUMENT` token
+- 意図的に公開する場合を除き、`TransferState` 経由でサーバーサイドの環境変数をクライアントに公開しない
+- サーバーサイドレンダリング前にすべての入力をサニタイズ — DOM ベースの XSS はサーバーサイドでも発生する可能性がある
+- サーバー上で `window`、`document`、`localStorage` を使用しない — `isPlatformBrowser` でゲートするか、`DOCUMENT` トークン経由で注入
 
-## Content Security Policy
+## コンテンツセキュリティポリシー (Content Security Policy)
 
-Configure CSP headers server-side. Avoid `unsafe-inline` in `script-src`. When using SSR with inline scripts, use nonces via Angular's CSP support.
+サーバーサイドで CSP ヘッダーを設定してください。`script-src` で `unsafe-inline` を避けてください。インラインスクリプトを使用する SSR では、Angular の CSP サポートを通じてナンスを使用してください。
 
-## Agent Support
+## エージェントサポート (Agent Support)
 
-- Use **security-reviewer** skill for comprehensive security audits
+- 包括的なセキュリティ監査には **security-reviewer** スキルを使用

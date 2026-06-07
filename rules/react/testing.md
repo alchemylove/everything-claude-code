@@ -7,51 +7,51 @@ paths:
   - "**/__tests__/**/*.ts"
   - "**/__tests__/**/*.tsx"
 ---
-# React Testing
+# React テスト (React Testing)
 
-> This file extends [typescript/testing.md](../typescript/testing.md) and [common/testing.md](../common/testing.md) with React specific content.
+> このファイルは [typescript/testing.md](../typescript/testing.md) および [common/testing.md](../common/testing.md) を拡張し、React 固有の内容を追加する。
 
-## Library Choice
+## Library 選択 (Library Choice)
 
-- **React Testing Library (RTL)** — the standard for component testing. Tests behavior through the rendered DOM.
-- **Vitest** — preferred runner for new Vite-based projects. Faster than Jest, native ESM, same API.
-- **Jest** — still the default for Next.js / CRA projects. RTL works identically.
-- **Playwright Component Testing** — when component tests need a real browser engine (animation, layout, complex events)
-- **Cypress Component Testing** — alternative real-browser component runner
+- **React Testing Library (RTL)** — component test の標準。render された DOM 経由で挙動を test する。
+- **Vitest** — 新規 Vite ベース project では preferred runner。Jest より高速、native ESM、同じ API。
+- **Jest** — Next.js / CRA project では依然 default。RTL は同一。
+- **Playwright Component Testing** — real browser engine が必要な component test（animation、layout、complex events）
+- **Cypress Component Testing** — 代替 real-browser component runner
 
-Pick one component test runner per project — do not mix RTL + Playwright CT in the same repo.
+project ごとに component test runner は 1 つ — 同一 repo で RTL + Playwright CT を混在させない。
 
-## Core Principle
+## 基本原則 (Core Principle)
 
-Test what the user sees and does, not implementation details.
+user が見て操作するものを test し、implementation detail は test しない。
 
-- Query by accessible role first, then label, then text — fall back to `data-testid` only when nothing else fits
-- Never assert on internal state, props passed to children, or which hooks were called
-- Refactor without breaking tests = the test was testing behavior; that is the goal
+- まず accessible role で query、次に label、次に text — 他に合わない場合のみ `data-testid` に fallback
+- internal state、child に渡した props、どの hook が呼ばれたかを assert しない
+- refactor しても test が壊れない = test は挙動を test していた；それが goal
 
-## Query Priority
+## Query 優先順位 (Query Priority)
 
-RTL exposes queries in three families. Use this priority order top-down:
+RTL は 3 系統の query を提供。上からこの優先順:
 
 1. **Accessible to everyone**
-   - `getByRole(role, { name })` — primary choice
-   - `getByLabelText` — for form inputs
-   - `getByPlaceholderText` — when no label is available (and add a label)
-   - `getByText` — for non-interactive text
-   - `getByDisplayValue` — for form fields with a current value
+   - `getByRole(role, { name })` — 第一選択
+   - `getByLabelText` — form input 用
+   - `getByPlaceholderText` — label がない場合（label を追加する）
+   - `getByText` — 非 interactive text 用
+   - `getByDisplayValue` — 現在値のある form field 用
 
 2. **Semantic queries**
-   - `getByAltText` — for images
-   - `getByTitle` — last resort, low accessibility value
+   - `getByAltText` — image 用
+   - `getByTitle` — 最後の手段、accessibility 価値低
 
 3. **Test IDs**
-   - `getByTestId("some-id")` — escape hatch only, when none of the above work
+   - `getByTestId("some-id")` — 上記が使えない場合のみ escape hatch
 
-`getBy*` throws when no match. `queryBy*` returns null (use for asserting absence). `findBy*` returns a promise (use for async).
+`getBy*` は一致なしで throw。`queryBy*` は null を返す（不在 assert 用）。`findBy*` は promise（async 用）。
 
 ## User Interaction
 
-Prefer `userEvent` over `fireEvent`. `userEvent` simulates real browser sequences (focus, keydown, beforeinput, input, keyup) — `fireEvent` dispatches a single synthetic event.
+`fireEvent` より `userEvent` を優先。`userEvent` は real browser シーケンス（focus、keydown、beforeinput、input、keyup）を模倣 — `fireEvent` は単一 synthetic event。
 
 ```tsx
 import userEvent from "@testing-library/user-event";
@@ -67,10 +67,10 @@ test("submits the form", async () => {
 });
 ```
 
-- Always `await` `userEvent` calls — they are async
-- Call `userEvent.setup()` once at the top of each test, then reuse the returned `user`
+- `userEvent` 呼び出しは常に `await` — async
+- 各 test 先頭で `userEvent.setup()` を 1 回呼び、返った `user` を reuse
 
-## Async Assertions
+## 非同期 Assertion (Async Assertions)
 
 ```tsx
 // WRONG: synchronous query for async-rendered content
@@ -83,13 +83,13 @@ expect(await screen.findByText("Loaded")).toBeInTheDocument();
 await waitFor(() => expect(saveSpy).toHaveBeenCalled());
 ```
 
-- `findBy*` for async element appearance
-- `waitFor` for async expectations on side effects or other matchers
-- Never `setTimeout` + assertion — flaky
+- async element 出現には `findBy*`
+- side effect など他 matcher の async expectation には `waitFor`
+- `setTimeout` + assertion は使わない — flaky
 
-## Network Mocking with MSW
+## MSW による Network Mock (Network Mocking with MSW)
 
-Use Mock Service Worker for any test that hits a network boundary. MSW runs at the network layer, so the component, hooks, and fetch library all behave as in production.
+network 境界に触れる test には Mock Service Worker。MSW は network layer で動き、component、hook、fetch library はすべて production と同様に振る舞う。
 
 ```tsx
 // test setup
@@ -107,7 +107,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 ```
 
-Per-test override:
+test ごとの override:
 
 ```tsx
 test("renders error on 500", async () => {
@@ -117,18 +117,18 @@ test("renders error on 500", async () => {
 });
 ```
 
-## Avoid Snapshot Tests for Components
+## Component の Snapshot Test は避ける (Avoid Snapshot Tests for Components)
 
-Snapshots of rendered output are brittle, hard to review, and rubber-stamped by reviewers. Use them only for:
+render 出力の snapshot は brittle、review しにくく、reviewer が rubber-stamp しがち。次の場合のみ使う:
 
-- Pure data serialization (e.g., a transformer that produces a stable string)
-- Catching unintended regressions in non-visual output
+- 純粋 data serialization（例: stable string を出す transformer）
+- 非 visual 出力の意図しない regression 検出
 
-For component visual regression, use Playwright / Cypress / Percy screenshots — actual visual diffs, not DOM diffs.
+component visual regression には Playwright / Cypress / Percy screenshot — DOM diff ではなく actual visual diff。
 
-## Test Setup Helpers
+## Test Setup Helper
 
-Wrap providers once:
+provider は 1 回 wrap:
 
 ```tsx
 function renderWithProviders(ui: React.ReactElement) {
@@ -142,11 +142,11 @@ function renderWithProviders(ui: React.ReactElement) {
 }
 ```
 
-Export from `test-utils.tsx` and use everywhere.
+`test-utils.tsx` から export し everywhere で使う。
 
-## Custom Hook Testing
+## Custom Hook Test
 
-Use `renderHook` from RTL:
+RTL の `renderHook` を使う:
 
 ```tsx
 import { renderHook, act } from "@testing-library/react";
@@ -158,10 +158,10 @@ test("useCounter increments", () => {
 });
 ```
 
-- Always wrap state-changing calls in `act`
-- Always test through the public hook API, not internal implementation
+- state 変更呼び出しは常に `act` で wrap
+- internal implementation ではなく public hook API 経由で test
 
-## Accessibility Assertions
+## Accessibility Assertion
 
 ```tsx
 import { axe } from "vitest-axe";   // or jest-axe
@@ -172,37 +172,37 @@ test("UserCard has no a11y violations", async () => {
 });
 ```
 
-Run axe assertions in component tests — catches missing labels, ARIA misuse, color contrast (limited).
+component test で axe assertion を実行 — missing label、ARIA misuse、color contrast（限定的）を catch。
 
-## When to Reach for Playwright / Cypress
+## Playwright / Cypress を使うタイミング (When to Reach for Playwright / Cypress)
 
-Component test with RTL + JSDOM cannot:
+RTL + JSDOM の component test ではできない:
 
-- Test real layout (flexbox, grid, viewport-dependent rendering)
-- Test scrolling, drag-and-drop, paste from clipboard
-- Test browser-native animation, CSS transitions
-- Test cross-frame interactions (iframes, popups)
+- real layout（flexbox、grid、viewport 依存 rendering）
+- scrolling、drag-and-drop、clipboard からの paste
+- browser-native animation、CSS transitions
+- cross-frame interaction（iframe、popup）
 
-For those, use Playwright Component Testing or end-to-end Playwright/Cypress runs. See [e2e-testing skill](../../skills/e2e-testing/SKILL.md).
+それらには Playwright Component Testing または E2E Playwright/Cypress。 [e2e-testing skill](../../skills/e2e-testing/SKILL.md) を参照。
 
-## Coverage Targets
+## カバレッジ目標 (Coverage Targets)
 
 | Layer | Target |
 |---|---|
 | Pure utility functions | ≥90% |
 | Custom hooks | ≥85% |
-| Components (presentational) | ≥80% — behavior, not lines |
-| Container components | ≥70% — golden paths + error states |
-| Pages (E2E covered separately) | Smoke test per route minimum |
+| Components (presentational) | ≥80% — behavior、lines ではない |
+| Container components | ≥70% — golden path + error state |
+| Pages (E2E covered separately) | route ごとに smoke test 最低限 |
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Asserting on `container.querySelector` — bypasses accessibility queries
-- Asserting on number of renders — implementation detail
-- Mocking React hooks (`jest.mock("react", ...)`) — refactor the component instead
-- Mocking child components by default — tests the integration, not the parent in isolation
-- Manual `act()` warnings ignored — they indicate real bugs
+- `container.querySelector` で assert — accessibility query を bypass
+- render 回数で assert — implementation detail
+- React hook を mock（`jest.mock("react", ...)`）— component を refactor
+- デフォルトで child component を mock — integration を test し parent を isolation で test しない
+- manual `act()` warning を無視 — real bug を示す
 
-## Skill Reference
+## Skill 参照 (Skill Reference)
 
-See `skills/react-testing/SKILL.md` for end-to-end test examples, MSW patterns, and accessibility test scaffolding.
+E2E test 例、MSW pattern、accessibility test scaffolding は `skills/react-testing/SKILL.md` を参照。

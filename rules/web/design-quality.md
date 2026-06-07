@@ -1,63 +1,63 @@
-> This file extends [common/patterns.md](../common/patterns.md) with web-specific design-quality guidance.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Web 固有のデザイン品質ガイダンスの内容を追加する。
 
-# Web Design Quality Standards
+# Web デザイン品質基準 (Web Design Quality Standards)
 
-## Anti-Template Policy
+## アンチテンプレートポリシー (Anti-Template Policy)
 
-Do not ship generic template-looking UI. Frontend output should look intentional, opinionated, and specific to the product.
+汎用的なテンプレートに見える UI をリリースしない。フロントエンドの出力は意図的で、主張があり、プロダクトに固有であるべきである。
 
-### Banned Patterns
+### 禁止パターン (Banned Patterns)
 
-- Default card grids with uniform spacing and no hierarchy
-- Stock hero section with centered headline, gradient blob, and generic CTA
-- Unmodified library defaults passed off as finished design
-- Flat layouts with no layering, depth, or motion
-- Uniform radius, spacing, and shadows across every component
-- Safe gray-on-white styling with one decorative accent color
-- Dashboard-by-numbers layouts with sidebar + cards + charts and no point of view
-- Default font stacks used without a deliberate reason
+- 均一なスペーシングで階層のないデフォルトのカードグリッド
+- 中央揃えの見出し、グラデーションブロブ、汎用 CTA の定番ヒーローセクション
+- 完成したデザインとして出す未変更のライブラリデフォルト
+- レイヤリング、深度、モーションのないフラットレイアウト
+- すべてのコンポーネントで均一な角丸、スペーシング、シャドウ
+- 1つのアクセントカラーだけの安全なグレー・オン・ホワイトのスタイリング
+- サイドバー + カード + チャートで視点のないダッシュボード量産レイアウト
+- 意図的な理由なしに使用されるデフォルトフォントスタック
 
-### Required Qualities
+### 必要な品質 (Required Qualities)
 
-Every meaningful frontend surface should demonstrate at least four of these:
+すべての意味のあるフロントエンドサーフェスは、以下のうち少なくとも4つを示すべきである:
 
-1. Clear hierarchy through scale contrast
-2. Intentional rhythm in spacing, not uniform padding everywhere
-3. Depth or layering through overlap, shadows, surfaces, or motion
-4. Typography with character and a real pairing strategy
-5. Color used semantically, not just decoratively
-6. Hover, focus, and active states that feel designed
-7. Grid-breaking editorial or bento composition where appropriate
-8. Texture, grain, or atmosphere when it fits the visual direction
-9. Motion that clarifies flow instead of distracting from it
-10. Data visualization treated as part of the design system, not an afterthought
+1. スケールコントラストによる明確な階層
+2. 均一なパディングではなく、スペーシングの意図的なリズム
+3. オーバーラップ、シャドウ、サーフェス、またはモーションによる深度やレイヤリング
+4. 個性と実際のペアリング戦略を持つタイポグラフィ
+5. 装飾的ではなく、セマンティックに使用される色
+6. デザインされたと感じるホバー、フォーカス、アクティブ状態
+7. 必要に応じたグリッドを打ち破るエディトリアルまたはベントーレイアウト
+8. ビジュアルの方向性に合ったテクスチャ、グレイン、または雰囲気
+9. 注意をそらすのではなく、フローを明確にするモーション
+10. 後付けではなく、デザインシステムの一部として扱われるデータビジュアライゼーション
 
-## Before Writing Frontend Code
+## フロントエンドコードを書く前に (Before Writing Frontend Code)
 
-1. Pick a specific style direction. Avoid vague defaults like "clean minimal".
-2. Define a palette intentionally.
-3. Choose typography deliberately.
-4. Gather at least a small set of real references.
-5. Use ECC design/frontend skills where relevant.
+1. 具体的なスタイルの方向性を選ぶ。「クリーンミニマル」のような曖昧なデフォルトを避ける。
+2. パレットを意図的に定義する。
+3. タイポグラフィを意図的に選択する。
+4. 少なくとも少数の実際のリファレンスを集める。
+5. 関連する ECC のデザイン/フロントエンドスキルを使用する。
 
-## Worthwhile Style Directions
+## 価値あるスタイルの方向性 (Worthwhile Style Directions)
 
-- Editorial / magazine
-- Neo-brutalism
-- Glassmorphism with real depth
-- Dark luxury or light luxury with disciplined contrast
-- Bento layouts
-- Scrollytelling
-- 3D integration
-- Swiss / International
-- Retro-futurism
+- エディトリアル / マガジン
+- ネオブルータリズム
+- 実際の深度を持つグラスモーフィズム
+- 規律あるコントラストのダークラグジュアリーまたはライトラグジュアリー
+- ベントーレイアウト
+- スクローリーテリング
+- 3D 統合
+- スイス / インターナショナル
+- レトロフューチャリズム
 
-Do not default to dark mode automatically. Choose the visual direction the product actually wants.
+自動的にダークモードをデフォルトにしない。プロダクトが実際に求めるビジュアルの方向性を選択する。
 
-## Component Checklist
+## コンポーネントチェックリスト (Component Checklist)
 
-- [ ] Does it avoid looking like a default Tailwind or shadcn template?
-- [ ] Does it have intentional hover/focus/active states?
-- [ ] Does it use hierarchy rather than uniform emphasis?
-- [ ] Would this look believable in a real product screenshot?
-- [ ] If it supports both themes, do both light and dark feel intentional?
+- [ ] デフォルトの Tailwind や shadcn テンプレートに見えないか？
+- [ ] 意図的なホバー/フォーカス/アクティブ状態があるか？
+- [ ] 均一な強調ではなく階層を使用しているか？
+- [ ] 実際のプロダクトのスクリーンショットで信憑性があるか？
+- [ ] 両テーマをサポートする場合、ライトとダークの両方が意図的に感じられるか？

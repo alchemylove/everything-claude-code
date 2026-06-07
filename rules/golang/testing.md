@@ -4,28 +4,28 @@ paths:
   - "**/go.mod"
   - "**/go.sum"
 ---
-# Go Testing
+# Go テスト (Go Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Go specific content.
+> 本ファイルは [common/testing.md](../common/testing.md) を Go 固有の内容で拡張します。
 
-## Framework
+## フレームワーク (Framework)
 
-Use the standard `go test` with **table-driven tests**.
+標準の `go test` と **table-driven tests** を使用する。
 
-## Race Detection
+## Race 検出 (Race Detection)
 
-Always run with the `-race` flag:
+常に `-race` フラグ付きで実行する:
 
 ```bash
 go test -race ./...
 ```
 
-## Coverage
+## カバレッジ (Coverage)
 
 ```bash
 go test -cover ./...
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `golang-testing` for detailed Go testing patterns and helpers.
+詳細な Go テストパターンとヘルパーは skill: `golang-testing` を参照。

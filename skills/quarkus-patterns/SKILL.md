@@ -8,7 +8,7 @@ origin: ECC
 
 Quarkus 3.x architecture and API patterns for cloud-native, event-driven services with Apache Camel.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Building REST APIs with JAX-RS or RESTEasy Reactive
 - Structuring resource → service → repository layers
@@ -21,7 +21,7 @@ Quarkus 3.x architecture and API patterns for cloud-native, event-driven service
 - Implementing conditional flow processing
 - Working with GraalVM native compilation
 
-## Service Layer with Multiple Dependencies
+## 複数依存を持つサービスレイヤー (Service Layer with Multiple Dependencies)
 
 ```java
 @Slf4j
@@ -111,7 +111,7 @@ public class ProcessingService {
 </configuration>
 ```
 
-## Event Service Pattern
+## イベントサービスパターン (Event Service Pattern)
 
 ```java
 @Slf4j
@@ -240,7 +240,7 @@ public class DocumentProcessingRoute extends RouteBuilder {
 }
 ```
 
-## Camel File Processing
+## Camel ファイル処理 (Camel File Processing)
 
 ```java
 @ApplicationScoped
@@ -270,7 +270,7 @@ public class FileMonitoringRoute extends RouteBuilder {
 }
 ```
 
-## Camel Bean Invocation
+## Camel Bean 呼び出し (Camel Bean Invocation)
 
 ```java
 @ApplicationScoped
@@ -290,7 +290,7 @@ public class InvoiceRoute extends RouteBuilder {
 }
 ```
 
-## REST API Structure
+## REST API 構造 (REST API Structure)
 
 ```java
 @Path("/api/documents")
@@ -351,7 +351,7 @@ public class DocumentRepository implements PanacheRepository<Document> {
 }
 ```
 
-## Service Layer with Transactions
+## トランザクション付きサービスレイヤー (Service Layer with Transactions)
 
 ```java
 @ApplicationScoped
@@ -387,7 +387,7 @@ public class DocumentService {
 }
 ```
 
-## DTOs and Validation
+## DTO と検証 (DTOs and Validation)
 
 ```java
 public record CreateDocumentRequest(
@@ -404,7 +404,7 @@ public record DocumentResponse(Long id, String referenceNumber, DocumentStatus s
 }
 ```
 
-## Exception Mapping
+## 例外マッピング (Exception Mapping)
 
 ```java
 @Provider
@@ -435,7 +435,7 @@ public class GenericExceptionMapper implements ExceptionMapper<Exception> {
 }
 ```
 
-## CompletableFuture Async Operations
+## CompletableFuture 非同期操作 (CompletableFuture Async Operations)
 
 ```java
 @Slf4j
@@ -478,7 +478,7 @@ public class FileStorageService {
 }
 ```
 
-## Caching
+## キャッシュ (Caching)
 
 ```java
 @ApplicationScoped
@@ -499,7 +499,7 @@ public class DocumentCacheService {
 }
 ```
 
-## Configuration as YAML
+## YAML としての設定 (Configuration as YAML)
 
 ```yaml
 # application.yml
@@ -554,7 +554,7 @@ camel:
       invoice-processing: invoice-processing-queue
 ```
 
-## Health Checks
+## ヘルスチェック (Health Checks)
 
 ```java
 @Readiness
@@ -667,7 +667,7 @@ public class CamelHealthCheck implements HealthCheck {
 </dependencies>
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
 ### Architecture
 - Use `@RequiredArgsConstructor` with Lombok for constructor injection

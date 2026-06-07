@@ -4,11 +4,11 @@ description: Guide users through ECC's current agents, skills, commands, hooks, 
 origin: community
 ---
 
-# ECC Guide
+# ECC Guide (ECC Guide)
 
 Use this skill when a user needs help understanding, navigating, installing, or choosing parts of Everything Claude Code.
 
-## When To Use
+## When To Use (When To Use)
 
 Use this skill when the user:
 
@@ -20,7 +20,7 @@ Use this skill when the user:
 - needs a lightweight explanation of how commands, skills, agents, hooks, and rules relate
 - is confused by install paths, duplicate installs, reset/uninstall, or selective install options
 
-## Core Principle
+## Core Principle (Core Principle)
 
 Answer from current files, not memory. ECC changes quickly, so hard-coded catalog counts, feature lists, and install instructions go stale.
 
@@ -37,7 +37,7 @@ node scripts/install-plan.js --list-components --json
 
 Use the smallest set of reads needed for the user's question.
 
-## Repository Map
+## Repository Map (Repository Map)
 
 - `README.md`: install paths, uninstall/reset guidance, public positioning, FAQs
 - `AGENTS.md`: contributor guidance and project structure
@@ -50,7 +50,7 @@ Use the smallest set of reads needed for the user's question.
 - `manifests/install-*.json`: selective install modules, components, profiles, and target support
 - `docs/`: harness guides, architecture notes, translated docs, release docs
 
-## Response Style
+## Response Style (Response Style)
 
 Lead with the answer, then give the next action. Most users do not need a full catalog dump.
 
@@ -69,9 +69,9 @@ Avoid:
 - claiming a component exists without checking the filesystem
 - replacing install guidance with manual copy commands when the managed installer supports the target
 
-## Common Tasks
+## Common Tasks (Common Tasks)
 
-### New User Onboarding
+### New User Onboarding (New User Onboarding)
 
 Give a short menu:
 
@@ -84,7 +84,7 @@ Give a short menu:
 
 Point to `README.md` for install/reset and `/project-init` for project-specific onboarding.
 
-### Feature Discovery
+### Feature Discovery (Feature Discovery)
 
 For "what should I use for X?":
 
@@ -100,7 +100,7 @@ rg -n "<query>" skills commands agents docs
 find skills -maxdepth 2 -name SKILL.md | sort
 ```
 
-### Install Guidance
+### Install Guidance (Install Guidance)
 
 Use managed install paths:
 
@@ -119,7 +119,7 @@ node scripts/install-apply.js --skills <skill-id> --target claude --dry-run
 
 Warn users not to stack plugin installs and full manual/profile installs unless they intentionally want duplicate surfaces.
 
-### Project Onboarding
+### Project Onboarding (Project Onboarding)
 
 Use `/project-init` when the user wants ECC configured for a target repo. The expected sequence is:
 
@@ -129,7 +129,7 @@ Use `/project-init` when the user wants ECC configured for a target repo. The ex
 4. ask before applying changes
 5. keep generated guidance minimal and repo-specific
 
-### Troubleshooting
+### トラブルシューティング (Troubleshooting) (Troubleshooting)
 
 Ask for the target harness and install path first, then inspect:
 
@@ -147,9 +147,9 @@ npm run observability:ready
 npm test
 ```
 
-## Output Templates
+## Output Templates (Output Templates)
 
-### Short Recommendation
+### Short Recommendation (Short Recommendation)
 
 ```text
 Use <skill-or-command>. It fits because <reason>.
@@ -159,7 +159,7 @@ Verify with: <command>
 Next: <one concrete action>
 ```
 
-### Search Results
+### Search Results (Search Results)
 
 ```text
 Best matches:
@@ -169,7 +169,7 @@ Best matches:
 Recommendation: <which one to use first and why>
 ```
 
-### Install Plan Summary
+### Install Plan Summary (Install Plan Summary)
 
 ```text
 Detected: <stack evidence>
@@ -180,7 +180,7 @@ Would change: <paths>
 Needs approval before apply: <yes/no>
 ```
 
-## Related Surfaces
+## Related Surfaces (Related Surfaces)
 
 - `/project-init`: stack-aware onboarding plan for a target repo
 - `/harness-audit`: deterministic readiness scorecard

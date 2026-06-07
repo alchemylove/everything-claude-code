@@ -1,33 +1,33 @@
 ---
-description: "Development workflow: plan, TDD, review, commit pipeline"
+description: "Development workflow: plan、TDD、review、commit パイプライン"
 alwaysApply: true
 ---
-# Development Workflow
+# Development Workflow (Development Workflow)
 
-> This rule extends the git workflow rule with the full feature development process that happens before git operations.
+> このルールは git 操作の前に行われる feature 開発プロセス全体を、git workflow ルールに拡張する。
 
-The Feature Implementation Workflow describes the development pipeline: planning, TDD, code review, and then committing to git.
+Feature Implementation Workflow は開発パイプラインを記述する: planning、TDD、code review、その後 git へ commit。
 
-## Feature Implementation Workflow
+## Feature 実装ワークフロー (Feature Implementation Workflow)
 
-1. **Plan First**
-   - Use **planner** agent to create implementation plan
-   - Identify dependencies and risks
-   - Break down into phases
+1. **まず Plan**
+   - **planner** agent で実装計画を作成
+   - 依存関係とリスクを特定
+   - phase に分割
 
-2. **TDD Approach**
-   - Use **tdd-guide** agent
-   - Write tests first (RED)
-   - Implement to pass tests (GREEN)
-   - Refactor (IMPROVE)
-   - Verify 80%+ coverage
+2. **TDD アプローチ**
+   - **tdd-guide** agent を使用
+   - まず test を書く（RED）
+   - test を通す実装（GREEN）
+   - リファクタ（IMPROVE）
+   - 80%+ coverage を検証
 
 3. **Code Review**
-   - Use **code-reviewer** agent immediately after writing code
-   - Address CRITICAL and HIGH issues
-   - Fix MEDIUM issues when possible
+   - コード記述直後に **code-reviewer** agent を使用
+   - CRITICAL と HIGH の issue に対処
+   - 可能なら MEDIUM の issue も修正
 
 4. **Commit & Push**
-   - Detailed commit messages
-   - Follow conventional commits format
-   - See the git workflow rule for commit message format and PR process
+   - 詳細な commit message
+   - conventional commits 形式に従う
+   - commit message 形式と PR プロセスは git workflow ルールを参照

@@ -1,29 +1,29 @@
 ---
-description: Fix Kotlin/Gradle build errors, compiler warnings, and dependency issues incrementally. Invokes the kotlin-build-resolver agent for minimal, surgical fixes.
+description: Kotlin/Gradle ビルドエラー、コンパイラ警告、依存関係の問題をインクリメンタルに修正する。最小限の外科的修正のために kotlin-build-resolver agent を呼び出す。
 ---
 
-# Kotlin Build and Fix
+# Kotlin ビルドと修正 (Kotlin Build and Fix)
 
-This command invokes the **kotlin-build-resolver** agent to incrementally fix Kotlin build errors with minimal changes.
+このコマンドは **kotlin-build-resolver** agent を呼び出し、最小限の変更で Kotlin ビルドエラーをインクリメンタルに修正します。
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. **Run Diagnostics**: Execute `./gradlew build`, `detekt`, `ktlintCheck`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **診断を実行 (Run Diagnostics)**: `./gradlew build`、`detekt`、`ktlintCheck` を実行する
+2. **エラーを解析 (Parse Errors)**: ファイルごとにグループ化し、重大度でソートする
+3. **インクリメンタルに修正 (Fix Incrementally)**: 一度に1つのエラー
+4. **各修正を検証 (Verify Each Fix)**: 各変更後にビルドを再実行する
+5. **サマリーを報告 (Report Summary)**: 修正内容と残件を表示する
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/kotlin-build` when:
-- `./gradlew build` fails with errors
-- Kotlin compiler reports errors
-- `./gradlew detekt` reports violations
-- Gradle dependency resolution fails
-- After pulling changes that break the build
+`/kotlin-build` を使用するのは:
+- `./gradlew build` がエラーで失敗する場合
+- Kotlin コンパイラがエラーを報告する場合
+- `./gradlew detekt` が違反を報告する場合
+- Gradle 依存関係の解決が失敗する場合
+- ビルドを壊す変更を pull した後
 
-## Diagnostic Commands Run
+## 実行される診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # Primary build check
@@ -40,7 +40,7 @@ Use `/kotlin-build` when:
 ./gradlew build --refresh-dependencies
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /kotlin-build
@@ -134,7 +134,7 @@ $ ./gradlew test
 Build Status: PASS: SUCCESS
 ````
 
-## Common Errors Fixed
+## よくある修正対象エラー (Common Errors Fixed)
 
 | Error | Typical Fix |
 |-------|-------------|
@@ -146,29 +146,29 @@ Build Status: PASS: SUCCESS
 | `None of the following candidates is applicable` | Fix argument types |
 | `Could not resolve dependency` | Fix version or add repository |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
-1. **Build errors first** - Code must compile
-2. **Detekt violations second** - Fix code quality issues
-3. **ktlint warnings third** - Fix formatting
-4. **One fix at a time** - Verify each change
-5. **Minimal changes** - Don't refactor, just fix
+1. **ビルドエラーを最優先** — コードはコンパイル可能である必要がある
+2. **Detekt 違反を次に** — コード品質の問題を修正する
+3. **ktlint 警告を3番目に** — フォーマットを修正する
+4. **一度に1つの修正** — 各変更を検証する
+5. **最小限の変更** — リファクタリングせず、修正のみ行う
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Missing external dependencies
+agent は以下の場合に停止して報告します:
+- 同じエラーが3回試行後も残る
+- 修正によりエラーが増える
+- アーキテクチャ変更が必要
+- 外部依存関係が不足している
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/kotlin-test` - Run tests after build succeeds
-- `/kotlin-review` - Review code quality
-- `verification-loop` skill - Full verification loop
+- `/kotlin-test` — ビルド成功後にテストを実行する
+- `/kotlin-review` — コード品質をレビューする
+- `verification-loop` skill — フル検証ループ
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/kotlin-build-resolver.md`
 - Skill: `skills/kotlin-patterns/`

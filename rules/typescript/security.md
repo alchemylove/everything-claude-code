@@ -5,11 +5,11 @@ paths:
   - "**/*.js"
   - "**/*.jsx"
 ---
-# TypeScript/JavaScript Security
+# TypeScript/JavaScript セキュリティ (TypeScript/JavaScript Security)
 
-> This file extends [common/security.md](../common/security.md) with TypeScript/JavaScript specific content.
+> 本ファイルは [common/security.md](../common/security.md) を TypeScript/JavaScript 固有の内容で拡張します。
 
-## Secret Management
+## Secret 管理 (Secret Management)
 
 ```typescript
 // NEVER: Hardcoded secrets
@@ -23,6 +23,6 @@ if (!apiKey) {
 }
 ```
 
-## Agent Support
+## Agent サポート (Agent Support)
 
-- Use **security-reviewer** skill for comprehensive security audits
+- 包括的なセキュリティ監査には **security-reviewer** skill を使用する

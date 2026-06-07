@@ -1,29 +1,29 @@
 ---
-description: Fix Dart analyzer errors and Flutter build failures incrementally. Invokes the dart-build-resolver agent for minimal, surgical fixes.
+description: Dart analyzer エラーと Flutter ビルド失敗を段階的に修正。最小限の外科的修正のため dart-build-resolver エージェントを起動する。
 ---
 
-# Flutter Build and Fix
+# Flutter ビルドと修正 (Flutter Build and Fix)
 
-This command invokes the **dart-build-resolver** agent to incrementally fix Dart/Flutter build errors with minimal changes.
+このコマンドは **dart-build-resolver** エージェントを起動し、最小限の変更で Dart/Flutter ビルドエラーを段階的に修正する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Run Diagnostics**: Execute `flutter analyze`, `flutter pub get`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run analysis after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **診断の実行**: `flutter analyze`、`flutter pub get` を実行
+2. **エラーの解析**: ファイルごとにグループ化し、severity でソート
+3. **段階的修正**: 一度に 1 エラーずつ
+4. **各修正の検証**: 変更のたびに解析を再実行
+5. **サマリーの報告**: 修正内容と残件を表示
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/flutter-build` when:
-- `flutter analyze` reports errors
-- `flutter build` fails for any platform
-- `dart pub get` / `flutter pub get` fails with version conflicts
-- `build_runner` fails to generate code
-- After pulling changes that break the build
+`/flutter-build` を使用する場合:
+- `flutter analyze` がエラーを報告する
+- 任意のプラットフォームで `flutter build` が失敗する
+- `dart pub get` / `flutter pub get` がバージョン競合で失敗する
+- `build_runner` がコード生成に失敗する
+- pull 後にビルドが壊れた場合
 
-## Diagnostic Commands Run
+## 実行される診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # Analysis
@@ -40,7 +40,7 @@ flutter build apk 2>&1
 flutter build web 2>&1
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /flutter-build
@@ -125,40 +125,40 @@ All tests passed.
 Build Status: PASS ✓
 ````
 
-## Common Errors Fixed
+## よくある修正対象エラー (Common Errors Fixed)
 
 | Error | Typical Fix |
 |-------|-------------|
-| `A value of type 'X?' can't be assigned to 'X'` | Add `?? default` or null guard |
-| `The name 'X' isn't defined` | Add import or fix typo |
-| `Non-nullable instance field must be initialized` | Add initializer or `late` |
-| `Version solving failed` | Adjust version constraints in pubspec.yaml |
-| `Missing concrete implementation of 'X'` | Implement missing interface method |
-| `build_runner: Part of X expected` | Delete stale `.g.dart` and rebuild |
+| `A value of type 'X?' can't be assigned to 'X'` | `?? default` または null ガードを追加 |
+| `The name 'X' isn't defined` | import を追加するか typo を修正 |
+| `Non-nullable instance field must be initialized` | 初期化子または `late` を追加 |
+| `Version solving failed` | pubspec.yaml のバージョン制約を調整 |
+| `Missing concrete implementation of 'X'` | 不足しているインターフェースメソッドを実装 |
+| `build_runner: Part of X expected` | 古い `.g.dart` を削除して再ビルド |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
-1. **Analysis errors first** — code must be error-free
-2. **Warning triage second** — fix warnings that could cause runtime bugs
-3. **pub conflicts third** — fix dependency resolution
-4. **One fix at a time** — verify each change
-5. **Minimal changes** — don't refactor, just fix
+1. **解析エラーを最優先** — コードはエラーフリーであること
+2. **警告のトリアージを次に** — ランタイムバグの原因になりうる警告を修正
+3. **pub 競合を 3 番目** — 依存関係解決を修正
+4. **一度に 1 修正** — 各変更を検証
+5. **最小限の変更** — リファクタリングせず、修正のみ
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Package upgrade conflicts need user decision
+エージェントは以下の場合に停止して報告する:
+- 3 回試行後も同じエラーが続く
+- 修正がさらに多くのエラーを導入する
+- アーキテクチャ変更が必要
+- パッケージアップグレード競合でユーザーの判断が必要
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/flutter-test` — Run tests after build succeeds
-- `/flutter-review` — Review code quality
-- `verification-loop` skill — Full verification loop
+- `/flutter-test` — ビルド成功後にテストを実行
+- `/flutter-review` — コード品質をレビュー
+- `verification-loop` skill — フル検証ループ
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/dart-build-resolver.md`
 - Skill: `skills/flutter-dart-code-review/`

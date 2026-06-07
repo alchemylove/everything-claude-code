@@ -3,11 +3,11 @@ paths:
   - "**/*.dart"
   - "**/pubspec.yaml"
 ---
-# Dart/Flutter Patterns
+# Dart/Flutter パターン (Dart/Flutter Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Dart, Flutter, and common ecosystem-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Dart、Flutter、および一般的な ecosystem 固有の内容を追加する。
 
-## Repository Pattern
+## Repository パターン (Repository Pattern)
 
 ```dart
 abstract interface class UserRepository {
@@ -127,9 +127,9 @@ class CartPage extends ConsumerWidget {
 }
 ```
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-Constructor injection is preferred. Use `get_it` or Riverpod providers at composition root:
+constructor injection を優先する。composition root では `get_it` または Riverpod provider を使う:
 
 ```dart
 // get_it registration (in a setup file)
@@ -143,7 +143,7 @@ void setupDependencies() {
 }
 ```
 
-## ViewModel Pattern (without BLoC/Riverpod)
+## ViewModel パターン（BLoC/Riverpod なし）(ViewModel Pattern (without BLoC/Riverpod))
 
 ```dart
 class UserListViewModel extends ChangeNotifier {
@@ -168,7 +168,7 @@ class UserListViewModel extends ChangeNotifier {
 }
 ```
 
-## UseCase Pattern
+## UseCase パターン (UseCase Pattern)
 
 ```dart
 class GetUserUseCase {
@@ -191,7 +191,7 @@ class CreateUserUseCase {
 }
 ```
 
-## Immutable State with freezed
+## freezed による不変 State (Immutable State with freezed)
 
 ```dart
 @freezed
@@ -204,7 +204,7 @@ class UserState with _$UserState {
 }
 ```
 
-## Clean Architecture Layer Boundaries
+## Clean Architecture のレイヤー境界 (Clean Architecture Layer Boundaries)
 
 ```
 lib/
@@ -222,11 +222,11 @@ lib/
     └── providers/ (or blocs/ or viewmodels/)
 ```
 
-- Domain must not import `package:flutter` or any data-layer package
-- Data layer maps DTOs to domain entities at repository boundaries
-- Presentation calls use cases, not repositories directly
+- domain は `package:flutter` や data layer の package を import しない
+- data layer は repository 境界で DTO を domain entity にマップする
+- presentation は repository ではなく use case を呼ぶ
 
-## Navigation (GoRouter)
+## ナビゲーション（GoRouter）(Navigation (GoRouter))
 
 ```dart
 final router = GoRouter(
@@ -255,7 +255,7 @@ final router = GoRouter(
 );
 ```
 
-## References
+## 参照 (References)
 
-See skill: `flutter-dart-code-review` for the comprehensive review checklist.
-See skill: `compose-multiplatform-patterns` for Kotlin Multiplatform/Flutter interop patterns.
+包括的なレビューチェックリストについては skill: `flutter-dart-code-review` を参照。
+Kotlin Multiplatform/Flutter interop パターンについては skill: `compose-multiplatform-patterns` を参照。

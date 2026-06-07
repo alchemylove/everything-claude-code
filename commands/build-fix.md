@@ -1,14 +1,14 @@
 ---
-description: Detect the project build system and incrementally fix build/type errors with minimal safe changes.
+description: プロジェクトのビルドシステムを検出し、最小限の安全な変更でビルド/型エラーを段階的に修正する。
 ---
 
-# Build and Fix
+# ビルドと修正 (Build and Fix)
 
-Incrementally fix build and type errors with minimal, safe changes.
+最小限の安全な変更でビルドと型エラーを段階的に修正する。
 
-## Step 1: Detect Build System
+## ステップ 1: ビルドシステムの検出 (Step 1: Detect Build System)
 
-Identify the project's build tool and run the build:
+プロジェクトのビルドツールを特定し、ビルドを実行する:
 
 | Indicator | Build Command |
 |-----------|---------------|
@@ -20,47 +20,47 @@ Identify the project's build tool and run the build:
 | `go.mod` | `go build ./...` |
 | `pyproject.toml` | `python -m compileall -q .` or `mypy .` |
 
-## Step 2: Parse and Group Errors
+## ステップ 2: エラーの解析とグループ化 (Step 2: Parse and Group Errors)
 
-1. Run the build command and capture stderr
-2. Group errors by file path
-3. Sort by dependency order (fix imports/types before logic errors)
-4. Count total errors for progress tracking
+1. ビルドコマンドを実行し stderr をキャプチャする
+2. ファイルパスでエラーをグループ化する
+3. 依存順でソートする（ロジックエラーより先に import/型を修正）
+4. 進捗追跡のため総エラー数を数える
 
-## Step 3: Fix Loop (One Error at a Time)
+## ステップ 3: 修正ループ（1エラーずつ） (Step 3: Fix Loop (One Error at a Time))
 
-For each error:
+各エラーについて:
 
-1. **Read the file** — Use Read tool to see error context (10 lines around the error)
-2. **Diagnose** — Identify root cause (missing import, wrong type, syntax error)
-3. **Fix minimally** — Use Edit tool for the smallest change that resolves the error
-4. **Re-run build** — Verify the error is gone and no new errors introduced
-5. **Move to next** — Continue with remaining errors
+1. **ファイルを読む** — Read ツールでエラー周辺のコンテキスト（エラー前後10行）を確認する
+2. **診断** — 根本原因を特定する（不足 import、型の誤り、構文エラー）
+3. **最小限で修正** — Edit ツールでエラーを解消する最小の変更を行う
+4. **ビルドを再実行** — エラーが消え、新規エラーが入っていないことを確認する
+5. **次へ** — 残りのエラーを続ける
 
-## Step 4: Guardrails
+## ステップ 4: ガードレール (Step 4: Guardrails)
 
-Stop and ask the user if:
-- A fix introduces **more errors than it resolves**
-- The **same error persists after 3 attempts** (likely a deeper issue)
-- The fix requires **architectural changes** (not just a build fix)
-- Build errors stem from **missing dependencies** (need `npm install`, `cargo add`, etc.)
+次の場合は停止してユーザーに確認する:
+- 修正が**解消したより多くのエラーを導入**した場合
+- **同じエラーが3回試行後も残る**場合（より深い問題の可能性）
+- 修正に**アーキテクチャ変更**が必要な場合（ビルド修正だけではない）
+- ビルドエラーが**不足依存関係**に起因する場合（`npm install`、`cargo add` 等が必要）
 
-## Step 5: Summary
+## ステップ 5: サマリー (Step 5: Summary)
 
-Show results:
-- Errors fixed (with file paths)
-- Errors remaining (if any)
-- New errors introduced (should be zero)
-- Suggested next steps for unresolved issues
+結果を表示する:
+- 修正したエラー（ファイルパス付き）
+- 残っているエラー（あれば）
+- 新たに導入したエラー（ゼロであるべき）
+- 未解決問題への推奨次ステップ
 
-## Recovery Strategies
+## リカバリ戦略 (Recovery Strategies)
 
 | Situation | Action |
 |-----------|--------|
-| Missing module/import | Check if package is installed; suggest install command |
-| Type mismatch | Read both type definitions; fix the narrower type |
-| Circular dependency | Identify cycle with import graph; suggest extraction |
-| Version conflict | Check `package.json` / `Cargo.toml` for version constraints |
-| Build tool misconfiguration | Read config file; compare with working defaults |
+| Missing module/import | パッケージがインストール済みか確認し、install コマンドを提案する |
+| Type mismatch | 両方の型定義を読み、より狭い型を修正する |
+| Circular dependency | import グラフでサイクルを特定し、抽出を提案する |
+| Version conflict | `package.json` / `Cargo.toml` のバージョン制約を確認する |
+| Build tool misconfiguration | 設定ファイルを読み、動作するデフォルトと比較する |
 
-Fix one error at a time for safety. Prefer minimal diffs over refactoring.
+安全のため1エラーずつ修正する。リファクタリングより最小 diff を優先する。

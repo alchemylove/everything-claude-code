@@ -1,33 +1,33 @@
 ---
-description: "Testing requirements: 80% coverage, TDD workflow, test types"
+description: "Testing requirements: 80% coverage、TDD workflow、test 種類"
 alwaysApply: true
 ---
-# Testing Requirements
+# Testing Requirements (Testing Requirements)
 
-## Minimum Test Coverage: 80%
+## 最小 Test Coverage: 80%
 
-Test Types (ALL required):
-1. **Unit Tests** - Individual functions, utilities, components
-2. **Integration Tests** - API endpoints, database operations
-3. **E2E Tests** - Critical user flows (framework chosen per language)
+Test 種類（すべて必須）:
+1. **Unit Tests** — 個別の関数、utility、component
+2. **Integration Tests** — API endpoint、database 操作
+3. **E2E Tests** — 重要なユーザーフロー（言語ごとに framework を選択）
 
 ## Test-Driven Development
 
-MANDATORY workflow:
-1. Write test first (RED)
-2. Run test - it should FAIL
-3. Write minimal implementation (GREEN)
-4. Run test - it should PASS
-5. Refactor (IMPROVE)
-6. Verify coverage (80%+)
+必須 workflow:
+1. まず test を書く（RED）
+2. test を実行 — FAIL するはず
+3. 最小実装を書く（GREEN）
+4. test を実行 — PASS するはず
+5. リファクタ（IMPROVE）
+6. coverage を検証（80%+）
 
-## Troubleshooting Test Failures
+## Test 失敗のトラブルシューティング (Troubleshooting Test Failures)
 
-1. Use **tdd-guide** agent
-2. Check test isolation
-3. Verify mocks are correct
-4. Fix implementation, not tests (unless tests are wrong)
+1. **tdd-guide** agent を使用
+2. test の分離を確認
+3. mock が正しいか検証
+4. test ではなく実装を修正（test が誤っている場合を除く）
 
-## Agent Support
+## Agent サポート (Agent Support)
 
-- **tdd-guide** - Use PROACTIVELY for new features, enforces write-tests-first
+- **tdd-guide** — 新 feature 向けに PROACTIVELY に使用。test-first を強制

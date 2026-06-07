@@ -4,30 +4,30 @@ paths:
   - "**/pubspec.yaml"
   - "**/analysis_options.yaml"
 ---
-# Dart/Flutter Testing
+# Dart/Flutter テスト (Dart/Flutter Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Dart and Flutter-specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Dart および Flutter 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-- **flutter_test** / **dart:test** — built-in test runner
-- **mockito** (with `@GenerateMocks`) or **mocktail** (no codegen) for mocking
-- **bloc_test** for BLoC/Cubit unit tests
-- **fake_async** for controlling time in unit tests
-- **integration_test** for end-to-end device tests
+- **flutter_test** / **dart:test** — 組み込み test runner
+- モックには **mockito**（`@GenerateMocks` 付き）または **mocktail**（codegen なし）
+- BLoC/Cubit unit test には **bloc_test**
+- unit test で時間を制御するには **fake_async**
+- 実デバイス E2E には **integration_test**
 
-## Test Types
+## テスト種別 (Test Types)
 
 | Type | Tool | Location | When to Write |
 |------|------|----------|---------------|
-| Unit | `dart:test` | `test/unit/` | All domain logic, state managers, repositories |
-| Widget | `flutter_test` | `test/widget/` | All widgets with meaningful behavior |
-| Golden | `flutter_test` | `test/golden/` | Design-critical UI components |
-| Integration | `integration_test` | `integration_test/` | Critical user flows on real device/emulator |
+| Unit | `dart:test` | `test/unit/` | すべての domain logic、state manager、repository |
+| Widget | `flutter_test` | `test/widget/` | 意味のある挙動を持つすべての widget |
+| Golden | `flutter_test` | `test/golden/` | デザイン上重要な UI component |
+| Integration | `integration_test` | `integration_test/` | 実デバイス/emulator 上の重要 user flow |
 
-## Unit Tests: State Managers
+## Unit Test: State Manager
 
-### BLoC with `bloc_test`
+### `bloc_test` による BLoC
 
 ```dart
 group('CartBloc', () {
@@ -58,7 +58,7 @@ group('CartBloc', () {
 });
 ```
 
-### Riverpod with `ProviderContainer`
+### `ProviderContainer` による Riverpod
 
 ```dart
 test('usersProvider loads users from repository', () async {
@@ -72,7 +72,7 @@ test('usersProvider loads users from repository', () async {
 });
 ```
 
-## Widget Tests
+## Widget Test
 
 ```dart
 testWidgets('CartPage shows item count badge', (tester) async {
@@ -103,9 +103,9 @@ testWidgets('shows empty state when cart is empty', (tester) async {
 });
 ```
 
-## Fakes Over Mocks
+## Mock より Fake (Fakes Over Mocks)
 
-Prefer hand-written fakes for complex dependencies:
+複雑な dependency には手書き fake を優先する:
 
 ```dart
 class FakeUserRepository implements UserRepository {
@@ -141,7 +141,7 @@ class FakeUserRepository implements UserRepository {
 }
 ```
 
-## Async Testing
+## 非同期テスト (Async Testing)
 
 ```dart
 // Use fake_async for controlling timers and Futures
@@ -159,7 +159,7 @@ test('debounce triggers after 300ms', () {
 });
 ```
 
-## Golden Tests
+## Golden Test
 
 ```dart
 testWidgets('UserCard golden test', (tester) async {
@@ -174,11 +174,11 @@ testWidgets('UserCard golden test', (tester) async {
 });
 ```
 
-Run `flutter test --update-goldens` when intentional visual changes are made.
+意図的な visual 変更時は `flutter test --update-goldens` を実行する。
 
-## Test Naming
+## テスト命名 (Test Naming)
 
-Use descriptive, behavior-focused names:
+挙動に焦点を当てた説明的な名前を使う:
 
 ```dart
 test('returns null when user does not exist', () { ... });
@@ -186,7 +186,7 @@ test('throws NotFoundException when id is empty string', () { ... });
 testWidgets('disables submit button while form is invalid', (tester) async { ... });
 ```
 
-## Test Organization
+## テスト構成 (Test Organization)
 
 ```
 test/
@@ -207,9 +207,9 @@ integration_test/
     └── checkout_flow_test.dart
 ```
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Target 80%+ line coverage for business logic (domain + state managers)
-- All state transitions must have tests: loading → success, loading → error, retry
-- Run `flutter test --coverage` and inspect `lcov.info` with a coverage reporter
-- Coverage failures should block CI when below threshold
+- business logic（domain + state manager）の line coverage は 80%+ を目標
+- すべての state transition に test が必要: loading → success、loading → error、retry
+- `flutter test --coverage` を実行し、coverage reporter で `lcov.info` を確認する
+- 閾値未満の coverage は CI でブロックする

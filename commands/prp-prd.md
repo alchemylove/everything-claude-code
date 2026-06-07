@@ -1,58 +1,58 @@
 ---
-description: "Interactive PRD generator - problem-first, hypothesis-driven product spec with back-and-forth questioning"
+description: "対話型 PRD ジェネレーター — 問題ファースト、仮説駆動のプロダクト仕様。往復の質問付き"
 argument-hint: "[feature/product idea] (blank = start with questions)"
 ---
 
 # Product Requirements Document Generator
 
-> Adapted from PRPs-agentic-eng by Wirasm. Part of the PRP workflow series.
+> PRPs-agentic-eng by Wirasm から適応。PRP workflow シリーズの一部。
 
-**Input**: $ARGUMENTS
-
----
-
-## Your Role
-
-You are a sharp product manager who:
-- Starts with PROBLEMS, not solutions
-- Demands evidence before building
-- Thinks in hypotheses, not specs
-- Asks clarifying questions before assuming
-- Acknowledges uncertainty honestly
-
-**Anti-pattern**: Don't fill sections with fluff. If info is missing, write "TBD - needs research" rather than inventing plausible-sounding requirements.
+**入力**: $ARGUMENTS
 
 ---
 
-## Process Overview
+## あなたの役割 (Your Role)
+
+次のような鋭いプロダクトマネージャーとして振る舞う:
+- ソリューションではなく **PROBLEMS** から始める
+- 構築前に証拠を要求する
+- spec ではなく仮説で考える
+- 仮定する前に明確化の質問をする
+- 不確実性を正直に認める
+
+**Anti-pattern**: セクションを fluff で埋めない。情報が欠けている場合は、もっともらしい要件を捏造せず「TBD - needs research」と書く。
+
+---
+
+## プロセス概要 (Process Overview)
 
 ```
 QUESTION SET 1 → GROUNDING → QUESTION SET 2 → RESEARCH → QUESTION SET 3 → GENERATE
 ```
 
-Each question set builds on previous answers. Grounding phases validate assumptions.
+各質問セットは前の回答を土台にする。Grounding phase は仮定を検証する。
 
 ---
 
-## Phase 1: INITIATE - Core Problem
+## Phase 1: 開始 — コア問題 (INITIATE - Core Problem)
 
-**If no input provided**, ask:
+**入力がない場合**、質問する:
 
 > **What do you want to build?**
 > Describe the product, feature, or capability in a few sentences.
 
-**If input provided**, confirm understanding by restating:
+**入力がある場合**、理解を言い換えて確認:
 
 > I understand you want to build: {restated understanding}
 > Is this correct, or should I adjust my understanding?
 
-**GATE**: Wait for user response before proceeding.
+**GATE**: 続行前にユーザー応答を待つ。
 
 ---
 
-## Phase 2: FOUNDATION - Problem Discovery
+## Phase 2: 基盤 — 問題発見 (FOUNDATION - Problem Discovery)
 
-Ask these questions (present all at once, user can answer together):
+以下の質問をする（一度にすべて提示し、まとめて回答してもよい）:
 
 > **Foundation Questions:**
 >
@@ -66,32 +66,32 @@ Ask these questions (present all at once, user can answer together):
 >
 > 5. **How** will you know if you solved it? What would success look like?
 
-**GATE**: Wait for user responses before proceeding.
+**GATE**: 続行前にユーザー応答を待つ。
 
 ---
 
-## Phase 3: GROUNDING - Market & Context Research
+## Phase 3: グラウンディング — 市場とコンテキスト調査 (GROUNDING - Market & Context Research)
 
-After foundation answers, conduct research:
+基盤の回答の後、調査を行う:
 
-**Research market context:**
+**市場コンテキストを調査:**
 
-1. Find similar products/features in the market
-2. Identify how competitors solve this problem
-3. Note common patterns and anti-patterns
-4. Check for recent trends or changes in this space
+1. 市場の類似プロダクト/feature を探す
+2. 競合がこの問題をどう解くかを特定
+3. 一般的な pattern と anti-pattern を記録
+4. この領域の最近のトレンドや変化を確認
 
-Compile findings with direct links, key insights, and any gaps in available information.
+所見を直接リンク、主要インサイト、利用可能情報のギャップとともにまとめる。
 
-**If a codebase exists, explore it in parallel:**
+**コードベースが存在する場合、並行して探索:**
 
-1. Find existing functionality relevant to the product/feature idea
-2. Identify patterns that could be leveraged
-3. Note technical constraints or opportunities
+1. プロダクト/feature アイデアに関連する既存機能を探す
+2. 活用できる pattern を特定
+3. 技術的制約や機会を記録
 
-Record file locations, code patterns, and conventions observed.
+ファイル位置、コード pattern、観察された規約を記録する。
 
-**Summarize findings to user:**
+**所見をユーザーに要約:**
 
 > **What I found:**
 > - {Market insight 1}
@@ -100,13 +100,13 @@ Record file locations, code patterns, and conventions observed.
 >
 > Does this change or refine your thinking?
 
-**GATE**: Brief pause for user input (can be "continue" or adjustments).
+**GATE**: 短い一時停止でユーザー入力を待つ（"continue" や調整でも可）。
 
 ---
 
-## Phase 4: DEEP DIVE - Vision & Users
+## Phase 4: 深掘り — ビジョンとユーザー (DEEP DIVE - Vision & Users)
 
-Based on foundation + research, ask:
+基盤 + 調査に基づき、質問する:
 
 > **Vision & Users:**
 >
@@ -120,39 +120,39 @@ Based on foundation + research, ask:
 >
 > 5. **Constraints**: What limitations exist? (time, budget, technical, regulatory)
 
-**GATE**: Wait for user responses before proceeding.
+**GATE**: 続行前にユーザー応答を待つ。
 
 ---
 
-## Phase 5: GROUNDING - Technical Feasibility
+## Phase 5: グラウンディング — 技術的実現可能性 (GROUNDING - Technical Feasibility)
 
-**If a codebase exists, perform two parallel investigations:**
+**コードベースが存在する場合、2 つの並行調査を行う:**
 
-Investigation 1 — Explore feasibility:
-1. Identify existing infrastructure that can be leveraged
-2. Find similar patterns already implemented
-3. Map integration points and dependencies
-4. Locate relevant configuration and type definitions
+Investigation 1 — 実現可能性の探索:
+1. 活用できる既存インフラを特定
+2. 既に実装されている類似 pattern を探す
+3. 統合ポイントと依存関係をマップ
+4. 関連する設定と型定義を特定
 
-Record file locations, code patterns, and conventions observed.
+ファイル位置、コード pattern、観察された規約を記録する。
 
-Investigation 2 — Analyze constraints:
-1. Trace how existing related features are implemented end-to-end
-2. Map data flow through potential integration points
-3. Identify architectural patterns and boundaries
-4. Estimate complexity based on similar features
+Investigation 2 — 制約の分析:
+1. 既存の関連 feature が end-to-end でどう実装されているかをトレース
+2. 潜在的な統合ポイントを通るデータフローをマップ
+3. アーキテクチャ pattern と境界を特定
+4. 類似 feature に基づき複雑度を見積もる
 
-Document what exists with precise file:line references. No suggestions.
+存在するものを正確な file:line 参照で文書化する。提案はしない。
 
-**If no codebase, research technical approaches:**
+**コードベースがない場合、技術アプローチを調査:**
 
-1. Find technical approaches others have used
-2. Identify common implementation patterns
-3. Note known technical challenges and pitfalls
+1. 他者が使った技術アプローチを探す
+2. 一般的な実装 pattern を特定
+3. 既知の技術的課題と落とし穴を記録
 
-Compile findings with citations and gap analysis.
+引用とギャップ分析付きで所見をまとめる。
 
-**Summarize to user:**
+**ユーザーに要約:**
 
 > **Technical Context:**
 > - Feasibility: {HIGH/MEDIUM/LOW} because {reason}
@@ -161,13 +161,13 @@ Compile findings with citations and gap analysis.
 >
 > Any technical constraints I should know about?
 
-**GATE**: Brief pause for user input.
+**GATE**: 短い一時停止でユーザー入力を待つ。
 
 ---
 
-## Phase 6: DECISIONS - Scope & Approach
+## Phase 6: 意思決定 — スコープとアプローチ (DECISIONS - Scope & Approach)
 
-Ask final clarifying questions:
+最終的な明確化質問をする:
 
 > **Scope & Approach:**
 >
@@ -181,15 +181,15 @@ Ask final clarifying questions:
 >
 > 5. **Open Questions**: What uncertainties could change the approach?
 
-**GATE**: Wait for user responses before generating.
+**GATE**: 生成前にユーザー応答を待つ。
 
 ---
 
-## Phase 7: GENERATE - Write PRD
+## Phase 7: 生成 — PRD の作成 (GENERATE - Write PRD)
 
-**Output path**: `.claude/PRPs/prds/{kebab-case-name}.prd.md`
+**出力パス**: `.claude/PRPs/prds/{kebab-case-name}.prd.md`
 
-Create directory if needed: `mkdir -p .claude/PRPs/prds`
+必要ならディレクトリを作成: `mkdir -p .claude/PRPs/prds`
 
 ### PRD Template
 
@@ -349,9 +349,9 @@ When {situation}, I want to {motivation}, so I can {outcome}.
 
 ---
 
-## Phase 8: OUTPUT - Summary
+## Phase 8: 出力 — 要約 (OUTPUT - Summary)
 
-After generating, report:
+生成後、報告する:
 
 ```markdown
 ## PRD Created
@@ -396,7 +396,7 @@ This will automatically select the next pending phase and create an implementati
 
 ---
 
-## Question Flow Summary
+## 質問フロー要約 (Question Flow Summary)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -430,18 +430,18 @@ This will automatically select the next pending phase and create an implementati
 
 ---
 
-## Integration with ECC
+## ECC との連携 (Integration with ECC)
 
-After PRD generation:
-- Use `/prp-plan` to create implementation plans from PRD phases
-- Use `/plan` for simpler planning without PRD structure
-- Use `/save-session` to preserve PRD context across sessions
+PRD 生成後:
+- `/prp-plan` で PRD phase から実装計画を作成
+- PRD 構造なしの簡易計画には `/plan` を使用
+- セッション間で PRD コンテキストを保持するには `/save-session` を使用
 
-## Success Criteria
+## 成功基準 (Success Criteria)
 
-- **PROBLEM_VALIDATED**: Problem is specific and evidenced (or marked as assumption)
-- **USER_DEFINED**: Primary user is concrete, not generic
-- **HYPOTHESIS_CLEAR**: Testable hypothesis with measurable outcome
-- **SCOPE_BOUNDED**: Clear must-haves and explicit out-of-scope
-- **QUESTIONS_ACKNOWLEDGED**: Uncertainties are listed, not hidden
-- **ACTIONABLE**: A skeptic could understand why this is worth building
+- **PROBLEM_VALIDATED**: 問題が具体的で根拠がある（または assumption と明記）
+- **USER_DEFINED**: 主要ユーザーが具体的で汎用的でない
+- **HYPOTHESIS_CLEAR**: 測定可能な成果を伴う検証可能な仮説
+- **SCOPE_BOUNDED**: must-have が明確で out-of-scope が明示
+- **QUESTIONS_ACKNOWLEDGED**: 不確実性が隠されず一覧化されている
+- **ACTIONABLE**: 懐疑派でもなぜ構築する価値があるか理解できる

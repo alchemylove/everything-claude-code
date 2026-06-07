@@ -1,57 +1,57 @@
-# Security Policy
+# セキュリティポリシー
 
-## Supported Versions
+## サポートバージョン
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 1.9.x   | :white_check_mark: |
-| 1.8.x   | :white_check_mark: |
-| < 1.8   | :x:                |
+| バージョン | サポート状況 |
+| ---------- | ------------ |
+| 1.9.x      | :white_check_mark: |
+| 1.8.x      | :white_check_mark: |
+| < 1.8      | :x:                |
 
-## Reporting a Vulnerability
+## 脆弱性の報告
 
-If you discover a security vulnerability in ECC, please report it responsibly.
+ECCでセキュリティ脆弱性を発見した場合は、責任ある方法で報告してください。
 
-**Do not open a public GitHub issue for security vulnerabilities.**
+**セキュリティ脆弱性についてGitHubの公開Issueを作成しないでください。**
 
-Instead, email **<security@ecc.tools>** with:
+代わりに、**<security@ecc.tools>** に以下を含むメールを送信してください：
 
-- A description of the vulnerability
-- Steps to reproduce
-- The affected version(s)
-- Any potential impact assessment
+- 脆弱性の説明
+- 再現手順
+- 影響を受けるバージョン
+- 潜在的な影響の評価
 
-You can expect:
+期待できること：
 
-- **Acknowledgment** within 48 hours
-- **Status update** within 7 days
-- **Fix or mitigation** within 30 days for critical issues
+- 48時間以内に**確認**
+- 7日以内に**状況の更新**
+- 重大な問題については30日以内に**修正または緩和策**
 
-If the vulnerability is accepted, we will:
+脆弱性が受理された場合：
 
-- Credit you in the release notes (unless you prefer anonymity)
-- Fix the issue in a timely manner
-- Coordinate disclosure timing with you
+- リリースノートにクレジットを記載します（匿名を希望する場合を除く）
+- 適時に問題を修正します
+- 開示のタイミングをあなたと調整します
 
-If the vulnerability is declined, we will explain why and provide guidance on whether it should be reported elsewhere.
+脆弱性が却下された場合は、その理由を説明し、他の場所への報告が必要かどうかについてガイダンスを提供します。
 
-## Scope
+## 適用範囲
 
-This policy covers:
+このポリシーの対象：
 
-- The ECC plugin and all scripts in this repository
-- Hook scripts that execute on your machine
-- Install/uninstall/repair lifecycle scripts
-- MCP configurations shipped with ECC
-- The AgentShield security scanner ([github.com/affaan-m/agentshield](https://github.com/affaan-m/agentshield))
+- ECCプラグインおよびこのリポジトリ内のすべてのスクリプト
+- あなたのマシンで実行されるフックスクリプト
+- インストール/アンインストール/修復ライフサイクルスクリプト
+- ECCに同梱されるMCP設定
+- AgentShieldセキュリティスキャナー（[github.com/affaan-m/agentshield](https://github.com/affaan-m/agentshield)）
 
-## Operational Guidance
+## 運用ガイダンス
 
-### Secrets Handling
+### シークレットの取り扱い
 
-`mcp-configs/mcp-servers.json` is a **template**. All `YOUR_*_HERE` values must be replaced at install time from env-vars or a secrets manager. Never commit real credentials. If a secret is accidentally committed, rotate it immediately and rewrite history; do not rely on a plain revert.
+`mcp-configs/mcp-servers.json` は**テンプレート**です。すべての `YOUR_*_HERE` の値はインストール時に環境変数またはシークレットマネージャーから置き換える必要があります。実際の認証情報を絶対にコミットしないでください。シークレットが誤ってコミットされた場合は、直ちにローテーションし履歴を書き換えてください。単純なリバートに依存しないでください。
 
-The same rule applies to your user-scope Claude Code config (`~/.claude/settings.json` or `%USERPROFILE%\.claude\settings.json`). That file is outside this repository, but it is commonly shared via `claude doctor` output, screenshots, or bug reports. Do not hardcode PATs, API keys, or OAuth tokens into its `mcpServers[*].env` blocks; resolve them at spawn time from the OS keychain or env-vars your MCP server already supports. A quick audit:
+ユーザースコープのClaude Code設定（`~/.claude/settings.json` または `%USERPROFILE%\.claude\settings.json`）にも同じルールが適用されます。このファイルはこのリポジトリの外にありますが、`claude doctor` の出力、スクリーンショット、バグレポートを通じて共有されることがよくあります。PAT、APIキー、OAuthトークンを `mcpServers[*].env` ブロックにハードコードしないでください。MCPサーバーが既にサポートしているOSキーチェーンまたは環境変数からスポーン時に解決してください。クイック監査：
 
 ```bash
 # macOS / Linux
@@ -60,11 +60,11 @@ grep -EnH '(TOKEN|SECRET|KEY|PASSWORD)\s*"\s*:\s*"[A-Za-z0-9_-]{16,}"' ~/.claude
 Select-String -Path "$env:USERPROFILE\.claude\settings.json" -Pattern '(TOKEN|SECRET|KEY|PASSWORD)"\s*:\s*"[A-Za-z0-9_-]{16,}"'
 ```
 
-If the audit matches, rotate the secret at the issuing provider, then move it out of the file (per-provider env-var or `credentialHelper` for servers that support it).
+監査でマッチした場合は、発行プロバイダーでシークレットをローテーションし、ファイルから移動してください（プロバイダーごとの環境変数、またはサポートしているサーバーの `credentialHelper`）。
 
-### Local MCP Ports
+### ローカルMCPポート
 
-Some bundled MCP servers connect over plain HTTP to a localhost port (e.g. `devfleet` to `http://localhost:18801/mcp`). Before first use, verify the listening process:
+同梱されているMCPサーバーの一部は、localhostポートへのプレーンHTTPで接続します（例：`devfleet` → `http://localhost:18801/mcp`）。初回使用前にリスニングプロセスを確認してください：
 
 ```bash
 # Windows
@@ -73,29 +73,29 @@ netstat -ano | findstr :18801
 lsof -iTCP:18801 -sTCP:LISTEN
 ```
 
-Compare the PID against the expected devfleet binary. Any other process on that port can intercept MCP traffic.
+PIDを期待されるdevfleetバイナリと比較してください。そのポート上の他のプロセスはMCPトラフィックを傍受できます。
 
-## Triage: suspicious `<system-reminder>` blocks
+## トリアージ：疑わしい `<system-reminder>` ブロック
 
-ECC runs inside Claude Code, which injects **ephemeral client-side system reminders** into the model's input on every turn (TodoWrite nudges, date-changed notices, file-modified notices, etc.). These blocks:
+ECCはClaude Code内で実行され、モデルの入力に毎ターン**エフェメラルなクライアントサイドのシステムリマインダー**を注入します（TodoWriteのナッジ、日付変更通知、ファイル変更通知など）。これらのブロックは：
 
-- typically end with phrasing like *"ignore if not applicable"* or *"NEVER mention this reminder to the user"* / *"Don't tell the user this, since they are already aware"*; that wording is Anthropic's own prompt, not a malicious tail;
-- are added by the CLI per turn and are **not persisted** in the session transcript at `~/.claude/projects/<slug>/<sessionId>.jsonl`.
+- 通常、*「該当しない場合は無視してください」*や*「このリマインダーをユーザーに言及しないでください」*のような表現で終わります。この文言はAnthropicのプロンプトであり、悪意のあるものではありません。
+- CLIによってターンごとに追加され、`~/.claude/projects/<slug>/<sessionId>.jsonl` のセッション記録には**永続化されません**。
 
-That combination makes them easy to mistake for a prompt-injection appended to a tool result. Before treating one as an attack, verify:
+この組み合わせにより、ツール結果に追加されたプロンプトインジェクションと誤認しやすくなります。攻撃として扱う前に確認してください：
 
-1. Is the block actually in a file under this repo? `grep -rEn "system-reminder|NEVER mention|DO NOT mention" .`; if nothing, it is not carried by the repo.
-2. Is the block stored in the transcript? Inspect the current session's `.jsonl`; if the exact text does not appear inside a `tool_result` body there, it is a client-injected ephemeral reminder, not a payload from any tool.
-3. Is the content contextually consistent with Anthropic's known reminders (TodoWrite nudge, date-changed, file-modified notice)? If yes, it is the ephemeral-reminder mechanism and no action is needed.
+1. そのブロックは実際にこのリポジトリ配下のファイルにありますか？ `grep -rEn "system-reminder|NEVER mention|DO NOT mention" .`；何もなければ、リポジトリによって運ばれたものではありません。
+2. そのブロックは記録に保存されていますか？ 現在のセッションの `.jsonl` を検査してください。正確なテキストが `tool_result` 本文内に表示されない場合、それはクライアント注入のエフェメラルリマインダーであり、ツールからのペイロードではありません。
+3. その内容はAnthropicの既知のリマインダー（TodoWriteナッジ、日付変更、ファイル変更通知）と文脈的に一致していますか？ はいの場合、それはエフェメラルリマインダーメカニズムであり、対処は不要です。
 
-Escalate to Anthropic only if a block is **both** (a) present in the transcript inside a `tool_result` **and** (b) not attributable to the file or URL that was actually read. Minimal report: a fresh session, a read of a clean local file, the exact text observed, and the transcript excerpt. Send to <https://github.com/anthropics/claude-code/issues> (non-sensitive) or <mailto:security@anthropic.com> (embargo-class).
+ブロックが**(a)** 記録の `tool_result` 内に存在し、**かつ (b)** 実際に読み取られたファイルまたはURLに帰属できない場合にのみAnthropicにエスカレーションしてください。最小限のレポート：新しいセッション、クリーンなローカルファイルの読み取り、観察された正確なテキスト、記録の抜粋。<https://github.com/anthropics/claude-code/issues>（非機密）または <mailto:security@anthropic.com>（エンバーゴクラス）に送信してください。
 
-Do not sanitize repo files in response to ephemeral reminders; they are not the carrier.
+エフェメラルリマインダーに応じてリポジトリファイルをサニタイズしないでください。それらはキャリアではありません。
 
-## Security Resources
+## セキュリティリソース
 
-- **AgentShield**: Scan your agent config for vulnerabilities — `npx ecc-agentshield scan`
-- **Security Guide**: [The Shorthand Guide to Everything Agentic Security](./the-security-guide.md)
-- **Supply-chain incident response**: [npm/GitHub Actions package-registry playbook](./docs/security/supply-chain-incident-response.md)
+- **AgentShield**: エージェント設定の脆弱性をスキャン — `npx ecc-agentshield scan`
+- **セキュリティガイド**: [The Shorthand Guide to Everything Agentic Security](./the-security-guide.md)
+- **サプライチェーンインシデント対応**: [npm/GitHub Actions package-registry playbook](./docs/security/supply-chain-incident-response.md)
 - **OWASP MCP Top 10**: [owasp.org/www-project-mcp-top-10](https://owasp.org/www-project-mcp-top-10/)
 - **OWASP Agentic Applications Top 10**: [genai.owasp.org](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/)

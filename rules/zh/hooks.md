@@ -1,30 +1,30 @@
-# 钩子系统
+# Hooks システム (Hooks System)
 
-## 钩子类型
+## Hook 種別 (Hook Types)
 
-- **PreToolUse**：工具执行前（验证、参数修改）
-- **PostToolUse**：工具执行后（自动格式化、检查）
-- **Stop**：会话结束时（最终验证）
+- **PreToolUse**: ツール実行前（検証、パラメータ変更）
+- **PostToolUse**: ツール実行後（自動フォーマット、チェック）
+- **Stop**: セッション終了時（最終検証）
 
-## 自动接受权限
+## 自動承認パーミッション (Auto-Accept Permissions)
 
-谨慎使用：
-- 为可信、定义明确的计划启用
-- 探索性工作时禁用
-- 永远不要使用 dangerously-skip-permissions 标志
-- 改为在 `~/.claude.json` 中配置 `allowedTools`
+慎重に使用する:
+- 信頼できる明確な計画向けに有効化する
+- 探索的作業では無効化する
+- dangerously-skip-permissions フラグは使わない
+- 代わりに `~/.claude.json` で `allowedTools` を設定する
 
-## TodoWrite 最佳实践
+## TodoWrite ベストプラクティス (TodoWrite Best Practices)
 
-使用 TodoWrite 工具：
-- 跟踪多步骤任务的进度
-- 验证对指令的理解
-- 启用实时引导
-- 显示细粒度的实现步骤
+TodoWrite ツールを次の目的で使用する:
+- 複数ステップタスクの進捗を追跡する
+- 指示の理解を検証する
+- リアルタイムのステアリングを可能にする
+- 細かい実装ステップを表示する
 
-待办列表揭示：
-- 顺序错误的步骤
-- 缺失的项目
-- 多余的不必要项目
-- 错误的粒度
-- 误解的需求
+Todo リストで明らかになること:
+- 順序が狂ったステップ
+- 欠けている項目
+- 不要な余分な項目
+- 粒度の誤り
+- 要件の誤解

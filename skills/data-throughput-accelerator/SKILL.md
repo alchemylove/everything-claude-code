@@ -1,55 +1,50 @@
 ---
 name: data-throughput-accelerator
-description: Use when large data ingestion, backfill, export, ETL, warehouse loading, manifest catch-up, or table synchronization needs to become much faster while preserving data correctness.
+description: 大規模 data ingestion、backfill、export、ETL、warehouse loading、manifest catch-up、table synchronization をデータ正確性を保ったまま大幅に高速化するときに使用。ETL, backfill, throughput.
 origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Data Throughput Accelerator
+# データスループットアクセラレータ (Data Throughput Accelerator)
 
-Use this skill when the bottleneck is moving, transforming, or saving lots of
-data. The goal is not just speed. The goal is faster correct data landing in the
-right place with proof.
+ボトルネックが大量データの移動、変換、保存にあるときにこの skill を使う。目標は単なる速度ではない。正しいデータが証拠付きで正しい場所に、より速く着地することである。
 
-## First Distinction
+## 最初の区別 (First Distinction)
 
-Separate these before optimizing:
+最適化前に次を分離する:
 
-- source extraction speed;
-- network transfer speed;
-- warehouse/load speed;
-- transform speed;
-- serving-table freshness;
-- live tail growth while the job runs.
+- ソース抽出速度
+- ネットワーク転送速度
+- ウェアハウス/ロード速度
+- 変換速度
+- サービングテーブル鮮度
+- ジョブ実行中のライブテール成長
 
-A pipeline can be "fast" and still appear behind if new data arrives faster
-than the final catch-up window.
+新データが最終キャッチアップウィンドウより速く到着すると、パイプラインは「速い」のに遅れて見える。
 
-## Fast Path Heuristics
+## 高速パスヒューリスティクス (Fast Path Heuristics)
 
-- Move compute to where the data already is.
-- Prefer warehouse-native scans, joins, and appends for large landed files.
-- Use manifests or checkpoints so completed files/partitions are skipped.
-- Use partitioning and clustering that match the read and append pattern.
-- Batch small files, requests, and writes.
-- Make writes idempotent through unique keys, manifests, or replaceable staging.
-- Keep raw, derived, and serving tables separately accountable.
+- 計算をデータが既にある場所へ移す。
+- 大きな landed ファイルにはウェアハウスネイティブの scan、join、append を優先する。
+- manifest または checkpoint で完了ファイル/パーティションをスキップする。
+- 読み取りと append パターンに合うパーティショニングとクラスタリングを使う。
+- 小さなファイル、リクエスト、書き込みをバッチ化する。
+- unique key、manifest、置換可能 staging で書き込みを冪等にする。
+- raw、derived、サービングテーブルを別々に説明可能に保つ。
 
-## Workflow
+## ワークフロー (Workflow)
 
-1. Read the current source, target, and manifest contracts.
-2. Measure backlog: external files, manifest rows, raw rows, derived rows,
-   min/max timestamps, and unprocessed counts.
-3. Run a safe catch-up or sample benchmark.
-4. Compare variants: batch size, worker count, warehouse SQL, file grouping,
-   staging shape, and manifest update method.
-5. Promote only the fastest path that keeps counts and timestamps coherent.
-6. Codify the path as a CLI, scheduled job, workflow, or runbook.
-7. Rerun final accounting after the codified path executes.
+1. 現在のソース、ターゲット、manifest 契約を読む。
+2. バックログを計測: 外部ファイル、manifest 行、raw 行、derived 行、min/max タイムスタンプ、未処理件数。
+3. 安全なキャッチアップまたはサンプルベンチマークを実行する。
+4. バリアントを比較: バッチサイズ、ワーカー数、ウェアハウス SQL、ファイルグループ化、staging 形状、manifest 更新方法。
+5. 件数とタイムスタンプの一貫性を保つ最速パスのみ昇格させる。
+6. パスを CLI、スケジュールジョブ、ワークフロー、runbook としてコード化する。
+7. コード化パス実行後に最終会計を再実行する。
 
-## Accounting Output
+## 会計出力 (Accounting Output)
 
-Use a hard accounting block:
+明確な会計ブロックを使う:
 
 ```text
 Data throughput result:
@@ -62,11 +57,10 @@ Data throughput result:
 - Correctness gate: manifest counts and table max timestamps match
 ```
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not delete raw data to make a metric look better.
-- Do not skip failed files silently.
-- Do not mix historical backfill status with live-tail freshness.
-- Do not call a pipeline complete until the target tables and manifest agree.
-- For finance, healthcare, regulated, or customer-impacting data, preserve
-  replay evidence and approval gates.
+- メトリクスを良く見せるために raw データを削除しない。
+- 失敗ファイルを黙ってスキップしない。
+- 履歴バックフィル状態とライブテール鮮度を混ぜない。
+- ターゲットテーブルと manifest が一致するまでパイプラインを complete と呼ばない。
+- 金融、ヘルスケア、規制対象、顧客影響データでは replay 証拠と承認ゲートを保持する。

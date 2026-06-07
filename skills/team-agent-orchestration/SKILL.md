@@ -4,42 +4,42 @@ description: "Run team-based orchestration for agent squads using work items, ow
 origin: ECC
 ---
 
-# Team Agent Orchestration
+# Team Agent Orchestration (Team Agent Orchestration)
 
-Use this skill when agents are being managed like a team rather than a single assistant. The purpose is to make team-based orchestration reliable: clear work items, explicit ownership, agent Kanban state, branch isolation, control pane visibility, and merge gates.
+agent を単一 assistant ではなく team として管理するときにこの skill を使用する。目的は team-based orchestration を信頼可能にすること: 明確な work item、明示 ownership、agent Kanban state、branch 隔離、control pane 可視性、merge gate。
 
-## When To Activate
+## 有効化タイミング (When To Activate)
 
-- The task spans multiple agents, tools, harnesses, branches, or worktrees.
-- The user mentions team orchestration, agent Kanban, squad, conductor, control pane, manager, desktop app, Zellij, tmux, Hermes, Devin, Codex, Claude Code, or multi-agent work.
-- A project needs shared workflow state across people and agents.
-- Existing agent fan-out is producing output but not mergeable product.
+- タスクが複数 agent、tool、harness、branch、worktree にまたがる
+- user が team orchestration、agent Kanban、squad、conductor、control pane、manager、desktop app、Zellij、tmux、Hermes、Devin、Codex、Claude Code、multi-agent work に言及
+- プロジェクトが people と agent 横断の共有 workflow state を必要とする
+- 既存 agent fan-out が output は出すが merge 可能 product にならない
 
-## Operating Model
+## 運用モデル (Operating Model)
 
-Treat every agent as a teammate with a narrow contract:
+各 agent を狭い contract を持つ teammate として扱う:
 
-- **Owner**: the person or agent accountable for the work item.
-- **Scope**: files, branch, tool surface, and forbidden areas.
-- **State**: backlog, ready, running, review, blocked, merged, or archived.
-- **Evidence**: tests, screenshots, logs, review notes, or eval reports.
-- **Merge gate**: the exact condition that allows integration.
+- **Owner**: work item に accountable な person または agent
+- **Scope**: file、branch、tool surface、禁止領域
+- **State**: backlog、ready、running、review、blocked、merged、archived
+- **Evidence**: test、screenshot、log、review note、eval report
+- **Merge gate**: integration を許可する正確な条件
 
-## Agent Kanban
+## Agent Kanban (Agent Kanban)
 
-Use agent Kanban when work must be visible across sessions.
+session 横断で work を可視化するときに agent Kanban を使用。
 
 | Column | Meaning | Exit Criteria |
 | --- | --- | --- |
-| Backlog | Candidate work item, not yet shaped | Acceptance criteria written |
-| Ready | Shaped and assignable | Owner and branch/worktree assigned |
-| Running | Agent is actively working | Handoff artifact and changed files exist |
-| Review | Work is complete but not merged | Tests, diff review, and risk check pass |
-| Blocked | Needs external input or failed gate | Blocker has owner and next action |
-| Merged | Integrated into mainline | PR merged or local main updated |
-| Archived | No longer relevant | Reason recorded |
+| Backlog | 候補 work item、未整形 | Acceptance criteria 記述済み |
+| Ready | 整形済みで assign 可能 | Owner と branch/worktree 割当 |
+| Running | agent が actively 作業中 | Handoff artifact と changed file が存在 |
+| Review | 完了だが未 merge | test、diff review、risk check pass |
+| Blocked | 外部入力または failed gate | Blocker に owner と next action |
+| Merged | mainline に統合 | PR merged または local main 更新 |
+| Archived | もはや relevant でない | 理由記録 |
 
-Each card should fit this schema:
+各 card は次 schema に収まること:
 
 ```json
 {
@@ -59,52 +59,52 @@ Each card should fit this schema:
 }
 ```
 
-## Team-Based Orchestration Flow
+## Team-Based Orchestration フロー (Team-Based Orchestration Flow)
 
-1. **Shape the board**: convert fuzzy ambition into work items with owners and merge gates.
-2. **Pick execution mode**: single-agent, dynamic workflow mode, dmux/tmux, worktree fan-out, or external desktop orchestrator.
-3. **Assign boundaries**: one owner per card, clear file scope, and no overlapping writes without an integrator.
-4. **Run agents**: each agent writes evidence and handoff notes, not just code.
-5. **Review in sequence**: tests first, then diff review, then security/risk checks, then content/product polish.
-6. **Merge deliberately**: one integrator resolves conflicts and updates the control pane or status artifact.
-7. **Extract reusable skill**: if the card pattern repeats, promote it into `skills/`.
+1. **board を整形**: 曖昧な ambition を owner と merge gate 付き work item に変換
+2. **実行モード選択**: single-agent、dynamic workflow mode、dmux/tmux、worktree fan-out、external desktop orchestrator
+3. **境界割当**: card ごとに 1 owner、明確 file scope、integrator なしの重複 write 禁止
+4. **agent 実行**: 各 agent は code だけでなく evidence と handoff note を書く
+5. **順次 review**: test → diff review → security/risk → content/product polish
+6. **意図的 merge**: 1 integrator が conflict を解決し control pane または status artifact を更新
+7. **再利用 skill 抽出**: card pattern が繰り返すなら `skills/` に promote
 
-## Control Pane Requirements
+## Control Pane 要件 (Control Pane Requirements)
 
-A useful control pane for team orchestration should show:
+team orchestration 向け有用 control pane は次を示す:
 
-- Active work items and their agent Kanban state.
-- Owner, harness, branch, worktree, and last heartbeat.
-- Links to handoff artifacts, tests, screenshots, and PRs.
-- Blockers grouped by owner and unblock action.
-- Merge readiness by gate, not vibes.
-- Reusable workflow candidates that should become shared skills.
+- active work item と agent Kanban state
+- owner、harness、branch、worktree、last heartbeat
+- handoff artifact、test、screenshot、PR への link
+- owner と unblock action でグループ化された blocker
+- vibes ではなく gate 別 merge readiness
+- shared skill 化すべき再利用 workflow 候補
 
-Do not add more automation until the operator can answer: who owns this, what changed, what gate failed, and what can safely merge?
+operator が「誰が owner か、何が変わったか、どの gate が失敗したか、何が安全に merge できるか」に答えられるまで automation を増やさない。
 
-## Dynamic Workflow Compatibility
+## Dynamic Workflow 互換 (Dynamic Workflow Compatibility)
 
-When a card needs dynamic workflow mode:
+card が dynamic workflow mode を必要とするとき:
 
-- Put the task-local harness under the card owner.
-- Store inputs and outputs on the card.
-- Require an eval before moving from Running to Review.
-- Promote the harness to a shared skill only after repeat use.
+- task-local harness を card owner 配下に
+- input/output を card に保存
+- Running → Review 前に eval を要求
+- 繰り返し使用後のみ shared skill に promote
 
-## Failure Modes To Watch
+## 監視すべき失敗モード (Failure Modes To Watch)
 
-- **Agent soup**: many agents running, no owner or merge gate.
-- **Invisible work**: useful output exists only in a chat transcript.
-- **Board theater**: a Kanban board exists but cards have no acceptance criteria.
-- **Overlapping writes**: parallel agents edit the same files without worktrees.
-- **No product artifact**: the process produces docs but no runnable or publishable surface.
+- **Agent soup**: 多数 agent が走るが owner や merge gate がない
+- **Invisible work**: 有用 output が chat transcript のみ
+- **Board theater**: Kanban はあるが acceptance criteria がない card
+- **Overlapping writes**: worktree なしで同一 file を parallel 編集
+- **No product artifact**: 手順は doc を出すが runnable/publishable surface がない
 
-## Output Standard
+## 出力標準 (Output Standard)
 
-Finish each orchestration pass with:
+各 orchestration pass を次で終える:
 
-- Board/card changes.
-- Merged or pending branches.
-- Tests and eval evidence.
-- Blockers with owner and next action.
-- New shared skill candidates.
+- board/card 変更
+- merged または pending branch
+- test と eval evidence
+- owner と next action 付き blocker
+- 新 shared skill 候補

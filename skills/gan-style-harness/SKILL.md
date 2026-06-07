@@ -5,19 +5,19 @@ origin: ECC-community
 tools: Read, Write, Edit, Bash, Grep, Glob, Task
 ---
 
-# GAN-Style Harness Skill
+# GAN-Style Harness Skill (GAN-Style Harness Skill)
 
 > Inspired by [Anthropic's Harness Design for Long-Running Application Development](https://www.anthropic.com/engineering/harness-design-long-running-apps) (March 24, 2026)
 
 A multi-agent harness that separates **generation** from **evaluation**, creating an adversarial feedback loop that drives quality far beyond what a single agent can achieve.
 
-## Core Insight
+## Core Insight (Core Insight)
 
 > When asked to evaluate their own work, agents are pathological optimists — they praise mediocre output and talk themselves out of legitimate issues. But engineering a **separate evaluator** to be ruthlessly strict is far more tractable than teaching a generator to self-critique.
 
 This is the same dynamic as GANs (Generative Adversarial Networks): the Generator produces, the Evaluator critiques, and that feedback drives the next iteration.
 
-## When to Use
+## When to Use (When to Use)
 
 - Building complete applications from a one-line prompt
 - Frontend design tasks requiring high visual quality
@@ -25,14 +25,14 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
 - Any task where "AI slop" aesthetics are unacceptable
 - Projects where you want to invest $50-200 for production-quality output
 
-## When NOT to Use
+## When NOT to Use (When NOT to Use)
 
 - Quick single-file fixes (use standard `claude -p`)
 - Tasks with tight budget constraints (<$10)
 - Simple refactoring (use de-sloppify pattern instead)
 - Tasks that are already well-specified with tests (use TDD workflow)
 
-## Architecture
+## Architecture (Architecture)
 
 ```
                     ┌─────────────┐
@@ -64,9 +64,9 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
               └────────────────────────┘
 ```
 
-## The Three Agents
+## The Three Agents (The Three Agents)
 
-### 1. Planner Agent
+### 1. Planner Agent (1. Planner Agent)
 
 **Role:** Product manager — expands a brief prompt into a full product specification.
 
@@ -78,7 +78,7 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
 
 **Model:** Opus 4.6 (needs deep reasoning for spec expansion)
 
-### 2. Generator Agent
+### 2. Generator Agent (2. Generator Agent)
 
 **Role:** Developer — implements features according to the spec.
 
@@ -91,7 +91,7 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
 
 **Model:** Opus 4.6 (needs strong coding capability)
 
-### 3. Evaluator Agent
+### 3. Evaluator Agent (3. Evaluator Agent)
 
 **Role:** QA engineer — tests the live running application, not just code.
 
@@ -108,12 +108,12 @@ This is the same dynamic as GANs (Generative Adversarial Networks): the Generato
 
 **Model:** Opus 4.6 (needs strong judgment + tool use)
 
-## Evaluation Criteria
+## Evaluation Criteria (Evaluation Criteria)
 
 The default four criteria, each scored 1-10:
 
 ```markdown
-## Evaluation Rubric
+## 評価ルーブリック (Evaluation Rubric)
 
 ### Design Quality (weight: 0.3)
 - 1-3: Generic, template-like, "AI slop" aesthetics
@@ -140,15 +140,15 @@ The default four criteria, each scored 1-10:
 - 9-10: Bulletproof, handles every edge case
 ```
 
-### Scoring
+### Scoring (Scoring)
 
 - **Weighted score** = sum of (criterion_score * weight)
 - **Pass threshold** = 7.0 (configurable)
 - **Max iterations** = 15 (configurable, typically 5-15 sufficient)
 
-## Usage
+## Usage (Usage)
 
-### Via Command
+### Via Command (Via Command)
 
 ```bash
 # Full three-agent harness
@@ -161,7 +161,7 @@ The default four criteria, each scored 1-10:
 /project:gan-design "Create a landing page for a crypto portfolio tracker"
 ```
 
-### Via Shell Script
+### Via Shell Script (Via Shell Script)
 
 ```bash
 # Basic usage
@@ -174,7 +174,7 @@ GAN_EVAL_CRITERIA="functionality,performance,security" \
 ./scripts/gan-harness.sh "Build a REST API for task management"
 ```
 
-### Via Claude Code (Manual)
+### Via Claude Code (Via Claude Code)
 
 ```bash
 # Step 1: Plan
@@ -192,23 +192,23 @@ claude -p --model opus "You are a Generator. Read spec.md and feedback-001.md. A
 # Repeat steps 3-4 until pass threshold met
 ```
 
-## Evolution Across Model Capabilities
+## Evolution Across Model Capabilities (Evolution Across Model Capabilities)
 
 The harness should simplify as models improve. Following Anthropic's evolution:
 
-### Stage 1 — Weaker Models (Sonnet-class)
+### Stage 1 — Weaker Models (Stage 1 — Weaker Models)
 - Full sprint decomposition required
 - Context resets between sprints (avoid context anxiety)
 - 2-agent minimum: Initializer + Coding Agent
 - Heavy scaffolding compensates for model limitations
 
-### Stage 2 — Capable Models (Opus 4.5-class)
+### Stage 2 — Capable Models (Stage 2 — Capable Models)
 - Full 3-agent harness: Planner + Generator + Evaluator
 - Sprint contracts before each implementation phase
 - 10-sprint decomposition for complex apps
 - Context resets still useful but less critical
 
-### Stage 3 — Frontier Models (Opus 4.6-class)
+### Stage 3 — Frontier Models (Stage 3 — Frontier Models)
 - Simplified harness: single planning pass, continuous generation
 - Evaluation reduced to single end-pass (model is smarter)
 - No sprint structure needed
@@ -216,9 +216,9 @@ The harness should simplify as models improve. Following Anthropic's evolution:
 
 > **Key principle:** Every harness component encodes an assumption about what the model can't do alone. When models improve, re-test those assumptions. Strip away what's no longer needed.
 
-## Configuration
+## Configuration (Configuration)
 
-### Environment Variables
+### Environment Variables (Environment Variables)
 
 | Variable | Default | Description |
 |----------|---------|-------------|
@@ -234,7 +234,7 @@ The harness should simplify as models improve. Following Anthropic's evolution:
 | `GAN_SKIP_PLANNER` | `false` | Skip planner, use spec directly |
 | `GAN_EVAL_MODE` | `playwright` | `playwright`, `screenshot`, or `code-only` |
 
-### Evaluation Modes
+### Evaluation Modes (Evaluation Modes)
 
 | Mode | Tools | Best For |
 |------|-------|----------|
@@ -242,7 +242,7 @@ The harness should simplify as models improve. Following Anthropic's evolution:
 | `screenshot` | Screenshot + visual analysis | Static sites, design-only |
 | `code-only` | Tests + linting + build | APIs, libraries, CLI tools |
 
-## Anti-Patterns
+## Anti-Patterns (Anti-Patterns)
 
 1. **Evaluator too lenient** — If the evaluator passes everything on iteration 1, your rubric is too generous. Tighten scoring criteria and add explicit penalties for common AI patterns.
 
@@ -256,7 +256,7 @@ The harness should simplify as models improve. Following Anthropic's evolution:
 
 6. **Context exhaustion** — For long sessions, use Claude Agent SDK's automatic compaction or reset context between major phases.
 
-## Results: What to Expect
+## Results: What to Expect (Results: What to Expect)
 
 Based on Anthropic's published results:
 
@@ -270,7 +270,7 @@ Based on Anthropic's published results:
 
 **The tradeoff is clear:** ~20x more time and cost for a qualitative leap in output quality. This is for projects where quality matters.
 
-## References
+## 参照 (References) (References)
 
 - [Anthropic: Harness Design for Long-Running Apps](https://www.anthropic.com/engineering/harness-design-long-running-apps) — Original paper by Prithvi Rajasekaran
 - [Epsilla: The GAN-Style Agent Loop](https://www.epsilla.com/blogs/anthropic-harness-engineering-multi-agent-gan-architecture) — Architecture deconstruction

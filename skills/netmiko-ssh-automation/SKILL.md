@@ -4,31 +4,29 @@ description: Safe Python Netmiko patterns for read-only collection, bounded batc
 origin: community
 ---
 
-# Netmiko SSH Automation
+# Netmiko SSH Automation (Netmiko SSH Automation)
 
-Use this skill when writing or reviewing Python automation that connects to
-network devices with Netmiko. Keep the default path read-only; config changes
-need a separate change window, peer review, and rollback plan.
+Netmiko で network device に接続する Python automation の作成・レビュー時にこの skill を使用する。デフォルト path は read-only。config 変更には別 change window、peer review、rollback plan が必要。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- Collecting `show` command output across routers, switches, or firewalls.
-- Building a small audit script for interface, routing, or config evidence.
-- Adding timeouts and exception handling to network SSH scripts.
-- Parsing command output with TextFSM when a template exists.
-- Reviewing automation before it touches production devices.
+- router、switch、firewall 横断で `show` command output を収集
+- interface、routing、config evidence 向け小規模 audit script
+- network SSH script に timeout と exception handling を追加
+- template があるとき TextFSM で command output を parse
+- production device に触れる前の automation レビュー
 
-## Safety Defaults
+## 安全デフォルト (Safety Defaults)
 
-- Start with read-only `send_command()` collection.
-- Keep inventory small and explicit; do not sweep whole address ranges.
-- Use environment variables, a vault, or `getpass`; never hardcode credentials.
-- Set connection and read timeouts.
-- Limit concurrency so older devices are not overloaded.
-- Require an explicit operator flag before `send_config_set()`.
-- Do not call `save_config()` until the change has been verified and approved.
+- read-only `send_command()` 収集から開始
+- inventory は小さく明示的。address range 全体を sweep しない
+- credential は env、vault、`getpass`。ハードコードしない
+- connection と read timeout を設定
+- 古い device を過負荷にしない concurrency 上限
+- `send_config_set()` の前に明示 operator flag を要求
+- 変更が検証・承認されるまで `save_config()` を呼ばない
 
-## Read-Only Connection Pattern
+## Read-Only 接続パターン (Read-Only Connection Pattern)
 
 ```python
 import os
@@ -66,10 +64,9 @@ except ReadTimeout:
     print("Command read timed out")
 ```
 
-Use placeholder addresses from documentation ranges in examples. Keep real
-inventory in an ignored local file or a secrets-managed system.
+example では documentation range の placeholder address を使用。実 inventory は ignored local file または secrets-managed system に。
 
-## Batch Collection
+## バッチ収集 (Batch Collection)
 
 ```python
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -91,13 +88,11 @@ with ThreadPoolExecutor(max_workers=8) as pool:
         results.append(future.result())
 ```
 
-Keep `max_workers` low unless the device estate and AAA systems are known to
-handle higher connection volume.
+device estate と AAA が higher volume を処理できると分かるまで `max_workers` は低く保つ。
 
-## Structured Parsing
+## 構造化 Parsing (Structured Parsing)
 
-Netmiko can ask TextFSM, TTP, or Genie to parse supported command output. Treat
-parser output as an optimization, not the only evidence path.
+Netmiko は TextFSM、TTP、Genie で supported command output を parse 可能。parser output は最適化であり唯一の evidence path ではない。
 
 ```python
 with ConnectHandler(**device) as conn:
@@ -115,10 +110,9 @@ else:
         print(row)
 ```
 
-If parsing drives a blocking decision, keep the raw command output alongside
-the parsed result so an operator can inspect mismatches.
+parsing が blocking decision を駆動するなら、mismatch 検査のため raw command output も保持。
 
-## Guarded Config Pattern
+## Guarded Config パターン (Guarded Config Pattern)
 
 ```python
 import os
@@ -145,28 +139,27 @@ else:
         print("Verify behavior before saving startup config.")
 ```
 
-Saving the config is a separate approval step. In production, include a rollback
-snippet and capture before/after evidence in the change record.
+config save は別 approval step。production では rollback snippet と before/after evidence を change record に含める。
 
-## Review Checklist
+## レビューチェックリスト (Review Checklist)
 
-- Does the script identify an explicit inventory source?
-- Are credentials absent from source, logs, and exception messages?
-- Are `conn_timeout`, `auth_timeout`, and command `read_timeout` set?
-- Are failures reported per device without stopping the whole batch?
-- Does the script avoid broad scans and unbounded concurrency?
-- Are config changes behind a dry-run or explicit operator flag?
-- Is `save_config()` separate from the initial push and tied to verification?
+- script は明示 inventory source を特定しているか
+- credential は source、log、exception message から除外されているか
+- `conn_timeout`、`auth_timeout`、command `read_timeout` は設定されているか
+- failure は batch 全体を止めず device ごとに報告されるか
+- 広範 scan と unbounded concurrency を避けているか
+- config change は dry-run または明示 operator flag の背後か
+- `save_config()` は initial push から分離され verification に紐づくか
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Hardcoding passwords, enable secrets, or private keys in source.
-- Sending config commands as the default code path.
-- Running automation against a CIDR range instead of a reviewed inventory.
-- Logging full running configs to shared systems without sanitization.
-- Treating parser success as proof that the device state is correct.
+- source に password、enable secret、private key をハードコード
+- デフォルト code path で config command を送信
+- reviewed inventory ではなく CIDR range に automation を実行
+- sanitization なしに full running config を shared system に log
+- parser 成功を device state 正しさの証明とみなす
 
-## See Also
+## 関連 (See Also)
 
 - Skill: `cisco-ios-patterns`
 - Skill: `network-config-validation`

@@ -1,59 +1,52 @@
-# ECC v2.0.0-rc.1 Preview Pack Manifest
+# ECC v2.0.0-rc.1 プレビューパックマニフェスト (ECC v2.0.0-rc.1 Preview Pack Manifest)
 
-This manifest defines the reviewed preview pack for `2.0.0-rc.1`. It is not a
-release action by itself. Use it to verify that the public launch surface stays
-assembled after the GitHub prerelease and npm `next` publish, and before
-tagging plugin surfaces, uploading video, or posting announcements.
+このマニフェストは `2.0.0-rc.1` のレビュー済みプレビューパックを定義する。それ自体はリリースアクションではない。GitHub prerelease と npm `next` 公開の後、プラグイン surface の tag、video アップロード、告知投稿の前に、公開ローンチ surface が組み立てられたままであることを検証するために使用する。
 
-## Pack Contents
+## パック内容 (Pack Contents)
 
-| Artifact | Role | Gate |
+| アーティファクト (Artifact) | 役割 (Role) | ゲート (Gate) |
 | --- | --- | --- |
-| `README.md` | Public onramp and install surface | Links Hermes setup, rc.1 notes, plugin install, manual install, reset, and uninstall guidance |
-| `docs/HERMES-SETUP.md` | Public Hermes operator topology | No raw workspace export, credentials, private account names, or local-only operator state |
-| `skills/hermes-imports/SKILL.md` | Sanitized Hermes-to-ECC import workflow | Includes import rules, sanitization checklist, conversion pattern, and output contract |
-| `docs/architecture/cross-harness.md` | Shared substrate model for Claude Code, Codex, OpenCode, Cursor, Gemini, Hermes, and terminal-only use | Names portability boundaries and does not claim unsupported native parity |
-| `docs/architecture/harness-adapter-compliance.md` | Adapter matrix and scorecard | Verified by `npm run harness:adapters -- --check` |
-| `docs/architecture/platform-value-loop.md` | Product integration and full-stack platform thesis | Keeps external product skill packs, gated APIs, case studies, sponsorship, Pro, and consulting loops separate from unsupported GA/control-pane claims |
-| `docs/architecture/observability-readiness.md` | Local operator-readiness gate | Verified by `npm run observability:ready` |
-| `docs/architecture/progress-sync-contract.md` | GitHub, Linear, handoff, roadmap, and work-item sync boundary | Checked by `node scripts/platform-audit.js --json` |
-| `scripts/preview-pack-smoke.js` | Deterministic preview-pack smoke gate | Verified by `npm run preview-pack:smoke` |
-| `scripts/release-approval-gate.js` | Final owner-decision, live-URL, and launch-copy gate | Must return ready true before any additional release/package action, plugin tag, video upload, announcement, or outbound batch |
-| `docs/releases/2.0.0-rc.1/release-notes.md` | GitHub release copy source | Must stay aligned with live GitHub/npm URLs and remaining plugin/video/billing gates before publication |
-| `docs/releases/2.0.0-rc.1/quickstart.md` | Clone-to-first-workflow path | Covers clone, install, verify, first skill, and harness switch |
-| `docs/releases/2.0.0-rc.1/launch-checklist.md` | Operator launch checklist | Must remain approval-gated for plugin, video, billing, and announcement actions |
-| `docs/releases/2.0.0-rc.1/publication-readiness.md` | Release gate | Requires fresh evidence from the exact release commit |
-| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-15.md` | Current May 15 queue, roadmap, security, supply-chain watch, no-lifecycle CI install hardening, AgentShield #86 evidence-pack provenance, ECC Tools billing-gate, Actions cache purge, and `ecc2` test evidence through PR #1941 | Must be superseded by a final clean-checkout evidence file before real publication |
-| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-16.md` | Current May 16/17 queue cleanup, recsys skill merge, GateGuard triage, PR #1947 supply-chain protection, AgentShield #87 plugin-cache confidence evidence, AgentShield #88 evidence-pack inspect/readback, AgentShield #89 evidence-pack fleet routing, AgentShield #90 fleet review items, AgentShield #91 policy export, AgentShield #92 policy promotion, ECC-Tools #76 fleet-summary consumption, ECC-Tools #77 hosted finding evidence paths, ECC-Tools #78 harness policy-route linking, dashboard refresh, and combined Node/Rust/release-surface gate evidence through the May 16 mirror | Must still be repeated from a strict clean checkout before real publication |
-| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-17.md` | May 17 queue-zero state, Japanese localization merge, Dependabot TypeScript and Node type merges, post-merge ja-JP lint repair, Mini Shai-Hulud/TanStack protection recheck, npm audit/signature checks, legacy and Linear progress routing, deterministic preview-pack smoke, operator dashboard refresh, Linear sync, and GitHub CI evidence for `27dc2918` | Superseded by the May 18 evidence snapshot; repeat from a strict clean checkout before real publication |
-| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-18.md` | May 18 queue-zero state, #1970/#1971/#1972 merge batch, #1978 review/closure, supply-chain recheck, AgentShield evidence mirror, Linear sync, current-head CI/security scan success for `4470e2e6`, and ITO-46 naming/plugin publication closure | Superseded by the May 19 ECC identity, video, and growth evidence snapshot |
-| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-19.md` | Current May 19/20 evidence for canonical ECC identity, release video suite, partner/sponsor/talk outreach pack, owner approval packet, release approval gate, May 20 operator dashboard, preview-pack smoke digest `eebb8a66c33e`, 2568-test local suite, PR #1998 visual QA CI success, PR #1999 dashboard evidence CI success, PR #2000 suite-count evidence success, PR #2001 owner approval packet CI success, PR #2002 owner-approval dashboard gate CI success, PR #2004 Linear readiness evidence sync CI success, PR #2008 supply-chain evidence gate CI success, post-PR #2006 main CI success, PR #2009 project-registry hygiene CI success, post-PR #2009 main CI success, post-PR #2011 GateGuard CI success, post-PR #2013 release-approval-gate CI success, PR #2017/#2018 AgentShield evidence sync, ECC-Tools #79 billing-announcement redaction hardening, ECC-Tools #80-#93 runtime-receipt, AgentShield approval-ID, Linear sync, remediation sync, hosted observability event/status/depth-plan/API readback, Marketplace Pro selected-target readback, selected-target announcement gate, env-file billing operator path, non-breaking operator bearer path, live `announcementGateReady: true`, AgentShield #94 Zed/VS Code adapter coverage, AgentShield #95 Dependabot alert closure, JARVIS #15/#16 queue/deploy repair, ECC #2019/#2020 Marketplace Pro gate sync, and the May 19/20 Linear sync comments | Current strongest readiness snapshot; must still be repeated from a strict clean checkout before real publication |
-| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-17.md` | Previous prompt-to-artifact operator dashboard | Superseded by the May 18 generated dashboard |
-| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-18.md` | Previous prompt-to-artifact operator dashboard | Superseded by the May 19 generated dashboard |
-| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-19.md` | Previous prompt-to-artifact operator dashboard | Superseded by the May 20 generated dashboard |
-| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-20.md` | Current prompt-to-artifact operator dashboard | Shows PR/issue/discussion/platform/supply-chain gates current and adds the current `$1,728/mo` to `$10,000/mo` hypergrowth, video owner-approval, Linear release-gate sync, selected-target billing gate, operator bearer path, live billing gate pass, and outbound-pack operating lanes |
-| `docs/releases/2.0.0-rc.1/owner-approval-packet-2026-05-19.md` | Final human decision sheet for release, package, plugin, video, billing, social, and outbound approvals | Must be reviewed by the owner before any publication or outbound action |
-| `docs/releases/2.0.0-rc.1/release-url-ledger-2026-05-19.md` | Live URL and approval-gated URL ledger for release copy | Must be regenerated from the final release commit before public announcements |
-| `docs/releases/2.0.0-rc.1/video-suite-production.md` | Release video production manifest | Gates local media inventory, rough primary render, captions, timeline, self-eval, and no-private-path publication rules |
-| `docs/releases/2.0.0-rc.1/partner-sponsor-talks-pack.md` | Partner, sponsor, consulting, conference, podcast, and discussion copy | Must stay approval-gated and avoid live billing, release, package, or plugin claims without evidence |
-| `docs/releases/2.0.0-rc.1/naming-and-publication-matrix.md` | Naming, slug, and publication-path decision record | Keeps `ECC`, npm `ecc-universal`, and plugin slug `ecc` for rc.1 |
-| `docs/releases/2.0.0-rc.1/release-name-plugin-publication-checklist-2026-05-18.md` | Release name, package, Claude plugin, Codex plugin, and publication-order checklist | Freezes rc.1 identity and requires final commit evidence before plugin, billing, or announcement actions |
-| `docs/releases/2.0.0-rc.1/x-thread.md` | X launch draft | Must use live GitHub/npm URLs and keep remaining plugin/video/billing URLs gated |
-| `docs/releases/2.0.0-rc.1/linkedin-post.md` | LinkedIn launch draft | Must use live GitHub/npm URLs and keep remaining plugin/video/billing URLs gated |
-| `docs/releases/2.0.0-rc.1/article-outline.md` | Longform launch outline | Must stay release-candidate framed until GA evidence exists |
-| `docs/releases/2.0.0-rc.1/telegram-handoff.md` | Internal/shareable handoff copy | Must not include private workspace or credential details |
-| `docs/releases/2.0.0-rc.1/demo-prompts.md` | Demo prompts and proof-of-work prompts | Must keep private Hermes workflows abstracted into public examples |
-| `docs/releases/2.0.0-rc.1/ito-prediction-market-skill-pack.md` | Public Itô skill-pack distribution note | Keeps Itô API access gated, non-advisory, and separate from ECC Tools billing |
+| `README.md` | 公開オンボードとインストール surface | Hermes setup、rc.1 ノート、プラグインインストール、手動インストール、リセット、アンインストールガイドへのリンク |
+| `docs/HERMES-SETUP.md` | 公開 Hermes オペレータートポロジー | raw workspace export、credentials、private account 名、local-only オペレーター状態を含まない |
+| `skills/hermes-imports/SKILL.md` | サニタイズ済み Hermes-to-ECC インポートワークフロー | インポートルール、サニタイズチェックリスト、変換パターン、出力コントラクトを含む |
+| `docs/architecture/cross-harness.md` | Claude Code、Codex、OpenCode、Cursor、Gemini、Hermes、terminal-only 利用向けの共有 substrate モデル | ポータビリティ境界を命名し、サポートされていない native parity を主張しない |
+| `docs/architecture/harness-adapter-compliance.md` | Adapter マトリクスとスコアカード | `npm run harness:adapters -- --check` で検証 |
+| `docs/architecture/platform-value-loop.md` | プロダクト統合とフルスタックプラットフォーム thesis | 外部プロダクト skill pack、gated API、case study、sponsorship、Pro、consulting loop を、サポートされていない GA/control-pane 主張から分離して維持 |
+| `docs/architecture/observability-readiness.md` | ローカルオペレーター readiness ゲート | `npm run observability:ready` で検証 |
+| `docs/architecture/progress-sync-contract.md` | GitHub、Linear、handoff、roadmap、work-item sync 境界 | `node scripts/platform-audit.js --json` でチェック |
+| `scripts/preview-pack-smoke.js` | 決定論的 preview-pack smoke ゲート | `npm run preview-pack:smoke` で検証 |
+| `scripts/release-approval-gate.js` | 最終オーナー決定、live-URL、ローンチコピーゲート | 追加のリリース/パッケージアクション、プラグイン tag、video アップロード、告知、outbound batch の前に ready true を返すこと |
+| `docs/releases/2.0.0-rc.1/release-notes.md` | GitHub リリースコピーソース | 公開前に live GitHub/npm URL と残りのプラグイン/video/billing ゲートと整合していること |
+| `docs/releases/2.0.0-rc.1/quickstart.md` | clone から最初のワークフローまでのパス | clone、install、verify、最初の skill、harness 切り替えをカバー |
+| `docs/releases/2.0.0-rc.1/launch-checklist.md` | オペレーターローンチチェックリスト | プラグイン、video、billing、告知アクションについて approval-gated のまま維持 |
+| `docs/releases/2.0.0-rc.1/publication-readiness.md` | リリースゲート | 正確なリリースコミットからの新鮮な証拠を要求 |
+| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-15.md` | 現在の May 15 キュー、roadmap、security、supply-chain watch、no-lifecycle CI install hardening、AgentShield #86 evidence-pack provenance、ECC Tools billing-gate、Actions cache purge、`ecc2` test 証拠（PR #1941 まで） | 実際の公開前に最終 clean-checkout 証拠ファイルで置き換えること |
+| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-16.md` | 現在の May 16/17 キュークリーンアップ、recsys skill merge、GateGuard triage、PR #1947 supply-chain protection、AgentShield #87 plugin-cache confidence evidence、AgentShield #88 evidence-pack inspect/readback、AgentShield #89 evidence-pack fleet routing、AgentShield #90 fleet review items、AgentShield #91 policy export、AgentShield #92 policy promotion、ECC-Tools #76 fleet-summary consumption、ECC-Tools #77 hosted finding evidence paths、ECC-Tools #78 harness policy-route linking、dashboard refresh、May 16 mirror までの combined Node/Rust/release-surface gate 証拠 | 実際の公開前に strict clean checkout から再実行が必要 |
+| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-17.md` | May 17 queue-zero 状態、日本語ローカライゼーション merge、Dependabot TypeScript と Node type merge、merge 後の ja-JP lint 修復、Mini Shai-Hulud/TanStack protection recheck、npm audit/signature チェック、legacy と Linear progress routing、決定論的 preview-pack smoke、オペレーターダッシュボード refresh、Linear sync、`27dc2918` の GitHub CI 証拠 | May 18 証拠スナップショットで置き換え済み; 実際の公開前に strict clean checkout から再実行 |
+| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-18.md` | May 18 queue-zero 状態、#1970/#1971/#1972 merge batch、#1978 review/closure、supply-chain recheck、AgentShield evidence mirror、Linear sync、`4470e2e6` の current-head CI/security scan 成功、ITO-46 naming/plugin publication closure | May 19 ECC identity、video、growth 証拠スナップショットで置き換え済み |
+| `docs/releases/2.0.0-rc.1/publication-evidence-2026-05-19.md` | 現在の May 19/20 証拠（正規 ECC identity、リリース video suite、partner/sponsor/talk outreach pack、オーナー承認パケット、release approval gate、May 20 オペレーターダッシュボード、preview-pack smoke digest `eebb8a66c33e`、2568-test ローカルスイート、PR #1998 visual QA CI 成功、PR #1999 dashboard evidence CI 成功、PR #2000 suite-count evidence 成功、PR #2001 owner approval packet CI 成功、PR #2002 owner-approval dashboard gate CI 成功、PR #2004 Linear readiness evidence sync CI 成功、PR #2008 supply-chain evidence gate CI 成功、post-PR #2006 main CI 成功、PR #2009 project-registry hygiene CI 成功、post-PR #2009 main CI 成功、post-PR #2011 GateGuard CI 成功、post-PR #2013 release-approval-gate CI 成功、PR #2017/#2018 AgentShield evidence sync、ECC-Tools #79 billing-announcement redaction hardening、ECC-Tools #80-#93 runtime-receipt、AgentShield approval-ID、Linear sync、remediation sync、hosted observability event/status/depth-plan/API readback、Marketplace Pro selected-target readback、selected-target announcement gate、env-file billing オペレーターパス、non-breaking operator bearer path、live `announcementGateReady: true`、AgentShield #94 Zed/VS Code adapter coverage、AgentShield #95 Dependabot alert closure、JARVIS #15/#16 queue/deploy repair、ECC #2019/#2020 Marketplace Pro gate sync、May 19/20 Linear sync コメント） | 現在の最強 readiness スナップショット; 実際の公開前に strict clean checkout から再実行が必要 |
+| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-17.md` | 以前の prompt-to-artifact オペレーターダッシュボード | May 18 生成ダッシュボードで置き換え済み |
+| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-18.md` | 以前の prompt-to-artifact オペレーターダッシュボード | May 19 生成ダッシュボードで置き換え済み |
+| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-19.md` | 以前の prompt-to-artifact オペレーターダッシュボード | May 20 生成ダッシュボードで置き換え済み |
+| `docs/releases/2.0.0-rc.1/operator-readiness-dashboard-2026-05-20.md` | 現在の prompt-to-artifact オペレーターダッシュボード | PR/issue/discussion/platform/supply-chain ゲートが current であることを示し、現在の `$1,728/mo` から `$10,000/mo` の hypergrowth、video オーナー承認、Linear release-gate sync、selected-target billing gate、operator bearer path、live billing gate pass、outbound-pack 運用レーンを追加 |
+| `docs/releases/2.0.0-rc.1/owner-approval-packet-2026-05-19.md` | リリース、パッケージ、プラグイン、video、billing、ソーシャル、outbound 承認の最終人間判断シート | 公開または outbound アクションの前にオーナーがレビューすること |
+| `docs/releases/2.0.0-rc.1/release-url-ledger-2026-05-19.md` | リリースコピー向け live URL と approval-gated URL ledger | 公開告知前に最終リリースコミットから再生成すること |
+| `docs/releases/2.0.0-rc.1/video-suite-production.md` | リリース video 制作マニフェスト | ローカルメディアインベントリ、rough primary render、captions、timeline、self-eval、no-private-path 公開ルールをゲート |
+| `docs/releases/2.0.0-rc.1/partner-sponsor-talks-pack.md` | パートナー、sponsor、consulting、conference、podcast、discussion コピー | approval-gated のまま維持し、証拠なしに live billing、リリース、パッケージ、プラグイン主張を避ける |
+| `docs/releases/2.0.0-rc.1/naming-and-publication-matrix.md` | 命名、slug、公開パス決定記録 | rc.1 では `ECC`、npm `ecc-universal`、プラグイン slug `ecc` を維持 |
+| `docs/releases/2.0.0-rc.1/release-name-plugin-publication-checklist-2026-05-18.md` | リリース名、パッケージ、Claude plugin、Codex plugin、公開順序チェックリスト | rc.1 identity を凍結し、プラグイン、billing、告知アクション前に最終コミット証拠を要求 |
+| `docs/releases/2.0.0-rc.1/x-thread.md` | X ローンチドラフト | live GitHub/npm URL を使用し、残りのプラグイン/video/billing URL を gated のまま維持 |
+| `docs/releases/2.0.0-rc.1/linkedin-post.md` | LinkedIn ローンチドラフト | live GitHub/npm URL を使用し、残りのプラグイン/video/billing URL を gated のまま維持 |
+| `docs/releases/2.0.0-rc.1/article-outline.md` | Longform ローンチアウトライン | GA 証拠が存在するまで release-candidate フレーミングを維持 |
+| `docs/releases/2.0.0-rc.1/telegram-handoff.md` | 内部/共有可能 handoff コピー | private workspace または credential 詳細を含まない |
+| `docs/releases/2.0.0-rc.1/demo-prompts.md` | デモプロンプトと proof-of-work プロンプト | private Hermes ワークフローを公開例に抽象化したまま維持 |
+| `docs/releases/2.0.0-rc.1/ito-prediction-market-skill-pack.md` | 公開 Itô skill-pack 配布ノート | Itô API アクセスを gated、non-advisory のまま維持し、ECC Tools billing から分離 |
 
-## Itô Skill Pack Boundary
+## Itô Skill Pack 境界 (Itô Skill Pack Boundary)
 
-The general product-integration contract is recorded in
-`docs/architecture/platform-value-loop.md`. The Itô pack is the first worked
-example: useful public workflows, separate gated API access, and sanitized
-operator patterns feeding back into ECC without merging business ownership.
+一般的なプロダクト統合コントラクトは `docs/architecture/platform-value-loop.md` に記録されている。Itô pack は最初の実例: 有用な公開ワークフロー、別個の gated API アクセス、ECC にフィードバックするサニタイズ済みオペレーターパターンで、ビジネス所有権をマージしない。
 
-The preview pack includes six public teaser skills for prediction-market and
-Itô-adjacent workflows:
+プレビューパックには prediction-market と Itô 隣接ワークフロー向けの 6 つの公開 teaser skill が含まれる:
 
 - `skills/ito-market-intelligence/SKILL.md`
 - `skills/ito-basket-compare/SKILL.md`
@@ -62,45 +55,39 @@ Itô-adjacent workflows:
 - `skills/prediction-market-oracle-research/SKILL.md`
 - `skills/prediction-market-risk-review/SKILL.md`
 
-They are research, comparison, planning, and risk-review skills. They do not
-place trades, do not provide investment advice, and do not merge ECC Tools with
-Itô. Any Itô-backed data call requires explicit gated API access through
-`ITO_API_KEY`.
+これらは research、comparison、planning、risk-review skill である。取引は行わず、投資助言は提供せず、ECC Tools と Itô をマージしない。Itô バックのデータ呼び出しには `ITO_API_KEY` を通じた明示的な gated API アクセスが必要。
 
-## Hermes Skill Boundary
+## Hermes Skill 境界 (Hermes Skill Boundary)
 
-The preview pack includes one public Hermes-specialized skill:
+プレビューパックには 1 つの公開 Hermes 特化 skill が含まれる:
 
 - `skills/hermes-imports/SKILL.md`
 
-That is intentional for rc.1. The skill is a sanitization and conversion
-workflow, not a dump of private Hermes automations. Additional Hermes-generated
-skills should enter ECC only after they pass the same rules:
+これは rc.1 では意図的である。この skill はサニタイズと変換ワークフローであり、private Hermes automation のダンプではない。追加の Hermes 生成 skill は、同じルールを通過した後にのみ ECC に入ること:
 
-- no raw workspace exports;
-- no live account names, client data, finance data, CRM data, health data, or
-  private contact graph;
-- provider requirements described by capability, not by secret value;
-- repo-relative examples instead of local absolute paths;
-- tests or docs proving the workflow is useful without private state.
+- raw workspace export なし;
+- live account 名、client データ、finance データ、CRM データ、health データ、private contact graph なし;
+- secret 値ではなく capability で記述された provider 要件;
+- local absolute path の代わりに repo-relative 例;
+- private state なしでワークフローが有用であることを証明する test または docs。
 
-## Reference-Inspired Adapter Direction
+## 参照に触発された Adapter 方向 (Reference-Inspired Adapter Direction)
 
-The preview pack uses outside systems as design pressure, not as copy targets:
+プレビューパックは外部システムをコピー対象ではなく設計圧力として使用する:
 
-| Reference pressure | ECC preview-pack interpretation |
+| 参照圧力 (Reference pressure) | ECC preview-pack の解釈 (ECC preview-pack interpretation) |
 | --- | --- |
-| Claude Code | Native plugin, skills, commands, hooks, MCP conventions, and statusline-oriented workflows |
-| Codex | Instruction-backed plugin metadata, shared skills, MCP reference config, and explicit hook-parity caveats |
-| OpenCode | Adapter-backed package/plugin surface with shared hook logic at the edge |
-| Zed-adjacent tools | Instruction-backed portability until a verified native adapter exists |
-| dmux | Session/runtime orchestration signals and handoff exports, not a replacement for repo validation |
-| Orca, Superset, Ghast | Reference-only pressure for worktree lifecycle, session grouping, notifications, and workspace presets |
-| Hermes Agent, meta-harness, autocontext-style systems | Evaluation, memory, and context-routing pressure routed through public artifacts, verifier outputs, and the evaluator/RAG prototype |
+| Claude Code | Native plugin、skills、commands、hooks、MCP 規約、statusline 指向ワークフロー |
+| Codex | Instruction-backed plugin metadata、共有 skills、MCP reference config、明示的な hook-parity 注意事項 |
+| OpenCode | 共有 hook logic を edge に持つ adapter-backed package/plugin surface |
+| Zed-adjacent tools | 検証済み native adapter が存在するまでの instruction-backed ポータビリティ |
+| dmux | Session/runtime orchestration シグナルと handoff export。repo validation の代替ではない |
+| Orca, Superset, Ghast | Worktree lifecycle、session grouping、notification、workspace preset 向けの reference-only 圧力 |
+| Hermes Agent, meta-harness, autocontext-style systems | 公開 artifact、verifier 出力、evaluator/RAG prototype を通じた evaluation、memory、context-routing 圧力 |
 
-## Final Verification Commands
+## 最終検証コマンド (Final Verification Commands)
 
-Run these from the exact release commit before publication:
+公開前に正確なリリースコミットからこれらを実行すること:
 
 ```bash
 git status --short --branch
@@ -119,31 +106,20 @@ node tests/run-all.js
 cd ecc2 && cargo test
 ```
 
-## Publication Blockers
+## 公開ブロッカー (Publication Blockers)
 
-The preview pack is assembled, and the first release/package surfaces are now
-live. Full publication is still blocked until these live surfaces and decisions
-are recorded in a final evidence file:
+プレビューパックは組み立て済みであり、最初のリリース/パッケージ surface は現在 live である。完全な公開は、これらの live surface と決定が最終証拠ファイルに記録されるまでブロックされたままである:
 
-- final release URL ledger regenerated from the intended release commit;
-- `npm run release:approval-gate -- --format json` returning ready true after
-  owner approvals and live URL readbacks are recorded;
-- final release name/plugin publication checklist rerun from the intended
-  release commit;
+- 意図したリリースコミットから再生成された最終リリース URL ledger;
+- オーナー承認と live URL readback が記録された後に `npm run release:approval-gate -- --format json` が ready true を返すこと;
+- 意図したリリースコミットから再実行された最終リリース名/プラグイン公開チェックリスト;
 - GitHub prerelease `v2.0.0-rc.1` live readback;
-- npm `ecc-universal@2.0.0-rc.1` on the `next` dist-tag live readback;
-- Claude plugin tag / marketplace propagation for `ecc@ecc`;
-- Codex repo-marketplace distribution evidence plus official Plugin Directory
-  availability status;
-- final announcement URLs in X, LinkedIn, GitHub release, and longform copy;
-- ECC Tools billing/product readiness evidence remains fresh: the May 20
-  selected-target KV readback and live announcement gate passed through the
-  operator bearer path. Repeat the billing readback and gate immediately before
-  any native-payments announcement copy is published.
+- `next` dist-tag 上の npm `ecc-universal@2.0.0-rc.1` live readback;
+- `ecc@ecc` 向け Claude プラグイン tag / marketplace 伝播;
+- Codex repo-marketplace 配布証拠と公式 Plugin Directory 可用性ステータス;
+- X、LinkedIn、GitHub release、longform コピー内の最終告知 URL;
+- ECC Tools billing/プロダクト readiness 証拠が新鮮なまま: May 20 selected-target KV readback と live announcement gate が operator bearer path を通過。native-payments 告知コピーを公開する前に billing readback と gate を直前に再実行すること。
 
-## Result
+## 結果 (Result)
 
-The rc.1 preview pack is ready for a final clean-checkout release gate, but not
-for full public publication without the remaining approval-gated release, package, plugin, and
-announcement steps above. GitHub and npm are now recorded; plugin, video,
-billing, and outbound approvals remain open.
+rc.1 プレビューパックは最終 clean-checkout リリースゲートの準備ができているが、上記の残りの approval-gated リリース、パッケージ、プラグイン、告知ステップなしでは完全な公開には至らない。GitHub と npm は記録済み; プラグイン、video、billing、outbound 承認は未完了のまま。

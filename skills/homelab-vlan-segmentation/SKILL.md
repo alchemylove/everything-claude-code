@@ -4,7 +4,7 @@ description: Segmenting home networks into VLANs for IoT, guest, trusted, and se
 origin: community
 ---
 
-# Homelab VLAN Segmentation
+# Homelab VLAN Segmentation (Homelab VLAN Segmentation)
 
 How to split a home network into isolated VLANs so IoT devices, guests, and your main
 PCs cannot talk to each other. The most impactful security upgrade for a home network.
@@ -13,7 +13,7 @@ All firewall rules shown here add isolation between segments — they do not rem
 existing protections. Apply changes in a maintenance window and verify connectivity
 between segments after each step before moving on.
 
-## When to Use
+## When to Use (When to Use)
 
 - Setting up VLANs on a home network for the first time
 - Isolating IoT devices (smart bulbs, cameras, TVs) from trusted devices
@@ -22,7 +22,7 @@ between segments after each step before moving on.
 - Configuring trunk ports, access ports, and SSID-to-VLAN mapping
 - Troubleshooting inter-VLAN routing or firewall rule issues on pfSense/OPNsense/UniFi
 
-## How It Works
+## How It Works (How It Works)
 
 ```
 Without VLANs — flat network:
@@ -40,7 +40,7 @@ With VLANs:
   Guests → internet only, cannot see any home devices
 ```
 
-## VLAN Design Template
+## VLAN Design Template (VLAN Design Template)
 
 ```
 VLAN  Name        Subnet              Gateway         Purpose
@@ -51,7 +51,7 @@ VLAN  Name        Subnet              Gateway         Purpose
 99    management  192.168.99.0/24     192.168.99.1    Network gear web UIs
 ```
 
-## Examples
+## Examples (Examples)
 
 **Typical homelab with UniFi AP and managed switch:**
 
@@ -84,9 +84,9 @@ Firewall rules applied (all rules add isolation, none remove existing protection
   Trusted → everywhere: ALLOW
 ```
 
-## UniFi Configuration
+## UniFi Configuration (UniFi Configuration)
 
-### Create Networks in UniFi Controller
+### Create Networks in UniFi Controller (Create Networks in UniFi Controller)
 
 ```
 Settings → Networks → Create New Network
@@ -101,7 +101,7 @@ For each VLAN:
   DHCP Range: 192.168.20.100 – 192.168.20.254
 ```
 
-### Map SSIDs to VLANs (UniFi)
+### Map SSIDs to VLANs (Map SSIDs to VLANs)
 
 ```
 Settings → WiFi → Create New WiFi
@@ -117,7 +117,7 @@ Settings → WiFi → Create New WiFi
   Guest Policy: Enable  ← isolates guests from each other too
 ```
 
-### UniFi Firewall Rules (Traffic Rules)
+### UniFi Firewall Rules (UniFi Firewall Rules)
 
 ```
 Settings → Traffic & Security → Traffic Rules
@@ -139,9 +139,9 @@ Settings → Traffic & Security → Traffic Rules
   Destination: Local Networks
 ```
 
-## pfSense / OPNsense Configuration
+## pfSense / OPNsense Configuration (pfSense / OPNsense Configuration)
 
-### Create VLANs
+### Create VLANs (Create VLANs)
 
 ```
 Interfaces → Assignments → VLANs → Add
@@ -156,7 +156,7 @@ Interfaces → Assignments → Add
   Enable the interface, set IP to gateway address (192.168.20.1/24)
 ```
 
-### DHCP for Each VLAN
+### DHCP for Each VLAN (DHCP for Each VLAN)
 
 ```
 Services → DHCP Server → Select your VLAN interface
@@ -166,7 +166,7 @@ Services → DHCP Server → Select your VLAN interface
   DNS Servers: 192.168.30.2  ← Pi-hole IP if you have one
 ```
 
-### Firewall Rules (pfSense/OPNsense)
+### Firewall Rules (Firewall Rules)
 
 ```
 # Rules are processed top-to-bottom, first match wins.
@@ -204,7 +204,7 @@ Services → DHCP Server → Select your VLAN interface
     Action: Allow
 ```
 
-## MikroTik Configuration
+## MikroTik Configuration (MikroTik Configuration)
 
 ```
 # Step 1: Create a bridge with VLAN filtering enabled
@@ -258,7 +258,7 @@ add chain=forward src-address=192.168.20.0/24 dst-address=192.168.10.0/24 \
     action=drop comment="Block IoT to Trusted"
 ```
 
-## Switch Trunk vs Access Ports
+## Switch Trunk vs Access Ports (Switch Trunk vs Access Ports)
 
 ```
 # Trunk port: carries multiple VLANs (tagged) — connects switch-to-switch, switch-to-router, switch-to-AP
@@ -276,7 +276,7 @@ add chain=forward src-address=192.168.20.0/24 dst-address=192.168.10.0/24 \
   Allowed VLANs: 10, 20, 40  (whichever SSIDs the AP serves)
 ```
 
-## Anti-Patterns
+## Anti-Patterns (Anti-Patterns)
 
 ```
 # BAD: Creating VLANs without adding firewall rules
@@ -295,7 +295,7 @@ add chain=forward src-address=192.168.20.0/24 dst-address=192.168.10.0/24 \
 # Anyone who learns the password can connect IoT devices to the wrong segment
 ```
 
-## Best Practices
+## Best Practices (Best Practices)
 
 - Start with 4 VLANs: Trusted, IoT, Servers, Guest — add more as needed
 - Put Pi-hole in the Servers VLAN (192.168.30.x)
@@ -304,7 +304,7 @@ add chain=forward src-address=192.168.20.0/24 dst-address=192.168.10.0/24 \
 - Use a management VLAN for switch and AP web UIs and restrict access to the Trusted VLAN only
 - Document your VLAN design in a table (VLAN ID, name, subnet, purpose)
 
-## Related Skills
+## Related Skills (Related Skills)
 
 - homelab-network-setup
 - homelab-pihole-dns

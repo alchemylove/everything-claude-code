@@ -4,11 +4,11 @@ description: Discover and evaluate Laravel packages via LaraPlugins.io MCP. Use 
 origin: ECC
 ---
 
-# Laravel Plugin Discovery
+# Laravel Plugin Discovery (Laravel Plugin Discovery)
 
 Find, evaluate, and choose healthy Laravel packages using the LaraPlugins.io MCP server.
 
-## When to Use
+## When to Use (When to Use)
 
 - User wants to find Laravel packages for a specific feature (e.g. "auth", "permissions", "admin panel")
 - User asks "what package should I use for..." or "is there a Laravel package for..."
@@ -16,7 +16,7 @@ Find, evaluate, and choose healthy Laravel packages using the LaraPlugins.io MCP
 - User needs to verify Laravel version compatibility
 - User wants to assess package health before adding to a project
 
-## MCP Requirement
+## MCP Requirement (MCP Requirement)
 
 LaraPlugins MCP server must be configured. Add to your `~/.claude.json` mcpServers:
 
@@ -29,11 +29,11 @@ LaraPlugins MCP server must be configured. Add to your `~/.claude.json` mcpServe
 
 No API key required — the server is free for the Laravel community.
 
-## MCP Tools
+## MCP Tools (MCP Tools)
 
 The LaraPlugins MCP provides two primary tools:
 
-### SearchPluginTool
+### SearchPluginTool (SearchPluginTool)
 
 Search packages by keyword, health score, vendor, and version compatibility.
 
@@ -45,7 +45,7 @@ Search packages by keyword, health score, vendor, and version compatibility.
 - `vendor_filter` (string, optional): Filter by vendor name (e.g. "spatie", "laravel")
 - `page` (number, optional): Page number for pagination
 
-### GetPluginDetailsTool
+### GetPluginDetailsTool (GetPluginDetailsTool)
 
 Fetch detailed metrics, readme content, and version history for a specific package.
 
@@ -55,9 +55,9 @@ Fetch detailed metrics, readme content, and version history for a specific packa
 
 ---
 
-## How It Works
+## How It Works (How It Works)
 
-### Finding Packages
+### Finding Packages (Finding Packages)
 
 When the user wants to discover packages for a feature:
 
@@ -65,7 +65,7 @@ When the user wants to discover packages for a feature:
 2. Apply filters for health score, Laravel version, or PHP version
 3. Review the results with package names, descriptions, and health indicators
 
-### Evaluating Packages
+### Evaluating Packages (Evaluating Packages)
 
 When the user wants to assess a specific package:
 
@@ -73,7 +73,7 @@ When the user wants to assess a specific package:
 2. Review health score, last updated date, Laravel version support
 3. Check vendor reputation and risk indicators
 
-### Checking Compatibility
+### Checking Compatibility (Checking Compatibility)
 
 When the user needs Laravel or PHP version compatibility:
 
@@ -82,9 +82,9 @@ When the user needs Laravel or PHP version compatibility:
 
 ---
 
-## Examples
+## Examples (Examples)
 
-### Example: Find Authentication Packages
+### Example: Find Authentication Packages (Example: Find Authentication Packages)
 
 ```
 SearchPluginTool({
@@ -99,7 +99,7 @@ Returns packages matching "authentication" with healthy status:
 - laravel/passport
 - etc.
 
-### Example: Find Laravel 12 Compatible Packages
+### Example: Find Laravel 12 Compatible Packages (Example: Find Laravel 12 Compatible Packages)
 
 ```
 SearchPluginTool({
@@ -110,7 +110,7 @@ SearchPluginTool({
 
 Returns packages compatible with Laravel 12.
 
-### Example: Get Package Details
+### Example: Get Package Details (Example: Get Package Details)
 
 ```
 GetPluginDetailsTool({
@@ -126,7 +126,7 @@ Returns:
 - Version history
 - Brief description
 
-### Example: Find Packages by Vendor
+### Example: Find Packages by Vendor (Example: Find Packages by Vendor)
 
 ```
 SearchPluginTool({
@@ -139,9 +139,9 @@ Returns all healthy packages from vendor "spatie".
 
 ---
 
-## Filtering Best Practices
+## Filtering Best Practices (Filtering Best Practices)
 
-### By Health Score
+### By Health Score (By Health Score)
 
 | Health Band | Meaning |
 |-------------|---------|
@@ -152,7 +152,7 @@ Returns all healthy packages from vendor "spatie".
 
 **Recommendation**: Prefer `Healthy` packages for production applications.
 
-### By Laravel Version
+### By Laravel Version (By Laravel Version)
 
 | Version | Notes |
 |---------|-------|
@@ -164,7 +164,7 @@ Returns all healthy packages from vendor "spatie".
 
 **Recommendation**: Match the target project's Laravel version.
 
-### Combining Filters
+### Combining Filters (Combining Filters)
 
 ```typescript
 // Find healthy, Laravel 12 compatible packages for permissions
@@ -177,9 +177,9 @@ SearchPluginTool({
 
 ---
 
-## Response Interpretation
+## Response Interpretation (Response Interpretation)
 
-### Search Results
+### Search Results (Search Results)
 
 Each result includes:
 - Package name (e.g. `spatie/laravel-permission`)
@@ -187,7 +187,7 @@ Each result includes:
 - Health status indicator
 - Laravel version support badges
 
-### Package Details
+### Package Details (Package Details)
 
 The detailed response includes:
 - **Health Score**: Numeric or band indicator
@@ -199,7 +199,7 @@ The detailed response includes:
 
 ---
 
-## Common Use Cases
+## Common Use Cases (Common Use Cases)
 
 | Scenario | Recommended Approach |
 |----------|---------------------|
@@ -211,7 +211,7 @@ The detailed response includes:
 
 ---
 
-## Best Practices
+## Best Practices (Best Practices)
 
 1. **Always filter by health** — Use `health_score: "Healthy"` for production projects
 2. **Match Laravel version** — Always check `laravel_compatibility` matches the target project
@@ -221,7 +221,7 @@ The detailed response includes:
 
 ---
 
-## Related Skills
+## Related Skills (Related Skills)
 
 - `laravel-patterns` — Laravel architecture and patterns
 - `laravel-tdd` — Test-driven development for Laravel

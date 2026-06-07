@@ -1,56 +1,59 @@
-# Skill Development Guide
+# Skill 開発ガイド (Skill Development Guide)
 
-A comprehensive guide to creating effective skills for Everything Claude Code (ECC).
+Everything Claude Code (ECC) 向けに効果的な skill を作成するための包括的ガイドです。
 
-## Table of Contents
+## 目次 (Table of Contents)
 
-- [What Are Skills?](#what-are-skills)
-- [Skill Architecture](#skill-architecture)
-- [Creating Your First Skill](#creating-your-first-skill)
-- [Skill Categories](#skill-categories)
-- [Writing Effective Skill Content](#writing-effective-skill-content)
-- [Best Practices](#best-practices)
-- [Common Patterns](#common-patterns)
-- [Testing Your Skill](#testing-your-skill)
-- [Submitting Your Skill](#submitting-your-skill)
-- [Examples Gallery](#examples-gallery)
+- [Skill とは?](#what-are-skills)
+- [Skill のアーキテクチャ](#skill-architecture)
+- [最初の Skill を作成する](#creating-your-first-skill)
+- [Skill のカテゴリ](#skill-categories)
+- [効果的な Skill コンテンツを書く](#writing-effective-skill-content)
+- [ベストプラクティス](#best-practices)
+- [共通パターン](#common-patterns)
+- [Skill をテストする](#testing-your-skill)
+- [Skill を提出する](#submitting-your-skill)
+- [サンプルギャラリー](#examples-gallery)
 
 ---
 
-## What Are Skills?
+<a id="what-are-skills"></a>
+## Skill とは? (What Are Skills?)
 
-Skills are **knowledge modules** that Claude Code loads based on context. They provide:
+Skill は、Claude Code がコンテキストに応じて読み込む**知識モジュール**です。skill は次のものを提供します。
 
-- **Domain expertise**: Framework patterns, language idioms, best practices
-- **Workflow definitions**: Step-by-step processes for common tasks
-- **Reference material**: Code snippets, checklists, decision trees
-- **Context injection**: Activate when specific conditions are met
+- **ドメイン専門知識**: フレームワークのパターン、言語イディオム、ベストプラクティス
+- **ワークフロー定義**: 一般的なタスク向けの段階的な手順
+- **参考資料**: コードスニペット、チェックリスト、意思決定ツリー
+- **コンテキスト注入**: 特定の条件に一致したときに有効化
 
-Unlike **agents** (specialized subassistants) or **commands** (user-triggered actions), skills are passive knowledge that Claude Code references when relevant.
+**agent**（専門特化したサブアシスタント）や **command**（ユーザー起点のアクション）と異なり、skill は Claude Code が関連時に参照する受動的な知識です。
 
-### When Skills Activate
+### Skill が有効化されるタイミング (When Skills Activate)
 
-Skills activate when:
-- The user's task matches the skill's domain
-- Claude Code detects relevant context
-- A command references a skill
-- An agent needs domain knowledge
+skill は次の場合に有効化されます。
 
-### Skill vs Agent vs Command
+- ユーザーのタスクが skill のドメインに一致する
+- Claude Code が関連するコンテキストを検出する
+- command が skill を参照する
+- agent がドメイン知識を必要とする
 
-| Component | Purpose | Activation |
+### Skill と Agent と Command の違い (Skill vs Agent vs Command)
+
+| コンポーネント | 目的 | 有効化方法 |
 |-----------|---------|------------|
-| **Skill** | Knowledge repository | Context-based (automatic) |
-| **Agent** | Task executor | Explicit delegation |
-| **Command** | User action | User-invoked (`/command`) |
-| **Hook** | Automation | Event-triggered |
-| **Rule** | Always-on guidelines | Always active |
+| **Skill** | 知識リポジトリ | コンテキストベース（自動） |
+| **Agent** | タスク実行者 | 明示的な委譲 |
+| **Command** | ユーザーアクション | ユーザー起動（`/command`） |
+| **Hook** | 自動化 | イベントトリガー |
+| **Rule** | 常時適用ガイドライン | 常に有効 |
 
 ---
 
-## Skill Architecture
+<a id="skill-architecture"></a>
+## Skill のアーキテクチャ (Skill Architecture)
 
-### File Structure
+### ファイル構成 (File Structure)
 
 ```
 skills/
@@ -63,7 +66,7 @@ skills/
         └── links.md
 ```
 
-### SKILL.md Format
+### SKILL.md の形式 (SKILL.md Format)
 
 ```markdown
 ---
@@ -104,40 +107,41 @@ Show what NOT to do with concrete examples.
 Link to complementary skills.
 ```
 
-### YAML Frontmatter Fields
+### YAML Frontmatter のフィールド (YAML Frontmatter Fields)
 
-| Field | Required | Description |
+| フィールド | 必須 | 説明 |
 |-------|----------|-------------|
-| `name` | Yes | Lowercase, hyphenated identifier (e.g., `react-patterns`) |
-| `description` | Yes | One-line description for skill list and auto-activation |
-| `origin` | No | Source identifier (e.g., `ECC`, `community`, project name) |
-| `tags` | No | Array of tags for categorization |
-| `version` | No | Skill version for tracking updates |
+| `name` | はい | 小文字のハイフン区切り識別子（例: `react-patterns`） |
+| `description` | はい | skill 一覧表示と自動有効化に使う 1 行説明 |
+| `origin` | いいえ | 出所を示す識別子（例: `ECC`, `community`, project name） |
+| `tags` | いいえ | カテゴリ分け用のタグ配列 |
+| `version` | いいえ | 更新追跡用の skill バージョン |
 
 ---
 
-## Creating Your First Skill
+<a id="creating-your-first-skill"></a>
+## 最初の Skill を作成する (Creating Your First Skill)
 
-### Step 1: Choose a Focus
+### ステップ 1: 焦点を選ぶ (Step 1: Choose a Focus)
 
-Good skills are **focused and actionable**:
+良い skill は**焦点が明確で、実行可能**です。
 
-| PASS: Good Focus | FAIL: Too Broad |
+| PASS: 良い焦点 | FAIL: 広すぎる |
 |---------------|--------------|
 | `react-hook-patterns` | `react` |
 | `postgresql-indexing` | `databases` |
 | `pytest-fixtures` | `python-testing` |
 | `nextjs-app-router` | `nextjs` |
 
-### Step 2: Create the Directory
+### ステップ 2: ディレクトリを作成する (Step 2: Create the Directory)
 
 ```bash
 mkdir -p skills/your-skill-name
 ```
 
-### Step 3: Write SKILL.md
+### ステップ 3: SKILL.md を書く (Step 3: Write SKILL.md)
 
-Here's a minimal template:
+最小構成のテンプレートは次のとおりです。
 
 ```markdown
 ---
@@ -182,25 +186,26 @@ Another pattern with code.
 - `related-skill-2`
 ```
 
-### Step 4: Add Content
+### ステップ 4: コンテンツを追加する (Step 4: Add Content)
 
-Write content that Claude can **immediately use**:
+Claude が**すぐに使える**内容を書いてください。
 
-- PASS: Copy-pasteable code examples
-- PASS: Clear decision trees
-- PASS: Checklists for verification
-- FAIL: Vague explanations without examples
-- FAIL: Long prose without actionable guidance
+- PASS: そのままコピーして使えるコード例
+- PASS: 明確な意思決定ツリー
+- PASS: 検証用のチェックリスト
+- FAIL: 例のない曖昧な説明
+- FAIL: 実行可能なガイダンスのない長文説明
 
 ---
 
-## Skill Categories
+<a id="skill-categories"></a>
+## Skill のカテゴリ (Skill Categories)
 
-### Language Standards
+### 言語標準 (Language Standards)
 
-Focus on idiomatic code, naming conventions, and language-specific patterns.
+イディオマティックなコード、命名規則、言語固有のパターンに焦点を当てます。
 
-**Examples:** `python-patterns`, `golang-patterns`, `typescript-standards`
+**例:** `python-patterns`, `golang-patterns`, `typescript-standards`
 
 ```markdown
 ---
@@ -227,11 +232,11 @@ with open('file.txt') as f:
 \`\`\`
 ```
 
-### Framework Patterns
+### フレームワークパターン (Framework Patterns)
 
-Focus on framework-specific conventions, common patterns, and anti-patterns.
+フレームワーク固有の規約、一般的なパターン、アンチパターンに焦点を当てます。
 
-**Examples:** `django-patterns`, `nextjs-patterns`, `springboot-patterns`
+**例:** `django-patterns`, `nextjs-patterns`, `springboot-patterns`
 
 ```markdown
 ---
@@ -248,11 +253,11 @@ description: Django best practices for models, views, URLs, and templates.
 - Django URL configuration
 ```
 
-### Workflow Skills
+### ワークフロー Skill (Workflow Skills)
 
-Define step-by-step processes for common development tasks.
+一般的な開発タスク向けの段階的な手順を定義します。
 
-**Examples:** `tdd-workflow`, `code-review-workflow`, `deployment-checklist`
+**例:** `tdd-workflow`, `code-review-workflow`, `deployment-checklist`
 
 ```markdown
 ---
@@ -271,11 +276,11 @@ description: Systematic code review process for quality and security.
 5. **Verify Style** - Ensure code follows conventions
 ```
 
-### Domain Knowledge
+### ドメイン知識 (Domain Knowledge)
 
-Specialized knowledge for specific domains (security, performance, etc.).
+特定のドメイン向けの専門知識です（security、performance など）。
 
-**Examples:** `security-review`, `performance-optimization`, `api-design`
+**例:** `security-review`, `performance-optimization`, `api-design`
 
 ```markdown
 ---
@@ -294,19 +299,20 @@ description: REST and GraphQL API design patterns, versioning, and best practice
 | POST | /resources | Create |
 ```
 
-### Tool Integration
+### ツール統合 (Tool Integration)
 
-Guidance for using specific tools, libraries, or services.
+特定のツール、ライブラリ、サービスの利用ガイダンスです。
 
-**Examples:** `supabase-patterns`, `docker-patterns`, `mcp-server-patterns`
+**例:** `supabase-patterns`, `docker-patterns`, `mcp-server-patterns`
 
 ---
 
-## Writing Effective Skill Content
+<a id="writing-effective-skill-content"></a>
+## 効果的な Skill コンテンツを書く (Writing Effective Skill Content)
 
-### 1. Start with "When to Activate"
+### 1. "When to Activate" から始める (1. Start with "When to Activate")
 
-This section is **critical** for auto-activation. Be specific:
+このセクションは自動有効化において**極めて重要**です。具体的に書いてください。
 
 ```markdown
 ## When to Activate
@@ -317,16 +323,18 @@ This section is **critical** for auto-activation. Be specific:
 - Reviewing React code for best practices
 ```
 
-### 2. Use "Show, Don't Tell"
+### 2. "Show, Don't Tell" を使う (2. Use "Show, Don't Tell")
 
-Bad:
+悪い例:
+
 ```markdown
 ## Error Handling
 
 Always handle errors properly in async functions.
 ```
 
-Good:
+良い例:
+
 ```markdown
 ## Error Handling
 
@@ -354,9 +362,9 @@ async function fetchData(url: string) {
 - Re-throw with user-friendly message
 ```
 
-### 3. Include Anti-Patterns
+### 3. アンチパターンを含める (3. Include Anti-Patterns)
 
-Show what NOT to do:
+やってはいけないことも示してください。
 
 ```markdown
 ## Anti-Patterns
@@ -378,9 +386,9 @@ const updatedItems = [...items, newItem]
 \`\`\`
 ```
 
-### 4. Provide Checklists
+### 4. チェックリストを用意する (4. Provide Checklists)
 
-Checklists are actionable and easy to follow:
+チェックリストは実行しやすく、追いやすい形式です。
 
 ```markdown
 ## Pre-Deployment Checklist
@@ -393,9 +401,9 @@ Checklists are actionable and easy to follow:
 - [ ] Input validation in place
 ```
 
-### 5. Use Decision Trees
+### 5. 意思決定ツリーを使う (5. Use Decision Trees)
 
-For complex decisions:
+複雑な判断が必要な場合には次のようにします。
 
 ```markdown
 ## Choosing the Right Approach
@@ -411,42 +419,44 @@ Need to fetch data?
 
 ---
 
-## Best Practices
+<a id="best-practices"></a>
+## ベストプラクティス (Best Practices)
 
-### DO
+### DO (DO)
 
-| Practice | Example |
+| プラクティス | 例 |
 |----------|---------|
-| **Be specific** | "Use \`useCallback\` for event handlers passed to child components" |
-| **Show examples** | Include copy-pasteable code |
-| **Explain WHY** | "Immutability prevents unexpected side effects in React state" |
-| **Link related skills** | "See also: \`react-performance\`" |
-| **Keep focused** | One skill = one domain/concept |
-| **Use sections** | Clear headers for easy scanning |
+| **具体的に書く** | "Use \`useCallback\` for event handlers passed to child components" |
+| **例を見せる** | そのまま使えるコードを含める |
+| **WHY を説明する** | "Immutability prevents unexpected side effects in React state" |
+| **関連 skill をリンクする** | "See also: \`react-performance\`" |
+| **焦点を保つ** | 1 skill = 1 つのドメイン/概念 |
+| **セクションを使う** | ひと目で追える明確な見出し |
 
-### DON'T
+### DON'T (DON'T)
 
-| Practice | Why It's Bad |
+| プラクティス | 良くない理由 |
 |----------|--------------|
-| **Be vague** | "Write good code" - not actionable |
-| **Long prose** | Hard to parse, better as code |
-| **Cover too much** | "Python, Django, and Flask patterns" - too broad |
-| **Skip examples** | Theory without practice is less useful |
-| **Ignore anti-patterns** | Learning what NOT to do is valuable |
+| **曖昧に書く** | "Write good code" のように実行可能でない |
+| **長文説明に偏る** | 解析しづらく、コードの方が伝わりやすい |
+| **盛り込みすぎる** | "Python, Django, and Flask patterns" のように広すぎる |
+| **例を省略する** | 実践のない理論は有用性が下がる |
+| **アンチパターンを無視する** | やってはいけない例を学ぶことにも価値がある |
 
-### Content Guidelines
+### コンテンツガイドライン (Content Guidelines)
 
-1. **Length**: 200-500 lines typical, 800 lines maximum
-2. **Code blocks**: Include language identifier
-3. **Headers**: Use `##` and `###` hierarchy
-4. **Lists**: Use `-` for unordered, `1.` for ordered
-5. **Tables**: For comparisons and references
+1. **長さ**: 通常は 200-500 行、最大 800 行
+2. **コードブロック**: 言語識別子を付ける
+3. **見出し**: `##` と `###` の階層を使う
+4. **リスト**: unordered は `-`、ordered は `1.` を使う
+5. **表**: 比較や参照に使う
 
 ---
 
-## Common Patterns
+<a id="common-patterns"></a>
+## 共通パターン (Common Patterns)
 
-### Pattern 1: Standards Skill
+### パターン 1: Standards Skill (Pattern 1: Standards Skill)
 
 ```markdown
 ---
@@ -485,7 +495,7 @@ description: Coding standards and best practices for [language].
 - `language-security`
 ```
 
-### Pattern 2: Workflow Skill
+### パターン 2: Workflow Skill (Pattern 2: Workflow Skill)
 
 ```markdown
 ---
@@ -531,7 +541,7 @@ description: Step-by-step workflow for [task].
 | [Issue] | [Fix] |
 ```
 
-### Pattern 3: Reference Skill
+### パターン 3: Reference Skill (Pattern 3: Reference Skill)
 
 ```markdown
 ---
@@ -571,39 +581,40 @@ description: Quick reference for [API/Library].
 
 ---
 
-## Testing Your Skill
+<a id="testing-your-skill"></a>
+## Skill をテストする (Testing Your Skill)
 
-### Local Testing
+### ローカルテスト (Local Testing)
 
-1. **Copy to Claude Code skills directory**:
+1. **Claude Code の skills ディレクトリへコピーする**:
    ```bash
    cp -r skills/your-skill-name ~/.claude/skills/
    ```
 
-2. **Test with Claude Code**:
+2. **Claude Code でテストする**:
    ```
    You: "I need to [task that should trigger your skill]"
 
    Claude should reference your skill's patterns.
    ```
 
-3. **Verify activation**:
-   - Ask Claude to explain a concept from your skill
-   - Check if it uses your examples and patterns
-   - Ensure it follows your guidelines
+3. **有効化を確認する**:
+   - Claude に skill 内の概念を説明させる
+   - 例やパターンが使われているか確認する
+   - ガイドラインに従っていることを確認する
 
-### Validation Checklist
+### 検証チェックリスト (Validation Checklist)
 
-- [ ] **YAML frontmatter valid** - No syntax errors
-- [ ] **Name follows convention** - lowercase-with-hyphens
-- [ ] **Description is clear** - Tells when to use
-- [ ] **Examples work** - Code compiles and runs
-- [ ] **Links valid** - Related skills exist
-- [ ] **No sensitive data** - No API keys, tokens, paths
+- [ ] **YAML frontmatter が有効** - 構文エラーがない
+- [ ] **name が規約に従う** - lowercase-with-hyphens
+- [ ] **description が明確** - いつ使うかが伝わる
+- [ ] **例が動作する** - コードがコンパイル・実行できる
+- [ ] **リンクが有効** - 関連 skill が存在する
+- [ ] **機微情報がない** - API keys、tokens、paths を含まない
 
-### Code Example Testing
+### コード例のテスト (Code Example Testing)
 
-Test all code examples:
+すべてのコード例をテストしてください。
 
 ```bash
 # From the repo root
@@ -627,29 +638,30 @@ go build ./examples/...
 
 ---
 
-## Submitting Your Skill
+<a id="submitting-your-skill"></a>
+## Skill を提出する (Submitting Your Skill)
 
-### 1. Fork and Clone
+### 1. Fork と Clone (1. Fork and Clone)
 
 ```bash
 gh repo fork affaan-m/everything-claude-code --clone
 cd everything-claude-code
 ```
 
-### 2. Create Branch
+### 2. ブランチを作成する (2. Create Branch)
 
 ```bash
 git checkout -b feat/skill-your-skill-name
 ```
 
-### 3. Add Your Skill
+### 3. Skill を追加する (3. Add Your Skill)
 
 ```bash
 mkdir -p skills/your-skill-name
 # Create SKILL.md
 ```
 
-### 4. Validate
+### 4. 検証する (4. Validate)
 
 ```bash
 # Check YAML frontmatter
@@ -662,7 +674,7 @@ ls -la skills/your-skill-name/
 npm test
 ```
 
-### 5. Commit and Push
+### 5. Commit と Push (5. Commit and Push)
 
 ```bash
 git add skills/your-skill-name/
@@ -670,43 +682,44 @@ git commit -m "feat(skills): add your-skill-name skill"
 git push -u origin feat/skill-your-skill-name
 ```
 
-### 6. Create Pull Request
+### 6. Pull Request を作成する (6. Create Pull Request)
 
-Use this PR template:
+次の PR テンプレートを使ってください。
 
 ```markdown
-## Summary
+## 概要 (Summary)
 
-Brief description of the skill and why it's valuable.
+skill の概要と、その価値が分かる簡潔な説明。
 
-## Skill Type
+## Skill 種別 (Skill Type)
 
-- [ ] Language standards
-- [ ] Framework patterns
-- [ ] Workflow
-- [ ] Domain knowledge
-- [ ] Tool integration
+- [ ] 言語標準 (Language standards)
+- [ ] フレームワークパターン (Framework patterns)
+- [ ] ワークフロー (Workflow)
+- [ ] ドメイン知識 (Domain knowledge)
+- [ ] ツール統合 (Tool integration)
 
-## Testing
+## テスト (Testing)
 
-How I tested this skill locally.
+この skill をローカルでどう検証したか。
 
-## Checklist
+## チェックリスト (Checklist)
 
-- [ ] YAML frontmatter valid
-- [ ] Code examples tested
-- [ ] Follows skill guidelines
-- [ ] No sensitive data
-- [ ] Clear activation triggers
+- [ ] YAML frontmatter が有効
+- [ ] コード例をテスト済み
+- [ ] skill ガイドラインに準拠
+- [ ] 機微情報を含まない
+- [ ] 有効化トリガーが明確
 ```
 
 ---
 
-## Examples Gallery
+<a id="examples-gallery"></a>
+## サンプルギャラリー (Examples Gallery)
 
-### Example 1: Language Standards
+### 例 1: 言語標準 (Example 1: Language Standards)
 
-**File:** `skills/rust-patterns/SKILL.md`
+**ファイル:** `skills/rust-patterns/SKILL.md`
 
 ```markdown
 ---
@@ -765,9 +778,9 @@ pub type AppResult<T> = Result<T, AppError>;
 - `rust-security`
 ```
 
-### Example 2: Framework Patterns
+### 例 2: フレームワークパターン (Example 2: Framework Patterns)
 
-**File:** `skills/fastapi-patterns/SKILL.md`
+**ファイル:** `skills/fastapi-patterns/SKILL.md`
 
 ```markdown
 ---
@@ -826,9 +839,9 @@ async def get_user(
 - `pydantic-validation`
 ```
 
-### Example 3: Workflow Skill
+### 例 3: ワークフロー Skill (Example 3: Workflow Skill)
 
-**File:** `skills/refactoring-workflow/SKILL.md`
+**ファイル:** `skills/refactoring-workflow/SKILL.md`
 
 ```markdown
 ---
@@ -906,14 +919,14 @@ npm run test:e2e
 
 ---
 
-## Additional Resources
+## 追加リソース (Additional Resources)
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - General contribution guidelines
-- [project-guidelines-template](./examples/project-guidelines-template.md) - Project-specific skill template
-- [coding-standards](../skills/coding-standards/SKILL.md) - Example of standards skill
-- [tdd-workflow](../skills/tdd-workflow/SKILL.md) - Example of workflow skill
-- [security-review](../skills/security-review/SKILL.md) - Example of domain knowledge skill
+- [CONTRIBUTING.md](../CONTRIBUTING.md) - 一般的なコントリビューションガイドライン
+- [project-guidelines-template](./examples/project-guidelines-template.md) - プロジェクト固有の skill テンプレート
+- [coding-standards](../skills/coding-standards/SKILL.md) - standards skill の例
+- [tdd-workflow](../skills/tdd-workflow/SKILL.md) - workflow skill の例
+- [security-review](../skills/security-review/SKILL.md) - domain knowledge skill の例
 
 ---
 
-**Remember**: A good skill is focused, actionable, and immediately useful. Write skills you'd want to use yourself.
+**忘れないでください**: 良い skill は、焦点が明確で、実行可能で、すぐに役立つものです。自分自身が使いたくなる skill を書いてください。

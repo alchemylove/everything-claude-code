@@ -1,25 +1,22 @@
-# ECC 2.0 Selective Install Discovery
+# ECC 2.0 選択的インストールの発見 (ECC 2.0 Selective Install Discovery)
 
-## Purpose
+## 目的 (Purpose)
 
-This document turns the March 11 mega-plan selective-install requirement into a
-concrete ECC 2.0 discovery design.
+このドキュメントは、2026年3月11日のメガプランにおける選択的インストール要件を、具体的な ECC 2.0 発見設計へと落とし込む。
 
-The goal is not just "fewer files copied during install." The actual target is
-an install system that can answer, deterministically:
+目標は単に「インストール時にコピーするファイルを減らす」ことではない。実際の目標は、次の問いに決定的に答えられるインストールシステムである：
 
-- what was requested
-- what was resolved
-- what was copied or generated
-- what target-specific transforms were applied
-- what ECC owns and may safely remove or repair later
+- 何がリクエストされたか
+- 何が解決されたか
+- 何がコピーまたは生成されたか
+- どのターゲット固有の変換が適用されたか
+- ECC が何を所有し、後から安全に削除または修復できるか
 
-That is the missing contract between ECC 1.x installation and an ECC 2.0
-control plane.
+これが、ECC 1.x のインストールと ECC 2.0 コントロールプレーンの間に欠けていた契約である。
 
-## Current Implemented Foundation
+## 現在実装済みの基盤 (Current Implemented Foundation)
 
-The first selective-install substrate already exists in-repo:
+選択的インストールの第一段階の基盤は、すでにリポジトリ内に存在する：
 
 - `manifests/install-modules.json`
 - `manifests/install-profiles.json`
@@ -41,131 +38,117 @@ The first selective-install substrate already exists in-repo:
 - `scripts/list-installed.js`
 - `scripts/doctor.js`
 
-Current capabilities:
+現在の機能：
 
-- machine-readable module and profile catalogs
-- CI validation that manifest entries point at real repo paths
-- dependency expansion and target filtering
-- adapter-aware operation planning
-- canonical request normalization for legacy and manifest install modes
-- explicit runtime dispatch from normalized requests into plan creation
-- legacy and manifest installs both write durable install-state
-- read-only inspection of install plans before any mutation
-- unified `ecc` CLI routing install, planning, and lifecycle commands
-- lifecycle inspection and mutation via `list-installed`, `doctor`, `repair`,
-  and `uninstall`
+- 機械可読な module と profile カタログ
+- manifest エントリが実在するリポジトリパスを指していることを検証する CI
+- 依存関係の展開とターゲットフィルタリング
+- アダプター対応のオペレーションプランニング
+- legacy モードと manifest インストールモード向けの正規化されたリクエスト
+- 正規化されたリクエストからプラン作成への明示的なランタイムディスパッチ
+- legacy と manifest の両インストールが永続的な install-state を書き込む
+- 変更前にインストールプランを読み取り専用で検査
+- install、planning、ライフサイクルコマンドを統合する `ecc` CLI ルーティング
+- `list-installed`、`doctor`、`repair`、`uninstall` によるライフサイクル検査と変更
 
-Current limitation:
+現在の制限：
 
-- target-specific merge/remove semantics are still scaffold-level for some modules
-- legacy `ecc-install` compatibility still points at `install.sh`
-- publish surface is still broad in `package.json`
+- 一部の module ではターゲット固有の merge/remove セマンティクスがまだスキャフォールドレベル
+- legacy `ecc-install` 互換性は依然として `install.sh` を指している
+- `package.json` の publish サーフェスは依然として広い
 
-## Current Code Review
+## 現在のコードレビュー (Current Code Review)
 
-The current installer stack is already much healthier than the original
-language-first shell installer, but it still concentrates too much
-responsibility in a few files.
+現在のインストーラースタックは、元の言語ファーストのシェルインストーラーよりはるかに健全だが、依然として少数のファイルに責任が集中しすぎている。
 
-### Current Runtime Path
+### 現在のランタイムパス (Current Runtime Path)
 
-The runtime flow today is:
+現在のランタイムフローは次のとおり：
 
 1. `install.sh`
-   thin shell wrapper that resolves the real package root
+   実際のパッケージルートを解決する薄いシェルラッパー
 2. `scripts/install-apply.js`
-   user-facing installer CLI for legacy and manifest modes
+   legacy モードと manifest モード向けのユーザー向けインストーラー CLI
 3. `scripts/lib/install/request.js`
-   CLI parsing plus canonical request normalization
+   CLI パースと正規化されたリクエスト
 4. `scripts/lib/install/runtime.js`
-   runtime dispatch from normalized requests into install plans
+   正規化されたリクエストからインストールプランへのランタイムディスパッチ
 5. `scripts/lib/install-executor.js`
-   argument translation, legacy compatibility, operation materialization,
-   filesystem mutation, and install-state write
+   引数変換、legacy 互換性、オペレーションの具体化、ファイルシステム変更、install-state の書き込み
 6. `scripts/lib/install-manifests.js`
-   module/profile catalog loading plus dependency expansion
+   module/profile カタログの読み込みと依存関係の展開
 7. `scripts/lib/install-targets/`
-   target root and destination-path scaffolding
+   ターゲットルートと宛先パスのスキャフォールド
 8. `scripts/lib/install-state.js`
-   schema-backed install-state read/write
+   スキーマ対応の install-state 読み書き
 9. `scripts/lib/install-lifecycle.js`
-   doctor/repair/uninstall behavior derived from stored operations
+   保存されたオペレーションから導出される doctor/repair/uninstall の挙動
 
-That is enough to prove the selective-install substrate, but not enough to make
-the installer architecture feel settled.
+これは選択的インストール基盤を証明するには十分だが、インストーラーアーキテクチャが定着したと感じられるほどではない。
 
-### Current Strengths
+### 現在の強み (Current Strengths)
 
-- install intent is now explicit through `--profile` and `--modules`
-- request parsing and request normalization are now split from the CLI shell
-- target root resolution is already adapterized
-- lifecycle commands now use durable install-state instead of guessing
-- the repo already has a unified Node entrypoint through `ecc` and
-  `install-apply.js`
+- インストール意図は `--profile` と `--modules` により明示的になった
+- リクエストパースとリクエスト正規化は CLI シェルから分離された
+- ターゲットルート解決はすでにアダプター化されている
+- ライフサイクルコマンドは推測ではなく永続的な install-state を使用する
+- リポジトリには `ecc` と `install-apply.js` による統一 Node エントリポイントがすでにある
 
-### Current Coupling Still Present
+### 依然として残る結合 (Current Coupling Still Present)
 
-1. `install-executor.js` is smaller than before, but still carrying too many
-   planning and materialization layers at once.
-   The request boundary is now extracted, but legacy request translation,
-   manifest-plan expansion, and operation materialization still live together.
-2. target adapters are still too thin.
-   Today they mostly resolve roots and scaffold destination paths. The real
-   install semantics still live in executor branches and path heuristics.
-3. the planner/executor boundary is not clean enough yet.
-   `install-manifests.js` resolves modules, but the final install operation set
-   is still partly constructed in executor-specific logic.
-4. lifecycle behavior depends on low-level recorded operations more than on
-   stable module semantics.
-   That works for plain file copy, but becomes brittle for merge/generate/remove
-   behaviors.
-5. compatibility mode is mixed directly into the main installer runtime.
-   Legacy language installs should behave like a request adapter, not as a
-   parallel installer architecture.
+1. `install-executor.js` は以前より小さいが、依然として多くのプランニング層と具体化層を同時に担っている。
+   リクエスト境界は抽出されたが、legacy リクエスト変換、manifest-plan の展開、オペレーションの具体化は依然として同居している。
+2. ターゲットアダプターは依然として薄すぎる。
+   今日は主にルート解決と宛先パスのスキャフォールドにとどまる。実際のインストールセマンティクスは executor の分岐とパスヒューリスティクスに残っている。
+3. planner/executor 境界はまだ十分にクリーンではない。
+   `install-manifests.js` は module を解決するが、最終的なインストールオペレーションセットは依然として executor 固有のロジックで一部構築されている。
+4. ライフサイクル挙動は安定した module セマンティクスよりも低レベルな記録オペレーションに依存している。
+   単純なファイルコピーでは機能するが、merge/generate/remove の挙動では脆くなる。
+5. 互換モードはメインのインストーラーランタイムに直接混在している。
+   legacy 言語インストールは並列のインストーラーアーキテクチャではなく、リクエストアダプターとして振る舞うべきである。
 
-## Proposed Modular Architecture Changes
+## 提案するモジュラーアーキテクチャの変更 (Proposed Modular Architecture Changes)
 
-The next architectural step is to separate the installer into explicit layers,
-with each layer returning stable data instead of immediately mutating files.
+次のアーキテクチャステップは、インストーラーを明示的なレイヤーに分離し、各レイヤーが即座にファイルを変更するのではなく安定したデータを返すことである。
 
-### Target State
+### 目標状態 (Target State)
 
-The desired install pipeline is:
+望ましいインストールパイプラインは次のとおり：
 
-1. CLI surface
-2. request normalization
-3. module resolution
-4. target planning
-5. operation planning
-6. execution
-7. install-state persistence
-8. lifecycle services built on the same operation contract
+1. CLI サーフェス
+2. リクエスト正規化
+3. module 解決
+4. ターゲットプランニング
+5. オペレーションプランニング
+6. 実行
+7. install-state の永続化
+8. 同じオペレーション契約に基づくライフサイクルサービス
 
-The main idea is simple:
+主な考え方は単純である：
 
-- manifests describe content
-- adapters describe target-specific landing semantics
-- planners describe what should happen
-- executors apply those plans
-- lifecycle commands reuse the same plan/state model instead of reinventing it
+- manifest はコンテンツを記述する
+- アダプターはターゲット固有の配置セマンティクスを記述する
+- planner は何が起こるべきかを記述する
+- executor はそれらのプランを適用する
+- ライフサイクルコマンドは同じ plan/state モデルを再利用し、再発明しない
 
-### Proposed Runtime Layers
+### 提案するランタイムレイヤー (Proposed Runtime Layers)
 
-#### 1. CLI Surface
+#### 1. CLI サーフェス (CLI Surface)
 
-Responsibility:
+責務：
 
-- parse user intent only
-- route to install, plan, doctor, repair, uninstall
-- render human or JSON output
+- ユーザー意図のパースのみ
+- install、plan、doctor、repair、uninstall へのルーティング
+- 人間向けまたは JSON 出力のレンダリング
 
-Should not own:
+所有すべきでないもの：
 
-- legacy language translation
-- target-specific install rules
-- operation construction
+- legacy 言語変換
+- ターゲット固有のインストールルール
+- オペレーション構築
 
-Suggested files:
+推奨ファイル：
 
 ```text
 scripts/ecc.js
@@ -176,17 +159,17 @@ scripts/repair.js
 scripts/uninstall.js
 ```
 
-These stay as entrypoints, but become thin wrappers around library modules.
+これらはエントリポイントとして残るが、ライブラリモジュールの薄いラッパーになる。
 
-#### 2. Request Normalizer
+#### 2. リクエスト正規化 (Request Normalizer)
 
-Responsibility:
+責務：
 
-- translate raw CLI flags into a canonical install request
-- convert legacy language installs into a compatibility request shape
-- reject mixed or ambiguous inputs early
+- 生の CLI フラグを正規化されたインストールリクエストへ変換する
+- legacy 言語インストールを互換リクエスト形状へ変換する
+- 混在または曖昧な入力を早期に拒否する
 
-Suggested canonical request:
+推奨される正規化リクエスト：
 
 ```json
 {
@@ -199,7 +182,7 @@ Suggested canonical request:
 }
 ```
 
-or, in compatibility mode:
+または、互換モードでは：
 
 ```json
 {
@@ -212,32 +195,31 @@ or, in compatibility mode:
 }
 ```
 
-This lets the rest of the pipeline ignore whether the request came from old or
-new CLI syntax.
+これにより、パイプラインの残りはリクエストが旧 CLI 構文か新 CLI 構文かを無視できる。
 
-#### 3. Module Resolver
+#### 3. Module リゾルバ (Module Resolver)
 
-Responsibility:
+責務：
 
-- load manifest catalogs
-- expand dependencies
-- reject conflicts
-- filter unsupported modules per target
-- return a canonical resolution object
+- manifest カタログの読み込み
+- 依存関係の展開
+- 競合の拒否
+- ターゲットごとに未サポートの module のフィルタリング
+- 正規化された解決オブジェクトの返却
 
-This layer should stay pure and read-only.
+このレイヤーは純粋で読み取り専用であるべき。
 
-It should not know:
+知るべきでないもの：
 
-- destination filesystem paths
-- merge semantics
-- copy strategies
+- 宛先ファイルシステムパス
+- merge セマンティクス
+- コピー戦略
 
-Current nearest file:
+現在の最も近いファイル：
 
 - `scripts/lib/install-manifests.js`
 
-Suggested split:
+推奨される分割：
 
 ```text
 scripts/lib/install/catalog.js
@@ -245,30 +227,30 @@ scripts/lib/install/resolve-request.js
 scripts/lib/install/resolve-modules.js
 ```
 
-#### 4. Target Planner
+#### 4. ターゲットプランナー (Target Planner)
 
-Responsibility:
+責務：
 
-- select the install target adapter
-- resolve target root
-- resolve install-state path
-- expand module-to-target mapping rules
-- emit target-aware operation intents
+- インストールターゲットアダプターの選択
+- ターゲットルートの解決
+- install-state パスの解決
+- module からターゲットへのマッピングルールの展開
+- ターゲット対応のオペレーション意図の出力
 
-This is where target-specific meaning should live.
+ターゲット固有の意味はここに属する。
 
-Examples:
+例：
 
-- Claude may preserve native hierarchy under `~/.claude`
-- Cursor may sync bundled `.cursor` root children differently from rules
-- generated configs may require merge or replace semantics depending on target
+- Claude は `~/.claude` 配下のネイティブ階層を保持する可能性がある
+- Cursor はバンドルされた `.cursor` ルート子要素を rules と異なる方法で同期する可能性がある
+- 生成された config はターゲットによって merge または replace セマンティクスを要求する可能性がある
 
-Current nearest files:
+現在の最も近いファイル：
 
 - `scripts/lib/install-targets/helpers.js`
 - `scripts/lib/install-targets/registry.js`
 
-Suggested evolution:
+推奨される進化：
 
 ```text
 scripts/lib/install/targets/registry.js
@@ -277,49 +259,49 @@ scripts/lib/install/targets/cursor-project.js
 scripts/lib/install/targets/antigravity-project.js
 ```
 
-Each adapter should eventually expose more than `resolveRoot`.
-It should own path and strategy mapping for its target family.
+各アダプターは最終的に `resolveRoot` 以上を公開すべきである。
+ターゲットファミリー向けのパスと戦略マッピングを所有すべきである。
 
-#### 5. Operation Planner
+#### 5. オペレーションプランナー (Operation Planner)
 
-Responsibility:
+責務：
 
-- turn module resolution plus adapter rules into a typed operation graph
-- emit first-class operations such as:
+- module 解決とアダプタールールを型付きオペレーショングラフへ変換する
+- 次のような第一級オペレーションを出力する：
   - `copy-file`
   - `copy-tree`
   - `merge-json`
   - `render-template`
   - `remove`
-- attach ownership and validation metadata
+- 所有権と検証メタデータの付与
 
-This is the missing architectural seam in the current installer.
+これは現在のインストーラーに欠けているアーキテクチャ上の継ぎ目である。
 
-Today, operations are partly scaffold-level and partly executor-specific.
-ECC 2.0 should make operation planning a standalone phase so that:
+今日、オペレーションは一部スキャフォールドレベル、一部 executor 固有である。
+ECC 2.0 ではオペレーションプランニングを独立したフェーズにし、次を可能にすべきである：
 
-- `plan` becomes a true preview of execution
-- `doctor` can validate intended behavior, not just current files
-- `repair` can rebuild exact missing work safely
-- `uninstall` can reverse only managed operations
+- `plan` が実行の真のプレビューになる
+- `doctor` が現在のファイルだけでなく意図した挙動を検証できる
+- `repair` が欠落した作業を正確かつ安全に再構築できる
+- `uninstall` が管理対象オペレーションのみを逆転できる
 
-#### 6. Execution Engine
+#### 6. 実行エンジン (Execution Engine)
 
-Responsibility:
+責務：
 
-- apply a typed operation graph
-- enforce overwrite and ownership rules
-- stage writes safely
-- collect final applied-operation results
+- 型付きオペレーショングラフの適用
+- 上書きと所有権ルールの強制
+- 安全な書き込みのステージング
+- 最終的に適用されたオペレーション結果の収集
 
-This layer should not decide *what* to do.
-It should only decide *how* to apply a provided operation kind safely.
+このレイヤーは *何をするか* を決定すべきではない。
+提供されたオペレーション種別を *どのように* 安全に適用するかだけを決定すべきである。
 
-Current nearest file:
+現在の最も近いファイル：
 
 - `scripts/lib/install-executor.js`
 
-Recommended refactor:
+推奨されるリファクタリング：
 
 ```text
 scripts/lib/install/executor/apply-plan.js
@@ -328,43 +310,40 @@ scripts/lib/install/executor/apply-merge-json.js
 scripts/lib/install/executor/apply-remove.js
 ```
 
-That turns executor logic from one large branching runtime into a set of small
-operation handlers.
+これにより executor ロジックは、1つの大きな分岐ランタイムから小さなオペレーションハンドラーの集合へと変わる。
 
-#### 7. Install-State Store
+#### 7. Install-State ストア (Install-State Store)
 
-Responsibility:
+責務：
 
-- validate and persist install-state
-- record canonical request, resolution, and applied operations
-- support lifecycle commands without forcing them to reverse-engineer installs
+- install-state の検証と永続化
+- 正規化されたリクエスト、解決、適用オペレーションの記録
+- インストールを逆算させずにライフサイクルコマンドをサポート
 
-Current nearest file:
+現在の最も近いファイル：
 
 - `scripts/lib/install-state.js`
 
-This layer is already close to the right shape. The main remaining change is to
-store richer operation metadata once merge/generate semantics are real.
+このレイヤーはすでに適切な形状に近い。主な残りの変更は、merge/generate セマンティクスが実装されたら、より豊富なオペレーションメタデータを保存することである。
 
-#### 8. Lifecycle Services
+#### 8. ライフサイクルサービス (Lifecycle Services)
 
-Responsibility:
+責務：
 
-- `list-installed`: inspect state only
-- `doctor`: compare desired/install-state view against current filesystem
-- `repair`: regenerate a plan from state and reapply safe operations
-- `uninstall`: remove only ECC-owned outputs
+- `list-installed`：状態のみを検査
+- `doctor`：望ましい/install-state ビューと現在のファイルシステムを比較
+- `repair`：状態からプランを再生成し、安全なオペレーションを再適用
+- `uninstall`：ECC 所有の出力のみを削除
 
-Current nearest file:
+現在の最も近いファイル：
 
 - `scripts/lib/install-lifecycle.js`
 
-This layer should eventually operate on operation kinds and ownership policies,
-not just on raw `copy-file` records.
+このレイヤーは最終的に生の `copy-file` レコードではなく、オペレーション種別と所有権ポリシーで動作すべきである。
 
-## Proposed File Layout
+## 提案するファイルレイアウト (Proposed File Layout)
 
-The clean modular end state should look roughly like this:
+クリーンなモジュラー最終状態は、おおよそ次のようになる：
 
 ```text
 scripts/lib/install/
@@ -393,105 +372,94 @@ scripts/lib/install/
     uninstall.js
 ```
 
-This is not a packaging split.
-It is a code-ownership split inside the current repo so each layer has one job.
+これはパッケージング分割ではない。
+現在のリポジトリ内でのコード所有権分割であり、各レイヤーが1つの役割を持つ。
 
-## Migration Map From Current Files
+## 現在のファイルからの移行マップ (Migration Map From Current Files)
 
-The lowest-risk migration path is evolutionary, not a rewrite.
+最もリスクの低い移行パスは、書き直しではなく段階的な進化である。
 
-### Keep
+### 維持 (Keep)
 
-- `install.sh` as the public compatibility shim
-- `scripts/ecc.js` as the unified CLI
-- `scripts/lib/install-state.js` as the starting point for the state store
-- current target adapter IDs and state locations
+- 公開互換シムとしての `install.sh`
+- 統一 CLI としての `scripts/ecc.js`
+- 状態ストアの出発点としての `scripts/lib/install-state.js`
+- 現在のターゲットアダプター ID と状態の場所
 
-### Extract
+### 抽出 (Extract)
 
-- request parsing and compatibility translation out of
-  `scripts/lib/install-executor.js`
-- target-aware operation planning out of executor branches and into target
-  adapters plus planner modules
-- lifecycle-specific analysis out of the shared lifecycle monolith into smaller
-  services
+- `scripts/lib/install-executor.js` からのリクエストパースと互換変換
+- executor 分岐からターゲットアダプターと planner モジュールへのターゲット対応オペレーションプランニング
+- 共有ライフサイクルモノリスから小さなサービスへのライフサイクル固有の分析
 
-### Replace Gradually
+### 段階的に置換 (Replace Gradually)
 
-- broad path-copy heuristics with typed operations
-- scaffold-only adapter planning with adapter-owned semantics
-- legacy language install branches with legacy request translation into the same
-  planner/executor pipeline
+- 広範なパスコピーヒューリスティクスを型付きオペレーションへ
+- スキャフォールドのみのアダプタープランニングをアダプター所有のセマンティクスへ
+- legacy 言語インストール分岐を、同じ planner/executor パイプラインへの legacy リクエスト変換へ
 
-## Immediate Architecture Changes To Make Next
+## 次に行うべき即時のアーキテクチャ変更 (Immediate Architecture Changes To Make Next)
 
-If the goal is ECC 2.0 and not just “working enough,” the next modularization
-steps should be:
+目標が「とりあえず動く」ではなく ECC 2.0 であるなら、次のモジュール化ステップは次のとおりであるべき：
 
-1. split `install-executor.js` into request normalization, operation planning,
-   and execution modules
-2. move target-specific strategy decisions into adapter-owned planning methods
-3. make `repair` and `uninstall` operate on typed operation handlers rather than
-   only plain `copy-file` records
-4. teach manifests about install strategy and ownership so the planner no
-   longer depends on path heuristics
-5. narrow the npm publish surface only after the internal module boundaries are
-   stable
+1. `install-executor.js` をリクエスト正規化、オペレーションプランニング、実行モジュールへ分割する
+2. ターゲット固有の戦略決定をアダプター所有のプランニングメソッドへ移す
+3. `repair` と `uninstall` を単純な `copy-file` レコードだけでなく型付きオペレーションハンドラーで動作させる
+4. manifest にインストール戦略と所有権を教え、planner がパスヒューリスティクスに依存しなくする
+5. 内部 module 境界が安定した後にのみ npm publish サーフェスを狭める
 
-## Why The Current Model Is Not Enough
+## 現在のモデルが不十分な理由 (Why The Current Model Is Not Enough)
 
-Today ECC still behaves like a broad payload copier:
+今日、ECC は依然として広範なペイロードコピー装置のように振る舞う：
 
-- `install.sh` is language-first and target-branch-heavy
-- targets are partly implicit in directory layout
-- uninstall, repair, and doctor now exist but are still early lifecycle commands
-- the repo cannot prove what a prior install actually wrote
-- publish surface is still broad in `package.json`
+- `install.sh` は言語ファーストでターゲット分岐が多い
+- ターゲットはディレクトリレイアウトに一部暗黙的
+- uninstall、repair、doctor は存在するが、依然として初期のライフサイクルコマンド
+- リポジトリは過去のインストールが実際に何を書き込んだかを証明できない
+- `package.json` の publish サーフェスは依然として広い
 
-That creates the problems already called out in the mega plan:
+これはメガプランですでに指摘された問題を生む：
 
-- users pull more content than their harness or workflow needs
-- support and upgrades are harder because installs are not recorded
-- target behavior drifts because install logic is duplicated in shell branches
-- future targets like Codex or OpenCode require more special-case logic instead
-  of reusing a stable install contract
+- ユーザーは harness やワークフローに必要以上のコンテンツを取得する
+- インストールが記録されないためサポートとアップグレードが難しい
+- インストールロジックがシェル分岐に重複するためターゲット挙動がドリフトする
+- Codex や OpenCode のような将来ターゲットは、安定したインストール契約の再利用ではなく、より多くの特殊ケースロジックを要求する
 
-## ECC 2.0 Design Thesis
+## ECC 2.0 設計テーゼ (ECC 2.0 Design Thesis)
 
-Selective install should be modeled as:
+選択的インストールは次のようにモデル化されるべきである：
 
-1. resolve requested intent into a canonical module graph
-2. translate that graph through a target adapter
-3. execute a deterministic install operation set
-4. write install-state as the durable source of truth
+1. リクエストされた意図を正規化された module グラフへ解決する
+2. そのグラフをターゲットアダプター経由で変換する
+3. 決定的なインストールオペレーションセットを実行する
+4. install-state を永続的な真実の源として書き込む
 
-That means ECC 2.0 needs two contracts, not one:
+つまり ECC 2.0 には1つではなく2つの契約が必要である：
 
-- a content contract
-  what modules exist and how they depend on each other
-- a target contract
-  how those modules land inside Claude, Cursor, Antigravity, Codex, or OpenCode
+- コンテンツ契約
+  どの module が存在し、互いにどう依存するか
+- ターゲット契約
+  それらの module が Claude、Cursor、Antigravity、Codex、OpenCode 内にどう配置されるか
 
-The current repo only had the first half in early form.
-The current repo now has the first full vertical slice, but not the full
-target-specific semantics.
+現在のリポジトリは初期形態では前半のみを持っていた。
+現在のリポジトリは最初の完全な垂直スライスを持つが、ターゲット固有セマンティクスの全体はまだない。
 
-## Design Constraints
+## 設計制約 (Design Constraints)
 
-1. Keep `everything-claude-code` as the canonical source repo.
-2. Preserve existing `install.sh` flows during migration.
-3. Support home-scoped and project-scoped targets from the same planner.
-4. Make uninstall/repair/doctor possible without guessing.
-5. Avoid per-target copy logic leaking back into module definitions.
-6. Keep future Codex and OpenCode support additive, not a rewrite.
+1. `everything-claude-code` を正規のソースリポジトリとして維持する。
+2. 移行中は既存の `install.sh` フローを保持する。
+3. 同じ planner から home スコープと project スコープのターゲットをサポートする。
+4. 推測なしで uninstall/repair/doctor を可能にする。
+5. ターゲットごとのコピーロジックが module 定義へ漏れ戻るのを避ける。
+6. 将来の Codex と OpenCode サポートを書き直しではなく追加的に保つ。
 
-## Canonical Artifacts
+## 正規アーティファクト (Canonical Artifacts)
 
-### 1. Module Catalog
+### 1. Module カタログ (Module Catalog)
 
-The module catalog is the canonical content graph.
+module カタログは正規のコンテンツグラフである。
 
-Current fields already implemented:
+すでに実装済みのフィールド：
 
 - `id`
 - `kind`
@@ -503,20 +471,20 @@ Current fields already implemented:
 - `cost`
 - `stability`
 
-Fields still needed for ECC 2.0:
+ECC 2.0 でまだ必要なフィールド：
 
 - `installStrategy`
-  for example `copy`, `flatten-rules`, `generate`, `merge-config`
+  例：`copy`、`flatten-rules`、`generate`、`merge-config`
 - `ownership`
-  whether ECC fully owns the target path or only generated files under it
+  ECC がターゲットパスを完全に所有するか、その配下の生成ファイルのみを所有するか
 - `pathMode`
-  for example `preserve`, `flatten`, `target-template`
+  例：`preserve`、`flatten`、`target-template`
 - `conflicts`
-  modules or path families that cannot coexist on one target
+  1つのターゲット上で共存できない module またはパスファミリー
 - `publish`
-  whether the module is packaged by default, optional, or generated post-install
+  module がデフォルトでパッケージ化されるか、オプションか、インストール後に生成されるか
 
-Suggested future shape:
+推奨される将来の形状：
 
 ```json
 {
@@ -534,13 +502,13 @@ Suggested future shape:
 }
 ```
 
-### 2. Profile Catalog
+### 2. Profile カタログ (Profile Catalog)
 
-Profiles stay thin.
+profile は薄く保つ。
 
-They should express user intent, not duplicate target logic.
+ユーザー意図を表現し、ターゲットロジックを重複させない。
 
-Current examples already implemented:
+すでに実装済みの例：
 
 - `core`
 - `developer`
@@ -548,32 +516,32 @@ Current examples already implemented:
 - `research`
 - `full`
 
-Fields still needed:
+まだ必要なフィールド：
 
 - `defaultTargets`
 - `recommendedFor`
 - `excludes`
 - `requiresConfirmation`
 
-That lets ECC 2.0 say things like:
+これにより ECC 2.0 は次のようなことを言える：
 
-- `developer` is the recommended default for Claude and Cursor
-- `research` may be heavy for narrow local installs
-- `full` is allowed but not default
+- `developer` は Claude と Cursor の推奨デフォルト
+- `research` は狭いローカルインストールには重い可能性がある
+- `full` は許可されるがデフォルトではない
 
-### 3. Target Adapters
+### 3. ターゲットアダプター (Target Adapters)
 
-This is the main missing layer.
+これが主に欠けているレイヤーである。
 
-The module graph should not know:
+module グラフは次を知るべきではない：
 
-- where Claude home lives
-- how Cursor flattens or remaps content
-- which config files need merge semantics instead of blind copy
+- Claude home がどこにあるか
+- Cursor がコンテンツをどうフラット化または再マップするか
+- どの config ファイルが盲目的なコピーではなく merge セマンティクスを必要とするか
 
-That belongs to a target adapter.
+それはターゲットアダプターに属する。
 
-Suggested interface:
+推奨インターフェース：
 
 ```ts
 type InstallTargetAdapter = {
@@ -586,54 +554,52 @@ type InstallTargetAdapter = {
 };
 ```
 
-Suggested first adapters:
+推奨される最初のアダプター：
 
 1. `claude-home`
-   writes into `~/.claude/...`
+   `~/.claude/...` に書き込む
 2. `cursor-project`
-   writes into `./.cursor/...`
+   `./.cursor/...` に書き込む
 3. `antigravity-project`
-   writes into `./.agent/...`
+   `./.agent/...` に書き込む
 4. `codex-home`
-   later
+   後日
 5. `opencode-home`
-   later
+   後日
 
-This matches the same pattern already proposed in the session-adapter discovery
-doc: canonical contract first, harness-specific adapter second.
+これは session-adapter 発見ドキュメントですでに提案されたパターンと一致する：正規契約が先、harness 固有アダプターが後。
 
-## Install Planning Model
+## インストールプランニングモデル (Install Planning Model)
 
-The current `scripts/install-plan.js` CLI proves the repo can resolve requested
-modules into a filtered module set.
+現在の `scripts/install-plan.js` CLI は、リポジトリがリクエストされた module をフィルタ済み module セットへ解決できることを証明している。
 
-ECC 2.0 needs the next layer: operation planning.
+ECC 2.0 には次のレイヤーが必要：オペレーションプランニング。
 
-Suggested phases:
+推奨フェーズ：
 
-1. input normalization
-   - parse `--target`
-   - parse `--profile`
-   - parse `--modules`
-   - optionally translate legacy language args
-2. module resolution
-   - expand dependencies
-   - reject conflicts
-   - filter by supported targets
-3. adapter planning
-   - resolve target root
-   - derive exact copy or generation operations
-   - identify config merges and target remaps
-4. dry-run output
-   - show selected modules
-   - show skipped modules
-   - show exact file operations
-5. mutation
-   - execute the operation plan
-6. state write
-   - persist install-state only after successful completion
+1. 入力正規化
+   - `--target` のパース
+   - `--profile` のパース
+   - `--modules` のパース
+   - オプションで legacy 言語引数の変換
+2. module 解決
+   - 依存関係の展開
+   - 競合の拒否
+   - サポート対象ターゲットによるフィルタリング
+3. アダプタープランニング
+   - ターゲットルートの解決
+   - 正確なコピーまたは生成オペレーションの導出
+   - config の merge とターゲット再マップの特定
+4. dry-run 出力
+   - 選択された module の表示
+   - スキップされた module の表示
+   - 正確なファイルオペレーションの表示
+5. 変更
+   - オペーションプランの実行
+6. 状態書き込み
+   - 成功完了後にのみ install-state を永続化
 
-Suggested operation shape:
+推奨オペレーション形状：
 
 ```json
 {
@@ -646,7 +612,7 @@ Suggested operation shape:
 }
 ```
 
-Other operation kinds:
+その他のオペレーション種別：
 
 - `copy`
 - `copy-tree`
@@ -657,22 +623,22 @@ Other operation kinds:
 - `mkdir`
 - `remove`
 
-## Install-State Contract
+## Install-State 契約 (Install-State Contract)
 
-Install-state is the durable contract that ECC 1.x is missing.
+install-state は ECC 1.x に欠けていた永続的な契約である。
 
-Suggested path conventions:
+推奨パス規約：
 
-- Claude target:
+- Claude ターゲット：
   `~/.claude/ecc/install-state.json`
-- Cursor target:
+- Cursor ターゲット：
   `./.cursor/ecc-install-state.json`
-- Antigravity target:
+- Antigravity ターゲット：
   `./.agent/ecc-install-state.json`
-- future Codex target:
+- 将来の Codex ターゲット：
   `~/.codex/ecc-install-state.json`
 
-Suggested payload:
+推奨ペイロード：
 
 ```json
 {
@@ -718,86 +684,85 @@ Suggested payload:
 }
 ```
 
-State requirements:
+状態要件：
 
-- enough detail for uninstall to remove only ECC-managed outputs
-- enough detail for repair to compare desired versus actual installed files
-- enough detail for doctor to explain drift instead of guessing
+- uninstall が ECC 管理出力のみを削除するのに十分な詳細
+- repair が望ましい状態と実際にインストールされたファイルを比較するのに十分な詳細
+- doctor が推測ではなくドリフトを説明するのに十分な詳細
 
-## Lifecycle Commands
+## ライフサイクルコマンド (Lifecycle Commands)
 
-The following commands are the lifecycle surface for install-state:
+次のコマンドは install-state のライフサイクルサーフェスである：
 
 1. `ecc list-installed`
 2. `ecc uninstall`
 3. `ecc doctor`
 4. `ecc repair`
 
-Current implementation status:
+現在の実装状況：
 
-- `ecc list-installed` routes to `node scripts/list-installed.js`
-- `ecc uninstall` routes to `node scripts/uninstall.js`
-- `ecc doctor` routes to `node scripts/doctor.js`
-- `ecc repair` routes to `node scripts/repair.js`
-- legacy script entrypoints remain available during migration
+- `ecc list-installed` は `node scripts/list-installed.js` にルーティング
+- `ecc uninstall` は `node scripts/uninstall.js` にルーティング
+- `ecc doctor` は `node scripts/doctor.js` にルーティング
+- `ecc repair` は `node scripts/repair.js` にルーティング
+- 移行中は legacy スクリプトエントリポイントも利用可能
 
-### `list-installed`
+### インストール済み一覧 (list-installed)
 
-Responsibilities:
+責務：
 
-- show target id and root
-- show requested profile/modules
-- show resolved modules
-- show source version and install time
+- ターゲット ID とルートの表示
+- リクエストされた profile/module の表示
+- 解決された module の表示
+- ソースバージョンとインストール時刻の表示
 
-### `uninstall`
+### アンインストール (uninstall)
 
-Responsibilities:
+責務：
 
-- load install-state
-- remove only ECC-managed destinations recorded in state
-- leave user-authored unrelated files untouched
-- delete install-state only after successful cleanup
+- install-state の読み込み
+- 状態に記録された ECC 管理宛先のみを削除
+- ユーザー作成の無関係なファイルはそのまま残す
+- クリーンアップ成功後にのみ install-state を削除
 
-### `doctor`
+### 診断 (doctor)
 
-Responsibilities:
+責務：
 
-- detect missing managed files
-- detect unexpected config drift
-- detect target roots that no longer exist
-- detect manifest/version mismatch
+- 欠落した管理ファイルの検出
+- 予期しない config ドリフトの検出
+- 存在しなくなったターゲットルートの検出
+- manifest/バージョン不一致の検出
 
-### `repair`
+### 修復 (repair)
 
-Responsibilities:
+責務：
 
-- rebuild the desired operation plan from install-state
-- re-copy missing or drifted managed files
-- refuse repair if requested modules no longer exist in the current manifest
-  unless a compatibility map exists
+- install-state から望ましいオペーションプランを再構築
+- 欠落またはドリフトした管理ファイルを再コピー
+- 互換マップがない限り、リクエストされた module が現在の manifest に存在しなくなった場合は repair を拒否
 
-## Legacy Compatibility Layer
+## Legacy 互換レイヤー (Legacy Compatibility Layer)
 
-Current `install.sh` accepts:
+現在の `install.sh` は次を受け付ける：
 
 - `--target <claude|cursor|antigravity>`
-- a list of language names
+- 言語名のリスト
 
-That behavior cannot disappear in one cut because users already depend on it.
+この挙動はユーザーがすでに依存しているため、一括で消せない。
 
-ECC 2.0 should translate legacy language arguments into a compatibility request.
+ECC 2.0 は legacy 言語引数を互換リクエストへ変換すべきである。
 
-Suggested approach:
+推奨アプローチ：
 
-1. keep existing CLI shape for legacy mode
-2. map language names to module requests such as:
+1. legacy モードの既存 CLI 形状を維持する
+2. 言語名を次のような module リクエストへマップする：
    - `rules-core`
-   - target-compatible rule subsets
-3. write install-state even for legacy installs
-4. label the request as `legacyMode: true`
+   - ターゲット互換の rule サブセット
+3. legacy インストールでも install-state を書き込む
+4. リクエストに `legacyMode: true` を付与する
 
-Example:
+例：
 
 ```json
 {
@@ -808,38 +773,37 @@ Example:
 }
 ```
 
-This keeps old behavior available while moving all installs onto the same state
-contract.
+これにより旧挙動を維持しつつ、すべてのインストールを同じ状態契約へ移行できる。
 
-## Publish Boundary
+## Publish 境界 (Publish Boundary)
 
-The current npm package still publishes a broad payload through `package.json`.
+現在の npm パッケージは依然として `package.json` 経由で広範なペイロードを publish している。
 
-ECC 2.0 should improve this carefully.
+ECC 2.0 はこれを慎重に改善すべきである。
 
-Recommended sequence:
+推奨シーケンス：
 
-1. keep one canonical npm package first
-2. use manifests to drive install-time selection before changing publish shape
-3. only later consider reducing packaged surface where safe
+1. まず1つの正規 npm パッケージを維持する
+2. publish 形状を変える前に、manifest でインストール時選択を駆動する
+3. 安全な場合にのみ、後でパッケージ化サーフェスを削減することを検討する
 
-Why:
+理由：
 
-- selective install can ship before aggressive package surgery
-- uninstall and repair depend on install-state more than publish changes
-- Codex/OpenCode support is easier if the package source remains unified
+- 選択的インストールは積極的なパッケージ手術より先に出荷できる
+- uninstall と repair は publish 変更より install-state に依存する
+- パッケージソースが統一されていれば Codex/OpenCode サポートは容易
 
-Possible later directions:
+将来の可能性のある方向：
 
-- generated slim bundles per profile
-- generated target-specific tarballs
-- optional remote fetch of heavy modules
+- profile ごとの生成された slim bundle
+- ターゲット固有の生成 tarball
+- 重い module のオプションリモート取得
 
-Those are Phase 3 or later, not prerequisites for profile-aware installs.
+これらは Phase 3 以降であり、profile 対応インストールの前提条件ではない。
 
-## File Layout Recommendation
+## ファイルレイアウト推奨 (File Layout Recommendation)
 
-Suggested next files:
+推奨される次のファイル：
 
 ```text
 scripts/lib/install-targets/
@@ -859,75 +823,67 @@ tests/lib/install-state.test.js
 tests/lib/install-lifecycle.test.js
 ```
 
-`install.sh` can remain the user-facing entry point during migration, but it
-should become a thin shell around a Node-based planner and executor rather than
-keep growing per-target shell branches.
+`install.sh` は移行中ユーザー向けエントリポイントとして残せるが、ターゲットごとのシェル分岐を増やし続けるのではなく、Node ベースの planner と executor の薄いシェルになるべきである。
 
-## Implementation Sequence
+## 実装シーケンス (Implementation Sequence)
 
-### Phase 1: Planner To Contract
+### Phase 1: 契約へのプランナー (Planner To Contract)
 
-1. keep current manifest schema and resolver
-2. add operation planning on top of resolved modules
-3. define `ecc.install.v1` state schema
-4. write install-state on successful install
+1. 現在の manifest スキーマとリゾルバを維持する
+2. 解決済み module の上にオペレーションプランニングを追加する
+3. `ecc.install.v1` 状態スキーマを定義する
+4. インストール成功時に install-state を書き込む
 
-### Phase 2: Target Adapters
+### Phase 2: ターゲットアダプター (Target Adapters)
 
-1. extract Claude install behavior into `claude-home` adapter
-2. extract Cursor install behavior into `cursor-project` adapter
-3. extract Antigravity install behavior into `antigravity-project` adapter
-4. reduce `install.sh` to argument parsing plus adapter invocation
+1. Claude インストール挙動を `claude-home` アダプターへ抽出する
+2. Cursor インストール挙動を `cursor-project` アダプターへ抽出する
+3. Antigravity インストール挙動を `antigravity-project` アダプターへ抽出する
+4. `install.sh` を引数パースとアダプター呼び出しに縮小する
 
-### Phase 3: Lifecycle
+### Phase 3: ライフサイクル (Lifecycle)
 
-1. add stronger target-specific merge/remove semantics
-2. extend repair/uninstall coverage for non-copy operations
-3. reduce package shipping surface to the module graph instead of broad folders
-4. decide when `ecc-install` should become a thin alias for `ecc install`
+1. より強いターゲット固有の merge/remove セマンティクスを追加する
+2. 非コピーオペレーション向けに repair/uninstall カバレッジを拡張する
+3. 広いフォルダではなく module グラフへパッケージ出荷サーフェスを縮小する
+4. `ecc-install` を `ecc install` の薄いエイリアスにするタイミングを決める
 
-### Phase 4: Publish And Future Targets
+### Phase 4: Publish と将来ターゲット (Publish And Future Targets)
 
-1. evaluate safe reduction of `package.json` publish surface
-2. add `codex-home`
-3. add `opencode-home`
-4. consider generated profile bundles if packaging pressure remains high
+1. `package.json` publish サーフェスの安全な削減を評価する
+2. `codex-home` を追加する
+3. `opencode-home` を追加する
+4. パッケージング圧力が高いままなら、生成された profile bundle を検討する
 
-## Immediate Repo-Local Next Steps
+## リポジトリ内の即時の次ステップ (Immediate Repo-Local Next Steps)
 
-The highest-signal next implementation moves in this repo are:
+このリポジトリで最もシグナルの高い次の実装は次のとおり：
 
-1. add target-specific merge/remove semantics for config-like modules
-2. extend repair and uninstall beyond simple copy-file operations
-3. reduce package shipping surface to the module graph instead of broad folders
-4. decide whether `ecc-install` remains separate or becomes `ecc install`
-5. add tests that lock down:
-   - target-specific merge/remove behavior
-   - repair and uninstall safety for non-copy operations
-   - unified `ecc` CLI routing and compatibility guarantees
+1. config 系 module 向けのターゲット固有 merge/remove セマンティクスを追加する
+2. 単純な copy-file オペレーションを超えて repair と uninstall を拡張する
+3. 広いフォルダではなく module グラフへパッケージ出荷サーフェスを縮小する
+4. `ecc-install` を別物として残すか `ecc install` にするかを決める
+5. 次を固定するテストを追加する：
+   - ターゲット固有の merge/remove 挙動
+   - 非コピーオペレーション向けの repair と uninstall の安全性
+   - 統一 `ecc` CLI ルーティングと互換性保証
 
-## Open Questions
+## 未解決の問い (Open Questions)
 
-1. Should rules stay language-addressable in legacy mode forever, or only during
-   the migration window?
-2. Should `platform-configs` always install with `core`, or be split into
-   smaller target-specific modules?
-3. Do we want config merge semantics recorded at the operation level or only in
-   adapter logic?
-4. Should heavy skill families eventually move to fetch-on-demand rather than
-   package-time inclusion?
-5. Should Codex and OpenCode target adapters ship only after the Claude/Cursor
-   lifecycle commands are stable?
+1. rules は legacy モードで言語アドレス可能のまま永続すべきか、移行期間中のみか？
+2. `platform-configs` は常に `core` と一緒にインストールすべきか、より小さなターゲット固有 module に分割すべきか？
+3. config merge セマンティクスはオペレーションレベルで記録すべきか、アダプターロジックのみか？
+4. 重い skill ファミリーは最終的にパッケージ時包含ではなく fetch-on-demand へ移すべきか？
+5. Codex と OpenCode ターゲットアダプターは Claude/Cursor ライフサイクルコマンドが安定した後にのみ出荷すべきか？
 
-## Recommendation
+## 推奨 (Recommendation)
 
-Treat the current manifest resolver as adapter `0` for installs:
+現在の manifest リゾルバをインストールのアダプター `0` として扱う：
 
-1. preserve the current install surface
-2. move real copy behavior behind target adapters
-3. write install-state for every successful install
-4. make uninstall, doctor, and repair depend only on install-state
-5. only then shrink packaging or add more targets
+1. 現在のインストールサーフェスを保持する
+2. 実際のコピー挙動をターゲットアダプターの背後へ移す
+3. すべての成功インストールで install-state を書き込む
+4. uninstall、doctor、repair を install-state のみに依存させる
+5. その後にのみパッケージングを縮小するか、より多くのターゲットを追加する
 
-That is the shortest path from ECC 1.x installer sprawl to an ECC 2.0
-install/control contract that is deterministic, supportable, and extensible.
+これが、ECC 1.x インストーラーの肥大化から、決定的でサポート可能かつ拡張可能な ECC 2.0 インストール/コントロール契約への最短経路である。

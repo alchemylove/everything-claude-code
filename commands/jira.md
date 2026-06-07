@@ -1,35 +1,35 @@
 ---
-description: Retrieve a Jira ticket, analyze requirements, update status, or add comments. Uses the jira-integration skill and MCP or REST API.
+description: Jira チケットを取得し、要件を分析し、ステータスを更新し、コメントを追加する。jira-integration skill と MCP または REST API を使用する。
 ---
 
-# Jira Command
+# Jira コマンド (Jira Command)
 
-Interact with Jira tickets directly from your workflow — fetch tickets, analyze requirements, add comments, and transition status.
+ワークフローから直接 Jira チケットと対話する — チケットの取得、要件の分析、コメントの追加、ステータスの遷移。
 
-## Usage
+## 使い方 (Usage)
 
 ```
-/jira get <TICKET-KEY>          # Fetch and analyze a ticket
-/jira comment <TICKET-KEY>      # Add a progress comment
-/jira transition <TICKET-KEY>   # Change ticket status
-/jira search <JQL>              # Search issues with JQL
+/jira get <TICKET-KEY>          # チケットを取得して分析
+/jira comment <TICKET-KEY>      # 進捗コメントを追加
+/jira transition <TICKET-KEY>   # チケットステータスを変更
+/jira search <JQL>              # JQL でイシューを検索
 ```
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. **Get & Analyze** — Fetch a Jira ticket and extract requirements, acceptance criteria, test scenarios, and dependencies
-2. **Comment** — Add structured progress updates to a ticket
-3. **Transition** — Move a ticket through workflow states (To Do → In Progress → Done)
-4. **Search** — Find issues using JQL queries
+1. **取得と分析 (Get & Analyze)** — Jira チケットを取得し、要件、受け入れ基準、テストシナリオ、依存関係を抽出する
+2. **コメント (Comment)** — チケットに構造化された進捗更新を追加する
+3. **遷移 (Transition)** — ワークフローステート間でチケットを移動する（To Do → In Progress → Done）
+4. **検索 (Search)** — JQL クエリでイシューを検索する
 
-## How It Works
+## 動作方法 (How It Works)
 
 ### `/jira get <TICKET-KEY>`
 
-1. Fetch the ticket from Jira (via MCP `jira_get_issue` or REST API)
-2. Extract all fields: summary, description, acceptance criteria, priority, labels, linked issues
-3. Optionally fetch comments for additional context
-4. Produce a structured analysis:
+1. Jira からチケットを取得する（MCP `jira_get_issue` または REST API 経由）
+2. すべてのフィールドを抽出する: summary、description、acceptance criteria、priority、labels、linked issues
+3. 必要に応じてコメントを取得し、追加コンテキストを得る
+4. 構造化された分析を出力する:
 
 ```
 Ticket: PROJ-1234
@@ -60,47 +60,47 @@ Recommended Next Steps:
 
 ### `/jira comment <TICKET-KEY>`
 
-1. Summarize current session progress (what was built, tested, committed)
-2. Format as a structured comment
-3. Post to the Jira ticket
+1. 現在のセッション進捗を要約する（何をビルド、テスト、コミットしたか）
+2. 構造化されたコメントとしてフォーマットする
+3. Jira チケットに投稿する
 
 ### `/jira transition <TICKET-KEY>`
 
-1. Fetch available transitions for the ticket
-2. Show options to user
-3. Execute the selected transition
+1. チケットの利用可能な遷移を取得する
+2. ユーザーにオプションを表示する
+3. 選択された遷移を実行する
 
 ### `/jira search <JQL>`
 
-1. Execute the JQL query against Jira
-2. Return a summary table of matching issues
+1. Jira に対して JQL クエリを実行する
+2. マッチするイシューのサマリーテーブルを返す
 
-## Prerequisites
+## 前提条件 (Prerequisites)
 
-This command requires Jira credentials. Choose one:
+このコマンドには Jira 認証情報が必要です。いずれかを選択してください:
 
-**Option A — MCP Server (recommended):**
-Add `jira` to your `mcpServers` config (see `mcp-configs/mcp-servers.json` for the template).
+**オプション A — MCP Server（推奨）:**
+`mcpServers` 設定に `jira` を追加する（テンプレートは `mcp-configs/mcp-servers.json` を参照）。
 
-**Option B — Environment variables:**
+**オプション B — 環境変数:**
 ```bash
 export JIRA_URL="https://yourorg.atlassian.net"
 export JIRA_EMAIL="your.email@example.com"
 export JIRA_API_TOKEN="your-api-token"
 ```
 
-If credentials are missing, stop and direct the user to set them up.
+認証情報がない場合は停止し、ユーザーにセットアップを案内してください。
 
-## Integration with Other Commands
+## 他コマンドとの統合 (Integration with Other Commands)
 
-After analyzing a ticket:
-- Use `/plan` to create an implementation plan from the requirements
-- Use the `tdd-workflow` skill to implement with test-driven development
-- Use `/code-review` after implementation
-- Use `/jira comment` to post progress back to the ticket
-- Use `/jira transition` to move the ticket when work is complete
+チケット分析後:
+- `/plan` で要件から実装計画を作成する
+- `tdd-workflow` skill で test-driven development により実装する
+- 実装後に `/code-review` を使用する
+- `/jira comment` で進捗をチケットに投稿する
+- 作業完了時に `/jira transition` でチケットを移動する
 
-## Related
+## 関連 (Related)
 
 - **Skill:** `skills/jira-integration/`
 - **MCP config:** `mcp-configs/mcp-servers.json` → `jira`

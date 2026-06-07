@@ -1,15 +1,15 @@
 ---
-description: "Swift testing extending common rules"
+description: "Swift testing: common ルールの拡張"
 globs: ["**/*.swift", "**/Package.swift"]
 alwaysApply: false
 ---
-# Swift Testing
+# Swift Testing (Swift Testing)
 
-> This file extends the common testing rule with Swift specific content.
+> このファイルは common testing ルールを Swift 固有の内容で拡張する。
 
 ## Framework
 
-Use **Swift Testing** (`import Testing`) for new tests. Use `@Test` and `#expect`:
+新規 test には **Swift Testing**（`import Testing`）を使用。`@Test` と `#expect` を使用:
 
 ```swift
 @Test("User creation validates email")
@@ -22,7 +22,7 @@ func userCreationValidatesEmail() throws {
 
 ## Test Isolation
 
-Each test gets a fresh instance -- set up in `init`, tear down in `deinit`. No shared mutable state between tests.
+各 test は新しいインスタンスを取得 — `init` で set up、`deinit` で tear down。test 間で共有 mutable state を持たない。
 
 ## Parameterized Tests
 
@@ -40,6 +40,6 @@ func validatesFormat(format: String) throws {
 swift test --enable-code-coverage
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `swift-protocol-di-testing` for protocol-based dependency injection and mock patterns with Swift Testing.
+Swift Testing による protocol ベースの dependency injection と mock パターンは skill: `swift-protocol-di-testing` を参照。

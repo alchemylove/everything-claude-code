@@ -1,34 +1,34 @@
 ---
 name: csharp-testing
-description: C# and .NET testing patterns with xUnit, FluentAssertions, mocking, integration tests, and test organization best practices.
+description: xUnit、FluentAssertions、mocking、integration tests、テスト構成の C# / .NET テストパターン。C# testing, xUnit, .NET.
 origin: ECC
 ---
 
-# C# Testing Patterns
+# C#テストパターン (C# Testing Patterns)
 
-Comprehensive testing patterns for .NET applications using xUnit, FluentAssertions, and modern testing practices.
+xUnit、FluentAssertions、最新のテストプラクティスを使用した.NETアプリケーションの包括的なテストパターン。
 
-## When to Activate
+## 起動条件 (When to Activate)
 
-- Writing new tests for C# code
-- Reviewing test quality and coverage
-- Setting up test infrastructure for .NET projects
-- Debugging flaky or slow tests
+- C#コードの新しいテストを書く場合
+- テスト品質とカバレッジのレビュー
+- .NETプロジェクトのテストインフラストラクチャの設定
+- フレーキーまたは遅いテストのデバッグ
 
-## Test Framework Stack
+## テストフレームワークスタック (Test Framework Stack)
 
-| Tool | Purpose |
+| ツール | 目的 |
 |---|---|
-| **xUnit** | Test framework (preferred for .NET) |
-| **FluentAssertions** | Readable assertion syntax |
-| **NSubstitute** or **Moq** | Mocking dependencies |
-| **Testcontainers** | Real infrastructure in integration tests |
-| **WebApplicationFactory** | ASP.NET Core integration tests |
-| **Bogus** | Realistic test data generation |
+| **xUnit** | テストフレームワーク（.NETに推奨） |
+| **FluentAssertions** | 読みやすいアサーション構文 |
+| **NSubstitute**または**Moq** | 依存関係のモッキング |
+| **Testcontainers** | 統合テストでの実際のインフラ |
+| **WebApplicationFactory** | ASP.NET Core統合テスト |
+| **Bogus** | 現実的なテストデータ生成 |
 
-## Unit Test Structure
+## ユニットテスト構造 (Unit Test Structure)
 
-### Arrange-Act-Assert
+### Arrange-Act-Assert (Arrange-Act-Assert)
 
 ```csharp
 public sealed class OrderServiceTests
@@ -81,7 +81,7 @@ public sealed class OrderServiceTests
 }
 ```
 
-### Parameterized Tests with Theory
+### Theoryによるパラメータ化テスト (Parameterized Tests with Theory)
 
 ```csharp
 [Theory]
@@ -113,7 +113,7 @@ public static TheoryData<CreateOrderRequest, string> InvalidOrderCases => new()
 };
 ```
 
-## Mocking with NSubstitute
+## NSubstituteによるモッキング (Mocking with NSubstitute)
 
 ```csharp
 [Fact]
@@ -140,16 +140,16 @@ public async Task PlaceOrderAsync_PersistsOrder()
     // Act
     await _sut.PlaceOrderAsync(request, CancellationToken.None);
 
-    // Assert — verify the repository was called
+    // Assert — リポジトリが呼び出されたことを検証
     await _repository.Received(1).AddAsync(
         Arg.Is<Order>(o => o.CustomerId == request.CustomerId),
         Arg.Any<CancellationToken>());
 }
 ```
 
-## ASP.NET Core Integration Tests
+## ASP.NET Core統合テスト (ASP.NET Core Integration Tests)
 
-### WebApplicationFactory Setup
+### WebApplicationFactoryのセットアップ (WebApplicationFactory Setup)
 
 ```csharp
 public sealed class OrderApiTests : IClassFixture<WebApplicationFactory<Program>>
@@ -162,7 +162,7 @@ public sealed class OrderApiTests : IClassFixture<WebApplicationFactory<Program>
         {
             builder.ConfigureServices(services =>
             {
-                // Replace real DB with in-memory for tests
+                // テスト用にインメモリDBで実際のDBを置き換え
                 services.RemoveAll<DbContextOptions<AppDbContext>>();
                 services.AddDbContext<AppDbContext>(options =>
                     options.UseInMemoryDatabase("TestDb"));
@@ -195,7 +195,7 @@ public sealed class OrderApiTests : IClassFixture<WebApplicationFactory<Program>
 }
 ```
 
-### Testing with Testcontainers
+### Testcontainers (Testcontainers)によるテスト (Testing with Testcontainers)
 
 ```csharp
 public sealed class PostgresOrderRepositoryTests : IAsyncLifetime
@@ -237,7 +237,7 @@ public sealed class PostgresOrderRepositoryTests : IAsyncLifetime
 }
 ```
 
-## Test Organization
+## テスト組織 (Test Organization)
 
 ```
 tests/
@@ -259,7 +259,7 @@ tests/
       DatabaseFixture.cs
 ```
 
-## Test Data Builders
+## テストデータビルダー (Test Data Builders)
 
 ```csharp
 public sealed class OrderBuilder
@@ -282,40 +282,40 @@ public sealed class OrderBuilder
     public Order Build() => Order.Create(_customerId, _items);
 }
 
-// Usage in tests
+// テストでの使用
 var order = new OrderBuilder()
     .WithCustomer("cust-vip")
     .WithItem("SKU-PREMIUM", 3, 99.99m)
     .Build();
 ```
 
-## Common Anti-Patterns
+## よくあるアンチパターン (Common Anti-Patterns)
 
-| Anti-Pattern | Fix |
+| アンチパターン | 修正方法 |
 |---|---|
-| Testing implementation details | Test behavior and outcomes |
-| Shared mutable test state | Fresh instance per test (xUnit does this via constructors) |
-| `Thread.Sleep` in async tests | Use `Task.Delay` with timeout, or polling helpers |
-| Asserting on `ToString()` output | Assert on typed properties |
-| One giant assertion per test | One logical assertion per test |
-| Test names describing implementation | Name by behavior: `Method_ExpectedResult_WhenCondition` |
-| Ignoring `CancellationToken` | Always pass and verify cancellation |
+| 実装の詳細をテストする | 動作と結果をテストする |
+| 共有の可変テスト状態 | テストごとに新しいインスタンス（xUnitはコンストラクタでこれを行う） |
+| 非同期テストでの`Thread.Sleep` | タイムアウトまたはポーリングヘルパーを使用した`Task.Delay` |
+| `ToString()`出力のアサーション | 型付きプロパティのアサーション |
+| テストごとに1つの巨大なアサーション | テストごとに1つの論理的なアサーション |
+| 実装を記述するテスト名 | 動作で命名: `Method_ExpectedResult_WhenCondition` |
+| `CancellationToken`を無視する | 常に渡してキャンセルを確認する |
 
-## Running Tests
+## テストの実行 (Running Tests)
 
 ```bash
-# Run all tests
+# すべてのテストを実行
 dotnet test
 
-# Run with coverage
+# カバレッジを付けて実行
 dotnet test --collect:"XPlat Code Coverage"
 
-# Run specific project
+# 特定のプロジェクトを実行
 dotnet test tests/MyApp.UnitTests/
 
-# Filter by test name
+# テスト名でフィルタリング
 dotnet test --filter "FullyQualifiedName~OrderService"
 
-# Watch mode during development
+# 開発中のウォッチモード
 dotnet watch test --project tests/MyApp.UnitTests/
 ```

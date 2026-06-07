@@ -3,11 +3,11 @@ name: e2e-testing
 description: Playwright E2E testing patterns, Page Object Model, configuration, CI/CD integration, artifact management, and flaky test strategies.
 ---
 
-# E2E Testing Patterns
+# E2E テストパターン (E2E Testing Patterns)
 
-Comprehensive Playwright patterns for building stable, fast, and maintainable E2E test suites.
+安定・高速・保守可能な E2E テストスイートを構築するための包括的な Playwright パターン。
 
-## Test File Organization
+## テストファイル構成 (Test File Organization)
 
 ```
 tests/
@@ -28,7 +28,7 @@ tests/
 └── playwright.config.ts
 ```
 
-## Page Object Model (POM)
+## Page Object Model (Page Object Model)
 
 ```typescript
 import { Page, Locator } from '@playwright/test'
@@ -63,7 +63,7 @@ export class ItemsPage {
 }
 ```
 
-## Test Structure
+## テスト構造 (Test Structure)
 
 ```typescript
 import { test, expect } from '@playwright/test'
@@ -96,7 +96,7 @@ test.describe('Item Search', () => {
 })
 ```
 
-## Playwright Configuration
+## Playwright 設定 (Playwright Configuration)
 
 ```typescript
 import { defineConfig, devices } from '@playwright/test'
@@ -135,9 +135,9 @@ export default defineConfig({
 })
 ```
 
-## Flaky Test Patterns
+## フレーキーテストパターン (Flaky Test Patterns)
 
-### Quarantine
+### 隔離 (Quarantine)
 
 ```typescript
 test('flaky: complex search', async ({ page }) => {
@@ -151,16 +151,16 @@ test('conditional skip', async ({ page }) => {
 })
 ```
 
-### Identify Flakiness
+### フレーキー性の特定 (Identify Flakiness)
 
 ```bash
 npx playwright test tests/search.spec.ts --repeat-each=10
 npx playwright test tests/search.spec.ts --retries=3
 ```
 
-### Common Causes & Fixes
+### よくある原因と修正 (Common Causes & Fixes)
 
-**Race conditions:**
+**レースコンディション:**
 ```typescript
 // Bad: assumes element is ready
 await page.click('[data-testid="button"]')
@@ -169,7 +169,7 @@ await page.click('[data-testid="button"]')
 await page.locator('[data-testid="button"]').click()
 ```
 
-**Network timing:**
+**ネットワークタイミング:**
 ```typescript
 // Bad: arbitrary timeout
 await page.waitForTimeout(5000)
@@ -178,7 +178,7 @@ await page.waitForTimeout(5000)
 await page.waitForResponse(resp => resp.url().includes('/api/data'))
 ```
 
-**Animation timing:**
+**アニメーションタイミング:**
 ```typescript
 // Bad: click during animation
 await page.click('[data-testid="menu-item"]')
@@ -189,9 +189,9 @@ await page.waitForLoadState('networkidle')
 await page.locator('[data-testid="menu-item"]').click()
 ```
 
-## Artifact Management
+## アーティファクト管理 (Artifact Management)
 
-### Screenshots
+### スクリーンショット (Screenshots)
 
 ```typescript
 await page.screenshot({ path: 'artifacts/after-login.png' })
@@ -199,7 +199,7 @@ await page.screenshot({ path: 'artifacts/full-page.png', fullPage: true })
 await page.locator('[data-testid="chart"]').screenshot({ path: 'artifacts/chart.png' })
 ```
 
-### Traces
+### トレース (Traces)
 
 ```typescript
 await browser.startTracing(page, {
@@ -211,7 +211,7 @@ await browser.startTracing(page, {
 await browser.stopTracing()
 ```
 
-### Video
+### 動画 (Video)
 
 ```typescript
 // In playwright.config.ts
@@ -221,7 +221,7 @@ use: {
 }
 ```
 
-## CI/CD Integration
+## CI/CD 統合 (CI/CD Integration)
 
 ```yaml
 # .github/workflows/e2e.yml
@@ -249,7 +249,7 @@ jobs:
           retention-days: 30
 ```
 
-## Test Report Template
+## テストレポートテンプレート (Test Report Template)
 
 ```markdown
 # E2E Test Report
@@ -258,10 +258,10 @@ jobs:
 **Duration:** Xm Ys
 **Status:** PASSING / FAILING
 
-## Summary
+## サマリー (Summary)
 - Total: X | Passed: Y (Z%) | Failed: A | Flaky: B | Skipped: C
 
-## Failed Tests
+## 失敗したテスト (Failed Tests)
 
 ### test-name
 **File:** `tests/e2e/feature.spec.ts:45`
@@ -269,14 +269,14 @@ jobs:
 **Screenshot:** artifacts/failed.png
 **Recommended Fix:** [description]
 
-## Artifacts
+## アーティファクト (Artifacts)
 - HTML Report: playwright-report/index.html
 - Screenshots: artifacts/*.png
 - Videos: artifacts/videos/*.webm
 - Traces: artifacts/*.zip
 ```
 
-## Wallet / Web3 Testing
+## ウォレット / Web3 テスト (Wallet / Web3 Testing)
 
 ```typescript
 test('wallet connection', async ({ page, context }) => {
@@ -298,7 +298,7 @@ test('wallet connection', async ({ page, context }) => {
 })
 ```
 
-## Financial / Critical Flow Testing
+## 金融 / クリティカルフローテスト (Financial / Critical Flow Testing)
 
 ```typescript
 test('trade execution', async ({ page }) => {

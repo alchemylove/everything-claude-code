@@ -1,28 +1,28 @@
 ---
-description: Review a FastAPI application for architecture, async correctness, dependency injection, Pydantic schemas, security, performance, and testability.
+description: アーキテクチャ、async の正しさ、依存性注入、Pydantic スキーマ、セキュリティ、パフォーマンス、テスト容易性の観点で FastAPI アプリケーションをレビューする。
 ---
 
-# FastAPI Review
+# FastAPI レビュー (FastAPI Review)
 
-Invoke the `fastapi-reviewer` agent for a focused FastAPI review.
+`fastapi-reviewer` エージェントを起動し、FastAPI に特化したレビューを行う。
 
-## Usage
+## 使い方 (Usage)
 
 ```text
 /fastapi-review [file-or-directory]
 ```
 
-## Review Areas
+## レビュー領域 (Review Areas)
 
-- App factory, router boundaries, middleware, and exception handlers.
-- Pydantic request and response schema separation.
-- Dependency injection for database sessions, auth, pagination, and settings.
-- Async database and external HTTP patterns.
-- CORS, auth, rate limits, logging, and secret handling.
-- OpenAPI metadata and documented response models.
-- Test client setup and dependency overrides.
+- App factory、ルーター境界、ミドルウェア、例外ハンドラー。
+- Pydantic のリクエスト/レスポンススキーマ分離。
+- データベースセッション、認証、ページネーション、設定の依存性注入。
+- async データベースと外部 HTTP パターン。
+- CORS、認証、レート制限、ロギング、シークレット処理。
+- OpenAPI メタデータとドキュメント化されたレスポンスモデル。
+- テストクライアントのセットアップと依存性のオーバーライド。
 
-## Expected Output
+## 期待される出力 (Expected Output)
 
 ```text
 [SEVERITY] Short issue title
@@ -31,7 +31,7 @@ Issue: What is wrong and why it matters.
 Fix: Concrete change to make.
 ```
 
-## Related
+## 関連 (Related)
 
 - Agent: `fastapi-reviewer`
 - Skill: `fastapi-patterns`

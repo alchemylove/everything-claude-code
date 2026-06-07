@@ -1,14 +1,14 @@
 ---
-description: Safely identify and remove dead code with verification after each change.
+description: 各変更後に検証しながら、dead code を安全に特定・削除する。
 ---
 
-# Refactor Clean
+# リファクタとクリーンアップ (Refactor Clean)
 
-Safely identify and remove dead code with test verification at every step.
+各ステップでテスト検証を行いながら、dead code を安全に特定・削除する。
 
-## Step 1: Detect Dead Code
+## ステップ 1: Dead code の検出 (Step 1: Detect Dead Code)
 
-Run analysis tools based on project type:
+プロジェクト種別に応じた分析ツールを実行する:
 
 | Tool | What It Finds | Command |
 |------|--------------|---------|
@@ -19,14 +19,14 @@ Run analysis tools based on project type:
 | deadcode | Unused Go code | `deadcode ./...` |
 | cargo-udeps | Unused Rust dependencies | `cargo +nightly udeps` |
 
-If no tool is available, use Grep to find exports with zero imports:
+ツールがない場合は Grep で import がゼロの export を探す:
 ```
 # Find exports, then check if they're imported anywhere
 ```
 
-## Step 2: Categorize Findings
+## ステップ 2: 所見の分類 (Step 2: Categorize Findings)
 
-Sort findings into safety tiers:
+所見を安全度 tier に分類する:
 
 | Tier | Examples | Action |
 |------|----------|--------|
@@ -34,35 +34,35 @@ Sort findings into safety tiers:
 | **CAUTION** | Components, API routes, middleware | Verify no dynamic imports or external consumers |
 | **DANGER** | Config files, entry points, type definitions | Investigate before touching |
 
-## Step 3: Safe Deletion Loop
+## ステップ 3: 安全な削除ループ (Step 3: Safe Deletion Loop)
 
-For each SAFE item:
+各 SAFE 項目について:
 
-1. **Run full test suite** — Establish baseline (all green)
-2. **Delete the dead code** — Use Edit tool for surgical removal
-3. **Re-run test suite** — Verify nothing broke
-4. **If tests fail** — Immediately revert with `git checkout -- <file>` and skip this item
-5. **If tests pass** — Move to next item
+1. **フルテストスイートを実行** — ベースラインを確立（すべて green）
+2. **dead code を削除** — Edit tool で surgical に除去
+3. **テストスイートを再実行** — 何も壊れていないことを確認
+4. **テストが失敗した場合** — 直ちに `git checkout -- <file>` で revert し、この項目をスキップ
+5. **テストが通った場合** — 次の項目へ
 
-## Step 4: Handle CAUTION Items
+## ステップ 4: CAUTION 項目の扱い (Step 4: Handle CAUTION Items)
 
-Before deleting CAUTION items:
-- Search for dynamic imports: `import()`, `require()`, `__import__`
-- Search for string references: route names, component names in configs
-- Check if exported from a public package API
-- Verify no external consumers (check dependents if published)
+CAUTION 項目を削除する前に:
+- dynamic import を検索: `import()`、`require()`、`__import__`
+- 文字列参照を検索: config 内の route 名、component 名
+- public package API から export されていないか確認
+- 外部 consumer がないか確認（公開パッケージなら dependents を確認）
 
-## Step 5: Consolidate Duplicates
+## ステップ 5: 重複の統合 (Step 5: Consolidate Duplicates)
 
-After removing dead code, look for:
-- Near-duplicate functions (>80% similar) — merge into one
-- Redundant type definitions — consolidate
-- Wrapper functions that add no value — inline them
-- Re-exports that serve no purpose — remove indirection
+dead code 削除後、次を探す:
+- ほぼ重複する関数（類似度 >80%）— 1 つに統合
+- 冗長な型定義 — 統合
+- 価値を足さない wrapper 関数 — inline 化
+- 目的のない re-export — 間接参照を除去
 
-## Step 6: Summary
+## ステップ 6: サマリー (Step 6: Summary)
 
-Report results:
+結果を報告する:
 
 ```
 Dead Code Cleanup
@@ -76,9 +76,9 @@ Saved:     ~450 lines removed
 All tests passing PASS:
 ```
 
-## Rules
+## ルール (Rules)
 
-- **Never delete without running tests first**
-- **One deletion at a time** — Atomic changes make rollback easy
-- **Skip if uncertain** — Better to keep dead code than break production
-- **Don't refactor while cleaning** — Separate concerns (clean first, refactor later)
+- **テスト実行なしに削除しない**
+- **1 件ずつ削除** — 原子的変更で rollback が容易
+- **不明ならスキップ** — dead code を残す方が本番を壊すよりまし
+- **クリーン中にリファクタしない** — 関心を分離（先に clean、後で refactor）

@@ -1,54 +1,54 @@
 ---
-description: Comprehensive C++ code review for memory safety, modern C++ idioms, concurrency, and security. Invokes the cpp-reviewer agent.
+description: メモリ安全性、モダン C++ イディオム、並行性、セキュリティの包括的 C++ コードレビュー。cpp-reviewer エージェントを起動する。
 ---
 
-# C++ Code Review
+# C++ コードレビュー (C++ Code Review)
 
-This command invokes the **cpp-reviewer** agent for comprehensive C++-specific code review.
+このコマンドは **cpp-reviewer** エージェントを起動し、C++ 固有の包括的コードレビューを行う。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Identify C++ Changes**: Find modified `.cpp`, `.hpp`, `.cc`, `.h` files via `git diff`
-2. **Run Static Analysis**: Execute `clang-tidy` and `cppcheck`
-3. **Memory Safety Scan**: Check for raw new/delete, buffer overflows, use-after-free
-4. **Concurrency Review**: Analyze thread safety, mutex usage, data races
-5. **Modern C++ Check**: Verify code follows C++17/20 conventions and best practices
-6. **Generate Report**: Categorize issues by severity
+1. **C++ 変更の特定**: `git diff` で変更された `.cpp`、`.hpp`、`.cc`、`.h` ファイルを検索
+2. **静的解析の実行**: `clang-tidy` と `cppcheck` を実行
+3. **メモリ安全性スキャン**: raw new/delete、バッファオーバーフロー、use-after-free を確認
+4. **並行性レビュー**: スレッド安全性、mutex 使用、データ競合を分析
+5. **モダン C++ チェック**: C++17/20 の規約とベストプラクティスに従っているか検証
+6. **レポート生成**: severity で問題を分類
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/cpp-review` when:
-- After writing or modifying C++ code
-- Before committing C++ changes
-- Reviewing pull requests with C++ code
-- Onboarding to a new C++ codebase
-- Checking for memory safety issues
+`/cpp-review` を使用する場合:
+- C++ コードを記述または変更した後
+- C++ 変更をコミットする前
+- C++ コードを含む pull request をレビューするとき
+- 新しい C++ コードベースにオンボーディングするとき
+- メモリ安全性の問題を確認するとき
 
-## Review Categories
+## レビューカテゴリ (Review Categories)
 
-### CRITICAL (Must Fix)
-- Raw `new`/`delete` without RAII
-- Buffer overflows and use-after-free
-- Data races without synchronization
-- Command injection via `system()`
-- Uninitialized variable reads
-- Null pointer dereferences
+### CRITICAL（必須修正）(CRITICAL (Must Fix))
+- RAII なしの raw `new`/`delete`
+- バッファオーバーフローと use-after-free
+- 同期なしのデータ競合
+- `system()` 経由のコマンドインジェクション
+- 未初期化変数の読み取り
+- null ポインタのデリファレンス
 
-### HIGH (Should Fix)
-- Rule of Five violations
-- Missing `std::lock_guard` / `std::scoped_lock`
-- Detached threads without proper lifetime management
-- C-style casts instead of `static_cast`/`dynamic_cast`
-- Missing `const` correctness
+### HIGH（修正推奨）(HIGH (Should Fix))
+- Rule of Five 違反
+- `std::lock_guard` / `std::scoped_lock` の欠如
+- 適切なライフタイム管理なしの detached スレッド
+- `static_cast`/`dynamic_cast` の代わりの C スタイルキャスト
+- `const` correctness の欠如
 
-### MEDIUM (Consider)
-- Unnecessary copies (pass by value instead of `const&`)
-- Missing `reserve()` on known-size containers
-- `using namespace std;` in headers
-- Missing `[[nodiscard]]` on important return values
-- Overly complex template metaprogramming
+### MEDIUM（検討）(MEDIUM (Consider))
+- 不要なコピー（`const&` の代わりに値渡し）
+- 既知サイズのコンテナでの `reserve()` 欠如
+- ヘッダー内の `using namespace std;`
+- 重要な戻り値への `[[nodiscard]]` 欠如
+- 過度に複雑なテンプレートメタプログラミング
 
-## Automated Checks Run
+## 実行される自動チェック (Automated Checks Run)
 
 ```bash
 # Static analysis
@@ -61,7 +61,7 @@ cppcheck --enable=all --suppress=missingIncludeSystem src/
 cmake --build build -- -Wall -Wextra -Wpedantic
 ```
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ```text
 User: /cpp-review
@@ -111,22 +111,22 @@ void processUser(const User& user) {
 Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 ```
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
 | Status | Condition |
 |--------|-----------|
-| PASS: Approve | No CRITICAL or HIGH issues |
-| WARNING: Warning | Only MEDIUM issues (merge with caution) |
-| FAIL: Block | CRITICAL or HIGH issues found |
+| PASS: Approve | CRITICAL または HIGH の問題なし |
+| WARNING: Warning | MEDIUM のみ（注意してマージ） |
+| FAIL: Block | CRITICAL または HIGH の問題あり |
 
-## Integration with Other Commands
+## 他コマンドとの連携 (Integration with Other Commands)
 
-- Use `/cpp-test` first to ensure tests pass
-- Use `/cpp-build` if build errors occur
-- Use `/cpp-review` before committing
-- Use `/code-review` for non-C++ specific concerns
+- まず `/cpp-test` でテストが通ることを確認
+- ビルドエラーがある場合は `/cpp-build` を使用
+- コミット前に `/cpp-review` を使用
+- C++ 以外の懸念には `/code-review` を使用
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/cpp-reviewer.md`
 - Skills: `skills/cpp-coding-standards/`, `skills/cpp-testing/`

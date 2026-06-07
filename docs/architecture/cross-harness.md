@@ -1,24 +1,25 @@
-# Cross-Harness Architecture
+# Cross-Harness アーキテクチャ (Cross-Harness Architecture)
 
-ECC is the reusable workflow layer. Harnesses are execution surfaces.
+ECC は再利用可能な workflow レイヤーです。Harness は実行面です。
 
-The goal is to keep the durable parts of agentic work in one repo:
+目標はエージェント作業の durable 部分を1リポジトリに保つこと：
 
 - skills
 - rules and instructions
-- hooks where the harness supports them
+- hooks（harness がサポートする場合）
 - MCP configuration
 - install manifests
 - session and orchestration patterns
 
-Claude Code, Codex, OpenCode, Cursor, Gemini, and future harnesses should adapt those assets at the edge instead of requiring a new workflow model for every tool.
+Claude Code、Codex、OpenCode、Cursor、Gemini、将来の harness は、
+すべてのツールで新しい workflow モデルを要求する代わりに、エッジでそれらの asset を適応すべきです。
 
-For the operator-facing support matrix and scorecard workflow, see
-[Harness Adapter Compliance Matrix](harness-adapter-compliance.md).
-For the full-stack platform framing and product-integration loop, see
-[ECC Platform Value Loop](platform-value-loop.md).
+operator 向けサポートマトリクスと scorecard ワークフローは
+[Harness Adapter Compliance Matrix](harness-adapter-compliance.md) を参照。
+フルスタックプラットフォームフレーミングとプロダクト統合ループは
+[ECC Platform Value Loop](platform-value-loop.md) を参照。
 
-## Portability Model
+## ポータビリティモデル (Portability Model)
 
 | Surface | Shared Source | Harness Adapter | Current Status |
 |---------|---------------|-----------------|----------------|
@@ -29,109 +30,109 @@ For the full-stack platform framing and product-integration loop, see
 | Commands | `commands/`, CLI scripts | Claude slash commands, compatibility shims, CLI entrypoints | Supported, but command semantics vary |
 | Sessions | `ecc2/`, session adapters, orchestration scripts | TUI/daemon, tmux/worktree orchestration, harness-specific runners | Alpha |
 
-## What Travels Unchanged
+## 変更なしで渡るもの (What Travels Unchanged)
 
-`SKILL.md` is the most portable unit.
+`SKILL.md` が最もポータブルな unit です。
 
-A good ECC skill should:
+良い ECC skill は：
 
-- use YAML frontmatter with `name`, `description`, and `origin`
-- describe when to use the skill
-- state required tools or connectors without embedding secrets
-- keep examples repo-relative or generic
-- avoid harness-only command assumptions unless the section is clearly labeled
+- `name`、`description`、`origin` を持つ YAML frontmatter を使う
+- skill をいつ使うかを記述する
+- secret を埋め込まず必要な tool または connector を述べる
+- 例を repo-relative または generic に保つ
+- セクションが明確にラベルされていない限り harness のみの command 前提を避ける
 
-The same source skill can be installed into multiple harnesses because it is mostly instructions, constraints, and workflow shape.
+同じソース skill は主に指示、制約、workflow 形状であるため複数 harness にインストールできます。
 
-## What Gets Adapted
+## 適応されるもの (What Gets Adapted)
 
-Each harness has different loading and enforcement behavior:
+各 harness は異なる loading と enforcement 動作を持ちます：
 
-- Claude Code loads plugin assets and has native hook execution.
-- Codex reads `AGENTS.md`, plugin metadata, skills, and MCP config, but hook parity is instruction-driven.
-- OpenCode has a plugin/event system that can reuse ECC hook logic through an adapter layer.
-- Cursor uses its own rule and hook layout, so ECC maintains translated surfaces under `.cursor/`.
-- Gemini support is install/instruction oriented and should be treated as a compatibility surface, not as full hook parity.
+- Claude Code は plugin asset を読み込み、native hook 実行を持つ。
+- Codex は `AGENTS.md`、plugin metadata、skills、MCP config を読むが、hook parity は instruction-driven。
+- OpenCode は adapter レイヤー経由で ECC hook ロジックを再利用できる plugin/event システムを持つ。
+- Cursor は独自の rule と hook レイアウトを使うため、ECC は `.cursor/` 配下に翻訳面を維持する。
+- Gemini サポートは install/instruction 指向で、完全 hook parity ではなく compatibility 面として扱うべき。
 
-Adapters should stay thin. The shared behavior belongs in `skills/`, `rules/`, `hooks/`, `scripts/`, and `mcp-configs/`.
+Adapter は薄く保つべきです。共有振る舞いは `skills/`、`rules/`、`hooks/`、`scripts/`、`mcp-configs/` に属します。
 
-## Hermes Boundary
+## Hermes 境界 (Hermes Boundary)
 
-Hermes is not the public ECC runtime.
+Hermes は公開 ECC runtime ではありません。
 
-Hermes is an operator shell that can consume ECC assets:
+Hermes は ECC asset を消費できる operator shell です：
 
-- import selected ECC skills into a Hermes skills directory
-- use ECC MCP conventions for tool access
-- route chat, CLI, cron, and handoff workflows through reusable ECC patterns
-- distill repeated local operator work back into sanitized ECC skills
+- 選択した ECC skills を Hermes skills ディレクトリに import
+- tool アクセスに ECC MCP 規約を使用
+- 再利用可能 ECC パターン経由で chat、CLI、cron、handoff workflow をルーティング
+- 繰り返しローカル operator 作業をサニタイズされた ECC skills に蒸留
 
-The public repo should ship reusable patterns, not local Hermes state.
+公開リポジトリは再利用可能パターンを出荷し、ローカル Hermes 状態は出荷しません。
 
-Do ship:
+出荷する：
 
-- sanitized setup docs
-- repo-relative demo prompts
-- general operator skills
-- examples that do not depend on private credentials
+- サニタイズされたセットアップ docs
+- repo-relative デモプロンプト
+- 一般的 operator skills
+- プライベート認証情報に依存しない例
 
-Do not ship:
+出荷しない：
 
-- OAuth tokens or API keys
-- raw `~/.hermes` exports
-- personal workspace memory
-- private datasets
-- local-only automation packs that have not been reviewed
+- OAuth token または API key
+- 生の `~/.hermes` エクスポート
+- 個人ワークスペース memory
+- プライベートデータセット
+- レビューされていないローカルのみ automation pack
 
-## Worked Example
+## 実例 (Worked Example)
 
-Use `skills/hermes-imports/SKILL.md` as the same skill source across harnesses.
+`skills/hermes-imports/SKILL.md` を harness 横断の同じ skill ソースとして使う。
 
-The workflow is:
+ワークフローは：
 
-1. Author the durable behavior once in `skills/hermes-imports/SKILL.md`.
-2. Keep secrets, local paths, and raw operator memory out of the skill.
-3. Let each harness adapt how the skill is loaded.
-4. Test the source skill and the harness-facing metadata separately.
+1. durable 振る舞いを `skills/hermes-imports/SKILL.md` に一度執筆。
+2. secret、ローカル path、生 operator memory を skill から除外。
+3. 各 harness が skill の読み込み方法を適応させる。
+4. ソース skill と harness 向け metadata を別々にテスト。
 
-Claude Code gets the skill through the Claude plugin surface and can enforce related hooks natively.
+Claude Code は Claude plugin 面経由で skill を得、関連 hook を native に enforce できる。
 
-Codex reads the repo instructions, `.codex-plugin/plugin.json`, and the MCP reference config. The same skill source still describes the workflow, but hook parity is instruction-backed unless Codex adds a native hook surface.
+Codex はリポジトリ指示、`.codex-plugin/plugin.json`、MCP reference config を読む。同じ skill ソースは依然としてワークフローを記述するが、Codex が native hook 面を追加しない限り hook parity は instruction-backed。
 
-OpenCode gets the skill through the OpenCode package/plugin surface. Event handling can reuse ECC hook logic through the adapter layer, while the skill text stays unchanged.
+OpenCode は OpenCode package/plugin 面経由で skill を得る。Event handling は adapter レイヤー経由で ECC hook ロジックを再利用でき、skill テキストは変更なし。
 
-If a change requires editing three harness copies of the same workflow, the shared source is in the wrong place. Put the workflow back in `skills/`, then adapt only loading, event shape, or command routing at the harness edge.
+同じワークフローの harness コピーを3つ編集する必要があるなら、共有ソースの場所が間違っています。ワークフローを `skills/` に戻し、harness エッジでは loading、event shape、command routing のみ適応する。
 
-## Today vs Later
+## 今日 vs 後日 (Today vs Later)
 
-Supported today:
+今日サポート：
 
-- shared skill source in `skills/`
+- `skills/` の共有 skill ソース
 - Claude Code plugin packaging
-- Codex plugin metadata and MCP reference config
-- OpenCode package/plugin surface
-- Cursor-adapted rules, hooks, and skills
-- `ecc2/` as an alpha Rust control plane
+- Codex plugin metadata と MCP reference config
+- OpenCode package/plugin 面
+- Cursor 適応 rules、hooks、skills
+- alpha Rust control plane としての `ecc2/`
 
-Still maturing:
+まだ成熟中：
 
-- exact hook parity across all harnesses
-- automated skill sync into Hermes
-- release packaging for `ecc2/`
-- cross-harness session resume semantics
-- deeper memory and operator planning layers
-- the full platform loop where external products contribute skill packs,
-  gated APIs, evals, and case studies back into ECC
+- すべての harness 横断の正確な hook parity
+- Hermes への自動 skill sync
+- `ecc2/` のリリース packaging
+- cross-harness session resume 意味論
+- より深い memory と operator planning レイヤー
+- 外部プロダクトが skill pack、gated API、eval、case study を ECC に還元する
+  完全プラットフォームループ
 
-## Rule For New Work
+## 新規作業のルール (Rule For New Work)
 
-When adding a workflow, put the durable behavior in ECC first.
+ワークフローを追加するとき、まず durable 振る舞いを ECC に置く。
 
-Use harness-specific files only for:
+Harness 固有ファイルは次の場合のみ使う：
 
-- loading the shared asset
-- adapting event shapes
-- mapping command names
-- handling platform limits
+- 共有 asset の読み込み
+- event shape の適応
+- command 名のマッピング
+- platform 制限の処理
 
-If a workflow only works in one harness, document that boundary directly.
+ワークフローが1 harness でしか動かないなら、その境界を直接文書化する。

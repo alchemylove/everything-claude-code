@@ -1,29 +1,29 @@
 ---
-description: Fix Rust build errors, borrow checker issues, and dependency problems incrementally. Invokes the rust-build-resolver agent for minimal, surgical fixes.
+description: Rust のビルドエラー、borrow checker の issue、依存関係の問題を段階的に修正する。最小限の surgical fix のため rust-build-resolver agent を起動する。
 ---
 
-# Rust Build and Fix
+# Rust ビルドと修正 (Rust Build and Fix)
 
-This command invokes the **rust-build-resolver** agent to incrementally fix Rust build errors with minimal changes.
+このコマンドは **rust-build-resolver** agent を起動し、最小限の変更で Rust のビルドエラーを段階的に修正する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Run Diagnostics**: Execute `cargo check`, `cargo clippy`, `cargo fmt --check`
-2. **Parse Errors**: Identify error codes and affected files
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run `cargo check` after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **診断の実行**: `cargo check`、`cargo clippy`、`cargo fmt --check` を実行
+2. **エラーの解析**: error code と影響ファイルを特定
+3. **段階的な修正**: 1 件ずつ修正
+4. **各修正の検証**: 変更のたびに `cargo check` を再実行
+5. **サマリーの報告**: 修正内容と残件を表示
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/rust-build` when:
-- `cargo build` or `cargo check` fails with errors
-- `cargo clippy` reports warnings
-- Borrow checker or lifetime errors block compilation
-- Cargo dependency resolution fails
-- After pulling changes that break the build
+`/rust-build` を使う場面:
+- `cargo build` または `cargo check` がエラーで失敗するとき
+- `cargo clippy` が warning を報告するとき
+- borrow checker または lifetime エラーでコンパイルが止まるとき
+- Cargo の依存関係解決が失敗するとき
+- pull 後にビルドが壊れたとき
 
-## Diagnostic Commands Run
+## 実行する診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # Primary build check
@@ -42,7 +42,7 @@ cargo tree --duplicates
 if command -v cargo-audit >/dev/null; then cargo audit; else echo "cargo-audit not installed"; fi
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /rust-build
@@ -147,7 +147,7 @@ test result: ok. 6 passed; 0 failed; 0 ignored
 Build Status: SUCCESS
 ````
 
-## Common Errors Fixed
+## よくあるエラーと修正 (Common Errors Fixed)
 
 | Error | Typical Fix |
 |-------|-------------|
@@ -159,29 +159,29 @@ Build Status: SUCCESS
 | `unresolved import` | Add to Cargo.toml or fix `use` path |
 | `cannot find value` | Add import or fix path |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
-1. **Build errors first** - Code must compile
-2. **Clippy warnings second** - Fix suspicious constructs
-3. **Formatting third** - `cargo fmt` compliance
-4. **One fix at a time** - Verify each change
-5. **Minimal changes** - Don't refactor, just fix
+1. **ビルドエラーを最優先** - コードはコンパイルできる必要がある
+2. **Clippy warning を次に** - 疑わしい構文を修正
+3. **フォーマットをその次** - `cargo fmt` 準拠
+4. **1 件ずつ修正** - 各変更を検証
+5. **最小限の変更** - リファクタではなく修正のみ
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Borrow checker error requires redesigning data ownership
+agent は次の場合に停止して報告する:
+- 同じエラーが 3 回試行後も残る
+- 修正がより多くのエラーを導入した
+- アーキテクチャ変更が必要
+- borrow checker エラーが data ownership の再設計を要求する
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/rust-test` - Run tests after build succeeds
-- `/rust-review` - Review code quality
-- `verification-loop` skill - Full verification loop
+- `/rust-test` - ビルド成功後にテストを実行
+- `/rust-review` - コード品質をレビュー
+- `verification-loop` skill - フル verification loop
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/rust-build-resolver.md`
 - Skill: `skills/rust-patterns/`

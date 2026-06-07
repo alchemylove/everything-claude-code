@@ -1,24 +1,24 @@
 ---
-description: Run a generator/evaluator design loop for frontend or visual work with bounded iterations and scoring.
+description: フロントエンドまたはビジュアル作業に対して、制限付きイテレーションとスコアリングによる generator/evaluator デザインループを実行します。
 ---
 
-Parse the following from $ARGUMENTS:
-1. `brief` — the user's description of the design to create
-2. `--max-iterations N` — (optional, default 10) maximum design-evaluate cycles
-3. `--pass-threshold N` — (optional, default 7.5) weighted score to pass (higher default for design)
+$ARGUMENTS から以下を解析:
+1. `brief` — 作成するデザインのユーザーの説明
+2. `--max-iterations N` — （オプション、デフォルト 10）design-evaluate サイクルの最大回数
+3. `--pass-threshold N` — （オプション、デフォルト 7.5）合格するための重み付きスコア（デザイン向けにデフォルトが高い）
 
-## GAN-Style Design Harness
+## GANスタイルデザインハーネス (GAN-Style Design Harness)
 
-A two-agent loop (Generator + Evaluator) focused on frontend design quality. No planner — the brief IS the spec.
+フロントエンドのデザイン品質に特化した 2 エージェントループ（Generator + Evaluator）。planner なし — brief が spec そのものです。
 
-This is the same mode Anthropic used for their frontend design experiments, where they saw creative breakthroughs like the 3D Dutch art museum with CSS perspective and doorway navigation.
+これは Anthropic がフロントエンドデザイン実験で使用したのと同じモードで、CSS perspective と doorway navigation による 3D Dutch art museum のようなクリエイティブなブレイクスルーが見られました。
 
-### Setup
-1. Create `gan-harness/` directory
-2. Write the brief directly as `gan-harness/spec.md`
-3. Write a design-focused `gan-harness/eval-rubric.md` with extra weight on Design Quality and Originality
+### セットアップ (Setup)
+1. `gan-harness/` ディレクトリを作成
+2. brief を直接 `gan-harness/spec.md` として書き込み
+3. Design Quality と Originality に追加の重みを付けたデザイン特化の `gan-harness/eval-rubric.md` を書き込み
 
-### Design-Specific Eval Rubric
+### デザイン特化の評価ルーブリック (Design-Specific Eval Rubric)
 ```markdown
 ### Design Quality (weight: 0.35)
 ### Originality (weight: 0.30)
@@ -26,14 +26,14 @@ This is the same mode Anthropic used for their frontend design experiments, wher
 ### Functionality (weight: 0.10)
 ```
 
-Note: Originality weight is higher (0.30 vs 0.20) to push for creative breakthroughs. Functionality weight is lower since design mode focuses on visual quality.
+注: Originality の重みが高め（0.30 vs 0.20）で、クリエイティブなブレイクスルーを促進します。Functionality の重みが低いのは、design mode がビジュアル品質に焦点を当てるためです。
 
-### Loop
-Same as `/project:gan-build` Phase 2, but:
-- Skip the planner
-- Use the design-focused rubric
-- Generator prompt emphasizes visual quality over feature completeness
-- Evaluator prompt emphasizes "would this win a design award?" over "do all features work?"
+### ループ (Loop)
+`/project:gan-build` の Phase 2 と同じですが、以下が異なります:
+- planner をスキップ
+- デザイン特化の rubric を使用
+- Generator prompt が feature completeness より visual quality を強調
+- Evaluator prompt が「do all features work?」より「would this win a design award?」を強調
 
-### Key Difference from gan-build
-The Generator is told: "Your PRIMARY goal is visual excellence. A stunning half-finished app beats a functional ugly one. Push for creative leaps — unusual layouts, custom animations, distinctive color work."
+### gan-build との主な違い (Key Difference from gan-build)
+Generator には次のように指示されます: "Your PRIMARY goal is visual excellence. A stunning half-finished app beats a functional ugly one. Push for creative leaps — unusual layouts, custom animations, distinctive color work."

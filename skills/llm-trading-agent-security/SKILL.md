@@ -9,18 +9,18 @@ version: "1.0.0"
 
 Autonomous trading agents have a harsher threat model than normal LLM apps: an injection or bad tool path can turn directly into asset loss.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - Building an AI agent that signs and sends transactions
 - Auditing a trading bot or on-chain execution assistant
 - Designing wallet key management for an agent
 - Giving an LLM access to order placement, swaps, or treasury operations
 
-## How It Works
+## 仕組み (How It Works)
 
 Layer the defenses. No single check is enough. Treat prompt hygiene, spend policy, simulation, execution limits, and wallet isolation as independent controls.
 
-## Examples
+## 例 (Examples)
 
 ### Treat prompt injection as a financial attack
 
@@ -133,7 +133,7 @@ MAX_SLIPPAGE_BPS = {"stable": 10, "volatile": 50}
 deadline = int(time.time()) + 60
 ```
 
-## Pre-Deploy Checklist
+## デプロイ前チェックリスト (Pre-Deploy Checklist)
 
 - External data is sanitized before entering the LLM context
 - Spend limits are enforced independently from model output

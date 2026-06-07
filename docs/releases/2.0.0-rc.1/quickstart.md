@@ -1,78 +1,78 @@
-# ECC v2.0.0-rc.1 Quickstart
+# ECC v2.0.0-rc.1 クイックスタート (ECC v2.0.0-rc.1 Quickstart)
 
-This path is for a new contributor who wants to verify the release surface before touching feature work.
+feature 作業に触れる前にリリース面を検証したい新規コントリビューター向けのパスです。
 
-## Clone
+## クローン (Clone)
 
 ```bash
 git clone https://github.com/affaan-m/ECC.git
 cd ECC
 ```
 
-Start from a clean checkout. Do not copy private operator state, raw workspace exports, tokens, or local Hermes files into the repo.
+クリーンな checkout から始める。プライベート operator 状態、生ワークスペースエクスポート、token、ローカル Hermes ファイルをリポジトリにコピーしない。
 
-## Install
+## インストール (Install)
 
 ```bash
 npm ci
 ```
 
-This installs the Node-based validation and packaging toolchain used by the public release surface.
+公開リリース面で使う Node ベースの検証と packaging ツールチェーンをインストールします。
 
-To install the rc.1 package from npm instead of working from a checkout:
+checkout ではなく npm から rc.1 パッケージをインストールする場合：
 
 ```bash
 npm install ecc-universal@next
 ```
 
-`next` currently resolves to `ecc-universal@2.0.0-rc.1`; `latest` remains on
-`1.10.0` during the release-candidate window.
+`next` は現在 `ecc-universal@2.0.0-rc.1` に解決；release-candidate 期間中 `latest` は
+`1.10.0` のままです。
 
-## Verify
+## 検証 (Verify)
 
 ```bash
 node tests/run-all.js
 ```
 
-Expected result: every test passes with zero failures. For release-specific drift, run the focused check:
+期待結果：すべてのテストが失敗ゼロで合格。リリース固有の drift には focused チェックを実行：
 
 ```bash
 node tests/docs/ecc2-release-surface.test.js
 ```
 
-Then check the local observability surface:
+次にローカル observability 面をチェック：
 
 ```bash
 npm run observability:ready
 ```
 
-This runs the [observability readiness gate](../../architecture/observability-readiness.md)
-for loop status, session traces, harness audit, and ECC2 tool-risk logs.
+これは loop status、session trace、harness audit、ECC2 tool-risk log 向けの
+[observability readiness gate](../../architecture/observability-readiness.md) を実行します。
 
-## First Skill
+## 最初の Skill (First Skill)
 
-Read `skills/hermes-imports/SKILL.md` first.
+まず `skills/hermes-imports/SKILL.md` を読む。
 
-It shows the intended ECC 2.0 pattern:
+意図された ECC 2.0 パターンを示す：
 
-- take a repeated operator workflow
-- remove credentials, private paths, raw workspace exports, and personal memory
-- keep the durable workflow shape
-- publish the sanitized result as a reusable `SKILL.md`
+- 繰り返し operator ワークフローを取る
+- 認証情報、プライベート path、生ワークスペースエクスポート、個人 memory を除去
+- durable ワークフロー形状を保つ
+- サニタイズ結果を再利用可能な `SKILL.md` として公開
 
-Do not start by importing a private Hermes workflow wholesale. Start by distilling one reusable skill.
+プライベート Hermes ワークフローを wholesale import から始めない。再利用可能な skill を1つ蒸留することから始める。
 
-## Switch Harness
+## Harness の切り替え (Switch Harness)
 
-Use the same skill source across harnesses:
+同じ skill ソースを harness 横断で使う：
 
-- Claude Code consumes ECC through the Claude plugin and native hooks.
-- Codex consumes ECC through `AGENTS.md`, `.codex-plugin/plugin.json`, and MCP reference config.
-- OpenCode consumes ECC through the OpenCode package/plugin surface.
+- Claude Code は Claude plugin と native hook 経由で ECC を消費。
+- Codex は `AGENTS.md`、`.codex-plugin/plugin.json`、MCP reference config 経由で ECC を消費。
+- OpenCode は OpenCode package/plugin 面経由で ECC を消費。
 
-The portable unit is still `skills/*/SKILL.md`. Harness-specific files should load or adapt that source, not redefine the workflow.
+ポータブル unit は依然 `skills/*/SKILL.md`。Harness 固有ファイルはそのソースを読み込みまたは適応すべきで、ワークフローを再定義しない。
 
-## Next Docs
+## 次の Docs (Next Docs)
 
 - [Hermes setup](../../HERMES-SETUP.md)
 - [Cross-harness architecture](../../architecture/cross-harness.md)

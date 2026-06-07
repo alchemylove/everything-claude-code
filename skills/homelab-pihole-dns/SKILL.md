@@ -4,13 +4,13 @@ description: Pi-hole installation, blocklist management, DNS-over-HTTPS setup, D
 origin: community
 ---
 
-# Homelab Pi-hole DNS
+# Homelab Pi-hole DNS (Homelab Pi-hole DNS)
 
 Pi-hole is a network-wide DNS ad blocker that runs on a Raspberry Pi or any Linux host.
 Every device on your network gets ad and malware domain blocking automatically — no browser
 extension needed.
 
-## When to Use
+## When to Use (When to Use)
 
 - Installing Pi-hole on a Raspberry Pi or Linux host
 - Configuring Pi-hole as the DNS server for a home network
@@ -20,7 +20,7 @@ extension needed.
 - Troubleshooting devices that lose internet access after Pi-hole is installed
 - Running Pi-hole alongside or instead of DHCP
 
-## How Pi-hole Works
+## How Pi-hole Works (How Pi-hole Works)
 
 ```
 Normal flow (without Pi-hole):
@@ -35,9 +35,9 @@ Blocked domains return a null response — the ad/tracker never loads.
 Allowed domains get forwarded to your upstream resolver (Cloudflare, Google, etc.).
 ```
 
-## Installation
+## Installation (Installation)
 
-### Docker (Recommended)
+### Docker (Docker)
 
 Docker is the easiest way to install Pi-hole and makes updates and backups
 straightforward.
@@ -79,34 +79,34 @@ Access web admin at: `http://<pi-ip>/admin`
 Pi-hole requires a static IP before installing.
 
 ```bash
-# Step 1: Assign a static IP (edit /etc/dhcpcd.conf on Pi OS)
+# Step 1: Assign a static IP (Step 1: Assign a static IP)
 sudo nano /etc/dhcpcd.conf
-# Add at the bottom:
+# Add at the bottom: (Add at the bottom:)
 interface eth0
 static ip_address=192.168.3.2/24
 static routers=192.168.3.1
 static domain_name_servers=192.168.3.1
 
-# Step 2: Download and inspect the installer before running it.
-# Prefer the package or installer path documented by Pi-hole for your OS/version.
+# Step 2: Download and inspect the installer before running it. (Step 2: Download and inspect the installer before running it.)
+# Prefer the package or installer path documented by Pi-hole for your OS/version. (Prefer the package or installer path documented by Pi-hole for your OS/version.)
 curl -sSL https://install.pi-hole.net -o pi-hole-install.sh
 less pi-hole-install.sh   # review before proceeding
 
-# Step 3: Run
+# Step 3: Run (Step 3: Run)
 bash pi-hole-install.sh
 
-# Follow the interactive installer:
-#   1. Select network interface (eth0 for wired — recommended)
-#   2. Select upstream DNS (Cloudflare or leave default — can change later)
-#   3. Confirm static IP
-#   4. Install the web admin interface (recommended)
-#   5. Note the admin password shown at the end
+# Follow the interactive installer: (Follow the interactive installer:)
+# 1. Select network interface (1. Select network interface)
+# 2. Select upstream DNS (2. Select upstream DNS)
+# 3. Confirm static IP (3. Confirm static IP)
+# 4. Install the web admin interface (4. Install the web admin interface)
+# 5. Note the admin password shown at the end (5. Note the admin password shown at the end)
 ```
 
-## Pointing Your Network at Pi-hole
+## ネットワークを Pi-hole に向ける (Pointing Your Network at Pi-hole)
 
 ```
-# Method 1: Change DNS in your router DHCP settings (recommended)
+# Method 1: Change DNS in your router DHCP settings (Method 1: Change DNS in your router DHCP settings)
   Router admin UI → DHCP Settings → DNS Server
   Primary DNS: 192.168.3.2  (Pi-hole IP)
   Secondary DNS: leave blank for strict blocking, or use a second Pi-hole.
@@ -116,23 +116,23 @@ bash pi-hole-install.sh
   All devices get Pi-hole as DNS automatically on next DHCP renewal.
   Force renewal: reconnect Wi-Fi or run 'sudo dhclient -r && sudo dhclient' on Linux
 
-# Method 2: Per-device DNS (useful for testing before network-wide rollout)
+# Method 2: Per-device DNS (Method 2: Per-device DNS)
   Windows: Control Panel → Network Adapter → IPv4 Properties → set DNS manually
   macOS: System Settings → Network → Details → DNS → set manually
   Linux: /etc/resolv.conf or NetworkManager
 
-# Method 3: Pi-hole as DHCP server (replaces router DHCP)
+# Method 3: Pi-hole as DHCP server (Method 3: Pi-hole as DHCP server)
   Pi-hole admin → Settings → DHCP → Enable
   Disable DHCP on your router first — two DHCP servers on the same network cause conflicts
   Advantage: hostname resolution works automatically (devices register their names)
 ```
 
-## Blocklist Management
+## ブロックリスト管理 (Blocklist Management)
 
 ```
-# Pi-hole admin → Adlists → Add new adlist
+# Pi-hole admin → Adlists → Add new adlist (Pi-hole admin → Adlists → Add new adlist)
 
-# Recommended blocklists:
+# Recommended blocklists: (Recommended blocklists:)
   https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
   # default — 200k+ domains
 
@@ -142,32 +142,32 @@ bash pi-hole-install.sh
   https://blocklistproject.github.io/Lists/tracking.txt
   # tracking/telemetry
 
-# After adding a list:
+# After adding a list: (After adding a list:)
   Tools → Update Gravity  (downloads and compiles all blocklists)
 
-# If a site is blocked that should not be (false positive):
+# If a site is blocked that should not be (false positive): (If a site is blocked that should not be (false positive):)
   Pi-hole admin → Whitelist → Add domain
   Example: api.my-legitimate-service.com
 
-# Check what is being blocked in real time:
+# Check what is being blocked in real time: (Check what is being blocked in real time:)
   Dashboard → Query Log  (live DNS query stream with block/allow status)
 ```
 
-## DNS-over-HTTPS Upstream
+## DNS-over-HTTPS アップストリーム (DNS-over-HTTPS Upstream)
 
 DNS-over-HTTPS encrypts your DNS queries so your ISP cannot see what sites you resolve.
 
 ```bash
-# Install cloudflared (Cloudflare's DoH proxy).
-# Prefer Cloudflare's package repository for automatic signed package verification.
-# If you download a binary directly, pin a release version and verify its checksum.
+# Install cloudflared (Cloudflare's DoH proxy). (Install cloudflared (Cloudflare's DoH proxy).)
+# Prefer Cloudflare's package repository for automatic signed package verification. (Prefer Cloudflare's package repository for automatic signed package verification.)
+# If you download a binary directly, pin a release version and verify its checksum. (If you download a binary directly, pin a release version and verify its checksum.)
 CLOUDFLARED_VERSION="<pinned-version>"
 curl -LO "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-arm64"
-# Verify the checksum/signature from Cloudflare's release notes before installing.
+# Verify the checksum/signature from Cloudflare's release notes before installing. (Verify the checksum/signature from Cloudflare's release notes before installing.)
 sudo mv cloudflared-linux-arm64 /usr/local/bin/cloudflared
 sudo chmod +x /usr/local/bin/cloudflared
 
-# Create cloudflared config
+# Create cloudflared config (Create cloudflared config)
 sudo mkdir -p /etc/cloudflared
 sudo tee /etc/cloudflared/config.yml << EOF
 proxy-dns: true
@@ -177,18 +177,18 @@ proxy-dns-upstream:
   - https://1.0.0.1/dns-query
 EOF
 
-# Create systemd service
+# Create systemd service (Create systemd service)
 sudo cloudflared service install
 sudo systemctl start cloudflared
 sudo systemctl enable cloudflared
 
-# Now point Pi-hole at the local DoH proxy:
-#   Pi-hole admin → Settings → DNS → Custom upstream DNS
-#   Set to: 127.0.0.1#5053
-#   Uncheck all other upstream resolvers
+# Now point Pi-hole at the local DoH proxy: (Now point Pi-hole at the local DoH proxy:)
+# Pi-hole admin → Settings → DNS → Custom upstream DNS (Pi-hole admin → Settings → DNS → Custom upstream DNS)
+# Set to: 127.0.0.1#5053 (Set to: 127.0.0.1#5053)
+# Uncheck all other upstream resolvers (Uncheck all other upstream resolvers)
 ```
 
-## Local DNS Records
+## ローカル DNS レコード (Local DNS Records)
 
 Make your services reachable by name (e.g. `nas.home.lan`, `grafana.home.lan`).
 
@@ -198,7 +198,7 @@ Make your services reachable by name (e.g. `nas.home.lan`, `grafana.home.lan`).
 > mDNS/Bonjour.
 
 ```
-# Pi-hole admin → Local DNS → DNS Records
+# Pi-hole admin → Local DNS → DNS Records (Pi-hole admin → Local DNS → DNS Records)
 
   Domain              IP
   nas.home.lan        192.168.30.10
@@ -206,59 +206,59 @@ Make your services reachable by name (e.g. `nas.home.lan`, `grafana.home.lan`).
   grafana.home.lan    192.168.30.3
   proxmox.home.lan    192.168.30.4
 
-# From any device on your network:
+# From any device on your network: (From any device on your network:)
   ping nas.home.lan        → 192.168.30.10
   http://grafana.home.lan  → your Grafana dashboard
 
-# For subdomains, add a CNAME:
+# For subdomains, add a CNAME: (For subdomains, add a CNAME:)
   Pi-hole admin → Local DNS → CNAME Records
   Domain: portainer.home.lan → Target: pi.home.lan
 ```
 
-## Troubleshooting
+## トラブルシューティング (Troubleshooting)
 
 ```bash
-# Pi-hole blocking something it should not
+# Pi-hole blocking something it should not (Pi-hole blocking something it should not)
 pihole -q example.com          # Check if domain is blocked and which list
 pihole -w example.com          # Whitelist immediately
 
-# DNS not resolving at all
+# DNS not resolving at all (DNS not resolving at all)
 pihole status                  # Check if pihole-FTL is running
 dig @192.168.3.2 google.com   # Test DNS directly against Pi-hole
 
-# Restart Pi-hole DNS
+# Restart Pi-hole DNS (Restart Pi-hole DNS)
 pihole restartdns
 
-# Check query logs for a specific device
+# Check query logs for a specific device (Check query logs for a specific device)
 pihole -t                      # Live tail of all queries
-# Or filter by client in the web admin Query Log
+# Or filter by client in the web admin Query Log (Or filter by client in the web admin Query Log)
 
-# Pi-hole gravity update (refresh blocklists)
+# Pi-hole gravity update (Pi-hole gravity update)
 pihole -g
 ```
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 ```
-# BAD: Depending on one Pi-hole without a recovery path
-# If Pi-hole crashes or the Pi loses power, DNS can stop working
-# GOOD: Keep a documented router fallback for rollback during setup
-# BETTER: Run two Pi-hole instances for redundancy; avoid public fallback DNS for strict blocking
+# BAD: Depending on one Pi-hole without a recovery path (BAD: Depending on one Pi-hole without a recovery path)
+# If Pi-hole crashes or the Pi loses power, DNS can stop working (If Pi-hole crashes or the Pi loses power, DNS can stop working)
+# GOOD: Keep a documented router fallback for rollback during setup (GOOD: Keep a documented router fallback for rollback during setup)
+# BETTER: Run two Pi-hole instances for redundancy; avoid public fallback DNS for strict blocking (BETTER: Run two Pi-hole instances for redundancy; avoid public fallback DNS for strict blocking)
 
-# BAD: Installing Pi-hole without a static IP
-# If the Pi gets a new DHCP IP, all devices lose DNS
-# GOOD: Set static IP first, then install Pi-hole
+# BAD: Installing Pi-hole without a static IP (BAD: Installing Pi-hole without a static IP)
+# If the Pi gets a new DHCP IP, all devices lose DNS (If the Pi gets a new DHCP IP, all devices lose DNS)
+# GOOD: Set static IP first, then install Pi-hole (GOOD: Set static IP first, then install Pi-hole)
 
-# BAD: Enabling Pi-hole DHCP without disabling the router's DHCP first
-# Two DHCP servers on the same network hand out conflicting IPs
-# GOOD: Disable router DHCP, then enable Pi-hole DHCP
+# BAD: Enabling Pi-hole DHCP without disabling the router's DHCP first (BAD: Enabling Pi-hole DHCP without disabling the router's DHCP first)
+# Two DHCP servers on the same network hand out conflicting IPs (Two DHCP servers on the same network hand out conflicting IPs)
+# GOOD: Disable router DHCP, then enable Pi-hole DHCP (GOOD: Disable router DHCP, then enable Pi-hole DHCP)
 
-# BAD: Never updating gravity (blocklists)
-# New ad and malware domains accumulate — stale lists miss them
-# GOOD: Schedule weekly gravity update: pihole -g (or enable in Settings → API)
+# BAD: Never updating gravity (BAD: Never updating gravity)
+# New ad and malware domains accumulate — stale lists miss them (New ad and malware domains accumulate — stale lists miss them)
+# GOOD: Schedule weekly gravity update: pihole -g (GOOD: Schedule weekly gravity update: pihole -g)
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
 - Give the Pi a static IP or DHCP reservation before installing Pi-hole
 - Use Pi-hole as primary DNS; for redundancy, add a second Pi-hole instead of a
@@ -267,7 +267,7 @@ pihole -g
 - Set `home.lan` as your local domain and create DNS records for all your services
 - Review the Query Log occasionally — blocked queries show you what devices are doing
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - homelab-network-setup
 - homelab-vlan-segmentation

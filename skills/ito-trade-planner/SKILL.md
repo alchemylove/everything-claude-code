@@ -4,52 +4,46 @@ description: Build a non-advisory prediction-market trade planning worksheet for
 origin: ECC
 ---
 
-# Itô Trade Planner
+# Itô 取引プランナー (Itô Trade Planner)
 
-Use this skill when a user wants a structured worksheet for a prediction-market
-idea, basket adjustment, venue comparison, or manual execution plan.
+ユーザーが予測市場のアイデア、バスケット調整、会場比較、手動実行計画の構造化ワークシートを求めるときにこのスキルを使用する。
 
-The skill is intentionally non-executing. It produces checklists and parameter
-tables the user can review manually.
+このスキルは意図的に非実行型である。ユーザーが手動でレビューできるチェックリストとパラメータ表を生成する。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not say a trade is good, bad, optimal, or recommended.
-- Do not provide investment advice or position sizing advice.
-- Do not place, cancel, route, or sign orders.
-- Do not request private keys, seed phrases, exchange passwords, or wallet
-  credentials.
-- Require explicit user approval before any workflow moves from research to
-  execution-capable tooling.
+- 取引が良い、悪い、最適、推奨と言わない。
+- 投資アドバイスやポジションサイズのアドバイスを提供しない。
+- 注文の発注、取消、ルーティング、署名を行わない。
+- 秘密鍵、シードフレーズ、取引所パスワード、ウォレット認証情報を要求しない。
+- ワークフローがリサーチから実行可能ツールへ移行する前に、明示的なユーザー承認を要求する。
 
-## Planning Workflow
+## 計画ワークフロー (Planning Workflow)
 
-1. Restate the user's idea as a neutral hypothesis.
-2. Identify markets, venues, underliers, resolution rules, fees, and data
-   freshness constraints.
-3. If `ITO_API_KEY` is configured and requested, read Itô basket metadata.
-4. Build a manual worksheet:
-   - market/underlier
-   - venue
-   - data source
-   - current observable price or status
-   - resolution rule
-   - liquidity caveat
-   - open questions
-   - manual action link or next review step
-5. Run `prediction-market-risk-review` before discussing automation, keys,
-   venue auth, or capital constraints.
+1. ユーザーのアイデアを中立的な仮説として再述する。
+2. 市場、会場、原資産、決済ルール、手数料、データ鮮度制約を特定する。
+3. `ITO_API_KEY` が設定され要求されている場合、Itô バスケットメタデータを読み取る。
+4. 手動ワークシートを構築する:
+   - 市場/原資産
+   - 会場
+   - データソース
+   - 現在観測可能な価格またはステータス
+   - 決済ルール
+   - 流動性の注意事項
+   - 未解決の質問
+   - 手動アクションリンクまたは次のレビューステップ
+5. 自動化、キー、会場認証、資本制約について議論する前に `prediction-market-risk-review` を実行する。
 
-## Allowed Language
+## 許可される表現 (Allowed Language)
 
-Use:
+使用する:
 
 - "manual planning worksheet"
 - "questions to answer before acting"
 - "observable venue data"
 - "risk and constraint review"
 
-Avoid:
+避ける:
 
 - "you should buy/sell"
 - "best trade"
@@ -57,9 +51,9 @@ Avoid:
 - "risk-free"
 - "optimal size"
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-End every plan with:
+すべての計画の末尾に次を付ける:
 
 ```text
 This is a planning worksheet, not investment or trading advice. Review venue

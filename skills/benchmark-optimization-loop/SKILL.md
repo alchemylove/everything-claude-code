@@ -1,42 +1,40 @@
 ---
 name: benchmark-optimization-loop
-description: Use when the user asks to make something faster, try many variants, run recursive optimization, benchmark latency/throughput/cost, or choose the best implementation by repeated measured tests.
+description: ベンチマーク最適化ループ — 高速化、多数 variant の試行、再帰的最適化、latency/throughput/cost の benchmark、繰り返し計測テストによる最良実装の選択を依頼されたときに使用。
 origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Benchmark Optimization Loop
+# ベンチマーク最適化ループ (Benchmark Optimization Loop)
 
-Use this skill to convert "make it 20x faster" or "try 50 recursive
-optimizations" into a bounded measured loop that can actually improve a system.
+「20 倍速くして」や「50 回の再帰的最適化を試して」を、実際にシステムを改善できる境界付き計測ループに変換する skill。
 
-## Required Baseline
+## 必須ベースライン (Required Baseline)
 
-Do not optimize until these exist:
+次が揃うまで最適化しない:
 
-- the operation being optimized;
-- the correctness gate that must stay green;
-- the metric: wall time, p95 latency, rows/sec, cost/run, memory, error rate;
-- the current baseline;
-- the search budget: max variants, max time, max spend, max data impact.
+- 最適化対象の操作
+- 常に green でなければならない正確性ゲート
+- メトリク: wall time、p95 レイテンシ、rows/sec、cost/run、メモリ、エラー率
+- 現在のベースライン
+- 探索予算: 最大バリアント数、最大時間、最大支出、最大データ影響
 
-If the user asks for an unrealistic target, keep the ambition but make the loop
-bounded and measurable.
+ユーザーが非現実的な目標を求めても、野心は保ちつつループを境界付きで計測可能にする。
 
-## Loop
+## ループ (Loop)
 
-1. Measure the baseline.
-2. Identify bottlenecks from evidence.
-3. Generate variants that test one hypothesis each.
-4. Run variants with the same input shape.
-5. Reject variants that fail correctness, safety, or reproducibility.
-6. Promote the fastest safe variant.
-7. Codify the winning path in a script, command, test, config, or doc.
-8. Rerun the baseline and winner to confirm the delta.
+1. ベースラインを計測する。
+2. 証拠からボトルネックを特定する。
+3. 1 仮説ずつ検証するバリアントを生成する。
+4. 同じ入力形状でバリアントを実行する。
+5. 正確性、安全性、再現性に失敗したバリアントを却下する。
+6. 最速の安全バリアントを昇格させる。
+7. 勝ちパスを script、command、test、config、doc にコード化する。
+8. ベースラインと勝者を再実行して差分を確認する。
 
-## Variant Table
+## バリアント表 (Variant Table)
 
-Track variants like this:
+次のようにバリアントを追跡する:
 
 ```text
 Variant | Hypothesis | Command | Time | Correct? | Notes
@@ -45,25 +43,23 @@ batch-500 | fewer round trips | npm run job -- --batch 500 | 42s | yes | winner
 parallel-8 | more workers | npm run job -- --workers 8 | 31s | no | rate limited
 ```
 
-## Recursive Search
+## 再帰的探索 (Recursive Search)
 
-For recursive or hyperparameter work:
+再帰的またはハイパーパラメータ作業では:
 
-- persist every run to a ledger;
-- compare against the prior accepted winner, not only the previous run;
-- keep a holdout or replay check;
-- stop when improvement is within noise, correctness fails, cost exceeds the
-  budget, or the search starts changing more variables than it can explain.
+- すべての実行を ledger に永続化する
+- 直前の実行だけでなく、直前に受理した勝者と比較する
+- holdout または replay チェックを保持する
+- 改善がノイズ内、正確性失敗、コスト超過、説明不能な変数数の変更で停止する
 
-Use phrases like "best measured safe variant" instead of "global optimum" unless
-the search space was actually exhaustive.
+探索空間が実際に網羅的でない限り、「global optimum」ではなく「best measured safe variant」のような表現を使う。
 
-## Promotion Gate
+## 昇格ゲート (Promotion Gate)
 
-A variant cannot become the new default until:
+次が満たされるまでバリアントを新デフォルトにできない:
 
-- correctness tests pass;
-- the performance delta is repeated or explained;
-- rollback is obvious;
-- the change is encoded in source control or a durable runbook;
-- the final summary includes exact commands and measurements.
+- 正確性テストが pass する
+- 性能差分が再現または説明される
+- ロールバックが明確である
+- 変更がソース管理または durable runbook にエンコードされる
+- 最終サマリーに正確な command と計測が含まれる

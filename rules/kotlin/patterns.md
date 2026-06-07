@@ -3,13 +3,13 @@ paths:
   - "**/*.kt"
   - "**/*.kts"
 ---
-# Kotlin Patterns
+# Kotlin パターン (Kotlin Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Kotlin and Android/KMP-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Kotlin および Android/KMP 固有の内容を追加する。
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-Prefer constructor injection. Use Koin (KMP) or Hilt (Android-only):
+コンストラクタ注入を優先。Koin（KMP）または Hilt（Android のみ）を使用:
 
 ```kotlin
 // Koin — declare modules
@@ -26,9 +26,9 @@ class ItemListViewModel @Inject constructor(
 ) : ViewModel()
 ```
 
-## ViewModel Pattern
+## ViewModel パターン (ViewModel Pattern)
 
-Single state object, event sink, one-way data flow:
+単一の状態オブジェクト、イベントシンク、一方向データフロー:
 
 ```kotlin
 data class ScreenState(
@@ -49,11 +49,11 @@ class ScreenViewModel(private val useCase: GetItemsUseCase) : ViewModel() {
 }
 ```
 
-## Repository Pattern
+## Repository パターン (Repository Pattern)
 
-- `suspend` functions return `Result<T>` or custom error type
-- `Flow` for reactive streams
-- Coordinate local + remote data sources
+- `suspend` 関数は `Result<T>` またはカスタムエラー型を返す
+- リアクティブストリームには `Flow`
+- ローカル + リモートのデータソースを調整
 
 ```kotlin
 interface ItemRepository {
@@ -63,9 +63,9 @@ interface ItemRepository {
 }
 ```
 
-## UseCase Pattern
+## UseCase パターン (UseCase Pattern)
 
-Single responsibility, `operator fun invoke`:
+単一責任、`operator fun invoke`:
 
 ```kotlin
 class GetItemUseCase(private val repository: ItemRepository) {
@@ -83,7 +83,7 @@ class GetItemsUseCase(private val repository: ItemRepository) {
 
 ## expect/actual (KMP)
 
-Use for platform-specific implementations:
+プラットフォーム固有の実装に使用:
 
 ```kotlin
 // commonMain
@@ -108,13 +108,13 @@ actual class SecureStorage {
 }
 ```
 
-## Coroutine Patterns
+## Coroutine パターン (Coroutine Patterns)
 
-- Use `viewModelScope` in ViewModels, `coroutineScope` for structured child work
-- Use `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initialValue)` for StateFlow from cold Flows
-- Use `supervisorScope` when child failures should be independent
+- ViewModel では `viewModelScope`、構造化された子タスクには `coroutineScope`
+- コールド Flow からの StateFlow には `stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), initialValue)` を使用
+- 子の失敗を独立させる場合は `supervisorScope` を使用
 
-## Builder Pattern with DSL
+## DSL による Builder パターン (Builder Pattern with DSL)
 
 ```kotlin
 class HttpClientConfig {
@@ -140,7 +140,7 @@ val client = httpClient {
 }
 ```
 
-## References
+## 参照 (References)
 
-See skill: `kotlin-coroutines-flows` for detailed coroutine patterns.
-See skill: `android-clean-architecture` for module and layer patterns.
+詳細な coroutine パターンは skill: `kotlin-coroutines-flows` を参照。
+モジュールとレイヤーのパターンは skill: `android-clean-architecture` を参照。

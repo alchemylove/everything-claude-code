@@ -4,30 +4,30 @@ description: Formal evaluation framework for Claude Code sessions implementing e
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Eval Harness Skill
+# Eval Harness スキル (Eval Harness Skill)
 
-A formal evaluation framework for Claude Code sessions, implementing eval-driven development (EDD) principles.
+eval-driven development (EDD) 原則を実装する、Claude Code セッション向けの正式な評価フレームワーク。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- Setting up eval-driven development (EDD) for AI-assisted workflows
-- Defining pass/fail criteria for Claude Code task completion
-- Measuring agent reliability with pass@k metrics
-- Creating regression test suites for prompt or agent changes
-- Benchmarking agent performance across model versions
+- AI 支援ワークフロー向けの eval-driven development (EDD) をセットアップするとき
+- Claude Code タスク完了の pass/fail 基準を定義するとき
+- pass@k メトリクスでエージェントの信頼性を測定するとき
+- プロンプトやエージェント変更向けの回帰テストスイートを作成するとき
+- モデルバージョン間でエージェント性能をベンチマークするとき
 
-## Philosophy
+## 哲学 (Philosophy)
 
-Eval-Driven Development treats evals as the "unit tests of AI development":
-- Define expected behavior BEFORE implementation
-- Run evals continuously during development
-- Track regressions with each change
-- Use pass@k metrics for reliability measurement
+Eval-Driven Development は eval を「AI 開発のユニットテスト」として扱う:
+- 実装**前に**期待される挙動を定義
+- 開発中に継続的に eval を実行
+- 変更ごとに回帰を追跡
+- 信頼性測定に pass@k メトリクスを使用
 
-## Eval Types
+## Eval の種類 (Eval Types)
 
-### Capability Evals
-Test if Claude can do something it couldn't before:
+### ケイパビリティ Eval (Capability Evals)
+Claude が以前できなかったことをできるかテスト:
 ```markdown
 [CAPABILITY EVAL: feature-name]
 Task: Description of what Claude should accomplish
@@ -38,8 +38,8 @@ Success Criteria:
 Expected Output: Description of expected result
 ```
 
-### Regression Evals
-Ensure changes don't break existing functionality:
+### 回帰 Eval (Regression Evals)
+変更が既存機能を壊さないことを保証:
 ```markdown
 [REGRESSION EVAL: feature-name]
 Baseline: SHA or checkpoint name
@@ -50,10 +50,10 @@ Tests:
 Result: X/Y passed (previously Y/Y)
 ```
 
-## Grader Types
+## グレーダーの種類 (Grader Types)
 
-### 1. Code-Based Grader
-Deterministic checks using code:
+### 1. コードベースグレーダー (Code-Based Grader)
+コードによる決定的チェック:
 ```bash
 # Check if file contains expected pattern
 grep -q "export function handleAuth" src/auth.ts && echo "PASS" || echo "FAIL"
@@ -65,8 +65,8 @@ npm test -- --testPathPattern="auth" && echo "PASS" || echo "FAIL"
 npm run build && echo "PASS" || echo "FAIL"
 ```
 
-### 2. Model-Based Grader
-Use Claude to evaluate open-ended outputs:
+### 2. モデルベースグレーダー (Model-Based Grader)
+Claude を使ってオープンエンドな出力を評価:
 ```markdown
 [MODEL GRADER PROMPT]
 Evaluate the following code change:
@@ -79,8 +79,8 @@ Score: 1-5 (1=poor, 5=excellent)
 Reasoning: [explanation]
 ```
 
-### 3. Human Grader
-Flag for manual review:
+### 3. 人間グレーダー (Human Grader)
+手動レビューにフラグ:
 ```markdown
 [HUMAN REVIEW REQUIRED]
 Change: Description of what changed
@@ -88,25 +88,25 @@ Reason: Why human review is needed
 Risk Level: LOW/MEDIUM/HIGH
 ```
 
-## Metrics
+## メトリクス (Metrics)
 
 ### pass@k
-"At least one success in k attempts"
-- pass@1: First attempt success rate
-- pass@3: Success within 3 attempts
-- Typical target: pass@3 > 90%
+「k 回の試行のうち少なくとも1回成功」
+- pass@1: 初回試行の成功率
+- pass@3: 3回以内の成功率
+- 典型的な目標: pass@3 > 90%
 
 ### pass^k
-"All k trials succeed"
-- Higher bar for reliability
-- pass^3: 3 consecutive successes
-- Use for critical paths
+「k 回の試行すべて成功」
+- 信頼性のより高い基準
+- pass^3: 3回連続成功
+- クリティカルパスに使用
 
-## Eval Workflow
+## Eval ワークフロー (Eval Workflow)
 
-### 1. Define (Before Coding)
+### 1. 定義（コーディング前）(Define (Before Coding))
 ```markdown
-## EVAL DEFINITION: feature-xyz
+## 評価定義: feature-xyz (EVAL DEFINITION: feature-xyz)
 
 ### Capability Evals
 1. Can create new user account
@@ -123,10 +123,10 @@ Risk Level: LOW/MEDIUM/HIGH
 - pass^3 = 100% for regression evals
 ```
 
-### 2. Implement
-Write code to pass the defined evals.
+### 2. 実装 (Implement)
+定義した eval を通過するコードを書く。
 
-### 3. Evaluate
+### 3. 評価 (Evaluate)
 ```bash
 # Run capability evals
 [Run each capability eval, record PASS/FAIL]
@@ -137,7 +137,7 @@ npm test -- --testPathPattern="existing"
 # Generate report
 ```
 
-### 4. Report
+### 4. レポート (Report)
 ```markdown
 EVAL REPORT: feature-xyz
 ========================
@@ -161,29 +161,29 @@ Metrics:
 Status: READY FOR REVIEW
 ```
 
-## Integration Patterns
+## 統合パターン (Integration Patterns)
 
-### Pre-Implementation
+### 実装前 (Pre-Implementation)
 ```
 /eval define feature-name
 ```
-Creates eval definition file at `.claude/evals/feature-name.md`
+`.claude/evals/feature-name.md` に eval 定義ファイルを作成
 
-### During Implementation
+### 実装中 (During Implementation)
 ```
 /eval check feature-name
 ```
-Runs current evals and reports status
+現在の eval を実行してステータスを報告
 
-### Post-Implementation
+### 実装後 (Post-Implementation)
 ```
 /eval report feature-name
 ```
-Generates full eval report
+完全な eval レポートを生成
 
-## Eval Storage
+## Eval の保存 (Eval Storage)
 
-Store evals in project:
+プロジェクト内に eval を保存:
 ```
 .claude/
   evals/
@@ -192,20 +192,20 @@ Store evals in project:
     baseline.json       # Regression baselines
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-1. **Define evals BEFORE coding** - Forces clear thinking about success criteria
-2. **Run evals frequently** - Catch regressions early
-3. **Track pass@k over time** - Monitor reliability trends
-4. **Use code graders when possible** - Deterministic > probabilistic
-5. **Human review for security** - Never fully automate security checks
-6. **Keep evals fast** - Slow evals don't get run
-7. **Version evals with code** - Evals are first-class artifacts
+1. **コーディング前に eval を定義** — 成功基準について明確に考えることを強制
+2. **eval を頻繁に実行** — 早期に回帰を検出
+3. **pass@k を時系列で追跡** — 信頼性のトレンドを監視
+4. **可能ならコードグレーダーを使用** — 決定的 > 確率的
+5. **セキュリティは人間レビュー** — セキュリティチェックを完全自動化しない
+6. **eval を高速に保つ** — 遅い eval は実行されない
+7. **eval をコードと一緒にバージョン管理** — eval は第一級のアーティファクト
 
-## Example: Adding Authentication
+## 例: 認証の追加 (Example: Adding Authentication)
 
 ```markdown
-## EVAL: add-authentication
+## 評価: add-authentication (EVAL: add-authentication)
 
 ### Phase 1: Define (10 min)
 Capability Evals:

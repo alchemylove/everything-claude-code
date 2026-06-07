@@ -1,69 +1,68 @@
 ---
 name: product-capability
 description: Translate PRD intent, roadmap asks, or product discussions into an implementation-ready capability plan that exposes constraints, invariants, interfaces, and unresolved decisions before multi-service work starts. Use when the user needs an ECC-native PRD-to-SRS lane instead of vague planning prose.
-origin: ECC
 ---
 
-# Product Capability
+# プロダクトケイパビリティ (Product Capability)
 
-This skill turns product intent into explicit engineering constraints.
+この skill は product intent を explicit engineering constraints に変換する。
 
-Use it when the gap is not "what should we build?" but "what exactly must be true before implementation starts?"
+ギャップが「何を build すべきか？」ではなく「implementation 開始前に何が真である必要があるか？」のときに使う。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- A PRD, roadmap item, discussion, or founder note exists, but the implementation constraints are still implicit
-- A feature crosses multiple services, repos, or teams and needs a capability contract before coding
-- Product intent is clear, but architecture, data, lifecycle, or policy implications are still fuzzy
-- Senior engineers keep restating the same hidden assumptions during review
-- You need a reusable artifact that can survive across harnesses and sessions
+- PRD、roadmap item、discussion、founder note はあるが implementation constraints がまだ implicit
+- feature が複数 service、repo、team を跨ぎ、coding 前に capability contract が必要
+- product intent は明確だが architecture、data、lifecycle、policy 含意がまだ fuzzy
+- senior engineer が review で同じ hidden assumption を繰り返し述べる
+- harness と session を跨いで再利用できる artifact が必要
 
-## Canonical Artifact
+## 正規アーティファクト (Canonical Artifact)
 
-If the repo has a durable product-context file such as `PRODUCT.md`, `docs/product/`, or a program-spec directory, update it there.
+repo に durable product-context file（`PRODUCT.md`、`docs/product/`、program-spec directory など）があれば、そこを更新する。
 
-If no capability manifest exists yet, create one using the template at:
+capability manifest がまだなければ、次の template で作成する:
 
 - `docs/examples/product-capability-template.md`
 
-The goal is not to create another planning stack. The goal is to make hidden capability constraints durable and reusable.
+目的は planning stack を増やすことではない。hidden capability constraints を durable で reusable にすることである。
 
-## Non-Negotiable Rules
+## 非交渉ルール (Non-Negotiable Rules)
 
-- Do not invent product truth. Mark unresolved questions explicitly.
-- Separate user-visible promises from implementation details.
-- Call out what is fixed policy, what is architecture preference, and what is still open.
-- If the request conflicts with existing repo constraints, say so clearly instead of smoothing it over.
-- Prefer one reusable capability artifact over scattered ad hoc notes.
+- product truth を捏造しない。未解決 question は明示する。
+- user-visible promise と implementation detail を分離する。
+- fixed policy、architecture preference、まだ open なものを区別する。
+- 要求が既存 repo constraints と矛盾する場合、smooth over せず明確に述べる。
+- 散在 ad hoc note より 1 つの reusable capability artifact を優先する。
 
-## Inputs
+## 入力 (Inputs)
 
-Read only what is needed:
+必要なものだけ読む:
 
 1. Product intent
-   - issue, discussion, PRD, roadmap note, founder message
+   - issue、discussion、PRD、roadmap note、founder message
 2. Current architecture
-   - relevant repo docs, contracts, schemas, routes, existing workflows
+   - 関連 repo docs、contracts、schemas、routes、existing workflows
 3. Existing capability context
-   - `PRODUCT.md`, design docs, RFCs, migration notes, operating-model docs
+   - `PRODUCT.md`、design docs、RFCs、migration notes、operating-model docs
 4. Delivery constraints
-   - auth, billing, compliance, rollout, backwards compatibility, performance, review policy
+   - auth、billing、compliance、rollout、backwards compatibility、performance、review policy
 
-## Core Workflow
+## コアワークフロー (Core Workflow)
 
-### 1. Restate the capability
+### 1. capability を再述 (1. Restate the capability)
 
-Compress the ask into one precise statement:
+ask を 1 つの precise statement に圧縮する:
 
-- who the user or operator is
-- what new capability exists after this ships
-- what outcome changes because of it
+- user または operator は誰か
+- ship 後に存在する新 capability は何か
+- それにより変わる outcome は何か
 
-If this statement is weak, the implementation will drift.
+この statement が弱いと implementation は drift する。
 
-### 2. Resolve capability constraints
+### 2. capability constraints を解決 (2. Resolve capability constraints)
 
-Extract the constraints that must hold before implementation:
+implementation 前に成立すべき constraints を抽出する:
 
 - business rules
 - scope boundaries
@@ -72,33 +71,33 @@ Extract the constraints that must hold before implementation:
 - data ownership
 - lifecycle transitions
 - rollout / migration requirements
-- failure and recovery expectations
+- failure と recovery 期待
 
-These are the things that often live only in senior-engineer memory.
+これらは often senior-engineer memory にしかないものである。
 
-### 3. Define the implementation-facing contract
+### 3. implementation-facing contract を定義 (3. Define the implementation-facing contract)
 
-Produce an SRS-style capability plan with:
+SRS-style capability plan を生成する:
 
 - capability summary
 - explicit non-goals
-- actors and surfaces
-- required states and transitions
+- actors と surfaces
+- required states と transitions
 - interfaces / inputs / outputs
 - data model implications
 - security / billing / policy constraints
-- observability and operator requirements
-- open questions blocking implementation
+- observability と operator requirements
+- implementation を block する open questions
 
-### 4. Translate into execution
+### 4. execution へ変換 (4. Translate into execution)
 
-End with the exact handoff:
+exact handoff で締める:
 
-- ready for direct implementation
-- needs architecture review first
-- needs product clarification first
+- direct implementation ready
+- architecture review が先
+- product clarification が先
 
-If useful, point to the next ECC-native lane:
+有用なら次の ECC-native lane を指す:
 
 - `project-flow-ops`
 - `workspace-surface-audit`
@@ -107,9 +106,9 @@ If useful, point to the next ECC-native lane:
 - `tdd-workflow`
 - `verification-loop`
 
-## Output Format
+## 出力形式 (Output Format)
 
-Return the result in this order:
+次の順で結果を返す:
 
 ```text
 CAPABILITY
@@ -134,8 +133,8 @@ HANDOFF
 - what should happen next and which ECC lane should take it
 ```
 
-## Good Outcomes
+## 良い成果 (Good Outcomes)
 
-- Product intent is now concrete enough to implement without rediscovering hidden constraints mid-PR.
-- Engineering review has a durable artifact instead of relying on memory or Slack context.
-- The resulting plan is reusable across Claude Code, Codex, Cursor, OpenCode, and ECC 2.0 planning surfaces.
+- Product intent が PR 途中で hidden constraints を再発見せず implement 可能な具体性になった。
+- Engineering review が memory や Slack context ではなく durable artifact を持つ。
+- 結果 plan が Claude Code、Codex、Cursor、OpenCode、ECC 2.0 planning surface で再利用できる。

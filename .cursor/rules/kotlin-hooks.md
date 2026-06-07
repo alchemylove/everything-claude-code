@@ -1,16 +1,16 @@
 ---
-description: "Kotlin hooks extending common rules"
+description: "Kotlin hooks: common ルールの拡張"
 globs: ["**/*.kt", "**/*.kts", "**/build.gradle.kts"]
 alwaysApply: false
 ---
-# Kotlin Hooks
+# Kotlin Hooks (Kotlin Hooks)
 
-> This file extends the common hooks rule with Kotlin-specific content.
+> このファイルは common hooks ルールを Kotlin 固有の内容で拡張する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **ktfmt/ktlint**: Auto-format `.kt` and `.kts` files after edit
-- **detekt**: Run static analysis after editing Kotlin files
-- **./gradlew build**: Verify compilation after changes
+- **ktfmt/ktlint**: 編集後に `.kt` と `.kts` ファイルを auto-format
+- **detekt**: Kotlin ファイル編集後に static analysis を実行
+- **./gradlew build**: 変更後にコンパイルを検証

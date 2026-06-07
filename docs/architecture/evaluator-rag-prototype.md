@@ -1,46 +1,40 @@
-# Evaluator RAG Prototype
+# Evaluator RAG プロトタイプ (Evaluator RAG Prototype)
 
-ECC 2.0 needs a self-improving harness loop that can learn from real work
-without blindly mutating a user's Claude, Codex, OpenCode, dmux, Zed, or
-terminal setup. This prototype defines the smallest read-only artifact set for
-that loop.
+ECC 2.0 は、ユーザーの Claude、Codex、OpenCode、dmux、Zed、または
+ターミナルセットアップを盲目的に変更せずに実作業から学べる自己改善 harness loop が必要です。このプロトタイプはその loop 向けの最小 read-only artifact セットを定義します。
 
-The fixture set lives in
-[`examples/evaluator-rag-prototype/`](../../examples/evaluator-rag-prototype/).
-It started with the May 2026 stale-PR cleanup and salvage lane because that
-lane has real inputs, real accepted work, and real rejected work. The corpus now
-also includes a billing/Marketplace readiness scenario so launch copy cannot
-treat dry-run release evidence or roadmap intent as live billing state. A
-CI-failure diagnosis scenario adds the log-first workflow needed before an
-agent proposes fixes for red checks. A harness-config quality scenario keeps
-MCP, plugin, hook, command, agent, and adapter recommendations tied to the
-adapter matrix before they mutate setup guidance. An AgentShield policy
-exception scenario gates security exceptions on SARIF/report evidence, owner
-fields, expiry state, and remediation-versus-exception decisions. A
-skill-quality evidence scenario requires observed failure or feedback evidence,
-working examples, reference-set gaps, and validation commands before a skill
-amendment can be promoted. A deep-analyzer evidence scenario requires analyzer
-corpus cases, expected-output comparisons, and risk-taxonomy proof before
-repository or commit-analysis behavior can change.
+フィクスチャセットは
+[`examples/evaluator-rag-prototype/`](../../examples/evaluator-rag-prototype/) にあります。
+2026年5月の stale-PR cleanup と salvage lane から始まりました。その lane には
+実入力、受け入れられた作業、拒否された作業があります。コーパスには現在
+billing/Marketplace readiness シナリオも含まれ、ローンチコピーが dry-run リリース evidence や roadmap intent をライブ billing 状態として扱わないようにします。
+CI-failure diagnosis シナリオは、エージェントが赤チェックの修正を提案する前に
+必要な log-first ワークフローを追加します。Harness-config quality シナリオは
+セットアップガイダンスを変更する前に MCP、plugin、hook、command、agent、adapter 推奨を
+adapter matrix に結び付けます。AgentShield policy
+exception シナリオは SARIF/report evidence、owner
+フィールド、expiry 状態、remediation 対 exception 判断で security exception をゲートします。
+Skill-quality evidence シナリオは、skill 修正を昇格する前に観測された失敗または feedback evidence、
+動作例、reference-set ギャップ、validation command を要求します。Deep-analyzer evidence シナリオは、
+リポジトリまたは commit 分析振る舞いを変更する前に analyzer
+corpus case、expected-output 比較、risk-taxonomy 証明を要求します。
 
-## Reference Pressure
+## 参照圧力 (Reference Pressure)
 
-- Meta-Harness: treat the harness itself as an experiment with scenario specs,
-  verifier results, and promoted playbooks.
-- Autocontext: store traces, reports, artifacts, and reusable improvements
-  before changing installed agent assets.
-- Claude HUD: expose context, tools, todos, agent activity, checks, and risk so
-  an evaluator can judge a run after the fact.
-- Hermes Agent: keep skills, memories, scheduler-like follow-ups, and terminal
-  gateway behavior explicit instead of hiding local commands.
-- dmux, Orca, Superset, and Ghast: preserve worktree/session state so parallel
-  agent work can be compared, resumed, or closed cleanly.
-- ECC Tools: route evaluator findings into PR comments, check runs, and Linear
-  backlog items without flooding GitHub.
+- Meta-Harness: scenario spec、verifier 結果、昇格 playbook で harness 自体を実験として扱う。
+- Autocontext: インストール済み agent asset を変更する前に trace、report、artifact、再利用可能な改善を保存。
+- Claude HUD: context、tools、todos、agent activity、checks、risk を露出し、
+  evaluator が事後に run を判断できるようにする。
+- Hermes Agent: skill、memory、scheduler 的 follow-up、terminal
+  gateway 振る舞いをローカルコマンドを隠さず明示する。
+- dmux、Orca、Superset、Ghast: worktree/session 状態を保持し、並列
+  エージェント作業を比較、再開、きれいにクローズできるようにする。
+- ECC Tools: evaluator finding を GitHub を氾濫させず PR comment、check run、Linear
+  backlog item にルーティング。
 
-## Artifact Contract
+## Artifact 契約 (Artifact Contract)
 
-Every evaluator/RAG run is read-only until a verifier promotes a playbook.
+すべての evaluator/RAG run は verifier が playbook を昇格するまで read-only です。
 
 | Artifact | Purpose | Fixture |
 | --- | --- | --- |
@@ -50,109 +44,104 @@ Every evaluator/RAG run is read-only until a verifier promotes a playbook.
 | Candidate playbook | Describes the maintainer-owned workflow that could be reused later. | `candidate-playbook.md` |
 | Verifier result | Accepts or rejects candidates with concrete reasons and rollback notes. | `verifier-result.json` |
 
-The prototype deliberately separates retrieval from action. A run can retrieve
-closed PR diffs, Linear status, CI history, and local docs, but it cannot close,
-merge, publish, tag, or rewrite configs as part of the evaluator pass.
+プロトタイプは retrieval と action を意図的に分離します。run は
+closed PR diff、Linear status、CI 履歴、ローカル docs を retrieve できますが、evaluator pass の一部として
+close、merge、publish、tag、config 書き換えはできません。
 
-## Phase Model
+## Phase モデル (Phase Model)
 
-1. Observe the current queue, dirty worktrees, branch state, open PRs/issues,
-   discussions, CI state, and release gates.
-2. Retrieve relevant reference evidence: stale-salvage ledger rows, prior
-   maintainer PRs, current docs, analyzer findings, CI failures, and harness
-   adapter rules.
-3. Propose one or more playbooks with source attribution and expected
-   validation gates.
-4. Verify each playbook against explicit acceptance and rejection rules.
-5. Promote only the candidate that improves the scenario without widening blast
-   radius.
-6. Record rollback guidance and unresolved manual-review tails.
+1. 現在の queue、dirty worktree、branch 状態、open PR/issue、
+   discussion、CI 状態、リリースゲートを観測。
+2. 関連 reference evidence を retrieve：stale-salvage ledger 行、以前の
+   maintainer PR、現在の docs、analyzer finding、CI 失敗、harness
+   adapter ルール。
+3. ソース帰属と期待 validation gate を持つ1つ以上の playbook を提案。
+4. 明示的 acceptance と rejection ルールに対して各 playbook を verify。
+5. blast radius を広げずにシナリオを改善する candidate のみ昇格。
+6. rollback ガイダンスと未解決 manual-review tail を記録。
 
-## First Scenario
+## 最初のシナリオ (First Scenario)
 
-The first scenario is `stale-pr-salvage-maintainer-branch`.
+最初のシナリオは `stale-pr-salvage-maintainer-branch` です。
 
-It models the rule Affaan set during the May 2026 cleanup: stale closure is
-queue hygiene, not loss of useful work. Useful closed PR work should be ported
-into maintainer-owned PRs with attribution/backlinks, while generated churn,
-bulk localization, and ambiguous translator work stay out of blind
-cherry-picks.
+2026年5月 cleanup 中に Affaan が設定したルールをモデル化：stale closure は
+queue hygiene であり、有用作業の喪失ではない。有用な closed PR 作業は
+帰属/backlink 付き maintainer-owned PR に port し、生成 churn、
+bulk localization、曖昧な translator 作業は blind
+cherry-pick から除外。
 
-The verifier accepts a maintainer salvage branch that:
+Verifier は次の maintainer salvage branch を accept します：
 
-- credits source PRs;
-- avoids raw private context and personal paths;
-- does not import stale bulk localization without translator review;
-- records a durable ledger update;
-- runs the same validation gates as a normal code, docs, or catalog change;
-- leaves release publication actions approval-gated.
+- ソース PR を credit；
+- 生プライベート context と個人 path を避ける；
+- translator レビューなしで stale bulk localization を import しない；
+- durable ledger 更新を記録；
+- 通常の code、docs、catalog 変更と同じ validation gate を実行；
+- リリース publication アクションは approval-gated のまま。
 
-The verifier rejects a blind cherry-pick proposal that:
+Verifier は次の blind cherry-pick 提案を reject します：
 
-- imports stale translation/doc churn wholesale;
-- skips the current catalog/install architecture;
-- lacks attribution;
-- lacks tests or ledger updates;
-- mutates release or plugin publication state.
+- stale translation/doc churn を wholesale import；
+- 現在の catalog/install アーキテクチャをスキップ；
+- 帰属がない；
+- テストまたは ledger 更新がない；
+- リリースまたは plugin publication 状態を変更。
 
-## Corpus Fixtures
+## Corpus フィクスチャ (Corpus Fixtures)
 
-The root fixture files preserve the original
-`stale-pr-salvage-maintainer-branch` prototype. Additional scenarios can live in
-subdirectories when they reuse the same five-artifact contract.
+ルート fixture ファイルは元の
+`stale-pr-salvage-maintainer-branch` プロトタイプを保持します。同じ5-artifact 契約を再利用する追加シナリオは
+サブディレクトリに置けます。
 
-Current corpus:
+現在のコーパス：
 
-- `stale-pr-salvage-maintainer-branch`: recovers useful closed PR work through
-  maintainer-owned branches with attribution and validation.
-- `billing-marketplace-readiness`: verifies billing, App, and Marketplace
-  launch claims before public copy says they are live.
-- `ci-failure-diagnosis`: requires failed-job logs, changed-file scope, and a
-  named regression command before a CI fix playbook can be promoted.
-- `harness-config-quality`: requires adapter state, install/onramp path,
-  verification commands, risk notes, and config-preservation behavior before a
-  harness setup recommendation can be promoted.
-- `agentshield-policy-exception`: requires AgentShield SARIF or report
-  evidence, policy-pack source, owner/ticket/scope/expiry fields, and expired
-  exception enforcement before a policy exception can be promoted.
-- `skill-quality-evidence`: requires focused skill scope, observed failure or
-  user-feedback evidence, examples/reference-set coverage, validation commands,
-  and publication safety before a skill amendment can be promoted.
-- `deep-analyzer-evidence`: requires maintained analyzer corpus cases,
-  expected-output comparisons, representative repository/commit histories, and
-  regression commands before deep-analysis behavior can be promoted.
+- `stale-pr-salvage-maintainer-branch`: 帰属と validation で
+  maintainer-owned branch 経由の有用 closed PR 作業を回収。
+- `billing-marketplace-readiness`: 公開コピーがライブと言う前に billing、App、Marketplace
+  ローンチクレームを verify。
+- `ci-failure-diagnosis`: CI fix playbook を昇格する前に failed-job log、changed-file scope、
+  名前付き regression command を要求。
+- `harness-config-quality`: harness セットアップ推奨を昇格する前に adapter 状態、install/onramp path、
+  verification command、risk note、config-preservation 振る舞いを要求。
+- `agentshield-policy-exception`: policy exception を昇格する前に AgentShield SARIF または report
+  evidence、policy-pack source、owner/ticket/scope/expiry フィールド、expired
+  exception enforcement を要求。
+- `skill-quality-evidence`: skill 修正を昇格する前に focused skill scope、観測失敗または
+  user-feedback evidence、example/reference-set カバレッジ、validation command、
+  publication safety を要求。
+- `deep-analyzer-evidence`: deep-analysis 振る舞いを変更する前に maintained analyzer corpus case、
+  expected-output 比較、代表的 repository/commit 履歴、regression command を要求。
 
-## ECC Tools Mapping
+## ECC Tools マッピング (ECC Tools Mapping)
 
-ECC Tools already flags missing RAG/evaluator evidence for retrieval,
-embedding, ranking, and evaluator changes. This prototype gives those checks a
-target shape:
+ECC Tools は retrieval、
+embedding、ranking、evaluator 変更向けの欠落 RAG/evaluator evidence をすでにフラグします。このプロトタイプはそれらのチェックに
+ターゲット形状を与えます：
 
-- `scenario.json` maps to analyzer corpus inputs.
-- `trace.json` maps to golden traces and run telemetry.
-- `report.json` maps to PR comment summaries and Linear backlog summaries.
-- `candidate-playbook.md` maps to the suggested follow-up PR body.
-- `verifier-result.json` maps to pass/fail check-run evidence.
+- `scenario.json` → analyzer corpus 入力。
+- `trace.json` → golden trace と run telemetry。
+- `report.json` → PR comment サマリーと Linear backlog サマリー。
+- `candidate-playbook.md` → 提案 follow-up PR body。
+- `verifier-result.json` → pass/fail check-run evidence。
 
-Future ECC Tools work should consume these artifacts as fixture shape before it
-adds hosted retrieval or model-backed judging. The local prototype is enough to
-prove the contract before any paid API or vector store is introduced.
+将来の ECC Tools 作業は hosted retrieval または model-backed judging を追加する前に
+これらの artifact を fixture 形状として消費すべきです。ローカルプロトタイプは
+有料 API や vector store を導入する前に契約を証明するのに十分です。
 
-## Promotion Rules
+## 昇格ルール (Promotion Rules)
 
-A candidate can be promoted only when:
+candidate は次のときのみ昇格できます：
 
-- the verifier result is `accepted`;
-- at least one rejected candidate proves the verifier can say no;
-- every source PR or reference artifact has attribution;
-- the proposed action is maintainer-owned and reversible;
-- validation commands are named;
-- unresolved translator, release, billing, or publication items remain blocked
-  until separately approved.
+- verifier 結果が `accepted`；
+- 少なくとも1つの rejected candidate が verifier が no と言えることを証明；
+- すべてのソース PR または reference artifact に帰属がある；
+- 提案アクションが maintainer-owned で reversible；
+- validation command が名前付き；
+- 未解決 translator、release、billing、publication 項目は別途承認まで blocked のまま。
 
-## Next Expansion
+## 次の拡張 (Next Expansion)
 
-The local evaluator/RAG corpus now covers the current evidence buckets. Future
-work should consume these fixtures from ECC Tools before adding hosted
-retrieval, vector storage, model-backed judging, or automated check-run
-promotion.
+ローカル evaluator/RAG コーパスは現在の evidence bucket をカバーします。将来の
+作業は hosted
+retrieval、vector storage、model-backed judging、自動 check-run
+昇格を追加する前に ECC Tools からこれらの fixture を消費すべきです。

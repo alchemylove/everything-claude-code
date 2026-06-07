@@ -4,34 +4,34 @@ paths:
   - "**/composer.lock"
   - "**/composer.json"
 ---
-# PHP Security
+# PHP セキュリティ (PHP Security)
 
-> This file extends [common/security.md](../common/security.md) with PHP specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、PHP 固有の内容を追加する。
 
-## Input and Output
+## 入出力 (Input and Output)
 
-- Validate request input at the framework boundary (`FormRequest`, Symfony Validator, or explicit DTO validation).
-- Escape output in templates by default; treat raw HTML rendering as an exception that must be justified.
-- Never trust query params, cookies, headers, or uploaded file metadata without validation.
+- フレームワーク境界でリクエスト入力を検証する（`FormRequest`、Symfony Validator、または明示的 DTO バリデーション）。
+- テンプレートではデフォルトで出力をエスケープする。生 HTML レンダリングは正当化が必要な例外として扱う。
+- クエリパラメータ、Cookie、ヘッダー、アップロードファイルのメタデータを検証なしで信頼しない。
 
-## Database Safety
+## データベース安全性 (Database Safety)
 
-- Use prepared statements (`PDO`, Doctrine, Eloquent query builder) for all dynamic queries.
-- Avoid string-building SQL in controllers/views.
-- Scope ORM mass-assignment carefully and whitelist writable fields.
+- 動的クエリには prepared statement（`PDO`、Doctrine、Eloquent query builder）を使用する。
+- コントローラ/ビューでの SQL 文字列連結を避ける。
+- ORM の mass-assignment を慎重にスコープし、書き込み可能フィールドをホワイトリスト化する。
 
-## Secrets and Dependencies
+## シークレットと依存関係 (Secrets and Dependencies)
 
-- Load secrets from environment variables or a secret manager, never from committed config files.
-- Run `composer audit` in CI and review new package maintainer trust before adding dependencies.
-- Pin major versions deliberately and remove abandoned packages quickly.
+- シークレットは環境変数または secret manager から読み込み、コミット済み設定ファイルには置かない。
+- CI で `composer audit` を実行し、依存追加前に新パッケージの maintainer 信頼性を確認する。
+- major バージョンは意図的に pin し、放棄されたパッケージは速やかに削除する。
 
-## Auth and Session Safety
+## 認証とセッション安全性 (Auth and Session Safety)
 
-- Use `password_hash()` / `password_verify()` for password storage.
-- Regenerate session identifiers after authentication and privilege changes.
-- Enforce CSRF protection on state-changing web requests.
+- パスワード保存には `password_hash()` / `password_verify()` を使用する。
+- 認証および権限変更後にセッション識別子を再生成する。
+- 状態を変更する Web リクエストでは CSRF 保護を強制する。
 
-## Reference
+## 参照 (Reference)
 
-See skill: `laravel-security` for Laravel-specific security guidance.
+Laravel 固有のセキュリティガイダンスは skill: `laravel-security` を参照。

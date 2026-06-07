@@ -4,110 +4,110 @@ description: End-to-end marketing campaign planning and execution. Covers audien
 origin: ECC
 ---
 
-# Marketing Campaign
+# マーケティングキャンペーン (Marketing Campaign)
 
-Plan and execute launch campaigns that convert — not just campaigns that ship.
+出荷するだけでなく、コンバージョンするローンチキャンペーンを計画・実行する。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- planning a product or feature launch
-- building a full content suite from a single product brief
-- defining positioning and campaign angle before writing any copy
-- orchestrating multiple content types across channels
-- reviewing copy for conversion quality and brand consistency
+- プロダクトまたは機能ローンチの計画
+- 単一プロダクトブリーフからフルコンテンツスイートの構築
+- コピー作成前のポジショニングとキャンペーンアングルの定義
+- チャネル横断の複数コンテンツタイプのオーケストレーション
+- コンバージョン品質とブランド一貫性のコピーレビュー
 
-## Non-Negotiables
+## 非交渉事項 (Non-Negotiables)
 
-1. Define positioning before writing any copy. All copy flows from the angle.
-2. Research the audience before assuming you know their language or fears.
-3. Each deliverable must serve one clear purpose in the campaign arc.
-4. Specificity beats adjectives in every format and on every channel.
-5. The same voice must run across every channel and every piece.
-6. No copy ships without passing the quality gate.
+1. コピー作成前にポジショニングを定義する。すべてのコピーはアングルから流れる。
+2. 言語や恐れを知っていると仮定する前にオーディエンスをリサーチする。
+3. 各成果物はキャンペーンアークで 1 つの明確な目的を果たす。
+4. あらゆるフォーマット・チャネルで具体性が形容詞に勝る。
+5. 同じ声が全チャネル・全ピースで走る。
+6. 品質ゲートを通過しないコピーは出荷しない。
 
-## Campaign Workflow
+## キャンペーンワークフロー (Campaign Workflow)
 
-### Phase 1: Research
+### フェーズ 1: リサーチ (Phase 1: Research)
 
-Use `market-research` to:
-- profile the target audience (jobs-to-be-done, fears, language, alternatives they use)
-- map 3+ direct or adjacent competitors (positioning, gaps, messaging weaknesses)
-- identify 1–3 audience insights the campaign angle will exploit
+`market-research` を使用して:
+- ターゲットオーディエンスをプロファイル（jobs-to-be-done、恐れ、言語、代替手段）
+- 3 以上の直接/隣接競合をマップ（ポジショニング、ギャップ、メッセージ弱点）
+- キャンペーンアングルが活用する 1–3 のオーディエンスインサイトを特定
 
-Deliverable: a short research brief (audience profile + competitive summary + key insights).
+成果物: 短いリサーチブリーフ（オーディエンスプロファイル + 競合要約 + 主要インサイト）。
 
-### Phase 2: Positioning
+### フェーズ 2: ポジショニング (Phase 2: Positioning)
 
-Produce:
-- core benefit statement (one sentence, no feature list, no jargon)
-- positioning formula: "[Product] helps [audience] [achieve outcome] by [mechanism]"
-- campaign angle: the specific tension, insight, or moment the whole campaign lives in
-- tone profile: lock before writing (delegate to `brand-voice` for durable, session-reusable voice capture)
+次を作成する:
+- コアベネフィットステートメント（1 文、機能リストなし、ジャーゴンなし）
+- ポジショニング式: "[Product] helps [audience] [achieve outcome] by [mechanism]"
+- キャンペーンアングル: キャンペーン全体が住む特定の緊張、インサイト、瞬間
+- トーンプロファイル: 執筆前に固定（永続的・セッション再利用可能な voice 取得は `brand-voice` に委譲）
 
-Do not write any copy until positioning and angle are approved.
+ポジショニングとアングルが承認されるまでコピーを書かない。
 
-### Phase 3: Content Production
+### フェーズ 3: コンテンツ制作 (Phase 3: Content Production)
 
-Produce in this order — each layer informs the next:
+この順で制作 — 各レイヤーが次を inform する:
 
-1. **Landing page copy** (all sections: hero, problem, solution, features, how it works, proof, CTA)
-2. **Email sequence** (each email has one purpose; follow the arc: problem → education → agitation → solution → proof → urgency → final CTA)
-3. **Social posts** (platform-native via `content-engine`; LinkedIn and X are different formats, not the same copy resized)
-4. **Short-form video scripts** (timestamp-blocked; written for screen and ear, not the page)
-5. **Ad copy variants** (3–4 variants testing different angles or audience segments)
-6. **Content calendar** (day-by-day schedule with channel, type, timing, and dependencies)
+1. **ランディングページコピー**（hero、problem、solution、features、how it works、proof、CTA 全セクション）
+2. **メールシーケンス**（各メールに 1 目的; アーク: problem → education → agitation → solution → proof → urgency → final CTA）
+3. **ソーシャル投稿**（`content-engine` 経由でプラットフォームネイティブ; LinkedIn と X はリサイズした同じコピーではなく別フォーマット）
+4. **ショート動画台本**（タイムスタンプブロック; ページではなく画面と耳向け）
+5. **広告コピーバリアント**（異なるアングルまたはオーディエンスセグメントを試す 3–4 バリアント）
+6. **コンテンツカレンダー**（チャネル、タイプ、タイミング、依存関係付き日次スケジュール）
 
-### Phase 4: Review
+### フェーズ 4: レビュー (Phase 4: Review)
 
-Gate every deliverable:
-- 5-second test on all hero / above-fold copy (clear who it's for, what it does, why act now)
-- CTA audit (one per piece, specific, earned — not demanded)
-- Tone consistency check across all channels
-- Claim audit (every claim is specific and supportable)
-- Cross-channel consistency (ad claims match landing page; email body matches subject)
+全成果物をゲートする:
+- 全 hero / above-fold コピーで 5 秒テスト（誰向けか、何をするか、なぜ今動くかが明確）
+- CTA 監査（1 ピース 1 つ、具体的、獲得された — 要求されない）
+- 全チャネルでのトーン一貫性チェック
+- クレーム監査（すべてのクレームが具体的で裏付け可能）
+- チャネル横断一貫性（広告クレーム = ランディングページ; メール本文 = 件名）
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-A full campaign delivers:
+フルキャンペーンは次を納品する:
 
-1. **Positioning brief** — angle, core benefit statement, tone profile
-2. **Landing page copy** — hero, problem, solution, features, how it works, proof, CTA
-3. **Email sequence** — subject + preview + body + CTA for each email, labelled by day and purpose
-4. **LinkedIn posts** — 3+ platform-native posts with distinct angles
-5. **X posts** — 5+ standalone posts + 1 thread
-6. **Short-form video scripts** — 2+ timestamp-blocked scripts with visual direction notes
-7. **Ad copy variants** — short headline / long headline / body per variant
-8. **Content calendar** — day-by-day schedule with channel, content type, timing, and dependencies
-9. **Copy review summary** — flagged issues and open questions before anything goes live
+1. **ポジショニングブリーフ** — アングル、コアベネフィット、トーンプロファイル
+2. **ランディングページコピー** — hero、problem、solution、features、how it works、proof、CTA
+3. **メールシーケンス** — 各メールの subject + preview + body + CTA、日と目的でラベル
+4. **LinkedIn 投稿** — 異なるアングルの 3 以上のプラットフォームネイティブ投稿
+5. **X 投稿** — 5 以上のスタンドアロン + 1 スレッド
+6. **ショート動画台本** — ビジュアル方向メモ付き 2 以上のタイムスタンプブロック台本
+7. **広告コピーバリアント** — バリアントごと short headline / long headline / body
+8. **コンテンツカレンダー** — チャネル、コンテンツタイプ、タイミング、依存関係付き日次スケジュール
+9. **コピーレビューサマリー** — 公開前のフラグ付き問題と未解決質問
 
-## Quality Gate
+## 品質ゲート (Quality Gate)
 
-Before delivering any piece:
+各ピース納品前に:
 
-- every deliverable sounds like the same author
-- no hollow superlatives or filler adjectives remain
-- every CTA is specific and earned (never "learn more" or "click here")
-- no copy is duplicated verbatim across platforms
-- hero copy passes the 5-second test
-- email subjects match email body (no bait-and-switch)
-- ad claims match landing page claims exactly
-- no copy would work unchanged for any other product in the category
+- 全成果物が同じ著者に聞こえる
+- 空虚な最上級やフィラー形容詞が残っていない
+- すべての CTA が具体的で獲得されている（"learn more" や "click here" 禁止）
+- プラットフォーム間でコピーが逐語的に重複していない
+- hero コピーが 5 秒テストを通過
+- メール件名が本文と一致（ベイトアンドスイッチなし）
+- 広告クレームがランディングページクレームと完全一致
+- カテゴリ内の他プロダクトにそのまま差し替え可能なコピーがない
 
-## Hard Bans
+## 禁止事項 (Hard Bans)
 
-Delete and rewrite any:
+次は削除して書き直す:
 
 - "game-changing", "revolutionary", "world-class", "cutting-edge"
 - "In today's competitive landscape"
-- fake urgency not backed by a real deadline
-- hollow social proof without specifics ("thousands trust us")
-- generic CTAs ("learn more", "find out more", "click here")
-- copy that could be unplugged and dropped into a competitor's campaign unchanged
+- 実際の締切に裏付けられない偽の緊急性
+- 具体性のない空虚な社会的証明（"thousands trust us"）
+- 汎用 CTA（"learn more", "find out more", "click here"）
+- 競合キャンペーンにそのまま差し込めるコピー
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `brand-voice` — source-derived voice capture (run before content production)
-- `content-engine` — platform-native content production
-- `crosspost` — multi-platform distribution
-- `market-research` — audience and competitive intelligence
-- `seo` — on-page optimisation for landing page copy
+- `brand-voice` — ソース由来 voice 取得（コンテンツ制作前に実行）
+- `content-engine` — プラットフォームネイティブコンテンツ制作
+- `crosspost` — マルチプラットフォーム配信
+- `market-research` — オーディエンスと競合インテリジェンス
+- `seo` — ランディングページコピーのオンページ最適化

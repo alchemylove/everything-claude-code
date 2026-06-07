@@ -1,28 +1,28 @@
 ---
 name: instinct-import
-description: Import instincts from file or URL into project/global scope
+description: ファイルまたは URL から instincts を project/global スコープにインポートする
 command: true
 ---
 
-# Instinct Import Command
+# Instinct インポートコマンド (Instinct Import Command)
 
-## Implementation
+## 実装 (Implementation)
 
-Run the instinct CLI using the plugin root path:
+プラグインルートパスを使用して instinct CLI を実行します:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" import <file-or-url> [--dry-run] [--force] [--min-confidence 0.7] [--scope project|global]
 ```
 
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation):
+または `CLAUDE_PLUGIN_ROOT` が未設定の場合（手動インストール）:
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py import <file-or-url>
 ```
 
-Import instincts from local file paths or HTTP(S) URLs.
+ローカルファイルパスまたは HTTP(S) URL から instincts をインポートします。
 
-## Usage
+## 使い方 (Usage)
 
 ```
 /instinct-import team-instincts.yaml
@@ -31,17 +31,17 @@ Import instincts from local file paths or HTTP(S) URLs.
 /instinct-import team-instincts.yaml --scope global --force
 ```
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Fetch the instinct file (local path or URL)
-2. Parse and validate the format
-3. Check for duplicates with existing instincts
-4. Merge or add new instincts
-5. Save to inherited instincts directory:
+1. instinct ファイルを取得する（ローカルパスまたは URL）
+2. 形式を解析して検証する
+3. 既存 instincts との重複をチェックする
+4. 新しい instincts をマージまたは追加する
+5. inherited instincts ディレクトリに保存する:
    - Project scope: `~/.claude/homunculus/projects/<project-id>/instincts/inherited/`
    - Global scope: `~/.claude/homunculus/instincts/inherited/`
 
-## Import Process
+## インポートプロセス (Import Process)
 
 ```
  Importing instincts from: team-instincts.yaml
@@ -73,16 +73,16 @@ Already have similar instincts:
 Import 8 new, update 1?
 ```
 
-## Merge Behavior
+## マージ動作 (Merge Behavior)
 
-When importing an instinct with an existing ID:
-- Higher-confidence import becomes an update candidate
-- Equal/lower-confidence import is skipped
-- User confirms unless `--force` is used
+既存 ID の instinct をインポートする場合:
+- より高い信頼度の import が更新候補になる
+- 同等/より低い信頼度の import はスキップされる
+- `--force` 未使用時はユーザー確認が必要
 
-## Source Tracking
+## ソース追跡 (Source Tracking)
 
-Imported instincts are marked with:
+インポートされた instincts は以下のようにマークされます:
 ```yaml
 source: inherited
 scope: project
@@ -91,16 +91,16 @@ project_id: "a1b2c3d4e5f6"
 project_name: "my-project"
 ```
 
-## Flags
+## フラグ (Flags)
 
-- `--dry-run`: Preview without importing
-- `--force`: Skip confirmation prompt
-- `--min-confidence <n>`: Only import instincts above threshold
-- `--scope <project|global>`: Select target scope (default: `project`)
+- `--dry-run`: インポートせずにプレビュー
+- `--force`: 確認プロンプトをスキップ
+- `--min-confidence <n>`: 閾値以上の instincts のみをインポート
+- `--scope <project|global>`: 対象スコープを選択（デフォルト: `project`）
 
-## Output
+## 出力 (Output)
 
-After import:
+インポート後:
 ```
 PASS: Import complete!
 

@@ -1,34 +1,34 @@
 ---
 name: clickhouse-io
-description: ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads.
+description: 分析 DB 向け ClickHouse パターン — クエリ最適化、スキーマ設計、データエンジニアリング、高パフォーマンス OLAP ワークロード。ClickHouse, OLAP, query optimization, analytics.
 origin: ECC
 ---
 
-# ClickHouse Analytics Patterns
+# ClickHouse 分析パターン (ClickHouse Analytics Patterns)
 
-ClickHouse-specific patterns for high-performance analytics and data engineering.
+高性能な分析とデータエンジニアリング向けの ClickHouse 固有パターン。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- Designing ClickHouse table schemas (MergeTree engine selection)
-- Writing analytical queries (aggregations, window functions, joins)
-- Optimizing query performance (partition pruning, projections, materialized views)
-- Ingesting large volumes of data (batch inserts, Kafka integration)
-- Migrating from PostgreSQL/MySQL to ClickHouse for analytics
-- Implementing real-time dashboards or time-series analytics
+- ClickHouse テーブルスキーマの設計（MergeTree エンジン選択）
+- 分析クエリの記述（集約、ウィンドウ関数、JOIN）
+- クエリパフォーマンスの最適化（パーティション pruning、projection、マテリアライズドビュー）
+- 大量データの取り込み（バッチ insert、Kafka 統合）
+- 分析用途で PostgreSQL/MySQL から ClickHouse へ移行
+- リアルタイムダッシュボードまたは時系列分析の実装
 
-## Overview
+## 概要 (Overview)
 
-ClickHouse is a column-oriented database management system (DBMS) for online analytical processing (OLAP). It's optimized for fast analytical queries on large datasets.
+ClickHouse はオンライン分析処理（OLAP）向けの列指向データベース管理システム（DBMS）です。大規模データセットに対する高速な分析クエリに最適化されています。
 
-**Key Features:**
-- Column-oriented storage
-- Data compression
-- Parallel query execution
-- Distributed queries
-- Real-time analytics
+**主な機能:**
+- 列指向ストレージ
+- データ圧縮
+- 並列クエリ実行
+- 分散クエリ
+- リアルタイム分析
 
-## Table Design Patterns
+## テーブル設計パターン (Table Design Patterns)
 
 ### MergeTree Engine (Most Common)
 
@@ -91,7 +91,7 @@ GROUP BY hour, market_id
 ORDER BY hour DESC;
 ```
 
-## Query Optimization Patterns
+## クエリ最適化パターン (Query Optimization Patterns)
 
 ### Efficient Filtering
 
@@ -156,7 +156,7 @@ WHERE date >= today() - INTERVAL 30 DAY
 ORDER BY market_id, date;
 ```
 
-## Data Insertion Patterns
+## データ挿入パターン (Data Insertion Patterns)
 
 ### Bulk Insert (Recommended)
 
@@ -215,7 +215,7 @@ async function streamInserts() {
 }
 ```
 
-## Materialized Views
+## マテリアライズドビュー (Materialized Views)
 
 ### Real-time Aggregations
 
@@ -244,7 +244,7 @@ WHERE hour >= now() - INTERVAL 24 HOUR
 GROUP BY hour, market_id;
 ```
 
-## Performance Monitoring
+## パフォーマンス監視 (Performance Monitoring)
 
 ### Query Performance
 
@@ -282,7 +282,7 @@ GROUP BY database, table
 ORDER BY sum(bytes) DESC;
 ```
 
-## Common Analytics Queries
+## 一般的な分析クエリ (Common Analytics Queries)
 
 ### Time Series Analysis
 
@@ -357,7 +357,7 @@ GROUP BY cohort, month, months_since_signup
 ORDER BY cohort, months_since_signup;
 ```
 
-## Data Pipeline Patterns
+## データパイプラインパターン (Data Pipeline Patterns)
 
 ### ETL Pattern
 
@@ -407,33 +407,33 @@ pgClient.on('notification', async (msg) => {
 })
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-### 1. Partitioning Strategy
-- Partition by time (usually month or day)
-- Avoid too many partitions (performance impact)
-- Use DATE type for partition key
+### 1. パーティション戦略 (Partitioning Strategy)
+- 時間でパーティション（通常は月または日）
+- パーティション過多を避ける（パフォーマンス影響）
+- パーティションキーには DATE 型を使用
 
-### 2. Ordering Key
-- Put most frequently filtered columns first
-- Consider cardinality (high cardinality first)
-- Order impacts compression
+### 2. ソートキー (Ordering Key)
+- 最も頻繁にフィルタする列を先に置く
+- カーディナリティを考慮（高カーディナリティを先に）
+- 順序は圧縮に影響する
 
-### 3. Data Types
-- Use smallest appropriate type (UInt32 vs UInt64)
-- Use LowCardinality for repeated strings
-- Use Enum for categorical data
+### 3. データ型 (Data Types)
+- 最小の適切な型を使用（UInt32 vs UInt64）
+- 繰り返し文字列には LowCardinality
+- カテゴリデータには Enum
 
-### 4. Avoid
-- SELECT * (specify columns)
-- FINAL (merge data before query instead)
-- Too many JOINs (denormalize for analytics)
-- Small frequent inserts (batch instead)
+### 4. 避けること (Avoid)
+- SELECT *（列を指定）
+- FINAL（代わりにクエリ前にデータをマージ）
+- JOIN 過多（分析向けに非正規化）
+- 小さく頻繁な insert（代わりにバッチ）
 
-### 5. Monitoring
-- Track query performance
-- Monitor disk usage
-- Check merge operations
-- Review slow query log
+### 5. 監視 (Monitoring)
+- クエリパフォーマンスを追跡
+- ディスク使用量を監視
+- マージ操作を確認
+- スロークエリログをレビュー
 
-**Remember**: ClickHouse excels at analytical workloads. Design tables for your query patterns, batch inserts, and leverage materialized views for real-time aggregations.
+**覚えておくこと**: ClickHouse は分析ワークロードに優れる。クエリパターンに合わせてテーブルを設計し、バッチ insert を使い、リアルタイム集約にはマテリアライズドビューを活用する。

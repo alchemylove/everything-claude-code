@@ -5,27 +5,25 @@ origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Parallel Execution Optimizer
+# 並列実行オプティマイザ (Parallel Execution Optimizer)
 
-Use this skill when speed comes from doing independent work at the same time:
-repo inspection, file reads, API checks, browser checks, build/test lanes,
-deploy readbacks, or multi-worktree implementation passes.
+速度が独立作業の同時実行から得られるときにこの skill を使用する: repo 検査、file read、API check、browser check、build/test lane、deploy readback、multi-worktree implementation pass など。
 
-## Core Pattern
+## コアパターン (Core Pattern)
 
-Turn urgency into a dependency graph before acting.
+行動前に urgency を dependency graph に変換する。
 
-1. Define the objective and done signal.
-2. Split work into lanes.
-3. Mark each lane as parallel, sequential, or gated.
-4. Run independent reads/checks together.
-5. Keep writes isolated by file, worktree, branch, service, or dataset.
-6. Merge only after evidence shows the lanes are compatible.
-7. End with a verification table, not a vague speed claim.
+1. objective と done signal を定義する。
+2. 作業を lane に分割する。
+3. 各 lane を parallel、sequential、gated に分類する。
+4. 独立した read/check を同時実行する。
+5. write は file、worktree、branch、service、dataset ごとに隔離する。
+6. lane が互換である証拠が揃ってから merge する。
+7. 曖昧な速度主張ではなく verification table で締める。
 
-## Lane Matrix
+## Lane マトリクス (Lane Matrix)
 
-Before a large push, write a compact matrix:
+大規模 push の前に簡潔なマトリクスを書く:
 
 ```text
 Lane | Can run in parallel? | Write surface | Risk | Verification
@@ -35,24 +33,20 @@ Frontend patch | maybe | app/components | medium | browser screenshot
 Deploy readback | after build | remote service | high | live URL + logs
 ```
 
-Only run lanes in parallel when their write surfaces do not collide.
+write surface が衝突しないときのみ lane を parallel 実行する。
 
-## Execution Rules
+## 実行ルール (Execution Rules)
 
-- Batch file reads, searches, status checks, and metadata queries.
-- Use isolated worktrees for large unrelated implementation lanes.
-- Start long-running tests, builds, backfills, and deploys in separate sessions,
-  then poll them deliberately.
-- If a lane discovers a blocker that changes the plan, pause dependent lanes
-  and update the matrix.
-- Never let a background process outlive the turn unless the user explicitly
-  asked for a continuing service.
-- Do not parallelize destructive commands, migrations, writes to the same table,
-  or live customer-impacting deploys without an explicit gate.
+- file read、search、status check、metadata query を batch する。
+- 大きく無関係な implementation lane には isolated worktree を使う。
+- 長時間 test、build、backfill、deploy は別 session で開始し、意図的に poll する。
+- lane が plan を変える blocker を発見したら依存 lane を止め、マトリクスを更新する。
+- user が継続 service を明示要求しない限り、background process を turn を超えて残さない。
+- 明示的 gate なしに destructive command、migration、同一 table への write、live customer 影響 deploy を parallel 化しない。
 
-## Output Shape
+## 出力形式 (Output Shape)
 
-Use this when reporting:
+報告時は次を使用:
 
 ```text
 Parallel execution result:
@@ -63,10 +57,10 @@ Parallel execution result:
 - Verification: lint pass, unit pass, live smoke pass
 ```
 
-## Failure Modes
+## 失敗モード (Failure Modes)
 
-- More concurrency that creates conflicting edits.
-- Benchmarking the tool instead of the task.
-- Treating "fast" as done before correctness is proven.
-- Forgetting to poll running sessions.
-- Hiding skipped checks behind a success summary.
+- 衝突する編集を生む過剰な concurrency
+- タスクではなく tool のベンチマーク
+- 正しさが証明される前の「速い＝完了」扱い
+- 実行中 session の poll 忘れ
+- スキップした check を成功サマリで隠す

@@ -4,19 +4,19 @@ paths:
   - "**/pubspec.yaml"
   - "**/analysis_options.yaml"
 ---
-# Dart/Flutter Hooks
+# Dart/Flutter フック (Dart/Flutter Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Dart and Flutter-specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Dart および Flutter 固有の内容を追加する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定する:
 
-- **dart format**: Auto-format `.dart` files after edit
-- **dart analyze**: Run static analysis after editing Dart files and surface warnings
-- **flutter test**: Optionally run affected tests after significant changes
+- **dart format**: 編集後に `.dart` ファイルを自動フォーマット
+- **dart analyze**: Dart ファイル編集後に静的解析を実行し、warning を表示
+- **flutter test**: 大きな変更後に影響を受けるテストを任意で実行
 
-## Recommended Hook Configuration
+## 推奨 Hook 設定 (Recommended Hook Configuration)
 
 ```json
 {
@@ -33,9 +33,9 @@ Configure in `~/.claude/settings.json`:
 }
 ```
 
-## Pre-commit Checks
+## コミット前チェック (Pre-commit Checks)
 
-Run before committing Dart/Flutter changes:
+Dart/Flutter の変更をコミットする前に実行する:
 
 ```bash
 dart format --set-exit-if-changed .
@@ -43,7 +43,7 @@ dart analyze --fatal-infos
 flutter test
 ```
 
-## Useful One-liners
+## 便利なワンライナー (Useful One-liners)
 
 ```bash
 # Format all Dart files

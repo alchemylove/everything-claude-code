@@ -3,31 +3,31 @@ paths:
   - "**/*.swift"
   - "**/Package.swift"
 ---
-# Swift Coding Style
+# Swift コーディングスタイル (Swift Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Swift specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Swift 固有の内容を追加する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **SwiftFormat** for auto-formatting, **SwiftLint** for style enforcement
-- `swift-format` is bundled with Xcode 16+ as an alternative
+- 自動フォーマットには **SwiftFormat**、スタイル強制には **SwiftLint**
+- Xcode 16+ では代替として `swift-format` が同梱されている
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer `let` over `var` — define everything as `let` and only change to `var` if the compiler requires it
-- Use `struct` with value semantics by default; use `class` only when identity or reference semantics are needed
+- `var` より `let` を優先 — すべて `let` で定義し、コンパイラが要求するときだけ `var` に変更する
+- デフォルトは value semantics の `struct`。identity または参照 semantics が必要なときだけ `class` を使用する
 
-## Naming
+## 命名 (Naming)
 
-Follow [Apple API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/):
+[Apple API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/) に従う:
 
-- Clarity at the point of use — omit needless words
-- Name methods and properties for their roles, not their types
-- Use `static let` for constants over global constants
+- 使用箇所での明確さ — 不要な語を省略する
+- 型ではなく役割に基づいてメソッドとプロパティに名前を付ける
+- グローバル定数より `static let` を定数に使用する
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Use typed throws (Swift 6+) and pattern matching:
+型付き throws（Swift 6+）とパターンマッチングを使用する:
 
 ```swift
 func load(id: String) throws(LoadError) -> Item {
@@ -38,10 +38,10 @@ func load(id: String) throws(LoadError) -> Item {
 }
 ```
 
-## Concurrency
+## 並行性 (Concurrency)
 
-Enable Swift 6 strict concurrency checking. Prefer:
+Swift 6 の strict concurrency checking を有効にする。以下を優先する:
 
-- `Sendable` value types for data crossing isolation boundaries
-- Actors for shared mutable state
-- Structured concurrency (`async let`, `TaskGroup`) over unstructured `Task {}`
+- isolation 境界を跨ぐデータには `Sendable` value type
+- 共有 mutable 状態には actor
+- 非構造化 `Task {}` より structured concurrency（`async let`、`TaskGroup`）

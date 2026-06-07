@@ -7,45 +7,45 @@ paths:
   - "**/config/routes.rb"
   - "**/config/credentials*.yml.enc"
 ---
-# Ruby Security
+# Ruby セキュリティ (Ruby Security)
 
-> This file extends [common/security.md](../common/security.md) with Ruby and Rails specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、Ruby および Rails 固有の内容を追加する。
 
-## Rails Defaults
+## Rails デフォルト (Rails Defaults)
 
-- Keep CSRF protection enabled for state-changing browser requests.
-- Use strong parameters or typed boundary objects before mass assignment.
-- Store secrets in Rails credentials, environment variables, or a secret manager. Never commit plaintext keys, tokens, private credentials, or copied `.env` values.
+- 状態を変更するブラウザリクエストでは CSRF 保護を有効にしておく。
+- マスアサインメントの前に strong parameters または型付き境界オブジェクトを使用する。
+- シークレットは Rails credentials、環境変数、またはシークレットマネージャーに保存する。平文のキー、トークン、プライベート資格情報、またはコピーした `.env` 値をコミットしない。
 
-## SQL And Active Record
+## SQL と Active Record (SQL And Active Record)
 
-- Prefer Active Record query APIs and parameterized SQL.
-- Never interpolate request, cookie, header, job, or webhook values into SQL strings.
-- Scope model callbacks carefully; security-sensitive side effects should be explicit and covered by tests.
+- Active Record クエリ API とパラメータ化された SQL を優先する。
+- リクエスト、Cookie、ヘッダー、ジョブ、または Webhook の値を SQL 文字列に補間しない。
+- モデルコールバックのスコープを慎重に設定する。セキュリティに関わる副作用は明示的にし、テストでカバーする。
 
-## Authentication And Sessions
+## 認証とセッション (Authentication And Sessions)
 
-- Use the Rails 8 authentication generator for simple session auth, or Devise when OAuth, MFA, confirmable, lockable, multi-model auth, or existing Devise conventions are required.
-- Rotate sessions after sign-in and privilege changes.
-- Protect account recovery flows with expiry, single-use tokens, rate limiting, and audit logging.
+- シンプルなセッション認証には Rails 8 認証ジェネレータを使用する。OAuth、MFA、confirmable、lockable、マルチモデル認証、または既存の Devise 規約が必要な場合は Devise を使用する。
+- サインインと権限変更後にセッションをローテーションする。
+- アカウント回復フローは有効期限、ワンタイムトークン、レート制限、および監査ログで保護する。
 
-## Dependencies
+## 依存関係 (Dependencies)
 
-- Run dependency checks when the lockfile changes:
+- ロックファイルが変更された時に依存関係チェックを実行する:
 
 ```bash
 bundle exec bundle-audit check --update
 bundle exec brakeman --no-progress
 ```
 
-- Review new gems for maintainer activity, native extension risk, transitive dependencies, and whether the same behavior can be implemented with Rails core.
+- 新しい gem については、メンテナーの活動状況、ネイティブ拡張のリスク、推移的依存関係、および Rails コアで同じ動作を実装できるかどうかを確認する。
 
-## Web Safety
+## Web セーフティ (Web Safety)
 
-- Escape template output by default. Treat `html_safe`, `raw`, and custom sanitizers as security-sensitive code.
-- Validate file uploads by content type, extension, size, and storage destination.
-- Treat background jobs, webhooks, Action Cable messages, and Turbo Stream inputs as untrusted boundaries.
+- デフォルトでテンプレート出力をエスケープする。`html_safe`、`raw`、およびカスタムサニタイザーはセキュリティに関わるコードとして扱う。
+- ファイルアップロードはコンテンツタイプ、拡張子、サイズ、および保存先で検証する。
+- バックグラウンドジョブ、Webhook、Action Cable メッセージ、および Turbo Stream 入力は信頼されない境界として扱う。
 
-## Reference
+## リファレンス (Reference)
 
-See skill: `security-review` for secure-by-default review patterns.
+セキュア・バイ・デフォルトのレビューパターンについてはスキル: `security-review` を参照。

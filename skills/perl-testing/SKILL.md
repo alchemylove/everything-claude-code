@@ -8,7 +8,7 @@ origin: ECC
 
 Comprehensive testing strategies for Perl applications using Test2::V0, Test::More, prove, and TDD methodology.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Writing new Perl code (follow TDD: red, green, refactor)
 - Designing test suites for Perl modules or applications
@@ -17,7 +17,7 @@ Comprehensive testing strategies for Perl applications using Test2::V0, Test::Mo
 - Migrating tests from Test::More to Test2::V0
 - Debugging failing Perl tests
 
-## TDD Workflow
+## TDD ワークフロー (TDD Workflow)
 
 Always follow the RED-GREEN-REFACTOR cycle.
 
@@ -54,7 +54,7 @@ sub add($self, $a, $b) {
 # Run: prove -lv t/unit/calculator.t
 ```
 
-## Test::More Fundamentals
+## Test::More の基礎 (Test::More Fundamentals)
 
 The standard Perl testing module — widely used, ships with core.
 
@@ -117,7 +117,7 @@ TODO: {
 done_testing;
 ```
 
-## Test2::V0 Modern Framework
+## Test2::V0 モダンフレームワーク (Test2::V0 Modern Framework)
 
 Test2::V0 is the modern replacement for Test::More — richer assertions, better diagnostics, and extensible.
 
@@ -223,7 +223,7 @@ subtest 'error handling' => sub {
 done_testing;
 ```
 
-## Test Organization and prove
+## テスト構成と prove (Test Organization and prove)
 
 ### Directory Structure
 
@@ -284,7 +284,7 @@ prove -l --formatter TAP::Formatter::JUnit t/ > results.xml
 --state=save
 ```
 
-## Fixtures and Setup/Teardown
+## フィクスチャとセットアップ/ティアダウン (Fixtures and Setup/Teardown)
 
 ### Subtest Isolation
 
@@ -312,7 +312,7 @@ subtest 'file processing' => sub {
 
 Place reusable helpers in `t/lib/TestHelper.pm` and load with `use lib 't/lib'`. Export factory functions like `create_test_db()`, `create_temp_dir()`, and `fixture_path()` via `Exporter`.
 
-## Mocking
+## モック (Mocking)
 
 ### Test::MockModule
 
@@ -349,7 +349,7 @@ subtest 'mock external API' => sub {
 
 For lightweight mock objects, use `Test::MockObject` to create injectable test doubles with `->mock()` and verify calls with `->called_ok()`.
 
-## Coverage with Devel::Cover
+## Devel::Cover によるカバレッジ (Coverage with Devel::Cover)
 
 ### Running Coverage
 
@@ -396,7 +396,7 @@ subtest 'database integration' => sub {
 done_testing;
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
 ### DO
 
@@ -421,7 +421,7 @@ done_testing;
 - **Don't test CPAN modules**: Trust libraries to work correctly
 - **Don't write brittle tests**: Avoid over-specific string matching
 
-## Quick Reference
+## クイックリファレンス (Quick Reference)
 
 | Task | Command / Pattern |
 |---|---|
@@ -437,7 +437,7 @@ done_testing;
 | Skip tests | `SKIP: { skip 'reason', $count unless $cond; ... }` |
 | TODO tests | `TODO: { local $TODO = 'reason'; ... }` |
 
-## Common Pitfalls
+## よくある落とし穴 (Common Pitfalls)
 
 ### Forgetting `done_testing`
 

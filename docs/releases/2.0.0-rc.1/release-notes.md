@@ -1,124 +1,106 @@
-# ECC v2.0.0-rc.1 Release Notes
+# ECC v2.0.0-rc.1 リリースノート (ECC v2.0.0-rc.1 Release Notes)
 
-## Positioning
+## ポジショニング (Positioning)
 
-ECC v2.0.0-rc.1 is the first release-candidate surface for ECC as a cross-harness operating system for agentic work.
+ECC v2.0.0-rc.1 は、エージェント作業向け cross-harness operating system としての ECC の最初の release-candidate 面です。
 
-Claude Code remains a core target. Codex, OpenCode, Cursor, Gemini, and other harnesses are treated as execution surfaces that can share the same skills, rules, MCP conventions, and operator workflows. ECC is the reusable substrate; Hermes is documented as the operator shell that can sit on top of that layer.
+Claude Code はコアターゲットのままです。Codex、OpenCode、Cursor、Gemini、その他 harness は同じ skills、rules、MCP 規約、operator workflow を共有できる実行面として扱われます。ECC は再利用可能 substrate；Hermes はそのレイヤーの上に乗る operator shell として文書化されています。
 
-## What Changed
+## 変更点 (What Changed)
 
-- Added the sanitized Hermes setup guide to the public release story.
-- Added launch collateral in-repo so the release can ship from one reviewed surface.
-- Clarified the split between ECC as the reusable substrate and Hermes as the operator shell.
-- Documented the cross-harness portability model for skills, hooks, MCPs, rules, and instructions.
-- Added a Hermes import playbook for turning local operator patterns into publishable ECC skills.
-- Added Zed as a project-local planning/install target while keeping BYOK and OpenRouter secrets outside ECC-managed project files.
-- Added command-registry coverage, platform audit, discussion audit, operator dashboard, Linear progress readiness, and preview-pack smoke gates.
-- Added a local [observability readiness gate](../../architecture/observability-readiness.md) for loop status, session traces, harness audit, and ECC2 tool-risk logs.
-- Added the public teaser [Itô prediction-market skill pack](ito-prediction-market-skill-pack.md)
-  for read-only basket research, comparison, oracle-style market intelligence,
-  and risk review. Live Itô API access remains gated and separate from ECC
-  Tools billing.
-- Added the rollout-derived optimization skill pack: parallel execution,
-  benchmark loops, data-throughput acceleration, latency-critical systems, and
-  recursive decision ledgers.
-- Refreshed the release-readiness evidence after the May 2026 Mini
-  Shai-Hulud/TanStack campaign follow-up, including full-campaign AgentShield
-  IOC coverage, queue-zero/discussion checks, a detailed Linear roadmap gate,
-  the May 18 operator dashboard snapshot, and a live/pending release URL
-  ledger for announcement gating.
-- Published `ecc-universal@2.0.0-rc.1` to npm on the `next` dist-tag. The
-  `latest` tag remains on `1.10.0` during the rc.1 window.
+- サニタイズされた Hermes セットアップガイドを公開リリースストーリーに追加。
+- 1つのレビュー済み面からリリースできるよう in-repo ローンチコラテラルを追加。
+- ECC を再利用 substrate、Hermes を operator shell とする分割を明確化。
+- skills、hooks、MCP、rules、instructions 向け cross-harness ポータビリティモデルを文書化。
+- ローカル operator パターンを公開 ECC skills に変換する Hermes import playbook を追加。
+- BYOK と OpenRouter secret を ECC 管理プロジェクトファイル外に保ちつつ Zed をプロジェクトローカル planning/install ターゲットに追加。
+- command-registry カバレッジ、platform audit、discussion audit、operator dashboard、Linear progress readiness、preview-pack smoke gate を追加。
+- loop status、session trace、harness audit、ECC2 tool-risk log 向けローカル [observability readiness gate](../../architecture/observability-readiness.md) を追加。
+- read-only basket research、comparison、oracle 型 market intelligence、
+  risk review 向け公開ティーザー [Itô prediction-market skill pack](ito-prediction-market-skill-pack.md) を追加。ライブ Itô API アクセスは gated のまま ECC
+  Tools billing から分離。
+- ロールアウト由来の最適化 skill pack を追加：並列実行、
+  benchmark loop、データスループット加速、レイテンシクリティカルシステム、再帰 decision ledger。
+- 2026年5月 Mini Shai-Hulud/TanStack キャンペーンフォローアップ後のリリース準備 evidence を更新。full-campaign AgentShield
+  IOC カバレッジ、queue-zero/discussion チェック、詳細 Linear roadmap gate、
+  5月18日 operator dashboard スナップショット、announcement gating 向け live/pending リリース URL
+  ledger を含む。
+- `ecc-universal@2.0.0-rc.1` を npm の `next` dist-tag で公開。rc.1 期間中 `latest` タグは `1.10.0` のまま。
 
-## Since v1.10.0
+## v1.10.0 以降 (Since v1.10.0)
 
-The rc.1 surface now includes the main 2.0 direction rather than one isolated
-feature branch:
+rc.1 面には孤立した feature branch ではなく主な 2.0 方向が含まれます：
 
-- cross-harness substrate work for Claude Code, Codex, OpenCode, Cursor,
-  Gemini, Zed, and terminal-only workflows;
-- stronger package and plugin publication surfaces for npm, Claude plugin,
-  Codex repo-marketplace, OpenCode, and agent metadata;
-- operator gates for PRs, issues, discussions, stale legacy work, Linear
-  progress, release evidence, and dashboard repeatability;
-- supply-chain hardening after the Mini Shai-Hulud/TanStack campaign,
-  including IOC scanning, no-lifecycle CI installs, advisory-source refresh,
-  npm audit/signature checks, and user-level AI-tool persistence targets;
-- AgentShield enterprise-roadmap mirrors for package-manager hardening,
-  evidence-pack provenance, policy export, policy promotion, fleet routing,
-  and GitHub Action output telemetry;
-- ECC Tools roadmap mirrors for hosted analysis, fleet-summary consumption,
-  finding evidence paths, harness policy-route linking, hosted promotion judge
-  audit traces, billing announcement preflight, and production Marketplace
-  readback state;
-- documentation expansion, Japanese localization, zh-CN to ja-JP parity
-  repair, and dependency readiness through TypeScript 6 and Node type updates;
-- launch collateral for GitHub release copy, X, LinkedIn, article outline,
-  Telegram/Hermes handoff, demo prompts, partner/sponsor/talk outreach, and
-  the approval-gated launch checklist.
-- gated Itô skill distribution as a public workflow teaser, not a live trading
-  claim or a merge of ECC Tools and Itô ownership.
-- a release URL ledger that separates links which already resolve from links
-  that must wait for the plugin tag/directory, video upload, and ECC Tools
-  billing readback.
+- Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、ターミナルのみ workflow 向け cross-harness substrate 作業；
+- npm、Claude plugin、Codex repo-marketplace、OpenCode、agent metadata 向けより強い package と plugin publication 面；
+- PR、issue、discussion、stale legacy 作業、Linear progress、リリース evidence、dashboard 反復可能性向け operator gate；
+- Mini Shai-Hulud/TanStack キャンペーン後の supply-chain hardening（IOC スキャン、no-lifecycle CI install、advisory-source refresh、npm audit/signature チェック、ユーザーレベル AI-tool persistence ターゲット）；
+- package-manager hardening、evidence-pack provenance、policy export、policy promotion、fleet routing、
+  GitHub Action output telemetry 向け AgentShield enterprise-roadmap ミラー；
+- hosted analysis、fleet-summary consumption、finding evidence path、harness policy-route linking、hosted promotion judge
+  audit trace、billing announcement preflight、production Marketplace
+  readback 状態向け ECC Tools roadmap ミラー；
+- ドキュメント拡張、日本語ローカライズ、zh-CN から ja-JP parity
+  修復、TypeScript 6 と Node type 更新による dependency readiness；
+- GitHub リリースコピー、X、LinkedIn、記事アウトライン、Telegram/Hermes handoff、デモプロンプト、partner/sponsor/talk outreach、
+  approval-gated ローンチチェックリスト向けローンチコラテラル。
+- ライブ取引クレームや ECC Tools と Itô 所有権のマージではなく、公開ワークフローティーザーとしての gated Itô skill 配布。
+- すでに解決するリンクと plugin tag/directory、video upload、ECC Tools
+  billing readback を待たなければならないリンクを分離するリリース URL ledger。
 
-## Why This Matters
+## なぜ重要か (Why This Matters)
 
-ECC is no longer only a Claude Code plugin or config bundle.
+ECC はもう Claude Code plugin や設定バンドルだけではありません。
 
-The system now has a clearer shape:
+システムにはより明確な形状があります：
 
-- reusable skills instead of one-off prompts
-- hooks and tests for workflow discipline
-- MCP-backed access to docs, code, browser automation, and research
-- cross-harness install surfaces for Claude Code, Codex, OpenCode, Cursor, and related tools
-- Hermes as an optional operator shell for chat, cron, handoffs, and daily work routing
+- 使い捨てプロンプトではなく再利用可能 skills
+- ワークフロー規律向け hooks と tests
+- docs、code、browser automation、research への MCP バックドアクセス
+- Claude Code、Codex、OpenCode、Cursor、関連ツール向け cross-harness install 面
+- chat、cron、handoff、日次作業ルーティング向けオプション operator shell としての Hermes
 
-## Release Candidate Boundaries
+## Release Candidate 境界 (Release Candidate Boundaries)
 
-This is a release candidate, not the final GA claim.
+これは最終 GA クレームではなく release candidate です。
 
-What ships in this surface:
+この面で出荷するもの：
 
-- public Hermes setup documentation
-- release notes and launch collateral
-- cross-harness architecture documentation
-- Hermes import guidance for sanitized operator workflows
-- publication-readiness evidence for queue state, discussion state, Linear roadmap coverage, operator dashboard status, and supply-chain follow-up
-- preview-pack smoke evidence proving the public pack is assembled without private Hermes state
+- 公開 Hermes セットアップドキュメント
+- リリースノートとローンチコラテラル
+- cross-harness アーキテクチャドキュメント
+- サニタイズされた operator workflow 向け Hermes import ガイダンス
+- queue 状態、discussion 状態、Linear roadmap カバレッジ、operator dashboard 状態、supply-chain フォローアップ向け publication-readiness evidence
+- プライベート Hermes 状態なしで公開パックが組み立てられることを証明する preview-pack smoke evidence
 
-What stays local:
+ローカルに残すもの：
 
-- secrets, OAuth tokens, and API keys
-- private workspace exports
-- personal datasets
-- operator-specific automations that have not been sanitized
-- deeper CRM, finance, and Google Workspace playbooks
+- secret、OAuth token、API key
+- プライベートワークスペースエクスポート
+- 個人データセット
+- サニタイズされていない operator 固有 automation
+- より深い CRM、finance、Google Workspace playbook
 
-## Upgrade Motion
+## アップグレード手順 (Upgrade Motion)
 
-1. Follow the [rc.1 quickstart](quickstart.md).
-2. Read the [Hermes setup guide](../../HERMES-SETUP.md).
-3. Review the [cross-harness architecture](../../architecture/cross-harness.md).
-4. Run the [observability readiness gate](../../architecture/observability-readiness.md).
-5. Check the [release URL ledger](release-url-ledger-2026-05-19.md) before
-   using any announcement links.
-6. Start with one workflow lane: engineering, research, content, or outreach.
-7. Import only sanitized operator patterns into ECC skills.
-8. Treat `ecc2/` as an alpha control plane until release packaging and installer
-   behavior is finalized.
+1. [rc.1 quickstart](quickstart.md) に従う。
+2. [Hermes setup guide](../../HERMES-SETUP.md) を読む。
+3. [cross-harness architecture](../../architecture/cross-harness.md) をレビュー。
+4. [observability readiness gate](../../architecture/observability-readiness.md) を実行。
+5. announcement リンクを使う前に [release URL ledger](release-url-ledger-2026-05-19.md) を確認。
+6. 1つのワークフロー lane から始める：engineering、research、content、outreach。
+7. サニタイズされた operator パターンのみ ECC skills に import。
+8. リリース packaging と installer 振る舞いが確定するまで `ecc2/` を alpha control plane として扱う。
 
-## Publication State
+## 公開状態 (Publication State)
 
-The GitHub prerelease and npm `next` package are live:
+GitHub prerelease と npm `next` パッケージはライブ：
 
 - GitHub prerelease:
   <https://github.com/affaan-m/ECC/releases/tag/v2.0.0-rc.1>
 - npm rc package:
   <https://www.npmjs.com/package/ecc-universal/v/2.0.0-rc.1>
 
-This is still a release candidate, not a GA claim. Remaining public claims stay
-approval-gated until readback exists for the Claude plugin tag/marketplace path,
-Codex repo-marketplace or official Plugin Directory status, video upload URLs,
-ECC Tools billing/native-payments readiness, and final outbound copy.
+これは依然 release candidate であり GA クレームではありません。残りの公開クレームは、Claude plugin tag/marketplace path、
+Codex repo-marketplace または公式 Plugin Directory 状態、video upload URL、
+ECC Tools billing/native-payments readiness、最終 outbound コピーの readback が存在するまで approval-gated のままです。

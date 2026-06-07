@@ -1,13 +1,13 @@
 ---
-description: "TypeScript patterns extending common rules"
+description: "TypeScript patterns: common ルールの拡張"
 globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 alwaysApply: false
 ---
-# TypeScript/JavaScript Patterns
+# TypeScript/JavaScript Patterns (TypeScript/JavaScript Patterns)
 
-> This file extends the common patterns rule with TypeScript/JavaScript specific content.
+> このファイルは common patterns ルールを TypeScript/JavaScript 固有の内容で拡張する。
 
-## API Response Format
+## API Response 形式 (API Response Format)
 
 ```typescript
 interface ApiResponse<T> {

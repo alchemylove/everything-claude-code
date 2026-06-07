@@ -1,41 +1,41 @@
 ---
 name: promote
-description: Promote project-scoped instincts to global scope
+description: プロジェクトスコープの instinct をグローバルスコープへ昇格する
 command: true
 ---
 
-# Promote Command
+# Promote コマンド (Promote Command)
 
-Promote instincts from project scope to global scope in continuous-learning-v2.
+continuous-learning-v2 で、プロジェクトスコープの instinct をグローバルスコープへ昇格する。
 
-## Implementation
+## 実装 (Implementation)
 
-Run the instinct CLI using the plugin root path:
+plugin root パスを使って instinct CLI を実行する:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" promote [instinct-id] [--force] [--dry-run]
 ```
 
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation):
+`CLAUDE_PLUGIN_ROOT` が未設定の場合（手動インストール）:
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py promote [instinct-id] [--force] [--dry-run]
 ```
 
-## Usage
+## 使い方 (Usage)
 
 ```bash
-/promote                      # Auto-detect promotion candidates
-/promote --dry-run            # Preview auto-promotion candidates
-/promote --force              # Promote all qualified candidates without prompt
-/promote grep-before-edit     # Promote one specific instinct from current project
+/promote                      # 昇格候補を自動検出
+/promote --dry-run            # 自動昇格候補をプレビュー
+/promote --force              # 確認なしで条件を満たす候補をすべて昇格
+/promote grep-before-edit     # 現在のプロジェクトから特定の instinct を 1 件昇格
 ```
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Detect current project
-2. If `instinct-id` is provided, promote only that instinct (if present in current project)
-3. Otherwise, find cross-project candidates that:
-   - Appear in at least 2 projects
-   - Meet confidence threshold
-4. Write promoted instincts to `~/.claude/homunculus/instincts/personal/` with `scope: global`
+1. 現在のプロジェクトを検出する
+2. `instinct-id` が指定されている場合、その instinct のみ昇格する（現在のプロジェクトに存在する場合）
+3. それ以外は、以下を満たす cross-project 候補を探す:
+   - 少なくとも 2 つのプロジェクトに出現する
+   - confidence 閾値を満たす
+4. 昇格した instinct を `~/.claude/homunculus/instincts/personal/` に `scope: global` で書き込む

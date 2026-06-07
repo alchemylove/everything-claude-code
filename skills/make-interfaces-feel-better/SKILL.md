@@ -11,7 +11,7 @@ more polished interface.
 
 Source: salvaged from stale community PR #1659 by `linus707`.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - The user says the UI feels off, flat, generic, cramped, jumpy, or unfinished.
 - You are building controls, cards, lists, dashboards, navigation, forms, or
@@ -19,7 +19,7 @@ Source: salvaged from stale community PR #1659 by `linus707`.
 - A component needs hover, active, focus, enter, exit, loading, or empty states.
 - A frontend review needs specific before/after recommendations.
 
-## Core Principles
+## コア原則 (Core Principles)
 
 ### Concentric Radius
 
@@ -123,7 +123,7 @@ Interactive controls should have at least a 40x40px hit area, ideally 44x44px
 where the layout allows it. Expand with a pseudo-element when the visible icon
 is smaller, but do not let expanded hit areas overlap.
 
-## Review Output
+## レビュー出力 (Review Output)
 
 When reviewing a UI polish pass, report concrete changes in before/after rows:
 
@@ -136,7 +136,7 @@ When reviewing a UI polish pass, report concrete changes in before/after rows:
 Include file paths and properties when they are not obvious from the snippets.
 Omit principles that you checked but did not change.
 
-## Checklist
+## チェックリスト (Checklist)
 
 - Nested rounded elements are optically coherent.
 - Icons are visually centered.

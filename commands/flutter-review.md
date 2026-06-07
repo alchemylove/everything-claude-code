@@ -1,37 +1,37 @@
 ---
-description: Review Flutter/Dart code for idiomatic patterns, widget best practices, state management, performance, accessibility, and security. Invokes the flutter-reviewer agent.
+description: イディオマティックなパターン、ウィジェットのベストプラクティス、状態管理、パフォーマンス、アクセシビリティ、セキュリティの観点で Flutter/Dart コードをレビュー。flutter-reviewer エージェントを起動する。
 ---
 
-# Flutter Code Review
+# Flutter コードレビュー (Flutter Code Review)
 
-This command invokes the **flutter-reviewer** agent to review Flutter/Dart code changes.
+このコマンドは **flutter-reviewer** エージェントを起動し、Flutter/Dart コードの変更をレビューする。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Gather Context**: Review `git diff --staged` and `git diff`
-2. **Inspect Project**: Check `pubspec.yaml`, `analysis_options.yaml`, state management solution
-3. **Security Pre-scan**: Check for hardcoded secrets and critical security issues
-4. **Full Review**: Apply the complete review checklist
-5. **Report Findings**: Output issues grouped by severity with fix guidance
+1. **コンテキストの収集**: `git diff --staged` と `git diff` をレビュー
+2. **プロジェクトの調査**: `pubspec.yaml`、`analysis_options.yaml`、状態管理ソリューションを確認
+3. **セキュリティ事前スキャン**: ハードコードされたシークレットと重大なセキュリティ問題を確認
+4. **フルレビュー**: 完全なレビューチェックリストを適用
+5. **所見の報告**: severity ごとにグループ化し、修正ガイダンスを出力
 
-## Prerequisites
+## 前提条件 (Prerequisites)
 
-Before running `/flutter-review`, ensure:
-1. **Build passes** — run `/flutter-build` first; a review on broken code is incomplete
-2. **Tests pass** — run `/flutter-test` to confirm no regressions
-3. **No merge conflicts** — resolve all conflicts so the diff reflects only intentional changes
-4. **`flutter analyze` is clean** — fix analyzer warnings before review
+`/flutter-review` を実行する前に:
+1. **ビルドが通ること** — 先に `/flutter-build` を実行。壊れたコードのレビューは不完全
+2. **テストが通ること** — `/flutter-test` でリグレッションがないことを確認
+3. **マージコンフリクトなし** — すべて解決し、diff が意図した変更のみを反映
+4. **`flutter analyze` がクリーン** — レビュー前に analyzer 警告を修正
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/flutter-review` when:
-- Before submitting a PR with Flutter/Dart changes (after build and tests pass)
-- After implementing a new feature to catch issues early
-- When reviewing someone else's Flutter code
-- To audit a widget, state management component, or service class
-- Before a production release
+`/flutter-review` を使用する場合:
+- Flutter/Dart 変更の PR 提出前（ビルドとテスト通過後）
+- 新機能実装後に早期に問題を検出するとき
+- 他者の Flutter コードをレビューするとき
+- ウィジェット、状態管理コンポーネント、サービスクラスを監査するとき
+- 本番リリース前
 
-## Review Areas
+## レビュー領域 (Review Areas)
 
 | Area | Severity |
 |------|----------|
@@ -47,7 +47,7 @@ Use `/flutter-review` when:
 | Hardcoded strings (l10n) | MEDIUM |
 | Pub dependency hygiene | LOW |
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /flutter-review
@@ -98,18 +98,18 @@ Fix: Use the project's l10n accessor: `Text(context.l10n.loginButton)`.
 Verdict: BLOCK — HIGH issues must be fixed before merge.
 ````
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
-- **Approve**: No CRITICAL or HIGH issues
-- **Block**: Any CRITICAL or HIGH issues must be fixed before merge
+- **Approve**: CRITICAL または HIGH の問題なし
+- **Block**: CRITICAL または HIGH の問題はマージ前に必須修正
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/flutter-build` — Fix build errors first
-- `/flutter-test` — Run tests before reviewing
-- `/code-review` — General code review (language-agnostic)
+- `/flutter-build` — 先にビルドエラーを修正
+- `/flutter-test` — レビュー前にテストを実行
+- `/code-review` — 一般コードレビュー（言語非依存）
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/flutter-reviewer.md`
 - Skill: `skills/flutter-dart-code-review/`

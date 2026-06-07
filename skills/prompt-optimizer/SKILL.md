@@ -23,7 +23,7 @@ metadata:
 Analyze a draft prompt, critique it, match it to ECC ecosystem components,
 and output a complete optimized prompt the user can paste and run.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - User says "optimize this prompt", "improve my prompt", "rewrite this prompt"
 - User says "help me write a better prompt for..."
@@ -42,7 +42,7 @@ and output a complete optimized prompt the user can paste and run.
 - User wants a skill inventory (use `skill-stocktake` instead)
 - User says "just do it" or "直接做"
 
-## How It Works
+## 仕組み (How It Works)
 
 **Advisory only — do not execute the user's task.**
 
@@ -194,7 +194,7 @@ For tasks that exceed a single session, split into sequential prompts:
 
 ---
 
-## Output Format
+## 出力フォーマット (Output Format)
 
 Present your analysis in this exact structure. Respond in the same language
 as the user's input.
@@ -263,7 +263,7 @@ A compact version for experienced ECC users. Vary by intent type:
 
 ---
 
-## Examples
+## 例 (Examples)
 
 ### Trigger Examples
 
@@ -386,7 +386,7 @@ Recommended: Opus 4.6 for blueprint planning, Sonnet 4.6 for phase execution.
 
 ---
 
-## Related Components
+## 関連コンポーネント (Related Components)
 
 | Component | When to Reference |
 |-----------|------------------|

@@ -1,12 +1,12 @@
 ---
-description: Navigate ECC's current agents, skills, commands, hooks, install profiles, and docs from the live repository surface.
+description: ライブリポジトリ表面から ECC の現在の agents、skills、commands、hooks、install profiles、docs を案内する。
 ---
 
 # /ecc-guide
 
-Use this command as a conversational map of Everything Claude Code. It should help the user discover the right ECC surface for their task without dumping the entire README or stale catalog counts.
+Everything Claude Code の会話型マップとしてこのコマンドを使う。README 全体や古いカタログ件数をダンプせず、ユーザーのタスクに合った ECC surface を発見できるようにする。
 
-## Usage
+## 使い方 (Usage)
 
 ```text
 /ecc-guide
@@ -19,75 +19,75 @@ Use this command as a conversational map of Everything Claude Code. It should he
 /ecc-guide <feature-or-file-name>
 ```
 
-## Operating Rules
+## 運用ルール (Operating Rules)
 
-1. Read current repository files before answering when the checkout is available.
-2. Prefer current filesystem/catalog data over hard-coded counts.
-3. Keep the first answer short, then offer specific drill-down paths.
-4. Link users to canonical files instead of copying long sections.
-5. Do not invent commands, skills, agents, or install profiles that are not present.
+1. チェックアウトが利用可能なら、回答前に現在のリポジトリファイルを読む。
+2. ハードコードされた件数より、現在の filesystem/catalog データを優先する。
+3. 最初の回答は短くし、具体的な掘り下げパスを提案する。
+4. 長いセクションをコピーせず、正規ファイルへリンクする。
+5. 存在しない commands、skills、agents、install profiles を捏造しない。
 
-## What To Inspect
+## 確認すべきもの (What To Inspect)
 
-Use these files as the canonical map:
+正規マップとして次のファイルを使う:
 
-- `README.md` for install paths, reset/uninstall guidance, and high-level positioning
-- `AGENTS.md` for contributor and project-structure guidance
-- `agent.yaml` for exported agent and command surface
-- `commands/` for maintained slash-command shims
-- `skills/*/SKILL.md` for reusable skill workflows
-- `agents/*.md` for delegated agent roles
-- `hooks/README.md` and `hooks/hooks.json` for hook behavior
-- `manifests/install-*.json` for selective install modules, components, and profiles
-- `scripts/ci/catalog.js --json` for live catalog counts when running inside ECC
+- `README.md` — install パス、reset/uninstall ガイダンス、高レベルな位置づけ
+- `AGENTS.md` — コントリビューターとプロジェクト構造のガイダンス
+- `agent.yaml` — エクスポートされた agent と command surface
+- `commands/` — 維持されている slash-command shim
+- `skills/*/SKILL.md` — 再利用可能な skill workflow
+- `agents/*.md` — 委譲 agent の役割
+- `hooks/README.md` と `hooks/hooks.json` — hook の挙動
+- `manifests/install-*.json` — 選択的 install の module、component、profile
+- `scripts/ci/catalog.js --json` — ECC 内実行時のライブカタログ件数
 
-## Response Patterns
+## 応答パターン (Response Patterns)
 
-### No Arguments
+### 引数なし (No Arguments)
 
-Give a compact menu:
+コンパクトなメニューを提示する:
 
-- setup and install
-- choosing skills
-- command compatibility shims
-- agents and delegation
-- hooks and safety
-- troubleshooting an install
-- finding a specific feature
+- setup と install
+- skill の選び方
+- command 互換 shim
+- agent と委譲
+- hook と安全性
+- install のトラブルシューティング
+- 特定機能の検索
 
-Then ask what they want to do next.
+その後、次に何をしたいか尋ねる。
 
-### Topic Lookup
+### トピック検索 (Topic Lookup)
 
-For topics like `skills`, `commands`, `hooks`, `install`, or `agents`:
+`skills`、`commands`、`hooks`、`install`、`agents` などのトピックでは:
 
-1. Summarize the current surface in 3-6 bullets.
-2. Point to the canonical directories/files.
-3. Suggest one or two commands that can verify the state.
-4. Avoid exhaustive lists unless the user asks for one.
+1. 現在の surface を3〜6 bullet で要約する。
+2. 正規のディレクトリ/ファイルを指す。
+3. 状態を確認できる command を1〜2個提案する。
+4. ユーザーが求めない限り網羅的な一覧は避ける。
 
-### Search Mode
+### 検索モード (Search Mode)
 
-For `find: <query>`:
+`find: <query>` では:
 
-1. Search the relevant files with `rg`.
-2. Group results by surface: skills, commands, agents, rules, docs, hooks.
-3. Return the strongest matches first with file paths.
-4. Recommend the next action for each match.
+1. 関連ファイルを `rg` で検索する。
+2. surface 別にグループ化: skills、commands、agents、rules、docs、hooks。
+3. 最も強い一致をファイルパス付きで先に返す。
+4. 各一致に対する次のアクションを推奨する。
 
-### Feature Lookup
+### 機能検索 (Feature Lookup)
 
-For a specific feature name:
+特定の機能名では:
 
-1. Check exact paths first, such as `skills/<name>/SKILL.md`, `commands/<name>.md`, and `agents/<name>.md`.
-2. If exact lookup fails, search with `rg`.
-3. Explain what the feature does, when to use it, and what file is canonical.
-4. Mention adjacent features only when they reduce confusion.
+1. まず正確なパスを確認する。例: `skills/<name>/SKILL.md`、`commands/<name>.md`、`agents/<name>.md`。
+2. 完全一致がなければ `rg` で検索する。
+3. 機能の説明、使用タイミング、正規ファイルを説明する。
+4. 混乱を減らす場合のみ隣接機能に言及する。
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/project-init` for stack-aware ECC onboarding of a target project
-- `/harness-audit` for deterministic repo readiness scoring
-- `/skill-health` for skill quality checks
-- `/skill-create` for extracting a new skill from local git history
-- `/security-scan` for Claude/OpenCode configuration security review
+- `/project-init` — 対象プロジェクトへの stack 対応 ECC オンボーディング
+- `/harness-audit` — 決定的なリポジトリ readiness スコアリング
+- `/skill-health` — skill 品質チェック
+- `/skill-create` — ローカル git 履歴から新しい skill を抽出
+- `/security-scan` — Claude/OpenCode 設定のセキュリティレビュー

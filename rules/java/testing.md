@@ -2,18 +2,18 @@
 paths:
   - "**/*.java"
 ---
-# Java Testing
+# Java テスト (Java Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Java-specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Java 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-- **JUnit 5** (`@Test`, `@ParameterizedTest`, `@Nested`, `@DisplayName`)
-- **AssertJ** for fluent assertions (`assertThat(result).isEqualTo(expected)`)
-- **Mockito** for mocking dependencies
-- **Testcontainers** for integration tests requiring databases or services
+- **JUnit 5**（`@Test`、`@ParameterizedTest`、`@Nested`、`@DisplayName`）
+- 流暢なアサーションには **AssertJ**（`assertThat(result).isEqualTo(expected)`）
+- 依存のモックには **Mockito**
+- DB やサービスが必要な統合テストには **Testcontainers**
 
-## Test Organization
+## テスト構成 (Test Organization)
 
 ```
 src/test/java/com/example/app/
@@ -23,9 +23,9 @@ src/test/java/com/example/app/
   integration/       # Cross-layer integration tests
 ```
 
-Mirror the `src/main/java` package structure in `src/test/java`.
+`src/main/java` のパッケージ構成を `src/test/java` にミラーする。
 
-## Unit Test Pattern
+## ユニットテストパターン (Unit Test Pattern)
 
 ```java
 @ExtendWith(MockitoExtension.class)
@@ -65,7 +65,7 @@ class OrderServiceTest {
 }
 ```
 
-## Parameterized Tests
+## パラメータ化テスト (Parameterized Tests)
 
 ```java
 @ParameterizedTest
@@ -80,9 +80,9 @@ void applyDiscount(BigDecimal price, int pct, BigDecimal expected) {
 }
 ```
 
-## Integration Tests
+## 統合テスト (Integration Tests)
 
-Use Testcontainers for real database integration:
+実 DB 統合には Testcontainers を使用:
 
 ```java
 @Testcontainers
@@ -111,23 +111,23 @@ class OrderRepositoryIT {
 }
 ```
 
-For Spring Boot integration tests, see skill: `springboot-tdd`.
-For Quarkus integration tests, see skill: `quarkus-tdd`.
+Spring Boot 統合テストは skill: `springboot-tdd` を参照。
+Quarkus 統合テストは skill: `quarkus-tdd` を参照。
 
-## Test Naming
+## テスト命名 (Test Naming)
 
-Use descriptive names with `@DisplayName`:
-- `methodName_scenario_expectedBehavior()` for method names
-- `@DisplayName("human-readable description")` for reports
+`@DisplayName` で説明的な名前を使用:
+- メソッド名は `methodName_scenario_expectedBehavior()`
+- レポート用に `@DisplayName("human-readable description")`
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Target 80%+ line coverage
-- Use JaCoCo for coverage reporting
-- Focus on service and domain logic — skip trivial getters/config classes
+- 行カバレッジ 80%+ を目標
+- カバレッジレポートに JaCoCo を使用
+- service とドメインロジックに集中 — 自明な getter/設定クラスはスキップ
 
-## References
+## 参照 (References)
 
-See skill: `springboot-tdd` for Spring Boot TDD patterns with MockMvc and Testcontainers.
-See skill: `quarkus-tdd` for Quarkus TDD patterns with REST Assured and Dev Services.
-See skill: `java-coding-standards` for testing expectations.
+MockMvc と Testcontainers を使った Spring Boot TDD パターンは skill: `springboot-tdd` を参照。
+REST Assured と Dev Services を使った Quarkus TDD パターンは skill: `quarkus-tdd` を参照。
+テスト期待値は skill: `java-coding-standards` を参照。

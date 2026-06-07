@@ -1,19 +1,19 @@
 ---
-description: "Kotlin testing extending common rules"
+description: "Kotlin testing: common ルールの拡張"
 globs: ["**/*.kt", "**/*.kts", "**/build.gradle.kts"]
 alwaysApply: false
 ---
-# Kotlin Testing
+# Kotlin Testing (Kotlin Testing)
 
-> This file extends the common testing rule with Kotlin-specific content.
+> このファイルは common testing ルールを Kotlin 固有の内容で拡張する。
 
 ## Framework
 
-Use **Kotest** with spec styles (StringSpec, FunSpec, BehaviorSpec) and **MockK** for mocking.
+spec style（StringSpec, FunSpec, BehaviorSpec）の **Kotest** と mocking の **MockK** を使用。
 
 ## Coroutine Testing
 
-Use `runTest` from `kotlinx-coroutines-test`:
+`kotlinx-coroutines-test` の `runTest` を使用:
 
 ```kotlin
 test("async operation completes") {
@@ -26,13 +26,13 @@ test("async operation completes") {
 
 ## Coverage
 
-Use **Kover** for coverage reporting:
+coverage レポートには **Kover** を使用:
 
 ```bash
 ./gradlew koverHtmlReport
 ./gradlew koverVerify
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `kotlin-testing` for detailed Kotest patterns, MockK usage, and property-based testing.
+詳細な Kotest パターン、MockK の使い方、property-based testing は skill: `kotlin-testing` を参照。

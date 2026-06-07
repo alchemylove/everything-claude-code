@@ -1,6 +1,6 @@
-# Command → Agent / Skill Map
+# Command → Agent / Skill マップ (Command → Agent / Skill Map)
 
-This document lists each slash command and the primary agent(s) or skills it invokes, plus notable direct-invoke agents. Use it to discover which commands use which agents and to keep refactoring consistent.
+このドキュメントは各 slash command と、それが呼び出す主要 agent(s) または skills、および notable な直接呼び出し agent を一覧します。どの command がどの agent を使うかを発見し、リファクタリングの一貫性を保つために使ってください。
 
 | Command | Primary agent(s) | Notes |
 |---------|------------------|--------|
@@ -46,13 +46,13 @@ This document lists each slash command and the primary agent(s) or skills it inv
 | `/pm2` | — | PM2 service lifecycle |
 | `/security-scan` | security-reviewer (skill) | AgentShield via security-scan skill |
 
-## Direct-Use Agents
+## 直接使用 Agent (Direct-Use Agents)
 
 | Direct agent | Purpose | Scope | Notes |
 |--------------|---------|-------|-------|
 | `typescript-reviewer` | TypeScript/JavaScript code review | TypeScript/JavaScript projects | Invoke the agent directly when a review needs TS/JS-specific findings and there is no dedicated slash command yet. |
 
-## Skills referenced by commands
+## command が参照する Skills (Skills referenced by commands)
 
 - **continuous-learning**, **continuous-learning-v2**: `/learn`, `/learn-eval`, `/instinct-*`, `/evolve`, `/promote`, `/projects`
 - **verification-loop**: `/checkpoint`, `/verify`
@@ -60,8 +60,8 @@ This document lists each slash command and the primary agent(s) or skills it inv
 - **security-scan**: `/security-scan` (runs AgentShield)
 - **strategic-compact**: suggested at compaction points (hooks)
 
-## How to use this map
+## このマップの使い方 (How to use this map)
 
-- **Discoverability:** Find which command triggers which agent (e.g. “use `/code-review` for code-reviewer”).
-- **Refactoring:** When renaming or removing an agent, search this doc and the command files for references.
-- **CI/docs:** The catalog script (`node scripts/ci/catalog.js`) outputs agent/command/skill counts; this map complements it with command–agent relationships.
+- **発見性:** どの command がどの agent を起動するかを見つける（例：「code-reviewer には `/code-review` を使う」）。
+- **リファクタリング:** agent の名前変更や削除時に、この doc と command ファイルの参照を検索する。
+- **CI/docs:** catalog script（`node scripts/ci/catalog.js`）は agent/command/skill 件数を出力する。このマップは command–agent 関係を補完する。

@@ -3,11 +3,11 @@ paths:
   - "**/*.py"
   - "**/*.pyi"
 ---
-# Python Patterns
+# Python パターン (Python Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Python specific content.
+> 本ファイルは [common/patterns.md](../common/patterns.md) を Python 固有の内容で拡張します。
 
-## Protocol (Duck Typing)
+## Protocol（Duck Typing）(Protocol (Duck Typing))
 
 ```python
 from typing import Protocol
@@ -17,7 +17,7 @@ class Repository(Protocol):
     def save(self, entity: dict) -> dict: ...
 ```
 
-## Dataclasses as DTOs
+## DTO としての Dataclass (Dataclasses as DTOs)
 
 ```python
 from dataclasses import dataclass
@@ -29,11 +29,11 @@ class CreateUserRequest:
     age: int | None = None
 ```
 
-## Context Managers & Generators
+## Context Manager と Generator (Context Managers & Generators)
 
-- Use context managers (`with` statement) for resource management
-- Use generators for lazy evaluation and memory-efficient iteration
+- リソース管理には context manager（`with` 文）を使用する
+- 遅延評価とメモリ効率のよい反復には generator を使用する
 
-## Reference
+## 参照 (Reference)
 
-See skill: `python-patterns` for comprehensive patterns including decorators, concurrency, and package organization.
+decorator、並行処理、パッケージ構成を含む包括的パターンは skill: `python-patterns` を参照。

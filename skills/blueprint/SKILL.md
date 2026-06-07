@@ -1,11 +1,7 @@
 ---
 name: blueprint
 description: >-
-  Turn a one-line objective into a step-by-step construction plan for
-  multi-session, multi-agent engineering projects. Each step has a
-  self-contained context brief so a fresh agent can execute it cold.
-  Includes adversarial review gate, dependency graph, parallel step
-  detection, anti-pattern catalog, and plan mutation protocol.
+  1 行の目的を、マルチセッション・マルチエージェントのエンジニアリングプロジェクト向けのステップバイステップ構築計画に変換する。各ステップには新規エージェントがコールドスタートで実行できる自己完結型コンテキストブリーフを含む。敵対的レビューゲート、依存グラフ、並列ステップ検出、アンチパターンカタログ、計画変更プロトコルを含む。
   TRIGGER when: user requests a plan, blueprint, or roadmap for a
   complex multi-PR task, or describes work that needs multiple sessions.
   DO NOT TRIGGER when: task is completable in a single PR or fewer
@@ -13,76 +9,76 @@ description: >-
 origin: community
 ---
 
-# Blueprint — Construction Plan Generator
+# Blueprint — 構築計画ジェネレーター (Blueprint — Construction Plan Generator)
 
-Turn a one-line objective into a step-by-step construction plan that any coding agent can execute cold.
+1 行の目的を、任意のコーディングエージェントがコールドスタートで実行できるステップバイステップ構築計画に変換する。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- Breaking a large feature into multiple PRs with clear dependency order
-- Planning a refactor or migration that spans multiple sessions
-- Coordinating parallel workstreams across sub-agents
-- Any task where context loss between sessions would cause rework
+- 大規模機能を依存順序の明確な複数 PR に分割するとき
+- 複数セッションにまたがるリファクタやマイグレーションを計画するとき
+- サブエージェント間の並列ワークストリームを調整するとき
+- セッション間のコンテキスト喪失が手戻りを招くタスク全般
 
-**Do not use** for tasks completable in a single PR, fewer than 3 tool calls, or when the user says "just do it."
+**使用しない**: 単一 PR で完了できるタスク、ツール呼び出し 3 回未満、ユーザーが「just do it」と言った場合。
 
-## How It Works
+## 仕組み (How It Works)
 
-Blueprint runs a 5-phase pipeline:
+Blueprint は 5 フェーズパイプラインを実行する:
 
-1. **Research** — Pre-flight checks (git, gh auth, remote, default branch), then reads project structure, existing plans, and memory files to gather context.
-2. **Design** — Breaks the objective into one-PR-sized steps (3–12 typical). Assigns dependency edges, parallel/serial ordering, model tier (strongest vs default), and rollback strategy per step.
-3. **Draft** — Writes a self-contained Markdown plan file to `plans/`. Every step includes a context brief, task list, verification commands, and exit criteria — so a fresh agent can execute any step without reading prior steps.
-4. **Review** — Delegates adversarial review to a strongest-model sub-agent (e.g., Opus) against a checklist and anti-pattern catalog. Fixes all critical findings before finalizing.
-5. **Register** — Saves the plan, updates memory index, and presents the step count and parallelism summary to the user.
+1. **リサーチ** — プリフライト（git、gh auth、remote、default branch）、プロジェクト構造、既存計画、メモリファイルの読み取りでコンテキスト収集。
+2. **設計** — 目的を 1 PR サイズのステップ（通常 3–12）に分解。依存エッジ、並列/直列順序、モデルティア（strongest vs default）、ステップごとのロールバック戦略を割り当て。
+3. **草案** — `plans/` に自己完結 Markdown 計画を書く。各ステップにコンテキストブリーフ、タスクリスト、検証コマンド、終了基準 — 前ステップを読まずに任意ステップを実行可能。
+4. **レビュー** — チェックリストとアンチパターンカタログに対し最強モデルサブエージェント（例: Opus）へ敵対的レビューを委譲。確定前に重大所見をすべて修正。
+5. **登録** — 計画を保存、メモリインデックス更新、ステップ数と並列性サマリーをユーザーに提示。
 
-Blueprint detects git/gh availability automatically. With git + GitHub CLI, it generates full branch/PR/CI workflow plans. Without them, it switches to direct mode (edit-in-place, no branches).
+Blueprint は git/gh の有無を自動検出。git + GitHub CLI ありでフル branch/PR/CI ワークフロー計画。なしで direct モード（その場編集、ブランチなし）に切り替え。
 
-## Examples
+## 例 (Examples)
 
-### Basic usage
+### 基本用法 (Basic usage)
 
 ```
 /blueprint myapp "migrate database to PostgreSQL"
 ```
 
-Produces `plans/myapp-migrate-database-to-postgresql.md` with steps like:
+`plans/myapp-migrate-database-to-postgresql.md` を生成。ステップ例:
 - Step 1: Add PostgreSQL driver and connection config
 - Step 2: Create migration scripts for each table
 - Step 3: Update repository layer to use new driver
 - Step 4: Add integration tests against PostgreSQL
 - Step 5: Remove old database code and config
 
-### Multi-agent project
+### マルチエージェントプロジェクト (Multi-agent project)
 
 ```
 /blueprint chatbot "extract LLM providers into a plugin system"
 ```
 
-Produces a plan with parallel steps where possible (e.g., "implement Anthropic plugin" and "implement OpenAI plugin" run in parallel after the plugin interface step is done), model tier assignments (strongest for the interface design step, default for implementation), and invariants verified after every step (e.g., "all existing tests pass", "no provider imports in core").
+可能なら並列ステップ（例: プラグインインターフェース完了後に「Anthropic プラグイン実装」と「OpenAI プラグイン実装」が並列）、モデルティア割り当て（インターフェース設計は strongest、実装は default）、毎ステップ後に検証する不変条件（例: 「既存テストすべてパス」「core にプロバイダー import なし」）を含む計画を生成。
 
-## Key Features
+## 主な機能 (Key Features)
 
-- **Cold-start execution** — Every step includes a self-contained context brief. No prior context needed.
-- **Adversarial review gate** — Every plan is reviewed by a strongest-model sub-agent against a checklist covering completeness, dependency correctness, and anti-pattern detection.
-- **Branch/PR/CI workflow** — Built into every step. Degrades gracefully to direct mode when git/gh is absent.
-- **Parallel step detection** — Dependency graph identifies steps with no shared files or output dependencies.
-- **Plan mutation protocol** — Steps can be split, inserted, skipped, reordered, or abandoned with formal protocols and audit trail.
-- **Zero runtime risk** — Pure Markdown skill. The entire repository contains only `.md` files — no hooks, no shell scripts, no executable code, no `package.json`, no build step. Nothing runs on install or invocation beyond Claude Code's native Markdown skill loader.
+- **コールドスタート実行** — 各ステップに自己完結コンテキストブリーフ。事前コンテキスト不要。
+- **敵対的レビューゲート** — 完全性、依存正確性、アンチパターン検出をカバーするチェックリストで最強モデルサブエージェントが全計画をレビュー。
+- **Branch/PR/CI ワークフロー** — 全ステップに組み込み。git/gh 不在時は direct モードへ優雅に劣化。
+- **並列ステップ検出** — 依存グラフが共有ファイルや出力依存のないステップを特定。
+- **計画変更プロトコル** — ステップの分割、挿入、スキップ、並べ替え、放棄を正式プロトコルと監査証跡付きで可能。
+- **ゼロランタイムリスク** — 純 Markdown スキル。リポジトリ全体は `.md` のみ — hooks、shell スクリプト、実行可能コード、`package.json`、ビルドステップなし。インストール/呼び出し時に Claude Code のネイティブ Markdown スキルローダー以外は何も動かない。
 
-## Installation
+## インストール (Installation)
 
-This skill ships with Everything Claude Code. No separate installation is needed when ECC is installed.
+このスキルは Everything Claude Code に同梱。ECC インストール時は別途インストール不要。
 
-### Full ECC install
+### フル ECC インストール (Full ECC install)
 
-If you are working from the ECC repository checkout, verify the skill is present with:
+ECC リポジトリチェックアウトから作業する場合、次でスキル存在を確認:
 
 ```bash
 test -f skills/blueprint/SKILL.md
 ```
 
-To update later, review the ECC diff before updating:
+後で更新する場合、更新前に ECC diff をレビュー:
 
 ```bash
 cd /path/to/everything-claude-code
@@ -91,15 +87,15 @@ git log --oneline HEAD..origin/main       # review new commits before updating
 git checkout <reviewed-full-sha>          # pin to a specific reviewed commit
 ```
 
-### Vendored standalone install
+### ベンダー単体インストール (Vendored standalone install)
 
-If you are vendoring only this skill outside the full ECC install, copy the reviewed file from the ECC repository into `~/.claude/skills/blueprint/SKILL.md`. Vendored copies do not have a git remote, so update them by re-copying the file from a reviewed ECC commit rather than running `git pull`.
+フル ECC 以外でこのスキルのみベンダーする場合、レビュー済みファイルを ECC リポジトリから `~/.claude/skills/blueprint/SKILL.md` にコピー。ベンダーコピーに git remote はないため、`git pull` ではなくレビュー済み ECC コミットからファイルを再コピーして更新する。
 
-## Requirements
+## 要件 (Requirements)
 
-- Claude Code (for `/blueprint` slash command)
-- Git + GitHub CLI (optional — enables full branch/PR/CI workflow; Blueprint detects absence and auto-switches to direct mode)
+- Claude Code（`/blueprint` スラッシュコマンド用）
+- Git + GitHub CLI（任意 — フル branch/PR/CI ワークフロー有効化。不在時 Blueprint が検出し direct モードへ自動切替）
 
-## Source
+## ソース (Source)
 
-Inspired by antbotlab/blueprint — upstream project and reference design.
+antbotlab/blueprint に着想 — アップストリームプロジェクトと参照設計。

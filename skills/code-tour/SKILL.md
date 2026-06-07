@@ -1,114 +1,114 @@
 ---
 name: code-tour
-description: Create CodeTour `.tour` files — persona-targeted, step-by-step walkthroughs with real file and line anchors. Use for onboarding tours, architecture walkthroughs, PR tours, RCA tours, and structured "explain how this works" requests.
+description: コードツアー（CodeTour `.tour`）の作成 — ペルソナ別ウォークスルーと実ファイル・行アンカー。オンボーディング、アーキテクチャ、PR、RCA、「この仕組みを説明」向け。CodeTour, onboarding tour, architecture walkthrough, PR tour.
 origin: ECC
 ---
 
-# Code Tour
+# コードツアー (Code Tour)
 
-Create **CodeTour** `.tour` files for codebase walkthroughs that open directly to real files and line ranges. Tours live in `.tours/` and are meant for the CodeTour format, not ad hoc Markdown notes.
+コードベースウォークスルー用の **CodeTour** `.tour` ファイルを作成し、実際のファイルとライン範囲に直接開きます。ツアーは `.tours/` にあり、アドホックな Markdown ノートではなく CodeTour 形式を対象としています。
 
-A good tour is a narrative for a specific reader:
-- what they are looking at
-- why it matters
-- what path they should follow next
+良いツアーは特定の読者への物語：
+- 彼らが何を見ているか
+- なぜそれが重要か
+- 次にどのパスを従うべきか
 
-Only create `.tour` JSON files. Do not modify source code as part of this skill.
+`.tour` JSON ファイルのみを作成。このスキルの一部としてソースコードを変更しないでください。
 
-## When to Use
+## 使用時期 (When to Use)
 
-Use this skill when:
-- the user asks for a code tour, onboarding tour, architecture walkthrough, or PR tour
-- the user says "explain how X works" and wants a reusable guided artifact
-- the user wants a ramp-up path for a new engineer or reviewer
-- the task is better served by a guided sequence than a flat summary
+次の場合にこのスキルを使用：
+- ユーザーがコードツアー、オンボーディングツアー、アーキテクチャウォークスルー、または PR ツアーを求める
+- ユーザーが「X がどのように機能するかを説明」と言い、再利用可能なガイド付きアーティファクトを望む
+- 新しいエンジニアまたはレビュアーのためのランプアップパス
+- タスクはフラット概要ではなくガイド付きシーケンスでより良くサービスされる
 
-Examples:
-- onboarding a new maintainer
-- architecture tour for one service or package
-- PR-review walk-through anchored to changed files
-- RCA tour showing the failure path
-- security review tour of trust boundaries and key checks
+例：
+- 新しいメンテナのオンボーディング
+- 1 サービスまたはパッケージのアーキテクチャツアー
+- 変更ファイルにアンカーした PR レビューウォークスルー
+- 失敗パスを示す RCA ツアー
+- 信頼境界と主要チェックのセキュリティレビューツアー
 
-## When NOT to Use
+## 使用しないとき (When NOT to Use)
 
-| Instead of code-tour | Use |
+| コードツアーの代わりに | 使用 |
 | --- | --- |
-| A one-off explanation in chat is enough | answer directly |
-| The user wants prose docs, not a `.tour` artifact | `documentation-lookup` or repo docs editing |
-| The task is implementation or refactoring | do the implementation work |
-| The task is broad codebase onboarding without a tour artifact | `codebase-onboarding` |
+| 一度限りの説明で十分 | 直接答える |
+| ユーザーがプロのドキュメント、`.tour` アーティファクトではなく | `documentation-lookup` またはリポドキュメント編集 |
+| タスクは実装またはリファクタリング | 実装作業を行う |
+| 広範なコードベースオンボーディング（ツアーアーティファクトなし） | `codebase-onboarding` |
 
-## Workflow
+## ワークフロー (Workflow)
 
-### 1. Discover
+### 1. 発見 (Discover)
 
-Explore the repo before writing anything:
-- README and package/app entry points
-- folder structure
-- relevant config files
-- the changed files if the tour is PR-focused
+何か書く前にリポを探索：
+- README とパッケージ/アプリエントリポイント
+- フォルダ構造
+- 関連するコンフィグファイル
+- ツアーが PR フォーカスの場合は変更されたファイル
 
-Do not start writing steps before you understand the shape of the code.
+コードの形状を理解する前にステップを書き始めないでください。
 
-### 2. Infer the reader
+### 2. 読者を推測 (Infer the Reader)
 
-Decide the persona and depth from the request.
+要求からペルソナと深さを決定。
 
-| Request shape | Persona | Suggested depth |
+| リクエストの形 | ペルソナ | 推奨される深さ |
 | --- | --- | --- |
-| "onboarding", "new joiner" | `new-joiner` | 9-13 steps |
-| "quick tour", "vibe check" | `vibecoder` | 5-8 steps |
-| "architecture" | `architect` | 14-18 steps |
-| "tour this PR" | `pr-reviewer` | 7-11 steps |
-| "why did this break" | `rca-investigator` | 7-11 steps |
-| "security review" | `security-reviewer` | 7-11 steps |
-| "explain how this feature works" | `feature-explainer` | 7-11 steps |
-| "debug this path" | `bug-fixer` | 7-11 steps |
+| 「オンボーディング」「新しい参加者」 | `new-joiner` | 9-13 ステップ |
+| 「クイックツアー」「雰囲気チェック」 | `vibecoder` | 5-8 ステップ |
+| 「アーキテクチャ」 | `architect` | 14-18 ステップ |
+| 「この PR をツアー」 | `pr-reviewer` | 7-11 ステップ |
+| 「なぜこれが壊れたか」 | `rca-investigator` | 7-11 ステップ |
+| 「セキュリティレビュー」 | `security-reviewer` | 7-11 ステップ |
+| 「この機能の仕組みを説明」 | `feature-explainer` | 7-11 ステップ |
+| 「このパスをデバッグ」 | `bug-fixer` | 7-11 ステップ |
 
-### 3. Read and verify anchors
+### 3. アンカーを読み取り検証 (Read and Verify Anchors)
 
-Every file path and line anchor must be real:
-- confirm the file exists
-- confirm the line numbers are in range
-- if using a selection, verify the exact block
-- if the file is volatile, prefer a pattern-based anchor
+すべてのファイルパスとラインアンカーは実在しなければならない：
+- ファイルが存在することを確認
+- ライン番号が範囲内であることを確認
+- selection を使う場合、正確なブロックを検証
+- ファイルが揮発的な場合、pattern ベースのアンカーを優先
 
-Never guess line numbers.
+ライン番号を推測しない。
 
-### 4. Write the `.tour`
+### 4. `.tour` を書く (Write the `.tour`)
 
-Write to:
+次に書き込む：
 
 ```text
 .tours/<persona>-<focus>.tour
 ```
 
-Keep the path deterministic and readable.
+パスは決定的で読みやすく保つ。
 
-### 5. Validate
+### 5. 検証 (Validate)
 
-Before finishing:
-- every referenced path exists
-- every line or selection is valid
-- the first step is anchored to a real file or directory
-- the tour tells a coherent story rather than listing files
+終了前に：
+- 参照されるすべてのパスが存在する
+- すべてのラインまたは selection が有効
+- 最初のステップが実ファイルまたはディレクトリにアンカーされている
+- ツアーがファイルの羅列ではなく一貫した物語を語る
 
-## Step Types
+## ステップタイプ (Step Types)
 
 ### Content
 
-Use sparingly, usually only for a closing step:
+控えめに使用、通常は締めのステップのみ：
 
 ```json
 { "title": "Next Steps", "description": "You can now trace the request path end to end." }
 ```
 
-Do not make the first step content-only.
+最初のステップを content のみにしない。
 
 ### Directory
 
-Use to orient the reader to a module:
+読者をモジュールに向ける：
 
 ```json
 { "directory": "src/services", "title": "Service Layer", "description": "The core orchestration logic lives here." }
@@ -116,7 +116,7 @@ Use to orient the reader to a module:
 
 ### File + line
 
-This is the default step type:
+デフォルトのステップタイプ：
 
 ```json
 { "file": "src/auth/middleware.ts", "line": 42, "title": "Auth Gate", "description": "Every protected request passes here first." }
@@ -124,7 +124,7 @@ This is the default step type:
 
 ### Selection
 
-Use when one code block matters more than the whole file:
+ファイル全体より 1 つのコードブロックが重要な場合：
 
 ```json
 {
@@ -140,7 +140,7 @@ Use when one code block matters more than the whole file:
 
 ### Pattern
 
-Use when exact lines may drift:
+正確なラインがずれる可能性がある場合：
 
 ```json
 { "file": "src/app.ts", "pattern": "export default class App", "title": "Application Entry" }
@@ -148,34 +148,34 @@ Use when exact lines may drift:
 
 ### URI
 
-Use for PRs, issues, or docs when helpful:
+PR、issue、ドキュメントに有用な場合：
 
 ```json
 { "uri": "https://github.com/org/repo/pull/456", "title": "The PR" }
 ```
 
-## Writing Rule: SMIG
+## 記述ルール: SMIG (Writing Rule: SMIG)
 
-Each description should answer:
-- **Situation**: what the reader is looking at
-- **Mechanism**: how it works
-- **Implication**: why it matters for this persona
-- **Gotcha**: what a smart reader might miss
+各 description は次に答える：
+- **Situation**：読者が何を見ているか
+- **Mechanism**：どのように動くか
+- **Implication**：このペルソナにとってなぜ重要か
+- **Gotcha**：賢い読者が見落としがちなこと
 
-Keep descriptions compact, specific, and grounded in the actual code.
+description はコンパクトで具体的、実際のコードに根ざしたものに保つ。
 
-## Narrative Shape
+## ナラティブの形 (Narrative Shape)
 
-Use this arc unless the task clearly needs something different:
-1. orientation
-2. module map
-3. core execution path
-4. edge case or gotcha
-5. closing / next move
+タスクが明らかに別の形を必要としない限り、この弧を使う：
+1. オリエンテーション
+2. モジュールマップ
+3. コア実行パス
+4. エッジケースまたは gotcha
+5. 締め / 次の一手
 
-The tour should feel like a path, not an inventory.
+ツアーはインベントリではなくパスのように感じさせる。
 
-## Example
+## 例 (Example)
 
 ```json
 {
@@ -209,28 +209,28 @@ The tour should feel like a path, not an inventory.
 }
 ```
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-| Anti-pattern | Fix |
+| アンチパターン | 修正 |
 | --- | --- |
-| Flat file listing | Tell a story with dependency between steps |
-| Generic descriptions | Name the concrete code path or pattern |
-| Guessed anchors | Verify every file and line first |
-| Too many steps for a quick tour | Cut aggressively |
-| First step is content-only | Anchor the first step to a real file or directory |
-| Persona mismatch | Write for the actual reader, not a generic engineer |
+| フラットなファイル一覧 | ステップ間の依存関係で物語を語る |
+| 汎用的な description | 具体的なコードパスまたはパターンを名指す |
+| 推測されたアンカー | すべてのファイルとラインを先に検証 |
+| クイックツアーにステップが多すぎる | 大胆に削る |
+| 最初のステップが content のみ | 最初のステップを実ファイルまたはディレクトリにアンカー |
+| ペルソナ不一致 | 汎用エンジニアではなく実際の読者向けに書く |
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-- keep step count proportional to repo size and persona depth
-- use directory steps for orientation, file steps for substance
-- for PR tours, cover changed files first
-- for monorepos, scope to the relevant packages instead of touring everything
-- close with what the reader can now do, not a recap
+- ステップ数はリポサイズとペルソナの深さに比例させる
+- オリエンテーションには directory ステップ、実体には file ステップを使う
+- PR ツアーでは変更ファイルを先にカバー
+- モノレポではすべてをツアーせず関連パッケージにスコープ
+- 要約ではなく、読者がこれから何ができるかで締める
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - `codebase-onboarding`
 - `coding-standards`
 - `council`
-- official upstream format: `microsoft/codetour`
+- 公式アップストリーム形式: `microsoft/codetour`

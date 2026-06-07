@@ -1,124 +1,124 @@
-# 代码审查标准
+# コードレビュー基準 (Code Review Standards)
 
-## 目的
+## 目的 (Purpose)
 
-代码审查确保代码合并前的质量、安全性和可维护性。此规则定义何时以及如何进行代码审查。
+コードレビューは、マージ前に品質、セキュリティ、保守性を確保します。本ルールは、いつ・どのようにレビューを行うかを定義します。
 
-## 何时审查
+## レビュー実施タイミング (When to Review)
 
-**强制审查触发条件：**
+**必須のレビュートリガー:**
 
-- 编写或修改代码后
-- 提交到共享分支之前
-- 更改安全敏感代码时（认证、支付、用户数据）
-- 进行架构更改时
-- 合并 pull request 之前
+- コードを書いた／変更した後
+- 共有ブランチへのコミット前
+- セキュリティに敏感なコード（auth、payments、user data）を変更したとき
+- アーキテクチャ変更を行ったとき
+- pull request をマージする前
 
-**审查前要求：**
+**レビュー依頼前の要件 (Pre-Review Requirements):**
 
-在请求审查之前，确保：
+レビューを依頼する前に、以下を確認する:
 
-- 所有自动化检查（CI/CD）已通过
-- 合并冲突已解决
-- 分支已与目标分支同步
+- すべての自動チェック（CI/CD）がパスしている
+- マージコンフリクトが解消されている
+- ブランチがターゲットブランチと同期している
 
-## 审查检查清单
+## レビューチェックリスト (Review Checklist)
 
-在标记代码完成之前：
+コード完了とマークする前に:
 
-- [ ] 代码可读且命名良好
-- [ ] 函数聚焦（<50 行）
-- [ ] 文件内聚（<800 行）
-- [ ] 无深层嵌套（>4 层）
-- [ ] 错误显式处理
-- [ ] 无硬编码密钥或凭据
-- [ ] 无 console.log 或调试语句
-- [ ] 新功能有测试
-- [ ] 测试覆盖率满足 80% 最低要求
+- [ ] コードが読みやすく、命名が適切
+- [ ] 関数が焦点を絞っている（<50 行）
+- [ ] ファイルが凝集している（<800 行）
+- [ ] 深いネストがない（>4 レベル）
+- [ ] エラーが明示的に処理されている
+- [ ] ハードコードされた secret や credential がない
+- [ ] `console.log` や debug 文がない
+- [ ] 新機能にテストがある
+- [ ] テストカバレッジが最低 80% を満たす
 
-## 安全审查触发条件
+## セキュリティレビュートリガー (Security Review Triggers)
 
-**停止并使用 security-reviewer 代理当：**
+**次の場合は STOP し、security-reviewer agent を使用する:**
 
-- 认证或授权代码
-- 用户输入处理
-- 数据库查询
-- 文件系统操作
-- 外部 API 调用
-- 加密操作
-- 支付或金融代码
+- 認証または認可コード
+- ユーザー入力の処理
+- データベースクエリ
+- ファイルシステム操作
+- 外部 API 呼び出し
+- 暗号操作
+- 決済または金融コード
 
-## 审查严重级别
+## レビュー重大度レベル (Review Severity Levels)
 
-| 级别 | 含义 | 行动 |
+| Level | Meaning | Action |
 |-------|---------|--------|
-| CRITICAL（关键） | 安全漏洞或数据丢失风险 | **阻止** - 合并前必须修复 |
-| HIGH（高） | Bug 或重大质量问题 | **警告** - 合并前应修复 |
-| MEDIUM（中） | 可维护性问题 | **信息** - 考虑修复 |
-| LOW（低） | 风格或次要建议 | **注意** - 可选 |
+| CRITICAL | Security vulnerability or data loss risk | **BLOCK** - Must fix before merge |
+| HIGH | Bug or significant quality issue | **WARN** - Should fix before merge |
+| MEDIUM | Maintainability concern | **INFO** - Consider fixing |
+| LOW | Style or minor suggestion | **NOTE** - Optional |
 
-## 代理使用
+## Agent の利用 (Agent Usage)
 
-使用这些代理进行代码审查：
+コードレビューには次の agent を使用する:
 
-| 代理 | 用途 |
-|-------|--------|
-| **code-reviewer** | 通用代码质量、模式、最佳实践 |
-| **security-reviewer** | 安全漏洞、OWASP Top 10 |
-| **typescript-reviewer** | TypeScript/JavaScript 特定问题 |
-| **python-reviewer** | Python 特定问题 |
-| **go-reviewer** | Go 特定问题 |
-| **rust-reviewer** | Rust 特定问题 |
+| Agent | Purpose |
+|-------|---------|
+| **code-reviewer** | General code quality, patterns, best practices |
+| **security-reviewer** | Security vulnerabilities, OWASP Top 10 |
+| **typescript-reviewer** | TypeScript/JavaScript specific issues |
+| **python-reviewer** | Python specific issues |
+| **go-reviewer** | Go specific issues |
+| **rust-reviewer** | Rust specific issues |
 
-## 审查工作流
+## レビューワークフロー (Review Workflow)
 
 ```
-1. 运行 git diff 了解更改
-2. 先检查安全检查清单
-3. 审查代码质量检查清单
-4. 运行相关测试
-5. 验证覆盖率 >= 80%
-6. 使用适当的代理进行详细审查
+1. Run git diff to understand changes
+2. Check security checklist first
+3. Review code quality checklist
+4. Run relevant tests
+5. Verify coverage >= 80%
+6. Use appropriate agent for detailed review
 ```
 
-## 常见问题捕获
+## よくある問題 (Common Issues to Catch)
 
-### 安全
+### セキュリティ (Security)
 
-- 硬编码凭据（API 密钥、密码、令牌）
-- SQL 注入（查询中的字符串拼接）
-- XSS 漏洞（未转义的用户输入）
-- 路径遍历（未净化的文件路径）
-- CSRF 保护缺失
-- 认证绕过
+- ハードコードされた credential（API keys、passwords、tokens）
+- SQL injection（クエリ内の文字列連結）
+- XSS 脆弱性（エスケープされていないユーザー入力）
+- Path traversal（サニタイズされていないファイルパス）
+- CSRF 保護の欠如
+- 認証バイパス
 
-### 代码质量
+### コード品質 (Code Quality)
 
-- 大函数（>50 行）- 拆分为更小的
-- 大文件（>800 行）- 提取模块
-- 深层嵌套（>4 层）- 使用提前返回
-- 缺少错误处理 - 显式处理
-- 变更模式 - 优先使用不可变操作
-- 缺少测试 - 添加测试覆盖
+- 大きな関数（>50 行）— 小さく分割する
+- 大きなファイル（>800 行）— モジュールを抽出する
+- 深いネスト（>4 レベル）— early return を使用する
+- エラーハンドリングの欠如 — 明示的に処理する
+- Mutation パターン — 不変操作を優先する
+- テストの欠如 — テストカバレッジを追加する
 
-### 性能
+### パフォーマンス (Performance)
 
-- N+1 查询 - 使用 JOIN 或批处理
-- 缺少分页 - 给查询添加 LIMIT
-- 无界查询 - 添加约束
-- 缺少缓存 - 缓存昂贵操作
+- N+1 クエリ — JOIN または batching を使用する
+- ページネーションの欠如 — クエリに LIMIT を追加する
+- 無制限クエリ — 制約を追加する
+- キャッシュの欠如 — 高コスト操作をキャッシュする
 
-## 批准标准
+## 承認基準 (Approval Criteria)
 
-- **批准**：无关键或高优先级问题
-- **警告**：仅有高优先级问题（谨慎合并）
-- **阻止**：发现关键问题
+- **Approve**: CRITICAL または HIGH の問題なし
+- **Warning**: HIGH の問題のみ（注意してマージ）
+- **Block**: CRITICAL の問題あり
 
-## 与其他规则的集成
+## 他ルールとの統合 (Integration with Other Rules)
 
-此规则与以下规则配合：
+本ルールは次と連携します:
 
-- [testing.md](testing.md) - 测试覆盖率要求
-- [security.md](security.md) - 安全检查清单
-- [git-workflow.md](git-workflow.md) - 提交标准
-- [agents.md](agents.md) - 代理委托
+- [testing.md](testing.md) - Test coverage requirements
+- [security.md](security.md) - Security checklist
+- [git-workflow.md](git-workflow.md) - Commit standards
+- [agents.md](agents.md) - Agent delegation

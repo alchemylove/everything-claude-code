@@ -1,33 +1,28 @@
 ---
-description: Generate a local Claude Code cost report from a cost-tracker SQLite database.
+description: cost-tracker SQLite データベースからローカルの Claude Code コストレポートを生成する。
 argument-hint: [csv]
 ---
 
-# Cost Report
+# コストレポート (Cost Report)
 
-Query the local cost-tracking database and present a spending report by day,
-project, tool, and session. This command assumes a cost-tracking hook or plugin
-is already writing usage rows to `~/.claude-cost-tracker/usage.db`.
+ローカルのコスト追跡データベースを照会し、日別・プロジェクト別・ツール別・セッション別の支出レポートを提示する。このコマンドは、cost-tracking hook または plugin が既に `~/.claude-cost-tracker/usage.db` に usage 行を書き込んでいることを前提とする。
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. Check that `sqlite3` is available.
-2. Check that `~/.claude-cost-tracker/usage.db` exists.
-3. Run aggregate queries against the `usage` table.
-4. Present a compact report, or export recent rows as CSV when the argument is
-   `csv`.
+1. `sqlite3` が利用可能か確認する。
+2. `~/.claude-cost-tracker/usage.db` が存在するか確認する。
+3. `usage` テーブルに対して集計クエリを実行する。
+4. コンパクトなレポートを提示する。引数が `csv` の場合は直近行を CSV でエクスポートする。
 
-## Prerequisites
+## 前提条件 (Prerequisites)
 
-The database must be populated by a local cost tracker. If the file is missing,
-tell the user the tracker is not set up and suggest installing or enabling a
-trusted Claude Code cost-tracking hook/plugin first.
+データベースはローカルの cost tracker で投入されている必要がある。ファイルがない場合は tracker が未設定であることを伝え、信頼できる Claude Code cost-tracking hook/plugin のインストールまたは有効化を先に提案する。
 
 ```bash
 test -f ~/.claude-cost-tracker/usage.db && echo "Database found" || echo "Database not found"
 ```
 
-## Summary Query
+## サマリークエリ (Summary Query)
 
 ```bash
 sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
@@ -41,7 +36,7 @@ sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
 "
 ```
 
-## Project Breakdown
+## プロジェクト別内訳 (Project Breakdown)
 
 ```bash
 sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
@@ -52,7 +47,7 @@ sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
 "
 ```
 
-## Tool Breakdown
+## ツール別内訳 (Tool Breakdown)
 
 ```bash
 sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
@@ -63,7 +58,7 @@ sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
 "
 ```
 
-## Last Seven Days
+## 直近7日間 (Last Seven Days)
 
 ```bash
 sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
@@ -75,10 +70,9 @@ sqlite3 -header -column ~/.claude-cost-tracker/usage.db "
 "
 ```
 
-## CSV Export
+## CSV エクスポート (CSV Export)
 
-If the user asks for `/cost-report csv`, export the most recent usage rows with
-an explicit column list:
+ユーザーが `/cost-report csv` を要求した場合、明示的なカラム一覧で直近の usage 行をエクスポートする:
 
 ```bash
 sqlite3 -csv -header ~/.claude-cost-tracker/usage.db "
@@ -89,19 +83,17 @@ sqlite3 -csv -header ~/.claude-cost-tracker/usage.db "
 "
 ```
 
-## Report Format
+## レポート形式 (Report Format)
 
-Format the response as:
+応答は次の形式で整形する:
 
-1. Summary: today, yesterday, total, calls, sessions.
-2. By project: projects ranked by total cost.
-3. By tool: tools ranked by total cost.
-4. Last seven days: date, cost, call count.
+1. サマリー: 今日、昨日、合計、呼び出し数、セッション数。
+2. プロジェクト別: 総コスト順のプロジェクト。
+3. ツール別: 総コスト順のツール。
+4. 直近7日間: 日付、コスト、呼び出し数。
 
-Use four decimal places for sub-dollar amounts. Do not estimate pricing from raw
-tokens in this command; rely on the precomputed `cost_usd` values written by the
-tracker.
+1ドル未満は小数点以下4桁。生トークンからこのコマンドで料金を推定しない。tracker が書き込んだ事前計算の `cost_usd` 値に依存する。
 
-## Source
+## 出典 (Source)
 
-Salvaged from stale community PR #1304 by `MayurBhavsar`.
+コミュニティ PR #1304（`MayurBhavsar`）から salvage。

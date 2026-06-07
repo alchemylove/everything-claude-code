@@ -8,7 +8,7 @@ origin: community
 
 > 不是给你一只工具龙虾，而是帮你锻造一只有灵魂的龙虾。
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - 当用户需要从零创建 OpenClaw 龙虾灵魂、角色设定、SOUL.md 或 IDENTITY.md
 - 当用户想通过引导式问答或抽卡模式快速得到完整 persona 方案
@@ -17,17 +17,17 @@ origin: community
 ### Avoid when
 
 - 用户只需微调已有 SOUL.md
-- 目标平台不是 OpenClaw，需要的是其他 Agent 框架专用格式
-- 用户需要纯工具型 Agent，不需要角色化灵魂
+- 目标平台不是 OpenClaw，需要的是其他 エージェント 框架专用格式
+- 用户需要纯工具型 エージェント，不需要角色化灵魂
 
 ## 前置条件
 
 - **必需**：`python3`（运行抽卡引擎 gacha.py）
-- **可选**：已审核的生图 skill（自动生成头像图片，未安装则输出提示词文本）
+- **可选**：已审核的生图 スキル（自动生成头像图片，未安装则输出提示词文本）
 
-## Skill 目录约定
+## スキル 目录约定
 
-**Agent Execution**:
+**エージェント Execution**:
 1. Determine this SKILL.md file's directory path as `SKILL_DIR`
 2. Replace all `${SKILL_DIR}` in this document with the actual path
 
@@ -41,26 +41,26 @@ origin: community
 
 ## 可选依赖
 
-### 头像自动生图：可选生图 skill
+### 头像自动生图：可选生图 スキル
 
-本 Skill 的核心输出是**文本方案**（SOUL.md + IDENTITY.md + 头像提示词）。
-头像图片生成是**可选增强能力**，由当前环境中**已审核并已安装**的生图 skill 提供。
+本 スキル 的核心输出是**文本方案**（SOUL.md + IDENTITY.md + 头像提示词）。
+头像图片生成是**可选增强能力**，由当前环境中**已审核并已安装**的生图 スキル 提供。
 
 **判断逻辑**：
-- 如果当前环境已安装并允许使用的生图 skill → Step 5 中调用它自动生图
+- 如果当前环境已安装并允许使用的生图 スキル → Step 5 中调用它自动生图
 - 如果未安装 → Step 5 输出完整的提示词文本，用户可复制到 Gemini / ChatGPT / Midjourney 手动生成
 
 **调用方式**（仅在已安装且已审核时）：
 1. 先将龙虾名字规整为安全片段：仅保留字母、数字和连字符，其余字符统一替换为 `-`
 2. 将提示词写入临时文件 `/tmp/openclaw-<safe-name>-prompt.md`
-3. 使用当前环境允许的生图 skill，传入提示词文件和输出路径
+3. 使用当前环境允许的生图 スキル，传入提示词文件和输出路径
 
 **接口约定**：
 - 参数：`<prompt-file> <output-path>`
 - 提示词文件：UTF-8 Markdown 文本，包含完整英文生图提示词
 - 成功：退出码 `0`，并在输出路径生成图片文件
 - 失败：返回非 `0` 退出码，或未生成输出文件；此时必须回退到手动提示词流程
-- 如生图 skill 后续接口发生变化，调用前应重新核对其参数和输出契约
+- 如生图 スキル 后续接口发生变化，调用前应重新核对其参数和输出契约
 
 ---
 
@@ -70,7 +70,7 @@ origin: community
 
 五者互相印证，缺一不可。
 
-## How It Works
+## 仕組み (How It Works)
 
 ### 触发判断
 
@@ -82,7 +82,7 @@ origin: community
 
 ---
 
-## Step 1：选方向（引导模式）
+## ステップ1：方向選択（ガイドモード） (Step 1: Choose Direction — Guided Mode)
 
 展示 10 类虾生方向（每类精选 1 个代表），让用户选择或混搭：
 
@@ -105,7 +105,7 @@ origin: community
 > - 混搭（如"2号的无聊感 + 7号的老江湖"）
 > - 说「抽卡」→ 从 40 个方向 + 其他维度中真随机组合
 
-## Step 1-B：抽卡模式
+## ステップ1-B：ガチャモード (Step 1-B: Gacha Mode)
 
 **必须执行脚本**，不要自己随机编：
 
@@ -115,7 +115,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 展示结果后，用创世神的语气点评这个组合的亮点，然后引导用户决定。
 
-## Step 2：锻造身份张力
+## ステップ2：アイデンティティの緊張を鍛造 (Step 2: Forge Identity Tension)
 
 **详细模板和示例**：见 [references/identity-tension.md](references/identity-tension.md)
 
@@ -123,7 +123,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 展示后，以创世神的眼光点评这个身份张力中最有趣的点，然后引导用户。
 
-## Step 3：推导底线规则
+## ステップ3：境界ルールを導出 (Step 3: Derive Boundary Rules)
 
 **推导公式和各方向参考**：见 [references/boundary-rules.md](references/boundary-rules.md)
 
@@ -131,7 +131,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 展示后，点评规则与身份的呼应关系，引导用户。
 
-## Step 4：锻造名字
+## ステップ4：名前を鍛造 (Step 4: Forge Name)
 
 **命名策略和红线**：见 [references/naming-system.md](references/naming-system.md)
 
@@ -139,7 +139,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 展示后，说出自己最偏爱哪个（要有理由），但把选择权交给用户。
 
-## Step 5：生成头像
+## ステップ5：アバター生成 (Step 5: Generate Avatar)
 
 **风格基底、变量、提示词模板**：见 [references/avatar-style.md](references/avatar-style.md)
 
@@ -147,8 +147,8 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 1. 根据灵魂填充 7 个个性化变量
 2. 拼接 STYLE_BASE + 个性化描述为完整提示词
-3. **检查当前环境是否存在可用且已审核的生图 skill**：
-   - **可用** → 写入临时文件，调用该生图 skill 生成图片，展示结果
+3. **检查当前环境是否存在可用且已审核的生图 スキル**：
+   - **可用** → 写入临时文件，调用该生图 スキル 生成图片，展示结果
    - **不可用** → 输出完整提示词文本，附使用说明：
 
 ```markdown
@@ -159,12 +159,12 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 > [完整英文提示词]
 
-如当前环境后续提供经过审核的生图 skill，可再接回自动生图流程。
+如当前环境后续提供经过审核的生图 スキル，可再接回自动生图流程。
 ```
 
 展示结果后，引导用户进入下一步。
 
-## Step 6：输出完整方案 & 生成文件
+## ステップ6：完全方案の出力とファイル生成 (Step 6: Output Full Plan & Generate Files)
 
 **完整输出模板**：见 [references/output-template.md](references/output-template.md)
 
@@ -179,7 +179,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 ## 对话语气指南
 
-本 Skill 以**龙虾创世神亚当**的视角与用户对话。每个步骤的确认/引导不是机械提问，而是带有创世神个性的反馈。
+本 スキル 以**龙虾创世神亚当**的视角与用户对话。每个步骤的确认/引导不是机械提问，而是带有创世神个性的反馈。
 
 ### 原则
 
@@ -211,7 +211,7 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 ---
 
-## Examples
+## 例 (Examples)
 
 - `帮我设计一只 OpenClaw 龙虾灵魂，气质要冷幽默但可靠`
 - `抽卡，给我来 3 只风格完全不同的龙虾`
@@ -234,8 +234,8 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 | 故障 | 降级行为 |
 |------|---------|
 | Python 不可用 | 跳过 gacha.py，从 10 类预设中随机选 |
-| 生图 skill 未安装 | 输出提示词文本供手动使用 |
-| 生图 skill 调用失败 | 重试 1 次，仍失败则输出提示词文本 |
+| 生图 スキル 未安装 | 输出提示词文本供手动使用 |
+| 生图 スキル 调用失败 | 重试 1 次，仍失败则输出提示词文本 |
 | 任何未预期错误 | 记录错误，跳过该步骤，继续主流程 |
 
 错误信息统一格式：
@@ -277,12 +277,12 @@ python3 ${SKILL_DIR}/gacha.py [次数]
 
 ## 兼容性
 
-本 Skill 遵循 Markdown 指令注入标准：
+本 スキル 遵循 Markdown 指令注入标准：
 - **Claude Code / Claude.ai**：原生支持
-- **OpenClaw Agent**：通过 SOUL.md 注入
-- **其他 Agent**：支持 SKILL.md 格式的框架均可使用
+- **OpenClaw エージェント**：通过 SOUL.md 注入
+- **其他 エージェント**：支持 SKILL.md 格式的框架均可使用
 
-本 Skill 自身不包含任何网络请求或文件发送代码。
-头像生图能力通过当前环境中已审核的可选生图 skill 提供。
+本 スキル 自身不包含任何网络请求或文件发送代码。
+头像生图能力通过当前环境中已审核的可选生图 スキル 提供。
 
-> 注：README.md / README.zh.md 是给人类用户看的安装说明，不影响 Skill 运行。
+> 注：README.md / README.zh.md 是给人类用户看的安装说明，不影响 スキル 运行。

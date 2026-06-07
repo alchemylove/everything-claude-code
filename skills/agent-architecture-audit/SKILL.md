@@ -5,127 +5,127 @@ origin: oh-my-agent-check
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Agent Architecture Audit
+# エージェント Architecture 監査 (Agent Architecture Audit)
 
-A diagnostic workflow for agent systems that hide failures behind wrapper layers, stale memory, retry loops, or transport/rendering mutations.
+wrapper layer、stale memory、retry loop、transport/rendering mutation の背後に failure を隠す agent system 向け diagnostic workflow。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-**MANDATORY for:**
-- Releasing any agent or LLM-powered application to production
-- Shipping features with tool calling, memory, or multi-step workflows
-- Agent behavior degrades after adding wrapper layers
-- User reports "the agent is getting worse" or "tools are flaky"
-- Same model works in playground but breaks inside your wrapper
-- Debugging agent behavior for more than 15 minutes without finding root cause
+**必須:**
+- agent/LLM-powered application を production リリースする前
+- tool calling、memory、multi-step workflow を含む feature を ship する前
+- wrapper layer 追加後に agent behavior が劣化した
+- user が「agent が悪化している」「tool が flaky」と報告
+- playground では同じ model が動くが wrapper 内で壊れる
+- 15 分以上 debug しても root cause が不明
 
-**Especially critical when:**
-- You've added new prompt layers, tool definitions, or memory systems
-- Different agents in your system behave inconsistently
-- The model was fine yesterday but is hallucinating today
-- You suspect hidden repair/retry loops silently mutating responses
+**特に重要:**
+- 新しい prompt layer、tool definition、memory system を追加した
+- system 内の agent 間で behavior が一貫しない
+- 昨日は問題なかった model が今日 hallucinate する
+- hidden repair/retry loop が response を黙って mutate している疑い
 
-**Do not use for:**
-- General code debugging — use `agent-introspection-debugging`
-- Code review — use language-specific reviewer agents
-- Security scanning — use `security-review` or `security-review/scan`
-- Agent performance benchmarking — use `agent-eval`
-- Writing new features — use the appropriate workflow skill
+**使用しない:**
+- 一般 code debug → `agent-introspection-debugging`
+- code review → 言語別 reviewer agent
+- security scan → `security-review` または `security-review/scan`
+- agent performance benchmark → `agent-eval`
+- 新 feature 実装 → 適切な workflow skill
 
-## The 12-Layer Stack
+## 12-Layer Stack (The 12-Layer Stack)
 
-Every agent system has these layers. Any of them can corrupt the answer:
+すべての agent system には次の layer がある。いずれも answer を corrupt しうる:
 
-| # | Layer | What Goes Wrong |
+| # | Layer | 何が壊れるか |
 |---|-------|----------------|
-| 1 | System prompt | Conflicting instructions, instruction bloat |
-| 2 | Session history | Stale context injection from previous turns |
-| 3 | Long-term memory | Pollution across sessions, old topics in new conversations |
-| 4 | Distillation | Compressed artifacts re-entering as pseudo-facts |
-| 5 | Active recall | Redundant re-summary layers wasting context |
-| 6 | Tool selection | Wrong tool routing, model skips required tools |
-| 7 | Tool execution | Hallucinated execution — claims to call but doesn't |
-| 8 | Tool interpretation | Misread or ignored tool output |
-| 9 | Answer shaping | Format corruption in final response |
-| 10 | Platform rendering | Transport-layer mutation (UI, API, CLI mutates valid answers) |
-| 11 | Hidden repair loops | Silent fallback/retry agents running second LLM pass |
-| 12 | Persistence | Expired state or cached artifacts reused as live evidence |
+| 1 | System prompt | 矛盾する instruction、instruction bloat |
+| 2 | Session history | 前 turn からの stale context injection |
+| 3 | Long-term memory | session 横断 pollution、新 conversation への旧 topic |
+| 4 | Distillation | 圧縮 artifact が pseudo-fact として再流入 |
+| 5 | Active recall | context を浪費する冗長 re-summary layer |
+| 6 | Tool selection | 誤 routing、required tool の skip |
+| 7 | Tool execution | hallucinated execution — 呼んだと主張するが実行していない |
+| 8 | Tool interpretation | tool output の誤読または無視 |
+| 9 | Answer shaping | final response の format corruption |
+| 10 | Platform rendering | transport layer mutation（UI/API/CLI が valid answer を mutate） |
+| 11 | Hidden repair loops | 2 回目 LLM pass を走らせる silent fallback/retry agent |
+| 12 | Persistence | expired state や cached artifact が live evidence として再利用 |
 
-## Common Failure Patterns
+## 一般的な Failure Pattern (Common Failure Patterns)
 
 ### 1. Wrapper Regression
 
-The base model produces correct answers, but the wrapper layers make it worse.
+base model は正しい answer を出すが、wrapper layer が悪化させる。
 
 **Symptoms:**
-- Model works fine in playground or direct API call, breaks in your agent
-- Added a new prompt layer, existing behavior degraded
-- Agent sounds confident but is confidently wrong
-- "It was working before the last update"
+- playground/direct API では動くが agent 内で壊れる
+- 新 prompt layer 追加後に既存 behavior が劣化
+- agent は confident だが confidently wrong
+- 「last update 前は動いていた」
 
 ### 2. Memory Contamination
 
-Old topics leak into new conversations through history, memory retrieval, or distillation.
+history、memory retrieval、distillation 経由で旧 topic が新 conversation に leak する。
 
 **Symptoms:**
-- Agent brings up unrelated past topics
-- User corrections don't stick (old memory overwrites new)
-- Same-session artifacts re-enter as pseudo-facts
-- Memory grows without bound, degrading response quality over time
+- 無関係な過去 topic を agent が持ち出す
+- user correction が stick しない（旧 memory が新情報を上書き）
+- same-session artifact が pseudo-fact として再流入
+- memory が bound なく grow し、時間とともに quality が低下
 
 ### 3. Tool Discipline Failure
 
-Tools are declared in the prompt but not enforced in code. The model skips them or hallucinates execution.
+tool は prompt に宣言されているが code で enforce されていない。model が skip または execution を hallucinate する。
 
 **Symptoms:**
-- "Must use tool X" in prompt, but model answers without calling it
-- Tool results look correct but were never actually executed
-- Different tools fight over the same responsibility
-- Model uses tool when it shouldn't, or skips it when it must
+- prompt に "Must use tool X" があるが call せず answer する
+- tool result は正しそうだが実際には実行されていない
+- 異なる tool が同じ責務で競合
+- 使うべきでない時に tool を使う、必須時に skip する
 
 ### 4. Rendering/Transport Corruption
 
-The agent's internal answer is correct, but the platform layer mutates it during delivery.
+agent 内部 answer は正しいが、platform layer が delivery 中に mutate する。
 
 **Symptoms:**
-- Logs show correct answer, user sees broken output
-- Markdown rendering, JSON parsing, or streaming fragments corrupt valid responses
-- Hidden fallback agent quietly replaces the answer before delivery
-- Output differs between terminal and UI
+- log は正しい answer、user には broken output
+- markdown rendering、JSON parsing、streaming fragment が valid response を corrupt
+- hidden fallback agent が delivery 前に answer を置換
+- terminal と UI で output が異なる
 
 ### 5. Hidden Agent Layers
 
-Silent repair, retry, summarization, or recall agents run without explicit contracts.
+silent repair、retry、summarization、recall agent が explicit contract なしで動く。
 
 **Symptoms:**
-- Output changes between internal generation and user delivery
-- "Auto-fix" loops run a second LLM pass the user doesn't know about
-- Multiple agents modify the same output without coordination
-- Answers get "smoothed" or "corrected" by invisible layers
+- internal generation と user delivery の間で output が変わる
+- user が知らない "auto-fix" loop が 2 回目 LLM pass を実行
+- 複数 agent が coordination なしに同一 output を modify
+- answer が invisible layer によって "smoothed" または "corrected" される
 
-## Audit Workflow
+## 監査 Workflow (Audit Workflow)
 
-### Phase 1: Scope
+### フェーズ 1: Scope (Phase 1: Scope)
 
-Define what you're auditing:
+監査対象を定義:
 
-- **Target system** — what agent application?
-- **Entrypoints** — how do users interact with it?
-- **Model stack** — which LLM(s) and providers?
-- **Symptoms** — what does the user report?
-- **Time window** — when did it start?
-- **Layers to audit** — which of the 12 layers apply?
+- **Target system** — どの agent application か
+- **Entrypoints** — user はどう interact するか
+- **Model stack** — どの LLM/provider か
+- **Symptoms** — user は何を報告しているか
+- **Time window** — いつから始まったか
+- **Layers to audit** — 12 layer のうちどれが該当するか
 
-### Phase 2: Evidence Collection
+### フェーズ 2: Evidence Collection (Phase 2: Evidence Collection)
 
-Gather evidence from the codebase:
+codebase から evidence を収集:
 
-- **Source code** — agent loop, tool router, memory admission, prompt assembly
-- **Logs** — historical session traces, tool call records
-- **Config** — prompt templates, tool schemas, provider settings
-- **Memory files** — SOPs, knowledge bases, session archives
+- **Source code** — agent loop、tool router、memory admission、prompt assembly
+- **Logs** — session trace、tool call record
+- **Config** — prompt template、tool schema、provider setting
+- **Memory files** — SOP、knowledge base、session archive
 
-Use `rg` to search for anti-patterns:
+`rg` で anti-pattern を検索:
 
 ```bash
 # Tool requirements expressed only in prompt text (not code)
@@ -147,74 +147,74 @@ rg "fallback|retry.*llm|repair.*prompt|re-?prompt" --type py --type ts
 rg "mutate|rewrite.*response|transform.*output|shap" --type py --type ts
 ```
 
-### Phase 3: Failure Mapping
+### フェーズ 3: Failure Mapping (Phase 3: Failure Mapping)
 
-For each finding, document:
+各 finding について文書化:
 
-- **Symptom** — what the user sees
-- **Mechanism** — how the wrapper causes it
-- **Source layer** — which of the 12 layers
-- **Root cause** — the deepest cause
-- **Evidence** — file:line or log:row reference
-- **Confidence** — 0.0 to 1.0
+- **Symptom** — user が見るもの
+- **Mechanism** — wrapper がどう cause するか
+- **Source layer** — 12 layer のどれか
+- **Root cause** — 最も深い cause
+- **Evidence** — file:line または log:row reference
+- **Confidence** — 0.0 から 1.0
 
-### Phase 4: Fix Strategy
+### フェーズ 4: Fix Strategy (Phase 4: Fix Strategy)
 
-Default fix order (code-first, not prompt-first):
+デフォルト fix 順序（prompt-first ではなく code-first）:
 
-1. **Code-gate tool requirements** — enforce in code, not just prompt text
-2. **Remove or narrow hidden repair agents** — make fallback explicit with contracts
-3. **Reduce context duplication** — same info through prompt + history + memory + distillation
-4. **Tighten memory admission** — user corrections > agent assertions
-5. **Tighten distillation triggers** — don't compress what shouldn't be compressed
-6. **Reduce rendering mutation** — pass-through, don't transform
-7. **Convert to typed JSON envelopes** — structured internal flow, not freeform prose
+1. **Code-gate tool requirements** — prompt テキストだけでなく code で enforce
+2. **Remove or narrow hidden repair agents** — fallback を explicit contract 付きに
+3. **Reduce context duplication** — prompt + history + memory + distillation への同一情報
+4. **Tighten memory admission** — user correction > agent assertion
+5. **Tighten distillation triggers** — 圧縮すべきでないものを圧縮しない
+6. **Reduce rendering mutation** — transform せず pass-through
+7. **Convert to typed JSON envelopes** — freeform prose ではなく structured internal flow
 
-## Severity Model
+## Severity Model (Severity Model)
 
 | Level | Meaning | Action |
 |-------|---------|--------|
-| `critical` | Agent can confidently produce wrong operational behavior | Fix before next release |
-| `high` | Agent frequently degrades correctness or stability | Fix this sprint |
-| `medium` | Correctness usually survives but output is fragile or wasteful | Plan for next cycle |
-| `low` | Mostly cosmetic or maintainability issues | Backlog |
+| `critical` | agent が confidently wrong operational behavior を出しうる | 次リリース前に fix |
+| `high` | agent が頻繁に correctness/stability を degrade | 今 sprint で fix |
+| `medium` | correctness は通常 survive するが output が fragile/wasteful | 次 cycle で計画 |
+| `low` | 主に cosmetic または maintainability issue | backlog |
 
-## Output Format
+## 出力形式 (Output Format)
 
-Present findings to the user in this order:
+user には次の順で提示:
 
-1. **Severity-ranked findings** (most critical first)
-2. **Architecture diagnosis** (which layer corrupted what, and why)
-3. **Ordered fix plan** (code-first, not prompt-first)
+1. **Severity-ranked findings**（最も critical から）
+2. **Architecture diagnosis**（どの layer が何を corrupt したか、なぜか）
+3. **Ordered fix plan**（prompt-first ではなく code-first）
 
-Do not lead with compliments or summaries. If the system is broken, say so directly.
+compliment や summary から始めない。system が broken なら直接そう述べる。
 
-## Quick Diagnostic Questions
+## クイック診断 Question (Quick Diagnostic Questions)
 
-When auditing an agent system, answer these:
+agent system 監査時に答える:
 
 | # | Question | If Yes → |
 |---|----------|----------|
-| 1 | Can the model skip a required tool and still answer? | Tool not code-gated |
-| 2 | Does old conversation content appear in new turns? | Memory contamination |
-| 3 | Is the same info in system prompt AND memory AND history? | Context duplication |
-| 4 | Does the platform run a second LLM pass before delivery? | Hidden repair loop |
-| 5 | Does the output differ between internal generation and user delivery? | Rendering corruption |
-| 6 | Are "must use tool X" rules only in prompt text? | Tool discipline failure |
-| 7 | Can the agent's own monologue become persistent memory? | Memory poisoning |
+| 1 | model は required tool を skip しても answer できるか？ | tool が code-gate されていない |
+| 2 | 旧 conversation content が新 turn に現れるか？ | memory contamination |
+| 3 | 同一情報が system prompt AND memory AND history にあるか？ | context duplication |
+| 4 | platform は delivery 前に 2 回目 LLM pass を走らせるか？ | hidden repair loop |
+| 5 | internal generation と user delivery で output が異なるか？ | rendering corruption |
+| 6 | "must use tool X" rule は prompt テキストのみか？ | tool discipline failure |
+| 7 | agent 自身の monologue が persistent memory になりうるか？ | memory poisoning |
 
-## Anti-Patterns to Avoid
+## 避けるべき Anti-Pattern (Anti-Patterns to Avoid)
 
-- Avoid blaming the model before falsifying wrapper-layer regressions.
-- Avoid blaming memory without showing the contamination path.
-- Do not let a clean current state erase a dirty historical incident.
-- Do not treat markdown prose as a trustworthy internal protocol.
-- Do not accept "must use tool" in prompt text when code never enforces it.
-- Keep findings direct, evidence-backed, and severity-ranked.
+- wrapper-layer regression を falsify する前に model を blame しない
+- contamination path を示さず memory を blame しない
+- clean current state が dirty historical incident を消さない
+- markdown prose を trustworthy internal protocol として扱わない
+- code が enforce しないのに prompt の "must use tool" を accept しない
+- finding は direct、evidence-backed、severity-ranked に保つ
 
-## Report Schema
+## Report Schema (Report Schema)
 
-Audits should produce structured reports following this shape:
+監査は次の shape の structured report を出力:
 
 ```json
 {
@@ -247,10 +247,10 @@ Audits should produce structured reports following this shape:
 }
 ```
 
-## Related Skills
+## 関連 Skill (Related Skills)
 
-- `agent-introspection-debugging` — Debug agent runtime failures (loops, timeouts, state errors)
-- `agent-eval` — Benchmark agent performance head-to-head
-- `security-review` — Security audit for code and configuration
-- `autonomous-agent-harness` — Set up autonomous agent operations
-- `agent-harness-construction` — Build agent harnesses from scratch
+- `agent-introspection-debugging` — agent runtime failure（loop、timeout、state error）の debug
+- `agent-eval` — agent performance の head-to-head benchmark
+- `security-review` — code/configuration の security audit
+- `autonomous-agent-harness` — autonomous agent operation の setup
+- `agent-harness-construction` — agent harness の scratch からの構築

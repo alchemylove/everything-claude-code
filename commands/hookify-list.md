@@ -1,21 +1,21 @@
 ---
-description: List all configured hookify rules
+description: 設定済みのすべての hookify rule を一覧表示します。
 ---
 
-Find and display all hookify rules in a formatted table.
+すべての hookify rule を検索し、formatted table で表示します。
 
-## Steps
+## ステップ (Steps)
 
-1. Find all `.claude/hookify.*.local.md` files
-2. Read each file's frontmatter:
+1. すべての `.claude/hookify.*.local.md` file を検索
+2. 各 file の frontmatter を読み取り:
    - `name`
    - `enabled`
    - `event`
    - `action`
    - `pattern`
-3. Display them as a table:
+3. table として表示:
 
 | Rule | Enabled | Event | Pattern | File |
 |------|---------|-------|---------|------|
 
-4. Show the rule count and remind the user that `/hookify-configure` can change state later.
+4. rule count を表示し、`/hookify-configure` で後から state を変更できることを remind。

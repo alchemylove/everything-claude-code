@@ -3,92 +3,92 @@ name: deep-research
 description: Multi-source deep research using firecrawl and exa MCPs. Searches the web, synthesizes findings, and delivers cited reports with source attribution. Use when the user wants thorough research on any topic with evidence and citations.
 ---
 
-# Deep Research
+# 深掘り調査 (Deep Research)
 
-Produce thorough, cited research reports from multiple web sources using firecrawl and exa MCP tools.
+firecrawl と exa MCP ツールを使い、複数の Web ソースから徹底的で引用付きの調査レポートを作成する。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- User asks to research any topic in depth
-- Competitive analysis, technology evaluation, or market sizing
-- Due diligence on companies, investors, or technologies
-- Any question requiring synthesis from multiple sources
-- User says "research", "deep dive", "investigate", or "what's the current state of"
+- ユーザーが任意のトピックを深く調査してほしいとき
+- 競合分析、技術評価、市場規模の算出
+- 企業、投資家、技術のデューデリジェンス
+- 複数ソースからの統合が必要な質問
+- ユーザーが「research」「deep dive」「investigate」「what's the current state of」と言ったとき
 
-## MCP Requirements
+## MCP 要件 (MCP Requirements)
 
-At least one of:
+少なくともいずれか:
 - **firecrawl** — `firecrawl_search`, `firecrawl_scrape`, `firecrawl_crawl`
 - **exa** — `web_search_exa`, `web_search_advanced_exa`, `crawling_exa`
 
-Both together give the best coverage. Configure in `~/.claude.json` or `~/.codex/config.toml`.
+両方揃えるとカバレッジが最良。`~/.claude.json` または `~/.codex/config.toml` で設定。
 
-## Workflow
+## ワークフロー (Workflow)
 
-### Step 1: Understand the Goal
+### ステップ 1: 目的を理解する (Step 1: Understand the Goal)
 
-Ask 1-2 quick clarifying questions:
-- "What's your goal — learning, making a decision, or writing something?"
-- "Any specific angle or depth you want?"
+1〜2つの簡潔な確認質問:
+- 「目的は何ですか — 学習、意思決定、執筆のどれですか？」
+- 「特定の角度や深さの希望はありますか？」
 
-If the user says "just research it" — skip ahead with reasonable defaults.
+ユーザーが「とにかく調べて」と言った場合 — 妥当なデフォルトで先に進む。
 
-### Step 2: Plan the Research
+### ステップ 2: 調査を計画する (Step 2: Plan the Research)
 
-Break the topic into 3-5 research sub-questions. Example:
-- Topic: "Impact of AI on healthcare"
-  - What are the main AI applications in healthcare today?
-  - What clinical outcomes have been measured?
-  - What are the regulatory challenges?
-  - What companies are leading this space?
-  - What's the market size and growth trajectory?
+トピックを3〜5の調査サブ質問に分解。例:
+- トピック: "Impact of AI on healthcare"
+  - 今日の医療における主な AI 応用は何か？
+  - どのような臨床アウトカムが測定されているか？
+  - 規制上の課題は何か？
+  - この分野をリードする企業はどこか？
+  - 市場規模と成長軌道はどうか？
 
-### Step 3: Execute Multi-Source Search
+### ステップ 3: マルチソース検索を実行 (Step 3: Execute Multi-Source Search)
 
-For EACH sub-question, search using available MCP tools:
+各サブ質問について、利用可能な MCP ツールで検索:
 
-**With firecrawl:**
+**firecrawl 使用時:**
 ```
 firecrawl_search(query: "<sub-question keywords>", limit: 8)
 ```
 
-**With exa:**
+**exa 使用時:**
 ```
 web_search_exa(query: "<sub-question keywords>", numResults: 8)
 web_search_advanced_exa(query: "<keywords>", numResults: 5, startPublishedDate: "2025-01-01")
 ```
 
-**Search strategy:**
-- Use 2-3 different keyword variations per sub-question
-- Mix general and news-focused queries
-- Aim for 15-30 unique sources total
-- Prioritize: academic, official, reputable news > blogs > forums
+**検索戦略:**
+- サブ質問ごとに2〜3の異なるキーワードバリエーションを使用
+- 一般検索とニュース重視のクエリを混ぜる
+- 合計15〜30のユニークソースを目標
+- 優先度: 学術・公式・信頼できるニュース > ブログ > フォーラム
 
-### Step 4: Deep-Read Key Sources
+### ステップ 4: 重要ソースを深読み (Step 4: Deep-Read Key Sources)
 
-For the most promising URLs, fetch full content:
+最も有望な URL について全文を取得:
 
-**With firecrawl:**
+**firecrawl 使用時:**
 ```
 firecrawl_scrape(url: "<url>")
 ```
 
-**With exa:**
+**exa 使用時:**
 ```
 crawling_exa(url: "<url>", tokensNum: 5000)
 ```
 
-Read 3-5 key sources in full for depth. Do not rely only on search snippets.
+深さのため3〜5の重要ソースを全文で読む。検索スニペットのみに頼らない。
 
-### Step 5: Synthesize and Write Report
+### ステップ 5: 統合してレポートを書く (Step 5: Synthesize and Write Report)
 
-Structure the report:
+レポート構成:
 
 ```markdown
 # [Topic]: Research Report
 *Generated: [date] | Sources: [N] | Confidence: [High/Medium/Low]*
 
-## Executive Summary
+## エグゼクティブサマリー (Executive Summary)
 [3-5 sentence overview of key findings]
 
 ## 1. [First Major Theme]
@@ -102,28 +102,28 @@ Structure the report:
 ## 3. [Third Major Theme]
 ...
 
-## Key Takeaways
+## 主要な要点 (Key Takeaways)
 - [Actionable insight 1]
 - [Actionable insight 2]
 - [Actionable insight 3]
 
-## Sources
+## ソース (Sources)
 1. [Title](url) — [one-line summary]
 2. ...
 
-## Methodology
+## 方法論 (Methodology)
 Searched [N] queries across web and news. Analyzed [M] sources.
 Sub-questions investigated: [list]
 ```
 
-### Step 6: Deliver
+### ステップ 6: 配信 (Step 6: Deliver)
 
-- **Short topics**: Post the full report in chat
-- **Long reports**: Post the executive summary + key takeaways, save full report to a file
+- **短いトピック**: チャットに全文レポートを投稿
+- **長いレポート**: エグゼクティブサマリー + 主要な学びを投稿し、全文はファイルに保存
 
-## Parallel Research with Subagents
+## サブエージェントによる並列調査 (Parallel Research with Subagents)
 
-For broad topics, use Claude Code's Task tool to parallelize:
+広いトピックでは、Claude Code の Task ツールで並列化:
 
 ```
 Launch 3 research agents in parallel:
@@ -132,18 +132,18 @@ Launch 3 research agents in parallel:
 3. Agent 3: Research sub-question 5 + cross-cutting themes
 ```
 
-Each agent searches, reads sources, and returns findings. The main session synthesizes into the final report.
+各エージェントが検索・ソース読み取り・所見返却。メインセッションが最終レポートに統合。
 
-## Quality Rules
+## 品質ルール (Quality Rules)
 
-1. **Every claim needs a source.** No unsourced assertions.
-2. **Cross-reference.** If only one source says it, flag it as unverified.
-3. **Recency matters.** Prefer sources from the last 12 months.
-4. **Acknowledge gaps.** If you couldn't find good info on a sub-question, say so.
-5. **No hallucination.** If you don't know, say "insufficient data found."
-6. **Separate fact from inference.** Label estimates, projections, and opinions clearly.
+1. **すべての主張にソースが必要。** 出典のない断言はしない。
+2. **相互参照する。** 1ソースだけの場合は未検証と明記。
+3. **新しさが重要。** 過去12ヶ月のソースを優先。
+4. **ギャップを認める。** サブ質問で良い情報が見つからなければそう述べる。
+5. **幻覚しない。** わからなければ「insufficient data found」と言う。
+6. **事実と推論を分離。** 推定、予測、意見を明確にラベル付け。
 
-## Examples
+## 例 (Examples)
 
 ```
 "Research the current state of nuclear fusion energy"

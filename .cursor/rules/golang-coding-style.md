@@ -1,24 +1,24 @@
 ---
-description: "Go coding style extending common rules"
+description: "Go coding style: common ルールの拡張"
 globs: ["**/*.go", "**/go.mod", "**/go.sum"]
 alwaysApply: false
 ---
-# Go Coding Style
+# Go Coding Style (Go Coding Style)
 
-> This file extends the common coding style rule with Go specific content.
+> このファイルは common coding style ルールを Go 固有の内容で拡張する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **gofmt** and **goimports** are mandatory -- no style debates
+- **gofmt** と **goimports** は必須 — スタイル議論なし
 
-## Design Principles
+## 設計原則 (Design Principles)
 
-- Accept interfaces, return structs
-- Keep interfaces small (1-3 methods)
+- interface を受け入れ、struct を返す
+- interface は小さく保つ（1-3 メソッド）
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Always wrap errors with context:
+常に context 付きで error を wrap:
 
 ```go
 if err != nil {
@@ -26,6 +26,6 @@ if err != nil {
 }
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `golang-patterns` for comprehensive Go idioms and patterns.
+包括的な Go イディオムとパターンは skill: `golang-patterns` を参照。

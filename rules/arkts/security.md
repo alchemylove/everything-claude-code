@@ -4,15 +4,15 @@ paths:
   - "**/*.ts"
   - "**/module.json5"
 ---
-# HarmonyOS / ArkTS Security
+# HarmonyOS / ArkTS セキュリティ (HarmonyOS / ArkTS Security)
 
-> This file extends [common/security.md](../common/security.md) with HarmonyOS-specific security practices.
+> このファイルは [common/security.md](../common/security.md) を拡張し、HarmonyOS / ArkTS 固有の内容を追加する。
 
-## Permission Management
+## パーミッション管理 (Permission Management)
 
-### Declare Permissions in module.json5
+### module.json5 でのパーミッション宣言 (Declare Permissions in module.json5)
 
-All system API calls requiring permissions must be declared:
+パーミッションが必要なすべてのシステム API 呼び出しを宣言する必要がある:
 
 ```json5
 {
@@ -31,16 +31,16 @@ All system API calls requiring permissions must be declared:
 }
 ```
 
-### Permission Checklist
+### パーミッションチェックリスト (Permission Checklist)
 
-Before calling system APIs, verify:
+システム API を呼び出す前に確認する:
 
-- [ ] Permission declared in `module.json5`
-- [ ] Permission reason string defined in resources (for user-facing permissions)
-- [ ] Runtime permission request implemented for sensitive permissions (camera, location, etc.)
-- [ ] Permission check before API call with graceful fallback on denial
+- [ ] パーミッションが `module.json5` に宣言されている
+- [ ] パーミッション理由の文字列がリソースで定義されている（ユーザー向けパーミッションの場合）
+- [ ] 機密性の高いパーミッション（カメラ、位置情報など）に対してランタイムパーミッションリクエストが実装されている
+- [ ] API 呼び出し前にパーミッションを確認し、拒否時の適切なフォールバックがある
 
-### Runtime Permission Request
+### ランタイムパーミッションリクエスト (Runtime Permission Request)
 
 ```typescript
 import { abilityAccessCtrl, bundleManager, Permissions } from '@kit.AbilityKit';
@@ -62,22 +62,22 @@ async function checkAndRequestPermission(permission: Permissions): Promise<boole
 }
 ```
 
-## Secret Management
+## シークレット管理 (Secret Management)
 
-- **NEVER** hardcode API keys, tokens, or passwords in `.ets`/`.ts` source files
-- Use HarmonyOS Preferences API for non-sensitive configuration
-- Use HarmonyOS Keystore for sensitive credentials
-- Environment-specific configs should be managed via build profiles
+- API キー、トークン、パスワードを `.ets`/`.ts` ソースファイルに**絶対にハードコードしない**
+- 機密性の低い設定には HarmonyOS Preferences API を使用する
+- 機密性の高い認証情報には HarmonyOS キーストアを使用する
+- 環境固有の設定はビルドプロファイルで管理する
 
 ```typescript
-// BAD: hardcoded secret
+// BAD: ハードコードされたシークレット
 const API_KEY: string = 'sk-xxxxxxxxxxxx';
 
-// GOOD: from build profile config (non-sensitive)
+// GOOD: ビルドプロファイル設定から取得（機密性なし）
 import { BuildProfile } from 'BuildProfile';
 const endpoint = BuildProfile.API_ENDPOINT;
 
-// GOOD: use HUKS to encrypt/decrypt data without exposing key material
+// GOOD: HUKS を使用してキー素材を露出せずにデータを暗号化/復号化する
 import { huks } from '@kit.UniversalKeystoreKit';
 async function decryptWithKeystore(alias: string, nonce: Uint8Array, aad: Uint8Array, cipherData: Uint8Array): Promise<Uint8Array> {
   const options: huks.HuksOptions = {
@@ -97,14 +97,14 @@ async function decryptWithKeystore(alias: string, nonce: Uint8Array, aad: Uint8A
 }
 ```
 
-## Input Validation
+## 入力バリデーション (Input Validation)
 
-- Validate all user input before processing
-- Sanitize data before displaying in UI to prevent injection
-- Validate deep link parameters before navigation
+- 処理前にすべてのユーザー入力を検証する
+- インジェクションを防ぐため、UI に表示する前にデータをサニタイズする
+- ナビゲーション前にディープリンクのパラメータを検証する
 
 ```typescript
-// Validate before navigation
+// ナビゲーション前に検証する
 function handleDeepLink(uri: string): void {
   const allowedPaths: string[] = ['detail', 'settings', 'profile'];
   const parsed = new URL(uri);
@@ -119,23 +119,23 @@ function handleDeepLink(uri: string): void {
 }
 ```
 
-## Network Security
+## ネットワークセキュリティ (Network Security)
 
-- Always use HTTPS for network requests
-- Validate server certificates
-- Implement request timeout and retry policies
-- Never log sensitive data (tokens, user credentials) in network request/response logs
+- ネットワークリクエストには常に HTTPS を使用する
+- サーバー証明書を検証する
+- リクエストのタイムアウトとリトライポリシーを実装する
+- ネットワークリクエスト/レスポンスのログに機密データ（トークン、ユーザー認証情報）を記録しない
 
-## Data Storage Security
+## データストレージセキュリティ (Data Storage Security)
 
-- Use encrypted preferences for sensitive local data
-- Clear sensitive data from memory when no longer needed
-- Implement proper data lifecycle management
-- Consider data classification (public, internal, confidential) when choosing storage mechanisms
+- 機密性の高いローカルデータには暗号化されたプリファレンスを使用する
+- 不要になった機密データはメモリから消去する
+- 適切なデータライフサイクル管理を実装する
+- ストレージメカニズムを選択する際にデータ分類（公開、内部、機密）を考慮する
 
-## Dependency Security
+## 依存関係のセキュリティ (Dependency Security)
 
-- Only use dependencies from trusted sources (official ohpm registry)
-- Verify dependency versions in `oh-package.json5`
-- Regularly check for known vulnerabilities in third-party libraries
-- Pin dependency versions to avoid unexpected updates
+- 信頼できるソース（公式 ohpm レジストリ）からの依存関係のみを使用する
+- `oh-package.json5` の依存関係バージョンを確認する
+- サードパーティライブラリの既知の脆弱性を定期的に確認する
+- 予期しない更新を避けるために依存関係バージョンを固定する

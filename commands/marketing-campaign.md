@@ -1,44 +1,45 @@
 ---
-description: Plan and execute a full marketing campaign. Accepts a product brief and returns positioning, landing page copy, email sequence, social posts, ad variants, video scripts, and a content calendar. Can also review existing copy for conversion quality.
+description: フルマーケティングキャンペーンを計画・実行する。プロダクトブリーフを受け取り、ポジショニング、ランディングページコピー、メールシーケンス、ソーシャル投稿、広告バリアント、動画スクリプト、コンテンツカレンダーを返す。既存コピーのコンバージョン品質レビューも可能。
 allowed_tools: ["Read", "Grep", "Glob", "WebSearch", "WebFetch", "Write"]
 ---
 
 # /marketing-campaign
 
-Plan and execute a marketing campaign from brief to full content suite.
+ブリーフからフルコンテンツスイートまで、マーケティングキャンペーンを計画・実行する。
 
-## Usage
+## 使い方 (Usage)
 
 ```
-/marketing-campaign                          # Prompt for brief interactively
-/marketing-campaign [product brief]          # Full campaign from inline brief
-/marketing-campaign copy [type]              # Single deliverable only
-/marketing-campaign review [file-or-brief]   # Copy audit for conversion and brand consistency
+/marketing-campaign                          # ブリーフを対話的に入力
+/marketing-campaign [product brief]          # インラインブリーフからフルキャンペーン
+/marketing-campaign copy [type]              # 単一成果物のみ
+/marketing-campaign review [file-or-brief]   # コンバージョンとブランド一貫性のコピー監査
 ```
 
-## What It Does
+## このコマンドの動作 (What It Does)
 
-1. **Research** — Profiles the target audience and maps competitors before writing anything
-2. **Positioning** — Locks the campaign angle and tone profile first
-3. **Copy production** — Generates the full content suite in the right order (landing page → emails → social → ads → video scripts → calendar)
-4. **Review** — Gates all output through a conversion and brand consistency checklist
+1. **リサーチ (Research)** — 執筆前にターゲットオーディエンスをプロファイルし、競合をマッピング
+2. **ポジショニング (Positioning)** — キャンペーンの角度とトーンプロファイルを先に確定
+3. **コピー制作 (Copy production)** — 正しい順序でフルコンテンツスイートを生成（ランディングページ → メール → ソーシャル → 広告 → 動画スクリプト → カレンダー）
+4. **レビュー (Review)** — すべての出力をコンバージョンとブランド一貫性チェックリストでゲート
 
-## Modes
+## モード (Modes)
 
-### Full Campaign Mode
+### フルキャンペーンモード (Full Campaign Mode)
 
-Provide a product brief containing:
-- Product name and description
-- Target audience (specific, not generic)
-- Core problem the product solves
-- Core benefit / outcome
-- Tone guidance
-- Channels required
-- Launch goal or timeline
+以下を含むプロダクトブリーフを提供:
 
-The agent returns all campaign deliverables in order, with a copy review summary at the end.
+- プロダクト名と説明
+- ターゲットオーディエンス（具体的に、汎用的でない）
+- プロダクトが解決するコア問題
+- コアベネフィット / アウトカム
+- トーンのガイダンス
+- 必要なチャネル
+- ローンチ目標またはタイムライン
 
-### Single Deliverable Mode
+エージェントはすべてのキャンペーン成果物を順番に返し、最後にコピーレビューサマリーを付ける。
+
+### 単一成果物モード (Single Deliverable Mode)
 
 ```
 /marketing-campaign copy landing-page
@@ -48,24 +49,25 @@ The agent returns all campaign deliverables in order, with a copy review summary
 /marketing-campaign copy video-scripts
 ```
 
-Requires positioning to be defined first. Run full mode or provide the angle before requesting a single deliverable.
+ポジショニングが先に定義されている必要がある。単一成果物を要求する前にフルモードを実行するか、角度を提供する。
 
-### Copy Review Mode
+### コピーレビューモード (Copy Review Mode)
 
 ```
 /marketing-campaign review path/to/copy.md
 /marketing-campaign review "paste copy here"
 ```
 
-Returns a structured audit against:
-- 5-second clarity test (above-fold copy)
-- CTA quality (specific, earned, one per piece)
-- Brand tone consistency
-- Claim specificity and supportability
-- Platform-native fit
-- Cross-channel consistency
+以下に対する構造化監査を返す:
 
-## Brief Template
+- 5秒明瞭性テスト（above-fold コピー）
+- CTA品質（具体的、 earned、1ピースあたり1つ）
+- ブランドトーンの一貫性
+- 主張の具体性と裏付け可能性
+- プラットフォームネイティブな適合
+- チャネル横断の一貫性
+
+## ブリーフテンプレート (Brief Template)
 
 ```markdown
 Product: [name]
@@ -78,9 +80,9 @@ Channels: [landing page, email, LinkedIn, X, ads, video]
 Goal: [launch, waitlist, signups, awareness — and timeline]
 ```
 
-## Output Location
+## 出力先 (Output Location)
 
-When saving campaign assets, the convention is `.claude/campaigns/{campaign-name}/`:
+キャンペーンアセットを保存する場合の規約は `.claude/campaigns/{campaign-name}/`:
 
 ```
 .claude/campaigns/product-launch/
@@ -93,9 +95,9 @@ When saving campaign assets, the convention is `.claude/campaigns/{campaign-name
 └── content-calendar.md
 ```
 
-Confirm the save location before writing files.
+ファイルを書き込む前に保存先を確認する。
 
-## Examples
+## 例 (Examples)
 
 ```
 /marketing-campaign Build a 7-day launch campaign for an AI career platform for UK university students.
@@ -109,20 +111,21 @@ Confirm the save location before writing files.
 /marketing-campaign review .claude/campaigns/the-key/landing-page.md
 ```
 
-## Agent Delegation
+## エージェント委任 (Agent Delegation)
 
-This command invokes:
-- `marketing-agent` — campaign planning and copy production
-- `brand-voice` — voice capture when tone needs locking across multiple outputs
-- `content-engine` — platform-native social content production
-- `crosspost` — multi-platform distribution
-- `market-research` — deep audience or competitive intelligence
+このコマンドが呼び出すエージェント:
 
-## Related Commands
+- `marketing-agent` — キャンペーン計画とコピー制作
+- `brand-voice` — 複数出力でトーンを固定する必要がある場合の voice キャプチャ
+- `content-engine` — プラットフォームネイティブなソーシャルコンテンツ制作
+- `crosspost` — マルチプラットフォーム配信
+- `market-research` — 深いオーディエンスまたは競合インテリジェンス
 
-- `/plan` — Strategic planning before a campaign
-- `/plan-prd` — Product requirements document before briefing a campaign
-- `/code-review` — Review code behind a landing page implementation
+## 関連コマンド (Related Commands)
+
+- `/plan` — キャンペーン前の戦略計画
+- `/plan-prd` — キャンペーンをブリーフする前のプロダクト要件ドキュメント
+- `/code-review` — ランディングページ実装のコードレビュー
 
 ---
 

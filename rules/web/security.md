@@ -1,14 +1,14 @@
-> This file extends [common/security.md](../common/security.md) with web-specific security content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、Web 固有のセキュリティ内容を追加する。
 
-# Web Security Rules
+# Web セキュリティルール (Web Security Rules)
 
-## Content Security Policy
+## コンテンツセキュリティポリシー (Content Security Policy)
 
-Always configure a production CSP.
+本番環境では常に CSP を設定する。
 
-### Nonce-Based CSP
+### ノンスベースの CSP (Nonce-Based CSP)
 
-Use a per-request nonce for scripts instead of `'unsafe-inline'`.
+`'unsafe-inline'` の代わりに、スクリプトにはリクエストごとのノンスを使用する。
 
 ```text
 Content-Security-Policy:
@@ -23,23 +23,23 @@ Content-Security-Policy:
   base-uri 'self';
 ```
 
-Adjust origins to the project. Do not cargo-cult this block unchanged.
+オリジンはプロジェクトに合わせて調整する。このブロックをそのままコピーして使わない。
 
-## XSS Prevention
+## XSS 防止 (XSS Prevention)
 
-- Never inject unsanitized HTML
-- Avoid `innerHTML` / `dangerouslySetInnerHTML` unless sanitized first
-- Escape dynamic template values
-- Sanitize user HTML with a vetted local sanitizer when absolutely necessary
+- サニタイズされていない HTML を注入しない
+- サニタイズなしで `innerHTML` / `dangerouslySetInnerHTML` を使用しない
+- 動的テンプレート値をエスケープする
+- どうしても必要な場合は、検証済みのローカルサニタイザーでユーザー HTML をサニタイズする
 
-## Third-Party Scripts
+## サードパーティスクリプト (Third-Party Scripts)
 
-- Load asynchronously
-- Use SRI when serving from a CDN
-- Audit quarterly
-- Prefer self-hosting for critical dependencies when practical
+- 非同期で読み込む
+- CDN から配信する場合は SRI を使用する
+- 四半期ごとに監査する
+- 実用的な場合、重要な依存関係にはセルフホスティングを優先する
 
-## HTTPS and Headers
+## HTTPS とヘッダー (HTTPS and Headers)
 
 ```text
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
@@ -49,9 +49,9 @@ Referrer-Policy: strict-origin-when-cross-origin
 Permissions-Policy: camera=(), microphone=(), geolocation=()
 ```
 
-## Forms
+## フォーム (Forms)
 
-- CSRF protection on state-changing forms
-- Rate limiting on submission endpoints
-- Validate client and server side
-- Prefer honeypots or light anti-abuse controls over heavy-handed CAPTCHA defaults
+- 状態を変更するフォームには CSRF 保護
+- 送信エンドポイントにはレート制限
+- クライアント側とサーバー側の両方でバリデーション
+- 重い CAPTCHA デフォルトよりもハニーポットや軽量なアンチアビューズ制御を優先する

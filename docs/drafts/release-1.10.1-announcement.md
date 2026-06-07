@@ -1,63 +1,63 @@
-# ECC 1.10.1 release announcement draft
+# ECC 1.10.1 リリース告知ドラフト (ECC 1.10.1 release announcement draft)
 
-ECC 1.10.1 is the follow-up stabilization release to 1.10.0.
+ECC 1.10.1 は 1.10.0 へのフォローアップ安定化リリースです。
 
-This release is focused on install correctness, cross-surface naming clarity, Windows/PowerShell recovery, Cursor project install correctness, and Claude Code hook compatibility. It is not a feature-heavy release.
+このリリースは install 正確性、クロス面命名の明確化、Windows/PowerShell リカバリ、Cursor プロジェクト install 正確性、Claude Code hook 互換性に焦点を当てます。feature 多めのリリースではありません。
 
-## What landed in the stabilization pass
-- npm/package/release surfaces are aligned and `ecc-universal@1.10.0` is live on npm
-- Windows locale/path and PowerShell install-path regressions fixed
-- Bash hook process-storm regression fixed
-- Claude Code 2.1.x hook schema compatibility fixed
-- Cursor native project install path repaired:
-  - `.cursor/hooks.json` now includes the required schema/version surface
-  - `.cursor/mcp.json` is written in the native Cursor project location
-- continuous-learning-v2 now accepts `claude-desktop` as a valid entrypoint
-- Windows observe path now skips `AppInstallerPythonRedirector.exe`
-- docs now distinguish plugin installs from full manual installs more clearly
+## 安定化パスで着地したもの (What landed in the stabilization pass)
+- npm/package/release 面が整合し `ecc-universal@1.10.0` が npm でライブ
+- Windows locale/path と PowerShell install-path 回帰を修正
+- Bash hook process-storm 回帰を修正
+- Claude Code 2.1.x hook schema 互換性を修正
+- Cursor native プロジェクト install path を修復：
+  - `.cursor/hooks.json` に必要な schema/version 面を含む
+  - `.cursor/mcp.json` が native Cursor プロジェクト位置に書き込まれる
+- continuous-learning-v2 が `claude-desktop` を有効 entrypoint として受け入れ
+- Windows observe path が `AppInstallerPythonRedirector.exe` をスキップ
+- docs が plugin install とフル手動 install をより明確に区別
 
-## What 1.10.1 is for
-- make the current install surfaces predictable
-- reduce stale naming/install guidance
-- close the follow-up regressions from 1.10.0
-- give users one stable update point instead of piecing together fixes across issues and discussions
+## 1.10.1 の目的 (What 1.10.1 is for)
+- 現在の install 面を予測可能にする
+- 古い命名/install ガイダンスを減らす
+- 1.10.0 からのフォローアップ回帰を閉じる
+- issue と discussion 横断で修正を寄せ集める代わりに1つの安定更新点をユーザーに与える
 
-## Included release fixes
-- `#1543` Cursor native project hook + MCP install repair
-- `#1524` Claude Code v2.1.116 argv-dup mitigation in `settings.local.json`
-- `#1522` continuous-learning-v2 accepts `claude-desktop` as a valid entrypoint
-- `#1511` Windows observe path skips `AppInstallerPythonRedirector.exe`
-- `#1546` continuous-learning-v2 plugin quick start correction
-- `#1535` hero overflow follow-up
+## 含まれるリリース修正 (Included release fixes)
+- `#1543` Cursor native プロジェクト hook + MCP install 修復
+- `#1524` `settings.local.json` の Claude Code v2.1.116 argv-dup 緩和
+- `#1522` continuous-learning-v2 が `claude-desktop` を有効 entrypoint として受け入れ
+- `#1511` Windows observe path が `AppInstallerPythonRedirector.exe` をスキップ
+- `#1546` continuous-learning-v2 plugin クイックスタート修正
+- `#1535` hero overflow フォローアップ
 
-## Important naming clarification
-- Claude marketplace/plugin identifier: `everything-claude-code@everything-claude-code`
-- npm package: `ecc-universal`
-- GitHub repo: `affaan-m/everything-claude-code`
+## 重要な命名の明確化 (Important naming clarification)
+- Claude marketplace/plugin 識別子: `everything-claude-code@everything-claude-code`
+- npm パッケージ: `ecc-universal`
+- GitHub リポジトリ: `affaan-m/everything-claude-code`
 
-Those are intentionally different surfaces. The plugin identifier follows Anthropic marketplace rules; the npm package remains `ecc-universal`.
+これらは意図的に異なる面です。plugin 識別子は Anthropic marketplace ルールに従い；npm パッケージは `ecc-universal` のままです。
 
-## Still being monitored
-This should be announced as a stabilization release, not as “all edge cases are solved.”
+## 引き続き監視中 (Still being monitored)
+これは「すべてのエッジケースが解決した」ではなく安定化リリースとして announce すべきです。
 
-We are still watching for:
-- OS-specific edge cases across macOS, Windows, Linux
-- shell-specific behavior differences
-- Cursor vs Claude plugin install-path mismatches that only appear in older or mixed installs
-- third-party provider/tool-name compatibility reports that still need current-main repro
+引き続き監視：
+- macOS、Windows、Linux 横断の OS 固有エッジケース
+- shell 固有の振る舞い差
+- 古いまたは混合 install でのみ現れる Cursor vs Claude plugin install-path 不一致
+- 現在 main での再現が必要な第三者 provider/tool-name 互換性報告
 
-Current watch-list examples:
-- `#1520` likely obsolete unless repro returns on the current installer
-- `#1516` not gating unless reproduced on current `main`
-- `#1484` remains a Windows umbrella/watch-list issue rather than an active release gate
+現在の watch-list 例：
+- `#1520` 現在の installer で再現が戻らない限り obsolete の可能性
+- `#1516` 現在 `main` で再現されない限り gating しない
+- `#1484` アクティブなリリースゲートではなく Windows umbrella/watch-list issue のまま
 
-## Recommended update guidance
-If you hit 1.10.0 install/runtime problems:
-1. update to the latest package/plugin surface
-2. avoid mixing plugin install plus full manual repo copy unless the docs explicitly say to
-3. if problems persist, report:
+## 推奨更新ガイダンス (Recommended update guidance)
+1.10.0 install/runtime 問題に遭遇した場合：
+1. 最新 package/plugin 面に更新
+2. docs が明示的にそう言う場合を除き plugin install とフル手動 repo コピーを混ぜない
+3. 問題が続く場合は報告：
    - OS + shell
-   - Claude Code/Cursor version
-   - install method used
-   - exact stderr/output
-   - whether the issue is plugin install, npm install, repo sync, or Cursor project install
+   - Claude Code/Cursor バージョン
+   - 使用した install 方法
+   - 正確な stderr/出力
+   - 問題が plugin install、npm install、repo sync、Cursor プロジェクト install のどれか

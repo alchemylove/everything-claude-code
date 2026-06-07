@@ -1,76 +1,76 @@
 ---
 name: blender-motion-state-inspection
-description: Use this skill when inspecting Blender characters, rigs, poses, animation retargeting, ground contact, facing direction, or model-vs-motion alignment where screenshots alone are not enough.
+description: キャラクター・リグ・ポーズ・アニメーション retargeting・接地・向き・モデルとモーションの整合を Blender で検査。スクリーンショットだけでは不十分なとき。Blender, rig, pose, animation retargeting, ground contact.
 origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Blender Motion State Inspection
+# Blender モーション状態検査 (Blender Motion State Inspection)
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- A Blender character looks twisted, mirrored, flattened, offset, or foot-sliding in an animation.
-- A user asks whether an imported avatar, armature, or retargeted motion matches an expected pose.
-- You need to compare rendered evidence with structured facts such as bones, bounding boxes, contacts, and facing vectors.
-- A workflow depends on deciding whether a model is a character, prop, proxy mesh, control rig, or broken import.
+- Blender キャラクターがねじれ、ミラー、潰れ、オフセット、フットスライドしているように見える。
+- インポートしたアバター、アーマチュア、リターゲットモーションが期待ポーズと一致するかユーザーが尋ねる。
+- レンダー証拠と、ボーン、バウンディングボックス、接地、向きベクトルなどの構造化事実を比較する必要がある。
+- モデルがキャラクター、小道具、プロキシメッシュ、コントロールリグ、壊れたインポートかを判定するワークフローに依存する。
 
-## Core Principle
+## コア原則 (Core Principle)
 
-Do not judge animated 3D assets only from screenshots. Screenshots are review evidence, but they hide axis conventions, bone names, object scale, local transforms, parented meshes, material slots, and frame-by-frame contact state.
+アニメーション 3D アセットをスクリーンショットだけで判断しない。スクリーンショットはレビュー証拠だが、軸規約、ボーン名、オブジェクトスケール、ローカル変換、親付きメッシュ、マテリアルスロット、フレームごとの接地状態を隠す。
 
-First extract structured Blender state, then use viewport screenshots or renders to confirm what the facts imply.
+まず構造化 Blender 状態を抽出し、その後ビューポートスクリーンショットまたはレンダーで事実が示唆することを確認する。
 
-## How It Works
+## 仕組み (How It Works)
 
-1. Establish the clean scene and asset baseline before judging motion.
-2. Extract structured facts from Blender using an exporter or Blender Python run inside Blender's own interpreter.
-3. Sample the frames most likely to expose contact, orientation, scale, and retargeting errors.
-4. Compare the measured facts against the user's expected pose, direction, ground plane, and render goal.
-5. Return a concise report that separates confirmed facts, likely causes, and required fixes.
+1. モーションを判断する前にクリーンシーンとアセットベースラインを確立する。
+2. exporter または Blender 自身のインタプリタ内の Blender Python で Blender から構造化事実を抽出する。
+3. 接地、向き、スケール、リターゲティングエラーを露わにしやすいフレームをサンプルする。
+4. 計測事実をユーザーの期待ポーズ、方向、地面、レンダー目標と比較する。
+5. 確認された事実、想定原因、必要な修正を分けた簡潔レポートを返す。
 
-## Inspection Workflow
+## 検査ワークフロー (Inspection Workflow)
 
-1. Inventory the scene.
-   - List meshes, armatures, empties, cameras, lights, modifiers, parent relationships, and hidden objects.
-   - Separate character meshes from helper/proxy geometry before judging the avatar.
-   - Record object-space and world-space bounding boxes.
+1. シーンを棚卸しする。
+   - メッシュ、アーマチュア、empty、カメラ、ライト、モディファイア、親関係、非表示オブジェクトを列挙する。
+   - アバターを判断する前にキャラクターメッシュとヘルパー/プロキシジオメトリを分離する。
+   - オブジェクト空間とワールド空間のバウンディングボックスを記録する。
 
-2. Identify the skeleton.
-   - Capture armature names, pose bones, bone heads/tails, roll, parent chains, constraints, and rest-pose axes.
-   - Map semantic bones such as hips, spine, neck, head, shoulders, elbows, hands, thighs, knees, ankles, and feet.
-   - Flag missing left/right pairs and unusual naming schemes.
+2. スケルトンを特定する。
+   - アーマチュア名、pose bone、ボーンヘッド/テール、roll、親チェーン、constraint、rest-pose 軸を取得する。
+   - hips、spine、neck、head、shoulder、elbow、hand、thigh、knee、ankle、foot などのセマンティックボーンをマップする。
+   - 左右ペアの欠落と異常な命名規則をフラグする。
 
-3. Determine forward, up, and side axes.
-   - Use the pelvis, spine, shoulders, hips, head, and feet together; do not rely on a single mesh normal.
-   - Compare local armature axes with world axes and imported file conventions such as glTF Y-up vs Blender Z-up.
-   - Mark likely mirrored or backwards imports when face/head/feet direction conflicts with root motion.
+3. 前、上、横軸を決定する。
+   - pelvis、spine、shoulder、hip、head、foot を組み合わせて使う。単一メッシュ法線だけに頼らない。
+   - ローカルアーマチュア軸とワールド軸、glTF Y-up と Blender Z-up などのインポート規約を比較する。
+   - 顔/頭/足の向きが root motion と矛盾する場合、ミラーまたは後ろ向きインポートの可能性をマークする。
 
-4. Sample animation frames.
-   - Inspect first, middle, contact, airborne, and extreme frames.
-   - Record root location, root heading, pelvis height, torso lean, limb directions, foot clearance, and mesh bounds.
-   - For long or fast motion, sample more densely around flips, landings, turns, collisions, and floor contacts.
+4. アニメーションフレームをサンプルする。
+   - 最初、中間、接地、空中、極端フレームを検査する。
+   - root 位置、root 向き、pelvis 高さ、胴体傾き、四肢方向、足クリアランス、メッシュ bounds を記録する。
+   - 長いまたは速いモーションでは、フリップ、着地、ターン、衝突、床接触周辺をより密にサンプルする。
 
-5. Check model integrity before retargeting blame.
-   - Confirm the clean baseline shape before applying animation.
-   - Preserve original mesh, materials, armature, and skinning unless the user explicitly asks for repair.
-   - Treat unexplained sphere-like blobs, giant proxy meshes, or crushed bodies as import/selection issues until proven otherwise.
+5. リターゲティングのせいにする前にモデル整合性を確認する。
+   - アニメーション適用前のクリーンベースライン形状を確認する。
+   - ユーザーが明示的に修復を求めない限り、元メッシュ、マテリアル、アーマチュア、スキニングを保持する。
+   - 説明のつかない球状ブロブ、巨大プロキシメッシュ、潰れたボディは、証明されるまでインポート/選択問題として扱う。
 
-6. Diagnose contact and motion issues.
-   - Ground penetration: compare lowest foot or shoe vertices with floor height per frame.
-   - Foot sliding: compare foot world positions across planted frames.
-   - Leg crossover: compare left/right thigh, knee, ankle, and foot side ordering.
-   - Twist damage: compare bone swing direction separately from roll/twist around the limb axis.
-   - Scale drift: compare animated mesh bounds against the clean baseline bounds.
+6. 接地とモーション問題を診断する。
+   - 地面貫通: 各フレームで最下位の足または靴頂点と床高さを比較する。
+   - フットスライド: 接地フレーム間の足ワールド位置を比較する。
+   - 脚の交差: 左右大腿、knee、ankle、foot の左右順序を比較する。
+   - ねじれ損傷: 四肢軸周りの roll/twist とスイング方向を別々に比較する。
+   - スケールドリフト: アニメーションメッシュ bounds をクリーンベースライン bounds と比較する。
 
-7. Report facts before opinions.
-   - Include frame numbers, object names, bone names, world coordinates, and thresholds.
-   - Separate confirmed failures from visual suspicions.
-   - Attach screenshots only after the structured state explains what to look for.
+7. 意見の前に事実を報告する。
+   - フレーム番号、オブジェクト名、ボーン名、ワールド座標、閾値を含める。
+   - 確認された失敗と視覚的疑いを分離する。
+   - 構造化状態が何を見るべきか説明した後にのみスクリーンショットを添付する。
 
-## Recommended Report Shape
+## 推奨レポート形式 (Recommended Report Shape)
 
 ```markdown
-## Blender Motion Inspection
+## Blender モーション検査 (Blender Motion Inspection)
 
 ### Scene Inventory
 - Character candidates:
@@ -102,19 +102,19 @@ First extract structured Blender state, then use viewport screenshots or renders
 - Render readiness:
 ```
 
-## Examples
+## 例 (Examples)
 
-### Walk Cycle With Foot Sliding
+### フットスライドのあるウォークサイクル (Walk Cycle With Foot Sliding)
 
-Scenario: a retargeted character appears to skate during a walk cycle, but the front camera angle makes the foot contact hard to judge.
+シナリオ: リターゲットキャラクターがウォークサイクル中に滑るように見えるが、正面カメラ角度では足接地が判断しづらい。
 
-Apply the workflow:
-- Inventory the scene: character mesh `HeroBody`, armature `HeroRig`, ground plane `Floor`, no hidden proxy meshes.
-- Identify the skeleton: semantic feet are `foot.L` and `foot.R`; hips are `pelvis`; root bone is `root`.
-- Sample animation frames: inspect frames 1, 18, 24, 30, 42, and 48 around planted-foot moments.
-- Diagnose contact and motion issues: compare world-space foot locations during planted frames.
+ワークフローを適用:
+- シーン棚卸し: キャラクターメッシュ `HeroBody`、アーマチュア `HeroRig`、地面 `Floor`、非表示プロキシメッシュなし。
+- スケルトン特定: セマンティック足は `foot.L` と `foot.R`、hips は `pelvis`、root bone は `root`。
+- フレームサンプル: 接地モーメント周辺のフレーム 1、18、24、30、42、48 を検査。
+- 接地・モーション診断: 接地フレーム間のワールド空間足位置を比較。
 
-Extracted facts:
+抽出事実:
 
 | Frame | Fact | Evidence |
 | --- | --- | --- |
@@ -122,18 +122,18 @@ Extracted facts:
 | 24 | Left foot slides while planted | `foot.L x = 0.21 -> 0.28` over six frames |
 | 30 | Pelvis keeps moving forward | `pelvis y = 1.14 -> 1.31` |
 
-Verdict: fail for render readiness. The motion needs foot-lock cleanup or retargeting constraint review; the body mesh does not need proportion changes.
+判定: レンダー準備として fail。モーションには foot-lock クリーンアップまたはリターゲティング constraint レビューが必要。ボディメッシュのプロポーション変更は不要。
 
-### Backwards Imported Character
+### 後ろ向きインポートキャラクター (Backwards Imported Character)
 
-Scenario: a character looks correct in a still frame, but the animation moves opposite the expected travel direction.
+シナリオ: 静止フレームでは正しく見えるが、アニメーションが期待移動方向と逆に動く。
 
-Apply the workflow:
-- Determine forward, up, and side axes: compare head, chest, feet, and root motion.
-- Sample animation frames: inspect frame 1 and the midpoint of the travel path.
-- Report facts before opinions: include the root heading and model-facing direction separately.
+ワークフローを適用:
+- 前/上/横軸の決定: 頭、胸、足、root motion を比較。
+- フレームサンプル: フレーム 1 と移動経路の中間点を検査。
+- 意見の前に事実: root 向きとモデル正面方向を別々に含める。
 
-Extracted facts:
+抽出事実:
 
 | Frame | Fact | Evidence |
 | --- | --- | --- |
@@ -141,24 +141,24 @@ Extracted facts:
 | 72 | Root motion travels toward world `+Y` | `root y = 0.0 -> 2.8` |
 | 72 | Feet remain visually forward-facing opposite travel | toe bones point `-Y` while displacement is `+Y` |
 
-Verdict: likely backwards import or retargeting forward-axis mismatch. Fix the import/retarget axis mapping before editing animation curves.
+判定: 後ろ向きインポートまたはリターゲティング forward 軸不一致の可能性。アニメーションカーブ編集前にインポート/リターゲット軸マッピングを修正する。
 
-## Practical Thresholds
+## 実用的閾値 (Practical Thresholds)
 
-- Assume Blender's default meter-scale units unless the scene unit scale says otherwise.
-- Treat ground penetration above 1-2 cm as visible unless the floor is soft or intentionally stylized.
-- Treat a sudden scale change above 5% as a likely rig, constraint, or transform inheritance problem.
-- Treat left/right ankle side-order flips during airborne inverted motion as leg crossover risk even if it recovers later.
-- Treat root heading jumps above 30 degrees per frame as suspicious unless the source motion includes a snap turn.
+- シーン単位スケールが別指定でない限り Blender のデフォルトメートルスケールを仮定する。
+- 床が柔らかいまたは意図的に様式化されていない限り、1–2 cm 超の地面貫通は可視とみなす。
+- 5% 超の急なスケール変化は rig、constraint、変換継承の問題の可能性が高い。
+- 空中反転中の左右 ankle 順序反転は、後で回復しても脚交差リスクとして扱う。
+- ソースモーションにスナップターンがない限り、フレームあたり 30 度超の root 向きジャンプは疑わしい。
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Do not modify body proportions to force pose matching unless the task is explicitly mesh repair.
-- Do not bake away the clean baseline before recording it.
-- Do not use one rendered camera angle as proof that a pose is correct.
-- Do not delete helper objects until you have recorded why they are not part of the character.
-- Do not assume an avatar faces +Y, -Y, +X, or -X without checking head, feet, torso, and root motion together.
+- タスクが明示的なメッシュ修復でない限り、ポーズ合わせのためにボディプロポーションを変更しない。
+- 記録前にクリーンベースラインを bake で消さない。
+- 1 つのレンダーカメラ角度をポーズ正しさの証明にしない。
+- キャラクターに含まれない理由を記録するまでヘルパーオブジェクトを削除しない。
+- head、foot、胴体、root motion を一緒に確認せず、アバターが +Y、-Y、+X、-X を向いていると仮定しない。
 
-## Tooling Notes
+## ツールメモ (Tooling Notes)
 
-If a Blender state exporter is available, prefer JSON that includes meshes, armatures, pose bones, materials, contacts, bounding boxes, and sampled animation frames. If no exporter exists, run a small Blender Python script through Blender itself, for example `blender --background scene.blend --python collect_motion_state.py`, because `bpy` is not available in a normal system Python interpreter.
+Blender 状態 exporter が利用可能なら、メッシュ、アーマチュア、pose bone、マテリアル、接地、バウンディングボックス、サンプルアニメーションフレームを含む JSON を優先する。exporter がなければ、`bpy` は通常の system Python では使えないため、`blender --background scene.blend --python collect_motion_state.py` のように Blender 自身経由で小さな Blender Python script を実行する。

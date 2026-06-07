@@ -1,21 +1,21 @@
 ---
 name: claude-devfleet
-description: Orchestrate multi-agent coding tasks via Claude DevFleet — plan projects, dispatch parallel agents in isolated worktrees, monitor progress, and read structured reports.
+description: マルチエージェントコーディングのオーケストレーション（Claude DevFleet）— プロジェクト計画、分離 worktree での並列派遣、進捗監視、構造化レポート。DevFleet, multi-agent, worktree.
 origin: community
 ---
 
-# Claude DevFleet Multi-Agent Orchestration
+# Claude DevFleet マルチエージェントオーケストレーション (Claude DevFleet Multi-Agent Orchestration)
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use this skill when you need to dispatch multiple Claude Code agents to work on coding tasks in parallel. Each agent runs in an isolated git worktree with full tooling.
+複数の Claude Code エージェントを並列でコーディングタスクに派遣する必要があるときにこのスキルを使用する。各エージェントは完全なツール一式を備えた分離 git ワークツリーで実行される。
 
-Requires a running Claude DevFleet instance connected via MCP:
+MCP 経由で接続された稼働中の Claude DevFleet インスタンスが必要:
 ```bash
 claude mcp add devfleet --transport http http://localhost:18801/mcp
 ```
 
-## How It Works
+## 仕組み (How It Works)
 
 ```
 User → "Build a REST API with auth and tests"
@@ -35,7 +35,7 @@ get_report(M2) → files_changed, what_done, errors, next_steps
 Report back to user
 ```
 
-### Tools
+### ツール (Tools)
 
 | Tool | Purpose |
 |------|---------|
@@ -51,53 +51,53 @@ Report back to user
 | `list_projects()` | Browse all projects |
 | `list_missions(project_id, status?)` | List missions in a project |
 
-> **Note on `wait_for_mission`:** This blocks the conversation for up to `timeout_seconds` (default 600). For long-running missions, prefer polling with `get_mission_status` every 30–60 seconds instead, so the user sees progress updates.
+> **`wait_for_mission` に関する注意:** 最大 `timeout_seconds`（デフォルト 600）まで会話をブロックする。長時間ミッションでは、ユーザーに進捗更新を見せるため、30〜60 秒ごとに `get_mission_status` でポーリングする方がよい。
 
-### Workflow: Plan → Dispatch → Monitor → Report
+### ワークフロー: 計画 → 派遣 → 監視 → レポート (Workflow: Plan → Dispatch → Monitor → Report)
 
-1. **Plan**: Call `plan_project(prompt="...")` → returns `project_id` + list of missions with `depends_on` chains and `auto_dispatch=true`.
-2. **Show plan**: Present mission titles, types, and dependency chain to the user.
-3. **Dispatch**: Call `dispatch_mission(mission_id=<first_mission_id>)` on the root mission (empty `depends_on`). Remaining missions auto-dispatch as their dependencies complete (because `plan_project` sets `auto_dispatch=true` on them).
-4. **Monitor**: Call `get_mission_status(mission_id=...)` or `get_dashboard()` to check progress.
-5. **Report**: Call `get_report(mission_id=...)` when missions complete. Share highlights with the user.
+1. **計画**: `plan_project(prompt="...")` を呼ぶ → `project_id` + `depends_on` チェーンと `auto_dispatch=true` 付きミッション一覧を返す。
+2. **計画の提示**: ミッションタイトル、タイプ、依存チェーンをユーザーに提示する。
+3. **派遣**: ルートミッション（空の `depends_on`）で `dispatch_mission(mission_id=<first_mission_id>)` を呼ぶ。残りは依存が満たされると自動派遣される（`plan_project` が `auto_dispatch=true` を設定するため）。
+4. **監視**: `get_mission_status(mission_id=...)` または `get_dashboard()` で進捗を確認する。
+5. **レポート**: ミッション完了時に `get_report(mission_id=...)` を呼ぶ。ハイライトをユーザーと共有する。
 
-### Concurrency
+### 並行性 (Concurrency)
 
-DevFleet runs up to 3 concurrent agents by default (configurable via `DEVFLEET_MAX_AGENTS`). When all slots are full, missions with `auto_dispatch=true` queue in the mission watcher and dispatch automatically as slots free up. Check `get_dashboard()` for current slot usage.
+DevFleet はデフォルトで最大 3 並列エージェント（`DEVFLEET_MAX_AGENTS` で設定可能）。スロットが満杯のとき、`auto_dispatch=true` のミッションはミッションウォッチャーでキューされ、スロットが空くと自動派遣される。`get_dashboard()` で現在のスロット使用状況を確認する。
 
-## Examples
+## 例 (Examples)
 
-### Full auto: plan and launch
+### フル自動: 計画して起動 (Full auto: plan and launch)
 
-1. `plan_project(prompt="...")` → shows plan with missions and dependencies.
-2. Dispatch the first mission (the one with empty `depends_on`).
-3. Remaining missions auto-dispatch as dependencies resolve (they have `auto_dispatch=true`).
-4. Report back with project ID and mission count so the user knows what was launched.
-5. Poll with `get_mission_status` or `get_dashboard()` periodically until all missions reach a terminal state (`completed`, `failed`, or `cancelled`).
-6. `get_report(mission_id=...)` for each terminal mission — summarize successes and call out failures with errors and next steps.
+1. `plan_project(prompt="...")` → ミッションと依存関係付き計画を表示。
+2. 最初のミッション（空の `depends_on`）を派遣。
+3. 依存が解決されると残りが自動派遣（`auto_dispatch=true`）。
+4. プロジェクト ID とミッション数を報告し、何が起動したかユーザーに伝える。
+5. すべてのミッションが終端状態（`completed`、`failed`、`cancelled`）になるまで `get_mission_status` または `get_dashboard()` で定期的にポーリング。
+6. 各終端ミッションで `get_report(mission_id=...)` — 成功を要約し、失敗はエラーと次のステップで明示する。
 
-### Manual: step-by-step control
+### 手動: ステップバイステップ制御 (Manual: step-by-step control)
 
-1. `create_project(name="My Project")` → returns `project_id`.
-2. `create_mission(project_id=project_id, title="...", prompt="...", auto_dispatch=true)` for the first (root) mission → capture `root_mission_id`.
-   `create_mission(project_id=project_id, title="...", prompt="...", auto_dispatch=true, depends_on=["<root_mission_id>"])` for each subsequent task.
-3. `dispatch_mission(mission_id=...)` on the first mission to start the chain.
-4. `get_report(mission_id=...)` when done.
+1. `create_project(name="My Project")` → `project_id` を返す。
+2. 最初（ルート）ミッションで `create_mission(project_id=project_id, title="...", prompt="...", auto_dispatch=true)` → `root_mission_id` を取得。
+   後続タスクごとに `create_mission(project_id=project_id, title="...", prompt="...", auto_dispatch=true, depends_on=["<root_mission_id>"])`。
+3. チェーンを開始するため最初のミッションで `dispatch_mission(mission_id=...)`。
+4. 完了時に `get_report(mission_id=...)`。
 
-### Sequential with review
+### レビュー付きシーケンシャル (Sequential with review)
 
-1. `create_project(name="...")` → get `project_id`.
-2. `create_mission(project_id=project_id, title="Implement feature", prompt="...")` → get `impl_mission_id`.
-3. `dispatch_mission(mission_id=impl_mission_id)`, then poll with `get_mission_status` until complete.
-4. `get_report(mission_id=impl_mission_id)` to review results.
-5. `create_mission(project_id=project_id, title="Review", prompt="...", depends_on=[impl_mission_id], auto_dispatch=true)` — auto-starts since the dependency is already met.
+1. `create_project(name="...")` → `project_id` を取得。
+2. `create_mission(project_id=project_id, title="Implement feature", prompt="...")` → `impl_mission_id` を取得。
+3. `dispatch_mission(mission_id=impl_mission_id)`、完了まで `get_mission_status` でポーリング。
+4. 結果レビューに `get_report(mission_id=impl_mission_id)`。
+5. `create_mission(project_id=project_id, title="Review", prompt="...", depends_on=[impl_mission_id], auto_dispatch=true)` — 依存が既に満たされているため自動開始。
 
-## Guidelines
+## ガイドライン (Guidelines)
 
-- Always confirm the plan with the user before dispatching, unless they said to go ahead.
-- Include mission titles and IDs when reporting status.
-- If a mission fails, read its report before retrying.
-- Check `get_dashboard()` for agent slot availability before bulk dispatching.
-- Mission dependencies form a DAG — do not create circular dependencies.
-- Each agent runs in an isolated git worktree and auto-merges on completion. If a merge conflict occurs, the changes remain on the agent's worktree branch for manual resolution.
-- When manually creating missions, always set `auto_dispatch=true` if you want them to trigger automatically when dependencies complete. Without this flag, missions stay in `draft` status.
+- ユーザーが進めてよいと言わない限り、派遣前に必ず計画をユーザーと確認する。
+- ステータス報告時はミッションタイトルと ID を含める。
+- ミッションが失敗したら、リトライ前にレポートを読む。
+- 一括派遣前に `get_dashboard()` でエージェントスロット空きを確認する。
+- ミッション依存は DAG を形成する — 循環依存を作らない。
+- 各エージェントは分離 git ワークツリーで実行し、完了時に自動マージする。マージコンフリクトが起きた場合、変更はエージェントのワークツリーブランチに残り手動解決する。
+- 手動でミッションを作るとき、依存完了時に自動トリガーしたい場合は必ず `auto_dispatch=true` を設定する。このフラグがないとミッションは `draft` のまま。

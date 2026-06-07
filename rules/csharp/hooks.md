@@ -7,19 +7,19 @@ paths:
   - "**/Directory.Build.props"
   - "**/Directory.Build.targets"
 ---
-# C# Hooks
+# C# フック (C# Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with C#-specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、C# 固有の内容を追加する。
 
-## PostToolUse Hooks
+## PostToolUse フック (PostToolUse Hooks)
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **dotnet format**: Auto-format edited C# files and apply analyzer fixes
-- **dotnet build**: Verify the solution or project still compiles after edits
-- **dotnet test --no-build**: Re-run the nearest relevant test project after behavior changes
+- **dotnet format**: 編集した C# ファイルを自動フォーマットし、analyzer 修正を適用
+- **dotnet build**: 編集後に solution または project がコンパイルできることを確認
+- **dotnet test --no-build**: 挙動変更後に最も近い関連テスト project を再実行
 
-## Stop Hooks
+## Stop フック (Stop Hooks)
 
-- Run a final `dotnet build` before ending a session with broad C# changes
-- Warn on modified `appsettings*.json` files so secrets do not get committed
+- C# の広範な変更があるセッション終了前に最終 `dotnet build` を実行
+- 変更された `appsettings*.json` を警告し、シークレットがコミットされないようにする

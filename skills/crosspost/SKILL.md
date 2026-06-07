@@ -1,111 +1,110 @@
 ---
 name: crosspost
-description: Multi-platform content distribution across X, LinkedIn, Threads, and Bluesky. Adapts content per platform using content-engine patterns. Never posts identical content cross-platform. Use when the user wants to distribute content across social platforms.
-origin: ECC
+description: X、LinkedIn、Threads、Bluesky へのマルチプラットフォーム配信。content-engine パターンでプラットフォームごとに適応し、同一コピーの crosspost はしない。crosspost、ソーシャル配信時に使用。
 ---
 
-# Crosspost
+# クロスポスト (Crosspost)
 
-Distribute content across platforms without turning it into the same fake post in four costumes.
+4つの見た目違いの同一投稿にせず、複数プラットフォームへコンテンツを配信する。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- the user wants to publish the same underlying idea across multiple platforms
-- a launch, update, release, or essay needs platform-specific versions
-- the user says "crosspost", "post this everywhere", or "adapt this for X and LinkedIn"
+- ユーザーが同じ根底のアイデアを複数プラットフォームで公開したいとき
+- ローンチ、更新、リリース、エッセイにプラットフォーム別バージョンが必要なとき
+- ユーザーが「crosspost」「どこでも投稿」「X と LinkedIn 向けに適応して」と言ったとき
 
-## Core Rules
+## コアルール (Core Rules)
 
-1. Do not publish identical copy across platforms.
-2. Preserve the author's voice across platforms.
-3. Adapt for constraints, not stereotypes.
-4. One post should still be about one thing.
-5. Do not invent a CTA, question, or moral if the source did not earn one.
+1. プラットフォーム間で同一のコピーを公開しない。
+2. プラットフォームをまたいで著者の声を保つ。
+3. ステレオタイプではなく、制約に合わせて適応する。
+4. 1つの投稿は依然として1つのテーマについて書く。
+5. ソースが正当化していない CTA、質問、教訓を捏造しない。
 
-## Workflow
+## ワークフロー (Workflow)
 
-### Step 1: Start with the Primary Version
+### ステップ 1: プライマリバージョンから始める (Step 1: Start with the Primary Version)
 
-Pick the strongest source version first:
-- the original X post
-- the original article
-- the launch note
-- the thread
-- the memo or changelog
+まず最も強いソースバージョンを選ぶ:
+- 元の X 投稿
+- 元の記事
+- ローンチノート
+- スレッド
+- メモや changelog
 
-Use `content-engine` first if the source still needs voice shaping.
+ソースにまだ声の整形が必要なら、まず `content-engine` を使用。
 
-### Step 2: Capture the Voice Fingerprint
+### ステップ 2: 声のフィンガープリントを取得 (Step 2: Capture the Voice Fingerprint)
 
-Run `brand-voice` first if the source voice is not already captured in the current session.
+現在のセッションでソースの声がまだ取得されていない場合は、まず `brand-voice` を実行。
 
-Reuse the resulting `VOICE PROFILE` directly.
-Do not build a second ad hoc voice checklist here unless the user explicitly wants a fresh override for this campaign.
+得られた `VOICE PROFILE` をそのまま再利用する。
+ユーザーがこのキャンペーン向けに明示的に新しい上書きを望まない限り、ここで2つ目のアドホックな声チェックリストを作らない。
 
-### Step 3: Adapt by Platform Constraint
+### ステップ 3: プラットフォーム制約で適応 (Step 3: Adapt by Platform Constraint)
 
-### X
+### X (X)
 
-- keep it compressed
-- lead with the sharpest claim or artifact
-- use a thread only when a single post would collapse the argument
-- avoid hashtags and generic filler
+- 圧縮して保つ
+- 最も鋭い主張や成果物で始める
+- 単一投稿では議論が崩れる場合のみスレッドを使う
+- ハッシュタグや汎用フィラーを避ける
 
-### LinkedIn
+### LinkedIn (LinkedIn)
 
-- add only the context needed for people outside the niche
-- do not turn it into a fake founder-reflection post
-- do not add a closing question just because it is LinkedIn
-- do not force a polished "professional tone" if the author is naturally sharper
+- ニッチ外の人に必要な文脈だけを追加
+- 偽の創業者内省投稿にしない
+- LinkedIn だからといって締めの質問を追加しない
+- 著者が自然に鋭い場合、磨かれた「プロフェッショナルなトーン」を強制しない
 
-### Threads
+### Threads (Threads)
 
-- keep it readable and direct
-- do not write fake hyper-casual creator copy
-- do not paste the LinkedIn version and shorten it
+- 読みやすく直接的に
+- 偽の超カジュアルなクリエイターコピーを書かない
+- LinkedIn 版を貼り付けて短くしない
 
-### Bluesky
+### Bluesky (Bluesky)
 
-- keep it concise
-- preserve the author's cadence
-- do not rely on hashtags or feed-gaming language
+- 簡潔に保つ
+- 著者のリズムを保つ
+- ハッシュタグやフィード操作言語に頼らない
 
-## Posting Order
+## 投稿順序 (Posting Order)
 
-Default:
-1. post the strongest native version first
-2. adapt for the secondary platforms
-3. stagger timing only if the user wants sequencing help
+デフォルト:
+1. 最も強いネイティブバージョンを最初に投稿
+2. セカンダリプラットフォーム向けに適応
+3. ユーザーが順序の助けを望む場合のみタイミングをずらす
 
-Do not add cross-platform references unless useful. Most of the time, the post should stand on its own.
+有用でない限り、クロスプラットフォーム参照は追加しない。多くの場合、投稿は単体で成立すべき。
 
-## Banned Patterns
+## 禁止パターン (Banned Patterns)
 
-Delete and rewrite any of these:
+以下があれば削除して書き直す:
 - "Excited to share"
 - "Here's what I learned"
 - "What do you think?"
-- "link in bio" unless that is literally true
-- generic "professional takeaway" paragraphs that were not in the source
+- 文字通り真実でない限り "link in bio"
+- ソースになかった汎用の「プロフェッショナルな学び」段落
 
-## Output Format
+## 出力形式 (Output Format)
 
-Return:
-- the primary platform version
-- adapted variants for each requested platform
-- a short note on what changed and why
-- any publishing constraint the user still needs to resolve
+返却する内容:
+- プライマリプラットフォーム版
+- 各リクエストプラットフォーム向けの適応版
+- 何をどう変えたかの短いメモ
+- ユーザーがまだ解決すべき公開制約
 
-## Quality Gate
+## 品質ゲート (Quality Gate)
 
-Before delivering:
-- each version reads like the same author under different constraints
-- no platform version feels padded or sanitized
-- no copy is duplicated verbatim across platforms
-- any extra context added for LinkedIn or newsletter use is actually necessary
+配信前に確認:
+- 各バージョンが異なる制約下の同じ著者に読める
+- どのプラットフォーム版も水増しや無難化されていない
+- プラットフォーム間でコピーが逐語的に重複していない
+- LinkedIn やニュースレター用に追加した文脈が実際に必要
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `brand-voice` for reusable source-derived voice capture
-- `content-engine` for voice capture and source shaping
-- `x-api` for X publishing workflows
+- 再利用可能なソース由来の声取得には `brand-voice`
+- 声の取得とソース整形には `content-engine`
+- X 公開ワークフローには `x-api`

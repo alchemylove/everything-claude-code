@@ -1,105 +1,105 @@
 ---
 name: everything-claude-code-conventions
-description: Development conventions and patterns for everything-claude-code. JavaScript project with conventional commits.
+description: everything-claude-code の開発規約とパターン。Conventional Commits を採用した JavaScript プロジェクト。
 ---
 
-# Everything Claude Code Conventions
+# Everything Claude Code 規約 (Everything Claude Code Conventions)
 
-> Generated from [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) on 2026-03-20
+> [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) より 2026-03-20 に生成
 
-## Overview
+## 概要 (Overview)
 
-This skill teaches Claude the development patterns and conventions used in everything-claude-code.
+この skill は、everything-claude-code で使われている開発パターンと規約を Claude に教えます。
 
-## Tech Stack
+## 技術スタック (Tech Stack)
 
 - **Primary Language**: JavaScript
 - **Architecture**: hybrid module organization
 - **Test Location**: separate
 
-## When to Use This Skill
+## この Skill の使用タイミング (When to Use This Skill)
 
-Activate this skill when:
-- Making changes to this repository
-- Adding new features following established patterns
-- Writing tests that match project conventions
-- Creating commits with proper message format
+次の場合にこの skill を有効化してください:
+- このリポジトリに変更を加えるとき
+- 確立されたパターンに従って新機能を追加するとき
+- プロジェクトの規約に合ったテストを書くとき
+- 適切なメッセージ形式でコミットを作成するとき
 
-## Commit Conventions
+## コミット規約 (Commit Conventions)
 
-Follow these commit message conventions based on 500 analyzed commits.
+500 件のコミットを分析して得られた、コミットメッセージの規約に従ってください。
 
-### Commit Style: Conventional Commits
+### コミットスタイル: Conventional Commits (Commit Style: Conventional Commits)
 
-### Prefixes Used
+### 使用するプレフィックス (Prefixes Used)
 
 - `fix`
 - `test`
 - `feat`
 - `docs`
 
-### Message Guidelines
+### メッセージのガイドライン (Message Guidelines)
 
-- Average message length: ~65 characters
-- Keep first line concise and descriptive
-- Use imperative mood ("Add feature" not "Added feature")
+- 平均メッセージ長: 約 65 文字
+- 1 行目は簡潔かつ説明的に
+- 命令形を使う（「Added feature」ではなく「Add feature」）
 
 
 *Commit message example*
 
 ```text
-feat(rules): add C# language support
+feat(rules): C# 言語サポートを追加
 ```
 
 *Commit message example*
 
 ```text
-chore(deps-dev): bump flatted (#675)
+chore(deps-dev): flatted をバージョンアップ (#675)
 ```
 
 *Commit message example*
 
 ```text
-fix: auto-detect ECC root from plugin cache when CLAUDE_PLUGIN_ROOT is unset (#547) (#691)
+fix: CLAUDE_PLUGIN_ROOT 未設定時に plugin cache から ECC root を自動検出 (#547) (#691)
 ```
 
 *Commit message example*
 
 ```text
-docs: add Antigravity setup and usage guide (#552)
+docs: Antigravity のセットアップと利用ガイドを追加 (#552)
 ```
 
 *Commit message example*
 
 ```text
-merge: PR #529 — feat(skills): add documentation-lookup, bun-runtime, nextjs-turbopack; feat(agents): add rust-reviewer
+merge: PR #529 — feat(skills): documentation-lookup、bun-runtime、nextjs-turbopack を追加; feat(agents): rust-reviewer を追加
 ```
 
 *Commit message example*
 
 ```text
-Revert "Add Kiro IDE support (.kiro/) (#548)"
+Revert "Kiro IDE サポート (.kiro/) を追加 (#548)"
 ```
 
 *Commit message example*
 
 ```text
-Add Kiro IDE support (.kiro/) (#548)
+Kiro IDE サポート (.kiro/) を追加 (#548)
 ```
 
 *Commit message example*
 
 ```text
-feat: add block-no-verify hook for Claude Code and Cursor (#649)
+feat: Claude Code と Cursor 向け block-no-verify hook を追加 (#649)
 ```
 
-## Architecture
+## アーキテクチャ (Architecture)
 
-### Project Structure: Single Package
+### プロジェクト構成: 単一パッケージ (Project Structure: Single Package)
 
-This project uses **hybrid** module organization.
+このプロジェクトは **hybrid** なモジュール構成を採用しています。
 
-### Configuration Files
+### 設定ファイル (Configuration Files)
 
 - `.github/workflows/ci.yml`
 - `.github/workflows/maintenance.yml`
@@ -114,16 +114,16 @@ This project uses **hybrid** module organization.
 - `eslint.config.js`
 - `package.json`
 
-### Guidelines
+### ガイドライン (Guidelines)
 
-- This project uses a hybrid organization
-- Follow existing patterns when adding new code
+- このプロジェクトは hybrid な構成を採用しています
+- 新しいコードを追加するときは既存のパターンに従ってください
 
-## Code Style
+## コードスタイル (Code Style)
 
-### Language: JavaScript
+### 言語: JavaScript (Language: JavaScript)
 
-### Naming Conventions
+### 命名規則 (Naming Conventions)
 
 | Element | Convention |
 |---------|------------|
@@ -132,9 +132,9 @@ This project uses **hybrid** module organization.
 | Classes | PascalCase |
 | Constants | SCREAMING_SNAKE_CASE |
 
-### Import Style: Relative Imports
+### インポートスタイル: 相対インポート (Import Style: Relative Imports)
 
-### Export Style: Mixed Style
+### エクスポートスタイル: 混合スタイル (Export Style: Mixed Style)
 
 
 *Preferred import style*
@@ -145,27 +145,27 @@ import { Button } from '../components/Button'
 import { useAuth } from './hooks/useAuth'
 ```
 
-## Testing
+## テスト (Testing)
 
-### Test Framework
+### テストフレームワーク (Test Framework)
 
-No specific test framework detected — use the repository's existing test patterns.
+特定のテストフレームワークは検出されませんでした — リポジトリの既存のテストパターンを使用してください。
 
-### File Pattern: `*.test.js`
+### ファイルパターン: `*.test.js` (File Pattern: `*.test.js`)
 
-### Test Types
+### テストの種類 (Test Types)
 
-- **Unit tests**: Test individual functions and components in isolation
-- **Integration tests**: Test interactions between multiple components/services
+- **Unit tests**: 個別の関数やコンポーネントを分離してテストする
+- **Integration tests**: 複数のコンポーネントやサービス間の連携をテストする
 
-### Coverage
+### カバレッジ (Coverage)
 
-This project has coverage reporting configured. Aim for 80%+ coverage.
+このプロジェクトにはカバレッジレポートの設定があります。80% 以上のカバレッジを目指してください。
 
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-### Error Handling Style: Try-Catch Blocks
+### エラーハンドリングスタイル: Try-Catch ブロック (Error Handling Style: Try-Catch Blocks)
 
 
 *Standard error handling pattern*
@@ -180,20 +180,20 @@ try {
 }
 ```
 
-## Common Workflows
+## 一般的なワークフロー (Common Workflows)
 
-These workflows were detected from analyzing commit patterns.
+コミットパターンの分析から検出されたワークフローです。
 
-### Database Migration
+### データベースマイグレーション (Database Migration)
 
-Database schema changes with migration files
+マイグレーションファイルを伴うデータベーススキーマの変更
 
-**Frequency**: ~2 times per month
+**Frequency**: 月約 2 回
 
 **Steps**:
-1. Create migration file
-2. Update schema definitions
-3. Generate/update types
+1. マイグレーションファイルを作成する
+2. スキーマ定義を更新する
+3. 型を生成または更新する
 
 **Files typically involved**:
 - `**/schema.*`
@@ -201,21 +201,21 @@ Database schema changes with migration files
 
 **Example commit sequence**:
 ```
-feat: implement --with/--without selective install flags (#679)
-fix: sync catalog counts with filesystem (27 agents, 113 skills, 58 commands) (#693)
-feat(rules): add Rust language rules (rebased #660) (#686)
+feat: --with/--without 選択的インストールフラグを実装 (#679)
+fix: カタログ件数を filesystem と同期 (27 agents, 113 skills, 58 commands) (#693)
+feat(rules): Rust 言語ルールを追加 (rebased #660) (#686)
 ```
 
-### Feature Development
+### 機能開発 (Feature Development)
 
-Standard feature implementation workflow
+標準的な機能実装ワークフロー
 
-**Frequency**: ~22 times per month
+**Frequency**: 月約 22 回
 
 **Steps**:
-1. Add feature implementation
-2. Add tests for feature
-3. Update documentation
+1. 機能実装を追加する
+2. 機能のテストを追加する
+3. ドキュメントを更新する
 
 **Files typically involved**:
 - `manifests/*`
@@ -225,21 +225,21 @@ Standard feature implementation workflow
 
 **Example commit sequence**:
 ```
-feat(skills): add documentation-lookup, bun-runtime, nextjs-turbopack; feat(agents): add rust-reviewer
-docs(skills): align documentation-lookup with CONTRIBUTING template; add cross-harness (Codex/Cursor) skill copies
-fix: address PR review — skill template (When to use, How it works, Examples), bun.lock, next build note, rust-reviewer CI note, doc-lookup privacy/uncertainty
+feat(skills): documentation-lookup、bun-runtime、nextjs-turbopack を追加; feat(agents): rust-reviewer を追加
+docs(skills): documentation-lookup を CONTRIBUTING テンプレートに合わせる; cross-harness (Codex/Cursor) skill コピーを追加
+fix: PR レビューに対応 — skill テンプレート (When to use, How it works, Examples)、bun.lock、next build 注記、rust-reviewer CI 注記、doc-lookup のプライバシー/不確実性
 ```
 
-### Add Language Rules
+### 言語ルールの追加 (Add Language Rules)
 
-Adds a new programming language to the rules system, including coding style, hooks, patterns, security, and testing guidelines.
+rules システムに新しいプログラミング言語を追加する。coding style、hooks、patterns、security、testing のガイドラインを含みます。
 
-**Frequency**: ~2 times per month
+**Frequency**: 月約 2 回
 
 **Steps**:
-1. Create a new directory under rules/{language}/
-2. Add coding-style.md, hooks.md, patterns.md, security.md, and testing.md files with language-specific content
-3. Optionally reference or link to related skills
+1. `rules/{language}/` 配下に新しいディレクトリを作成する
+2. 言語固有の内容で `coding-style.md`、`hooks.md`、`patterns.md`、`security.md`、`testing.md` を追加する
+3. 必要に応じて関連 skill を参照またはリンクする
 
 **Files typically involved**:
 - `rules/*/coding-style.md`
@@ -250,22 +250,22 @@ Adds a new programming language to the rules system, including coding style, hoo
 
 **Example commit sequence**:
 ```
-Create a new directory under rules/{language}/
-Add coding-style.md, hooks.md, patterns.md, security.md, and testing.md files with language-specific content
-Optionally reference or link to related skills
+rules/{language}/ 配下に新しいディレクトリを作成
+言語固有の内容で coding-style.md、hooks.md、patterns.md、security.md、testing.md を追加
+必要に応じて関連 skill を参照またはリンク
 ```
 
-### Add New Skill
+### 新規 Skill の追加 (Add New Skill)
 
-Adds a new skill to the system, documenting its workflow, triggers, and usage, often with supporting scripts.
+新しい skill をシステムに追加する。ワークフロー、トリガー、使い方を文書化し、必要に応じてスクリプトを含みます。
 
-**Frequency**: ~4 times per month
+**Frequency**: 月約 4 回
 
 **Steps**:
-1. Create a new directory under skills/{skill-name}/
-2. Add SKILL.md with documentation (When to Use, How It Works, Examples, etc.)
-3. Optionally add scripts or supporting files under skills/{skill-name}/scripts/
-4. Address review feedback and iterate on documentation
+1. `skills/{skill-name}/` 配下に新しいディレクトリを作成する
+2. `SKILL.md` にドキュメントを追加する（When to Use、How It Works、Examples など）
+3. 必要に応じて `skills/{skill-name}/scripts/` 配下にスクリプトや補助ファイルを追加する
+4. レビューフィードバックに対応し、ドキュメントを反復改善する
 
 **Files typically involved**:
 - `skills/*/SKILL.md`
@@ -274,22 +274,22 @@ Adds a new skill to the system, documenting its workflow, triggers, and usage, o
 
 **Example commit sequence**:
 ```
-Create a new directory under skills/{skill-name}/
-Add SKILL.md with documentation (When to Use, How It Works, Examples, etc.)
-Optionally add scripts or supporting files under skills/{skill-name}/scripts/
-Address review feedback and iterate on documentation
+skills/{skill-name}/ 配下に新しいディレクトリを作成
+SKILL.md にドキュメントを追加 (When to Use、How It Works、Examples など)
+必要に応じて skills/{skill-name}/scripts/ 配下にスクリプトや補助ファイルを追加
+レビューフィードバックに対応し、ドキュメントを反復改善
 ```
 
-### Add New Agent
+### 新規 Agent の追加 (Add New Agent)
 
-Adds a new agent to the system for code review, build resolution, or other automated tasks.
+コードレビュー、ビルド解決、その他の自動化タスク用に新しい agent をシステムに追加する。
 
-**Frequency**: ~2 times per month
+**Frequency**: 月約 2 回
 
 **Steps**:
-1. Create a new agent markdown file under agents/{agent-name}.md
-2. Register the agent in AGENTS.md
-3. Optionally update README.md and docs/COMMAND-AGENT-MAP.md
+1. `agents/{agent-name}.md` 配下に新しい agent の markdown ファイルを作成する
+2. `AGENTS.md` に agent を登録する
+3. 必要に応じて `README.md` と `docs/COMMAND-AGENT-MAP.md` を更新する
 
 **Files typically involved**:
 - `agents/*.md`
@@ -299,20 +299,20 @@ Adds a new agent to the system for code review, build resolution, or other autom
 
 **Example commit sequence**:
 ```
-Create a new agent markdown file under agents/{agent-name}.md
-Register the agent in AGENTS.md
-Optionally update README.md and docs/COMMAND-AGENT-MAP.md
+agents/{agent-name}.md 配下に新しい agent の markdown ファイルを作成
+AGENTS.md に agent を登録
+必要に応じて README.md と docs/COMMAND-AGENT-MAP.md を更新
 ```
 
-### Add New Command
+### 新規 Command の追加 (Add New Command)
 
-Adds a new command to the system, often paired with a backing skill.
+新しい command をシステムに追加する。多くの場合、対応する skill とセットで追加します。
 
-**Frequency**: ~1 times per month
+**Frequency**: 月約 1 回
 
 **Steps**:
-1. Create a new markdown file under commands/{command-name}.md
-2. Optionally add or update a backing skill under skills/{skill-name}/SKILL.md
+1. `commands/{command-name}.md` 配下に新しい markdown ファイルを作成する
+2. 必要に応じて `skills/{skill-name}/SKILL.md` 配下の対応 skill を追加または更新する
 
 **Files typically involved**:
 - `commands/*.md`
@@ -320,20 +320,20 @@ Adds a new command to the system, often paired with a backing skill.
 
 **Example commit sequence**:
 ```
-Create a new markdown file under commands/{command-name}.md
-Optionally add or update a backing skill under skills/{skill-name}/SKILL.md
+commands/{command-name}.md 配下に新しい markdown ファイルを作成
+必要に応じて skills/{skill-name}/SKILL.md 配下の対応 skill を追加または更新
 ```
 
-### Sync Catalog Counts
+### カタログ件数の同期 (Sync Catalog Counts)
 
-Synchronizes the documented counts of agents, skills, and commands in AGENTS.md and README.md with the actual repository state.
+`AGENTS.md` と `README.md` に記載されている agent、skill、command の件数を、リポジトリの実際の状態と同期する。
 
-**Frequency**: ~3 times per month
+**Frequency**: 月約 3 回
 
 **Steps**:
-1. Update agent, skill, and command counts in AGENTS.md
-2. Update the same counts in README.md (quick-start, comparison table, etc.)
-3. Optionally update other documentation files
+1. `AGENTS.md` の agent、skill、command の件数を更新する
+2. `README.md`（quick-start、比較表など）の同じ件数を更新する
+3. 必要に応じて他のドキュメントファイルも更新する
 
 **Files typically involved**:
 - `AGENTS.md`
@@ -341,21 +341,21 @@ Synchronizes the documented counts of agents, skills, and commands in AGENTS.md 
 
 **Example commit sequence**:
 ```
-Update agent, skill, and command counts in AGENTS.md
-Update the same counts in README.md (quick-start, comparison table, etc.)
-Optionally update other documentation files
+AGENTS.md の agent、skill、command の件数を更新
+README.md (quick-start、比較表など) の同じ件数を更新
+必要に応じて他のドキュメントファイルも更新
 ```
 
-### Add Cross Harness Skill Copies
+### Cross Harness Skill コピーの追加 (Add Cross Harness Skill Copies)
 
-Adds skill copies for different agent harnesses (e.g., Codex, Cursor, Antigravity) to ensure compatibility across platforms.
+異なる agent harness（例: Codex、Cursor、Antigravity）向けに skill のコピーを追加し、プラットフォーム間の互換性を確保する。
 
-**Frequency**: ~2 times per month
+**Frequency**: 月約 2 回
 
 **Steps**:
-1. Copy or adapt SKILL.md to .agents/skills/{skill}/SKILL.md and/or .cursor/skills/{skill}/SKILL.md
-2. Optionally add harness-specific openai.yaml or config files
-3. Address review feedback to align with CONTRIBUTING template
+1. `SKILL.md` を `.agents/skills/{skill}/SKILL.md` および/または `.cursor/skills/{skill}/SKILL.md` にコピーまたは適応する
+2. 必要に応じて harness 固有の `openai.yaml` や設定ファイルを追加する
+3. `CONTRIBUTING` テンプレートに合わせるようレビューフィードバックに対応する
 
 **Files typically involved**:
 - `.agents/skills/*/SKILL.md`
@@ -364,21 +364,21 @@ Adds skill copies for different agent harnesses (e.g., Codex, Cursor, Antigravit
 
 **Example commit sequence**:
 ```
-Copy or adapt SKILL.md to .agents/skills/{skill}/SKILL.md and/or .cursor/skills/{skill}/SKILL.md
-Optionally add harness-specific openai.yaml or config files
-Address review feedback to align with CONTRIBUTING template
+SKILL.md を .agents/skills/{skill}/SKILL.md および/または .cursor/skills/{skill}/SKILL.md にコピーまたは適応
+必要に応じて harness 固有の openai.yaml や設定ファイルを追加
+CONTRIBUTING テンプレートに合わせるようレビューフィードバックに対応
 ```
 
-### Add Or Update Hook
+### Hook の追加または更新 (Add Or Update Hook)
 
-Adds or updates git or bash hooks to enforce workflow, quality, or security policies.
+ワークフロー、品質、セキュリティポリシーを強制する git または bash hook を追加または更新する。
 
-**Frequency**: ~1 times per month
+**Frequency**: 月約 1 回
 
 **Steps**:
-1. Add or update hook scripts in hooks/ or scripts/hooks/
-2. Register the hook in hooks/hooks.json or similar config
-3. Optionally add or update tests in tests/hooks/
+1. `hooks/` または `scripts/hooks/` に hook スクリプトを追加または更新する
+2. `hooks/hooks.json` などの設定に hook を登録する
+3. 必要に応じて `tests/hooks/` にテストを追加または更新する
 
 **Files typically involved**:
 - `hooks/*.hook`
@@ -389,21 +389,21 @@ Adds or updates git or bash hooks to enforce workflow, quality, or security poli
 
 **Example commit sequence**:
 ```
-Add or update hook scripts in hooks/ or scripts/hooks/
-Register the hook in hooks/hooks.json or similar config
-Optionally add or update tests in tests/hooks/
+hooks/ または scripts/hooks/ に hook スクリプトを追加または更新
+hooks/hooks.json などの設定に hook を登録
+必要に応じて tests/hooks/ にテストを追加または更新
 ```
 
-### Address Review Feedback
+### レビューフィードバックへの対応 (Address Review Feedback)
 
-Addresses code review feedback by updating documentation, scripts, or configuration for clarity, correctness, or convention alignment.
+ドキュメント、スクリプト、設定を更新してコードレビューのフィードバックに対応する。明確性、正確性、規約への整合性を高めます。
 
-**Frequency**: ~4 times per month
+**Frequency**: 月約 4 回
 
 **Steps**:
-1. Edit SKILL.md, agent, or command files to address reviewer comments
-2. Update examples, headings, or configuration as requested
-3. Iterate until all review feedback is resolved
+1. レビュアーのコメントに対応するため `SKILL.md`、agent、command ファイルを編集する
+2. 依頼に応じて例、見出し、設定を更新する
+3. すべてのレビューフィードバックが解消されるまで反復する
 
 **Files typically involved**:
 - `skills/*/SKILL.md`
@@ -414,29 +414,29 @@ Addresses code review feedback by updating documentation, scripts, or configurat
 
 **Example commit sequence**:
 ```
-Edit SKILL.md, agent, or command files to address reviewer comments
-Update examples, headings, or configuration as requested
-Iterate until all review feedback is resolved
+レビュアーのコメントに対応するため SKILL.md、agent、command ファイルを編集
+依頼に応じて例、見出し、設定を更新
+すべてのレビューフィードバックが解消されるまで反復
 ```
 
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-Based on analysis of the codebase, follow these practices:
+コードベースの分析に基づき、次のプラクティスに従ってください:
 
-### Do
+### 推奨事項 (Do)
 
-- Use conventional commit format (feat:, fix:, etc.)
-- Follow *.test.js naming pattern
-- Use camelCase for file names
-- Prefer mixed exports
+- Conventional Commits 形式を使う（`feat:`、`fix:` など）
+- `*.test.js` の命名パターンに従う
+- ファイル名に camelCase を使う
+- mixed exports を優先する
 
-### Don't
+### 非推奨事項 (Don't)
 
-- Don't write vague commit messages
-- Don't skip tests for new features
-- Don't deviate from established patterns without discussion
+- 曖昧なコミットメッセージを書かない
+- 新機能のテストを省略しない
+- 議論なしに確立されたパターンから逸脱しない
 
 ---
 
-*This skill was auto-generated by [ECC Tools](https://ecc.tools). Review and customize as needed for your team.*
+*この skill は [ECC Tools](https://ecc.tools) により自動生成されました。チームのニーズに合わせてレビューし、カスタマイズしてください。*

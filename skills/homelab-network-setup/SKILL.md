@@ -4,23 +4,21 @@ description: Practical home and homelab network planning for gateways, switches,
 origin: community
 ---
 
-# Homelab Network Setup
+# ホームラボネットワークセットアップ (Homelab Network Setup)
 
-Use this skill to design a home or small-lab network that can grow without
-needing a full rebuild.
+フル再構築なしで成長できるホームまたは小規模ラボネットワークを設計するときにこのスキルを使用する。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- Planning a new home network or redesigning an ISP-router-only setup.
-- Choosing gateway, switch, and access point roles.
-- Designing IP ranges, DHCP scopes, static reservations, and DNS.
-- Preparing for future VLANs, Pi-hole, NAS, lab servers, or VPN access.
-- Troubleshooting a new network that has double NAT, unstable Wi-Fi, or changing
-  server addresses.
+- 新規ホームネットワークの計画、または ISP ルーターのみ構成の再設計。
+- ゲートウェイ、スイッチ、アクセスポイントの役割選択。
+- IP レンジ、DHCP スコープ、静的予約、DNS の設計。
+- 将来の VLAN、Pi-hole、NAS、ラボサーバー、VPN アクセスの準備。
+- ダブル NAT、不安定 Wi-Fi、変わるサーバーアドレスの新規ネットワークのトラブルシュート。
 
-## How It Works
+## 仕組み (How It Works)
 
-Start by separating device roles:
+デバイス役割を分離して開始する:
 
 ```text
 Internet
@@ -36,7 +34,7 @@ Servers and NAS        stable addresses, DNS names, monitoring
 Clients and IoT        DHCP pools, isolated later if VLANs are available
 ```
 
-Pick a gateway that matches the operator, not just the feature checklist:
+機能チェックリストだけでなくオペレーターに合うゲートウェイを選ぶ:
 
 | Option | Best fit | Notes |
 | --- | --- | --- |
@@ -46,10 +44,10 @@ Pick a gateway that matches the operator, not just the feature checklist:
 | MikroTik | Advanced network users | Powerful, but easy to misconfigure |
 | Linux router | Tinkerers | Document rollback before using as primary gateway |
 
-## IP Plan
+## IP プラン (IP Plan)
 
-Avoid the most common default, `192.168.1.0/24`, when you expect to use VPNs.
-It often conflicts with hotels, offices, and ISP routers.
+VPN を使う見込みがあるときは最も一般的なデフォルト `192.168.1.0/24` を避ける。
+ホテル、オフィス、ISP ルーターと衝突しやすい。
 
 ```text
 Example small homelab plan:
@@ -66,8 +64,7 @@ Dynamic DHCP pool: .50 through .240
 Spare room: .241 through .254
 ```
 
-Use `home.arpa` for local names. It is reserved for home networks and avoids the
-leakage/conflict problems of ad hoc names like `home.lan`.
+ローカル名には `home.arpa` を使う。ホームネットワーク用に予約され、`home.lan` のようなアドホック名の漏洩/衝突問題を避ける。
 
 ```text
 nas.home.arpa
@@ -76,54 +73,49 @@ gateway.home.arpa
 switch-01.home.arpa
 ```
 
-## DHCP And DNS
+## DHCP と DNS (DHCP And DNS)
 
-- Use DHCP reservations for anything you SSH into, bookmark, monitor, or expose
-  as a service.
-- Hand out the gateway as DNS until a local resolver is intentionally deployed.
-- If using Pi-hole or another DNS filter, give it a reservation first, then point
-  DHCP DNS options at that address.
-- Keep a small static/reserved range per subnet so replacements do not collide
-  with dynamic leases.
+- SSH、ブックマーク、監視、サービス公開するものには DHCP 予約を使う。
+- ローカルリゾルバを意図的にデプロイするまでゲートウェイを DNS として配布。
+- Pi-hole や別 DNS フィルタを使う場合、まず予約を付け、DHCP DNS オプションをそのアドレスに向ける。
+- サブネットごとに小さな静的/予約レンジを保ち、交換時に動的リースと衝突しない。
 
-## Cabling And Wi-Fi
+## 配線と Wi-Fi (Cabling And Wi-Fi)
 
-- Prefer wired AP backhaul over mesh when you can run Ethernet.
-- Use a PoE switch for APs and cameras if the budget allows it.
-- Label both ends of each cable and keep a simple port map.
-- Put the gateway, switch, DNS server, and NAS on UPS power if outages are common.
+- 可能なら Ethernet を引いてメッシュより有線 AP バックホールを優先。
+- 予算が許せば AP とカメラ用 PoE スイッチ。
+- 各ケーブル両端にラベル、簡単なポートマップを維持。
+- 停電が多いならゲートウェイ、スイッチ、DNS サーバー、NAS を UPS に。
 
-## Examples
+## 例 (Examples)
 
-### Beginner Upgrade
+### 初級アップグレード (Beginner Upgrade)
 
-Goal: Keep the ISP router but stabilize a small lab.
+目標: ISP ルーターを維持しつつ小ラボを安定化。
 
-1. Set DHCP reservations for NAS, Pi, and any SSH hosts.
-2. Move local names to `home.arpa`.
-3. Disable duplicate DHCP servers on secondary routers or APs.
-4. Wire the main AP instead of relying on wireless backhaul.
+1. NAS、Pi、SSH ホストに DHCP 予約を設定。
+2. ローカル名を `home.arpa` に移行。
+3. 二次ルーター/AP の重複 DHCP サーバーを無効化。
+4. 無線バックホールではなくメイン AP を有線化。
 
-### VLAN-Ready Plan
+### VLAN 対応プラン (VLAN-Ready Plan)
 
-Goal: Prepare for future segmentation without enabling it immediately.
+目標: すぐ有効化せず将来のセグメンテーションに備える。
 
-1. Choose non-overlapping /24 ranges for trusted, IoT, servers, guest, and
-   management.
-2. Reserve .1 for the gateway and .2-.49 for infrastructure on every subnet.
-3. Buy a gateway and switch that support VLANs and inter-VLAN firewall rules.
-4. Document which SSIDs and switch ports will eventually map to each network.
+1. trusted、IoT、servers、guest、management 用に非重複 /24 を選ぶ。
+2. 全サブネットでゲートウェイ .1、インフラ .2-.49 を予約。
+3. VLAN と inter-VLAN ファイアウォールをサポートするゲートウェイとスイッチを購入。
+4. 各ネットワークに最終的にマップする SSID とスイッチポートを文書化。
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Double NAT without a reason or documentation.
-- Using `192.168.1.0/24` when VPN access is planned.
-- Dynamic addresses for NAS, Pi-hole, Home Assistant, or other service hosts.
-- Consumer routers repurposed as APs while their DHCP servers are still enabled.
-- Flat networks with cameras, smart plugs, laptops, and servers all sharing the
-  same trust boundary.
+- 理由や文書なしのダブル NAT。
+- VPN アクセス計画時の `192.168.1.0/24` 使用。
+- NAS、Pi-hole、Home Assistant などサービスホストの動的アドレス。
+- DHCP がまだ有効な消費者ルーターを AP として再利用。
+- カメラ、スマートプラグ、ラップトップ、サーバーが同一信頼境界を共有するフラットネットワーク。
 
-## See Also
+## 関連 (See Also)
 
 - Skill: `network-interface-health`
 - Skill: `network-config-validation`

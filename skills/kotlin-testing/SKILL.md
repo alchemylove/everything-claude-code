@@ -4,11 +4,11 @@ description: Kotlin testing patterns with Kotest, MockK, coroutine testing, prop
 origin: ECC
 ---
 
-# Kotlin Testing Patterns
+# Kotlin Testing Patterns (Kotlin Testing Patterns)
 
 Comprehensive Kotlin testing patterns for writing reliable, maintainable tests following TDD methodology with Kotest and MockK.
 
-## When to Use
+## When to Use (When to Use)
 
 - Writing new Kotlin functions or classes
 - Adding test coverage to existing Kotlin code
@@ -16,7 +16,7 @@ Comprehensive Kotlin testing patterns for writing reliable, maintainable tests f
 - Following TDD workflow in Kotlin projects
 - Configuring Kover for code coverage
 
-## How It Works
+## How It Works (How It Works)
 
 1. **Identify target code** — Find the function, class, or module to test
 2. **Write a Kotest spec** — Choose a spec style (StringSpec, FunSpec, BehaviorSpec) matching the test scope
@@ -26,11 +26,11 @@ Comprehensive Kotlin testing patterns for writing reliable, maintainable tests f
 6. **Refactor** — Improve the implementation while keeping tests green
 7. **Check coverage** — Run `./gradlew koverHtmlReport` and verify 80%+ coverage
 
-## Examples
+## Examples (Examples)
 
 The following sections contain detailed, runnable examples for each testing pattern:
 
-### Quick Reference
+### Quick Reference (Quick Reference)
 
 - **Kotest specs** — StringSpec, FunSpec, BehaviorSpec, DescribeSpec examples in [Kotest Spec Styles](#kotest-spec-styles)
 - **Mocking** — MockK setup, coroutine mocking, argument capture in [MockK](#mockk)
@@ -38,9 +38,9 @@ The following sections contain detailed, runnable examples for each testing patt
 - **Coverage** — Kover configuration and commands in [Kover Coverage](#kover-coverage)
 - **Ktor testing** — testApplication setup in [Ktor testApplication Testing](#ktor-testapplication-testing)
 
-### TDD Workflow for Kotlin
+### TDD Workflow for Kotlin (TDD Workflow for Kotlin)
 
-#### The RED-GREEN-REFACTOR Cycle
+#### The RED-GREEN-REFACTOR Cycle (The RED-GREEN-REFACTOR Cycle)
 
 ```
 RED     -> Write a failing test first
@@ -49,7 +49,7 @@ REFACTOR -> Improve code while keeping tests green
 REPEAT  -> Continue with next requirement
 ```
 
-#### Step-by-Step TDD in Kotlin
+#### Step-by-Step TDD in Kotlin (Step-by-Step TDD in Kotlin)
 
 ```kotlin
 // Step 1: Define the interface/signature
@@ -105,9 +105,9 @@ fun validateEmail(email: String): Result<String> {
 // Step 6: Refactor if needed, verify tests still pass
 ```
 
-### Kotest Spec Styles
+### Kotest Spec Styles (Kotest Spec Styles)
 
-#### StringSpec (Simplest)
+#### StringSpec (StringSpec)
 
 ```kotlin
 class CalculatorTest : StringSpec({
@@ -125,7 +125,7 @@ class CalculatorTest : StringSpec({
 })
 ```
 
-#### FunSpec (JUnit-like)
+#### FunSpec (FunSpec)
 
 ```kotlin
 class UserServiceTest : FunSpec({
@@ -151,7 +151,7 @@ class UserServiceTest : FunSpec({
 })
 ```
 
-#### BehaviorSpec (BDD Style)
+#### BehaviorSpec (BehaviorSpec)
 
 ```kotlin
 class OrderServiceTest : BehaviorSpec({
@@ -193,7 +193,7 @@ class OrderServiceTest : BehaviorSpec({
 })
 ```
 
-#### DescribeSpec (RSpec Style)
+#### DescribeSpec (DescribeSpec)
 
 ```kotlin
 class UserValidatorTest : DescribeSpec({
@@ -222,9 +222,9 @@ class UserValidatorTest : DescribeSpec({
 })
 ```
 
-### Kotest Matchers
+### Kotest Matchers (Kotest Matchers)
 
-#### Core Matchers
+#### Core Matchers (Core Matchers)
 
 ```kotlin
 import io.kotest.matchers.shouldBe
@@ -272,7 +272,7 @@ shouldNotThrow<Exception> {
 }
 ```
 
-#### Custom Matchers
+#### Custom Matchers (Custom Matchers)
 
 ```kotlin
 fun beActiveUser() = object : Matcher<User> {
@@ -287,9 +287,9 @@ fun beActiveUser() = object : Matcher<User> {
 user should beActiveUser()
 ```
 
-### MockK
+### MockK (MockK)
 
-#### Basic Mocking
+#### Basic Mocking (Basic Mocking)
 
 ```kotlin
 class UserServiceTest : FunSpec({
@@ -321,7 +321,7 @@ class UserServiceTest : FunSpec({
 })
 ```
 
-#### Coroutine Mocking
+#### Coroutine Mocking (Coroutine Mocking)
 
 ```kotlin
 class AsyncUserServiceTest : FunSpec({
@@ -349,7 +349,7 @@ class AsyncUserServiceTest : FunSpec({
 })
 ```
 
-#### Argument Capture
+#### Argument Capture (Argument Capture)
 
 ```kotlin
 test("save captures the user argument") {
@@ -364,7 +364,7 @@ test("save captures the user argument") {
 }
 ```
 
-#### Spy and Partial Mocking
+#### Spy and Partial Mocking (Spy and Partial Mocking)
 
 ```kotlin
 test("spy on real object") {
@@ -380,9 +380,9 @@ test("spy on real object") {
 }
 ```
 
-### Coroutine Testing
+### Coroutine Testing (Coroutine Testing)
 
-#### runTest for Suspend Functions
+#### runTest for Suspend Functions (runTest for Suspend Functions)
 
 ```kotlin
 import kotlinx.coroutines.test.runTest
@@ -413,7 +413,7 @@ class CoroutineServiceTest : FunSpec({
 })
 ```
 
-#### Testing Flows
+#### Testing Flows (Testing Flows)
 
 ```kotlin
 import io.kotest.matchers.collections.shouldContainInOrder
@@ -459,7 +459,7 @@ class FlowServiceTest : FunSpec({
 })
 ```
 
-#### TestDispatcher
+#### TestDispatcher (TestDispatcher)
 
 ```kotlin
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -485,9 +485,9 @@ class DispatcherTest : FunSpec({
 })
 ```
 
-### Property-Based Testing
+### Property-Based Testing (Property-Based Testing)
 
-#### Kotest Property Testing
+#### Kotest Property Testing (Kotest Property Testing)
 
 ```kotlin
 import io.kotest.core.spec.style.FunSpec
@@ -527,7 +527,7 @@ class PropertyTest : FunSpec({
 })
 ```
 
-#### Custom Generators
+#### Custom Generators (Custom Generators)
 
 ```kotlin
 val userArb: Arb<User> = Arb.bind(
@@ -551,9 +551,9 @@ val moneyArb: Arb<Money> = Arb.bind(
 }
 ```
 
-### Data-Driven Testing
+### Data-Driven Testing (Data-Driven Testing)
 
-#### withData in Kotest
+#### withData in Kotest (withData in Kotest)
 
 ```kotlin
 class ParserTest : FunSpec({
@@ -583,9 +583,9 @@ class ParserTest : FunSpec({
 })
 ```
 
-### Test Lifecycle and Fixtures
+### Test Lifecycle and Fixtures (Test Lifecycle and Fixtures)
 
-#### BeforeTest / AfterTest
+#### BeforeTest / AfterTest (BeforeTest / AfterTest)
 
 ```kotlin
 class DatabaseTest : FunSpec({
@@ -627,7 +627,7 @@ class DatabaseTest : FunSpec({
 })
 ```
 
-#### Kotest Extensions
+#### Kotest Extensions (Kotest Extensions)
 
 ```kotlin
 // Reusable test extension
@@ -654,9 +654,9 @@ class UserRepositoryTest : FunSpec({
 })
 ```
 
-### Kover Coverage
+### Kover Coverage (Kover Coverage)
 
-#### Gradle Configuration
+#### Gradle Configuration (Gradle Configuration)
 
 ```kotlin
 // build.gradle.kts
@@ -684,7 +684,7 @@ kover {
 }
 ```
 
-#### Coverage Commands
+#### Coverage Commands (Coverage Commands)
 
 ```bash
 # Run tests with coverage
@@ -702,7 +702,7 @@ kover {
 # Windows: start build/reports/kover/html/index.html
 ```
 
-#### Coverage Targets
+#### Coverage Targets (Coverage Targets)
 
 | Code Type | Target |
 |-----------|--------|
@@ -711,7 +711,7 @@ kover {
 | General code | 80%+ |
 | Generated / config code | Exclude |
 
-### Ktor testApplication Testing
+### Ktor testApplication Testing (Ktor testApplication Testing)
 
 ```kotlin
 class ApiRoutesTest : FunSpec({
@@ -748,7 +748,7 @@ class ApiRoutesTest : FunSpec({
 })
 ```
 
-### Testing Commands
+### Testing Commands (Testing Commands)
 
 ```bash
 # Run all tests
@@ -776,7 +776,7 @@ class ApiRoutesTest : FunSpec({
 ./gradlew test --continuous
 ```
 
-### Best Practices
+### Best Practices (Best Practices)
 
 **DO:**
 - Write tests FIRST (TDD)
@@ -795,7 +795,7 @@ class ApiRoutesTest : FunSpec({
 - Test private functions directly
 - Ignore flaky tests
 
-### Integration with CI/CD
+### Integration with CI/CD (Integration with CI/CD)
 
 ```yaml
 # GitHub Actions example

@@ -1,9 +1,9 @@
-# Telegram Handoff For Hermes
+# Hermes 向け Telegram ハンドオフ (Telegram Handoff For Hermes)
 
-Send this to Hermes when you want it to help package the launch workflow.
+ローンチワークフローのパッケージ化を Hermes に依頼するときに、これを送信してください。
 
 ```text
-Use the public ECC release pack in the repo:
+リポジトリ内の公開 ECC リリースパックを使用してください：
 
 - docs/releases/2.0.0-rc.1/release-notes.md
 - docs/releases/2.0.0-rc.1/x-thread.md
@@ -16,15 +16,15 @@ Use the public ECC release pack in the repo:
 - docs/HERMES-SETUP.md
 - docs/architecture/cross-harness.md
 
-Task:
+タスク：
 
-1. Finalize one strong X thread for ECC v2.0.0-rc.1.
-2. Finalize one strong LinkedIn post for ECC v2.0.0-rc.1.
-3. Give me one 30-60 second Hermes x ECC video script and one 15-30 second variant.
-4. Tell me exactly what to record now with screen capture, face camera, and voice lines.
-5. Tell me what Hermes can generate automatically after I record.
-6. Keep every public claim release-candidate framed until live release/npm/plugin URLs exist.
-7. End with a minimal checklist of the assets or logins still needed.
+1. ECC v2.0.0-rc.1 向けの強力な X スレッドを1本仕上げる。
+2. ECC v2.0.0-rc.1 向けの強力な LinkedIn 投稿を1本仕上げる。
+3. Hermes x ECC の30〜60秒動画スクリプトと15〜30秒バリアントを1つずつ提供する。
+4. 画面キャプチャ、顔カメラ、ボイスラインで今すぐ録画すべき内容を正確に伝える。
+5. 録画後に Hermes が自動生成できる内容を伝える。
+6. ライブリリース/npm/plugin URL が存在するまで、すべての公開クレームを release-candidate フレーミングのままにする。
+7. まだ必要なアセットまたはログインの最小チェックリストで締めくくる。
 
-Be decisive. Return final drafts plus a practical recording checklist.
+決断力を持って。最終ドラフトと実用的な録画チェックリストを返してください。
 ```

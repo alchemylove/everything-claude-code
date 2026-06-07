@@ -1,20 +1,20 @@
 ---
-description: Load the most recent session file from ~/.claude/session-data/ and resume work with full context from where the last session ended.
+description: ~/.claude/session-data/ から直近の session ファイルを読み込み、前回セッション終了時点の文脈をそのまま引き継いで作業を再開する。
 ---
 
-# Resume Session Command
+# セッション再開コマンド (Resume Session Command)
 
-Load the last saved session state and orient fully before doing any work.
-This command is the counterpart to `/save-session`.
+最後に保存した session state を読み込み、作業に入る前に文脈を完全に把握する。
+このコマンドは `/save-session` の対になる操作である。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- Starting a new session to continue work from a previous day
-- After starting a fresh session due to context limits
-- When handing off a session file from another source (just provide the file path)
-- Any time you have a session file and want Claude to fully absorb it before proceeding
+- 前日の作業を続けるために新しいセッションを開始するとき
+- context limit のため新しいセッションを立ち上げたあと
+- 別ソースから session ファイルを引き継ぐとき（ファイルパスを指定するだけ）
+- session ファイルがあり、作業前に Claude に完全に吸収させたいとき
 
-## Usage
+## 使い方 (Usage)
 
 ```
 /resume-session                                                      # loads most recent file in ~/.claude/session-data/
@@ -23,37 +23,37 @@ This command is the counterpart to `/save-session`.
 /resume-session ~/.claude/sessions/2024-01-15-session.tmp               # loads a specific legacy-format file
 ```
 
-## Process
+## 手順 (Process)
 
-### Step 1: Find the session file
+### ステップ 1: session ファイルを探す (Step 1: Find the session file)
 
-If no argument provided:
+引数がない場合:
 
-1. Check `~/.claude/session-data/`
-2. Pick the most recently modified `*-session.tmp` file
-3. If the folder does not exist or has no matching files, tell the user:
+1. `~/.claude/session-data/` を確認
+2. 最終更新が最も新しい `*-session.tmp` を選ぶ
+3. フォルダが存在しない、または一致ファイルがない場合はユーザーに伝える:
    ```
    No session files found in ~/.claude/session-data/
    Run /save-session at the end of a session to create one.
    ```
-   Then stop.
+   その後停止する。
 
-If an argument is provided:
+引数がある場合:
 
-- If it looks like a date (`YYYY-MM-DD`), search `~/.claude/session-data/` first, then the legacy
-  `~/.claude/sessions/`, for files matching `YYYY-MM-DD-session.tmp` (legacy format) or
-  `YYYY-MM-DD-<shortid>-session.tmp` (current format)
-  and load the most recently modified variant for that date
-- If it looks like a file path, read that file directly
-- If not found, report clearly and stop
+- 日付形式（`YYYY-MM-DD`）なら、まず `~/.claude/session-data/`、次に legacy の
+  `~/.claude/sessions/` で `YYYY-MM-DD-session.tmp`（legacy 形式）または
+  `YYYY-MM-DD-<shortid>-session.tmp`（現行形式）に一致するファイルを検索し、
+  その日付で最終更新が最も新しいものを読み込む
+- ファイルパス形式なら、そのファイルを直接読む
+- 見つからなければ明確に報告して停止
 
-### Step 2: Read the entire session file
+### ステップ 2: session ファイル全体を読む (Step 2: Read the entire session file)
 
-Read the complete file. Do not summarize yet.
+ファイル全体を読む。まだ要約しない。
 
-### Step 3: Confirm understanding
+### ステップ 3: 理解の確認 (Step 3: Confirm understanding)
 
-Respond with a structured briefing in this exact format:
+次の固定形式で構造化ブリーフィングを返す:
 
 ```
 SESSION LOADED: [actual resolved path to the file]
@@ -83,36 +83,36 @@ NEXT STEP:
 Ready to continue. What would you like to do?
 ```
 
-### Step 4: Wait for the user
+### ステップ 4: ユーザーを待つ (Step 4: Wait for the user)
 
-Do NOT start working automatically. Do NOT touch any files. Wait for the user to say what to do next.
+自動で作業を開始しない。ファイルに触らない。ユーザーが次に何をするか言うまで待つ。
 
-If the next step is clearly defined in the session file and the user says "continue" or "yes" or similar — proceed with that exact next step.
+session ファイルに next step が明確にあり、ユーザーが "continue" や "yes" などと言った場合 — その next step をそのまま実行する。
 
-If no next step is defined — ask the user where to start, and optionally suggest an approach from the "What Has NOT Been Tried Yet" section.
-
----
-
-## Edge Cases
-
-**Multiple sessions for the same date** (`2024-01-15-session.tmp`, `2024-01-15-abc123de-session.tmp`):
-Load the most recently modified matching file for that date, regardless of whether it uses the legacy no-id format or the current short-id format.
-
-**Session file references files that no longer exist:**
-Note this during the briefing — "WARNING: `path/to/file.ts` referenced in session but not found on disk."
-
-**Session file is from more than 7 days ago:**
-Note the gap — "WARNING: This session is from N days ago (threshold: 7 days). Things may have changed." — then proceed normally.
-
-**User provides a file path directly (e.g., forwarded from a teammate):**
-Read it and follow the same briefing process — the format is the same regardless of source.
-
-**Session file is empty or malformed:**
-Report: "Session file found but appears empty or unreadable. You may need to create a new one with /save-session."
+next step が未定義の場合 — どこから始めるかユーザーに尋ね、必要なら "What Has NOT Been Tried Yet" セクションから案を示す。
 
 ---
 
-## Example Output
+## エッジケース (Edge Cases)
+
+**同一日付の複数セッション**（`2024-01-15-session.tmp`、`2024-01-15-abc123de-session.tmp`）:
+legacy の id なし形式でも現行の short-id 形式でも、その日付で最終更新が最も新しい一致ファイルを読み込む。
+
+**session ファイルが参照するファイルがディスクに存在しない:**
+ブリーフィングで注記する — "WARNING: `path/to/file.ts` referenced in session but not found on disk."
+
+**session ファイルが 7 日より古い:**
+ギャップを注記する — "WARNING: This session is from N days ago (threshold: 7 days). Things may have changed." — その後通常どおり続行。
+
+**ユーザーがファイルパスを直接指定（例: チームメイトから転送）:**
+読み込み、同じブリーフィング手順に従う — ソースに関わらず形式は同じ。
+
+**session ファイルが空または不正:**
+報告: "Session file found but appears empty or unreadable. You may need to create a new one with /save-session."
+
+---
+
+## 出力例 (Example Output)
 
 ```
 SESSION LOADED: /Users/you/.claude/session-data/2024-01-15-abc123de-session.tmp
@@ -148,9 +148,9 @@ Ready to continue. What would you like to do?
 
 ---
 
-## Notes
+## 注意事項 (Notes)
 
-- Never modify the session file when loading it — it's a read-only historical record
-- The briefing format is fixed — do not skip sections even if they are empty
-- "What Not To Retry" must always be shown, even if it just says "None" — it's too important to miss
-- After resuming, the user may want to run `/save-session` again at the end of the new session to create a new dated file
+- 読み込み時に session ファイルを変更しない — 読み取り専用の履歴記録
+- ブリーフィング形式は固定 — 空でもセクションをスキップしない
+- "What Not To Retry" は常に表示する（"None" だけでも）— 見落とし防止のため重要
+- 再開後、新しいセッションの終わりに `/save-session` で新しい日付付きファイルを作り直すこともある

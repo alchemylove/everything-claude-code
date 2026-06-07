@@ -3,18 +3,18 @@ paths:
   - "**/*.py"
   - "**/*.pyi"
 ---
-# Python Coding Style
+# Python コーディングスタイル (Python Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Python specific content.
+> 本ファイルは [common/coding-style.md](../common/coding-style.md) を Python 固有の内容で拡張します。
 
-## Standards
+## 標準 (Standards)
 
-- Follow **PEP 8** conventions
-- Use **type annotations** on all function signatures
+- **PEP 8** 規約に従う
+- すべての関数シグネチャに **type annotations** を使用する
 
-## Immutability
+## 不変性 (Immutability)
 
-Prefer immutable data structures:
+不変データ構造を優先する:
 
 ```python
 from dataclasses import dataclass
@@ -31,12 +31,12 @@ class Point(NamedTuple):
     y: float
 ```
 
-## Formatting
+## フォーマット (Formatting)
 
-- **black** for code formatting
-- **isort** for import sorting
-- **ruff** for linting
+- コードフォーマットに **black**
+- import ソートに **isort**
+- リンティングに **ruff**
 
-## Reference
+## 参照 (Reference)
 
-See skill: `python-patterns` for comprehensive Python idioms and patterns.
+包括的な Python イディオムとパターンは skill: `python-patterns` を参照。

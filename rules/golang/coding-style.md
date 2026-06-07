@@ -4,22 +4,22 @@ paths:
   - "**/go.mod"
   - "**/go.sum"
 ---
-# Go Coding Style
+# Go コーディングスタイル (Go Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Go specific content.
+> 本ファイルは [common/coding-style.md](../common/coding-style.md) を Go 固有の内容で拡張します。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **gofmt** and **goimports** are mandatory — no style debates
+- **gofmt** と **goimports** は必須 — スタイル議論は不要
 
-## Design Principles
+## 設計原則 (Design Principles)
 
-- Accept interfaces, return structs
-- Keep interfaces small (1-3 methods)
+- interface を受け取り、struct を返す
+- interface は小さく保つ（1–3 メソッド）
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Always wrap errors with context:
+常にコンテキスト付きでエラーを wrap する:
 
 ```go
 if err != nil {
@@ -27,6 +27,6 @@ if err != nil {
 }
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `golang-patterns` for comprehensive Go idioms and patterns.
+包括的な Go イディオムとパターンは skill: `golang-patterns` を参照。

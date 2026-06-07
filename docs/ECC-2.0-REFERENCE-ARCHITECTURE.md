@@ -1,34 +1,30 @@
-# ECC 2.0 Reference Architecture
+# ECC 2.0 リファレンスアーキテクチャ (ECC 2.0 Reference Architecture)
 
-Current execution mirror:
-[`ECC-2.0-GA-ROADMAP.md`](ECC-2.0-GA-ROADMAP.md).
+現在の実行ミラー:
+[`ECC-2.0-GA-ROADMAP.md`](ECC-2.0-GA-ROADMAP.md)。
 
-This document turns the May 2026 reference sweep into concrete ECC backlog
-shape. It is not a second strategy memo: every reference pressure below should
-land as an adapter, check, observable signal, security policy, PR review
-surface, or release-readiness gate.
+このドキュメントは、2026年5月のリファレンス調査を具体的な ECC バックログの形に落とし込む。第二の戦略メモではない。以下のリファレンス圧力はすべて、adapter、check、observable signal、security policy、PR review surface、または release-readiness gate として着地させるべきである。
 
-## Reference Baseline
+## リファレンスベースライン (Reference Baseline)
 
-Snapshot date: 2026-05-12.
+スナップショット日: 2026-05-12。
 
-| Reference | Primary pressure on ECC 2.0 | Concrete ECC delta |
+| 参照 (Reference) | ECC 2.0 への主な圧力 (Primary pressure on ECC 2.0) | 具体的な ECC デルタ (Concrete ECC delta) |
 | --- | --- | --- |
-| [`stablyai/orca`](https://github.com/stablyai/orca) | Worktree-native multi-agent IDE with terminals, source control, GitHub integration, SSH, notifications, design/browser mode, account switching, and per-worktree context. | Treat worktree lifecycle, review state, notification state, and account/provider identity as first-class adapter signals. |
-| [`superset-sh/superset`](https://github.com/superset-sh/superset) | Desktop AI-agent workspace with parallel execution, worktree isolation, diff review, workspace presets, and broad CLI-agent compatibility. | Add workspace preset taxonomy and make ECC2 session/worktree state exportable enough for external editors to consume. |
-| [`standardagents/dmux`](https://github.com/standardagents/dmux) | Tmux/worktree orchestration, lifecycle hooks, multi-select agent control, smart merging, file browser, notifications, and cleanup. | Add lifecycle-hook coverage to the harness matrix and define merge/conflict queue events. |
-| [`aidenybai/ghast`](https://github.com/aidenybai/ghast) | Native macOS terminal multiplexer with cwd-grouped workspaces, panes, tabs, drag/drop, search, and notifications. | Preserve terminal-native ergonomics while adding cwd/session grouping and searchable handoff/session records. |
-| [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud) | Always-visible Claude Code statusline for context, tools, agents, todos, and transcript-backed activity. | Formalize the ECC HUD/status payload for context, cost, tool calls, active agents, todos, queue state, checks, and risk. |
-| [`stanford-iris-lab/meta-harness`](https://github.com/stanford-iris-lab/meta-harness) | Automated search over task-specific harness design: what to store, retrieve, and show. | Split ECC improvement loops into scenario spec, proposer trace, verifier result, and promoted playbook. |
-| [`greyhaven-ai/autocontext`](https://github.com/greyhaven-ai/autocontext) | Recursive harness improvement using traces, reports, artifacts, datasets, playbooks, and role-separated evaluators. | Store reusable traces and playbooks before mutating installed harness assets. |
-| [`NousResearch/hermes-agent`](https://github.com/NousResearch/hermes-agent) | Self-improving operator shell with memories, skills, scheduler, gateways, subagents, terminal backends, and migration tooling. | Keep ECC portable across local, SSH, container, and hosted terminal backends without hiding the underlying commands. |
-| [`anthropics/claude-code`](https://github.com/anthropics/claude-code), [`sst/opencode`](https://github.com/sst/opencode), Zed, Codex, Cursor, Gemini | Different agent harnesses expose different hooks, plugin surfaces, session stores, config files, and review loops. | Maintain a public adapter compliance matrix instead of treating one harness as the canonical UX. |
-| Local Claude Code source review | Session, tool, permission, hook, remote, analytics, task, and context-suggestion surfaces are more structured than the public CLI UX suggests. | Model status and risk events around session messages, permission requests, tool progress, context pressure, and summary state. |
+| [`stablyai/orca`](https://github.com/stablyai/orca) | ターミナル、ソース管理、GitHub 統合、SSH、通知、design/browser モード、アカウント切り替え、worktree ごとの context を備えた worktree-native マルチエージェント IDE。 | worktree lifecycle、review state、notification state、account/provider identity を first-class adapter signal として扱う。 |
+| [`superset-sh/superset`](https://github.com/superset-sh/superset) | 並列実行、worktree 分離、diff review、workspace preset、広い CLI-agent 互換を備えたデスクトップ AI-agent workspace。 | workspace preset taxonomy を追加し、ECC2 session/worktree state を外部エディターが消費できるほど export 可能にする。 |
+| [`standardagents/dmux`](https://github.com/standardagents/dmux) | tmux/worktree orchestration、lifecycle hook、マルチ選択 agent 制御、smart merge、file browser、通知、クリーンアップ。 | harness matrix に lifecycle-hook カバレッジを追加し、merge/conflict queue event を定義する。 |
+| [`aidenybai/ghast`](https://github.com/aidenybai/ghast) | cwd グループ化 workspace、pane、tab、drag/drop、検索、通知を備えたネイティブ macOS ターミナルマルチプレクサ。 | ターミナルネイティブ ergonomics を保ちつつ、cwd/session grouping と検索可能な handoff/session record を追加する。 |
+| [`jarrodwatts/claude-hud`](https://github.com/jarrodwatts/claude-hud) | context、tool、agent、todo、transcript ベース activity 向けの常時可視 Claude Code statusline。 | context、cost、tool call、active agent、todo、queue state、check、risk 向け ECC HUD/status payload を形式化する。 |
+| [`stanford-iris-lab/meta-harness`](https://github.com/stanford-iris-lab/meta-harness) | タスク固有 harness 設計（何を保存・取得・表示するか）の自動探索。 | ECC 改善ループを scenario spec、proposer trace、verifier result、promoted playbook に分割する。 |
+| [`greyhaven-ai/autocontext`](https://github.com/greyhaven-ai/autocontext) | trace、report、artifact、dataset、playbook、役割分離 evaluator による再帰的 harness 改善。 | インストール済み harness asset を mutate する前に再利用可能な trace と playbook を保存する。 |
+| [`NousResearch/hermes-agent`](https://github.com/NousResearch/hermes-agent) | memory、skill、scheduler、gateway、subagent、terminal backend、migration tooling を備えた自己改善 operator shell。 | 下位コマンドを隠さず、local、SSH、container、hosted terminal backend 横断で ECC をポータブルに保つ。 |
+| [`anthropics/claude-code`](https://github.com/anthropics/claude-code), [`sst/opencode`](https://github.com/sst/opencode), Zed, Codex, Cursor, Gemini | 各 agent harness は異なる hook、plugin surface、session store、config file、review loop を公開する。 | 1つの harness を canonical UX として扱わず、公開 adapter compliance matrix を維持する。 |
+| ローカル Claude Code ソースレビュー | session、tool、permission、hook、remote、analytics、task、context-suggestion surface は公開 CLI UX より構造化されている。 | session message、permission request、tool progress、context pressure、summary state 周辺で status と risk event をモデル化する。 |
 
-## Architecture Shape
+## アーキテクチャの形 (Architecture Shape)
 
-ECC 2.0 should be a harness operating system, not only a catalog of commands,
-agents, and skills.
+ECC 2.0 は、commands、agents、skills のカタログだけでなく、harness operating system であるべきである。
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
@@ -53,194 +49,168 @@ agents, and skills.
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Reference-To-Backlog Map
+## リファレンスからバックログへのマップ (Reference-To-Backlog Map)
 
-### Worktree And Session Orchestration
+### Worktree と Session のオーケストレーション (Worktree And Session Orchestration)
 
-Adopt from Orca, Superset, dmux, and Ghast:
+Orca、Superset、dmux、Ghast から採用:
 
-- Worktree lifecycle events: create, resume, pause, stop, diff, review, PR,
-  merge-ready, conflict, stale, close, salvage.
-- Session grouping by repo, branch, cwd, task, owner, and harness.
-- Workspace presets for release lane, PR triage lane, docs lane, security lane,
-  and test-writer lane.
-- Notifications for blocked CI, dirty worktrees, merge conflicts, stale review,
-  and finished autonomous runs.
-- Review loops that can annotate diffs and PRs without taking ownership away
-  from maintainers.
+- Worktree lifecycle event: create、resume、pause、stop、diff、review、PR、
+  merge-ready、conflict、stale、close、salvage。
+- repo、branch、cwd、task、owner、harness による session grouping。
+- release lane、PR triage lane、docs lane、security lane、
+  test-writer lane 向け workspace preset。
+- blocked CI、dirty worktree、merge conflict、stale review、
+  完了した autonomous run 向け notification。
+- maintainer の所有権を奪わず diff と PR に注釈できる review loop。
 
-Repo work:
+リポジトリ作業:
 
-- `everything-claude-code`: extend the adapter compliance matrix and public
-  scorecard onramp.
-- `ecc2`: surface session/worktree state through a stable local payload before
-  adding hosted telemetry.
-- `ECC-Tools`: consume the same lifecycle events for PR checks, issue routing,
-  and Linear sync.
+- `everything-claude-code`: adapter compliance matrix と public scorecard onramp を拡張する。
+- `ecc2`: hosted telemetry を追加する前に、安定した local payload 経由で session/worktree state を公開する。
+- `ECC-Tools`: PR checks、issue routing、Linear sync に同じ lifecycle events を消費する。
 
-Verification:
+検証:
 
 - `npm run harness:audit -- --format json`
 - `npm run observability:ready`
-- targeted adapter matrix tests once the matrix moves from docs to data
+- matrix が docs から data に移行した後の targeted adapter matrix tests
 
-### HUD, Status, And Observability
+### HUD、Status、Observability (HUD, Status, And Observability)
 
-Adopt from Claude HUD and the Claude Code source review:
+Claude HUD と Claude Code source review から採用:
 
-- Context pressure: usage, compaction risk, large-result warnings, and summary
-  state.
-- Tool activity: active tool, recent tools, duration, risky operations, and
-  permission requests.
-- Agent activity: active subagents, delegated task, branch/worktree, and wait
-  state.
-- Queue activity: open PRs/issues, CI state, stale/conflict batches, review
-  state, and closed-stale salvage backlog.
-- Cost/risk: token cost estimate, destructive-operation risk, hook/MCP risk,
-  and security scan state.
+- Context pressure: usage、compaction risk、large-result warning、summary
+  state。
+- Tool activity: active tool、recent tool、duration、risky operation、
+  permission request。
+- Agent activity: active subagent、delegated task、branch/worktree、wait
+  state。
+- Queue activity: open PR/issue、CI state、stale/conflict batch、review
+  state、closed-stale salvage backlog。
+- Cost/risk: token cost 見積もり、destructive-operation risk、hook/MCP risk、
+  security scan state。
 
-Repo work:
+リポジトリ作業:
 
-- Keep `docs/architecture/observability-readiness.md` as the operator-facing
-  readiness gate.
-- Define a versioned HUD/status JSON contract that both ECC2 and ECC Tools can
-  consume.
-- Add sample exports from `loop-status`, `session-inspect`, harness audit, and
-  risk ledger into a fixture directory before building visual UI.
+- `docs/architecture/observability-readiness.md` を operator-facing readiness gate として維持する。
+- ECC2 と ECC Tools の両方が消費できる versioned HUD/status JSON contract を定義する。
+- visual UI を構築する前に、`loop-status`、`session-inspect`、harness audit、risk ledger からの sample exports を fixture directory に追加する。
 
-Verification:
+検証:
 
 - `npm run observability:ready`
-- fixture validation for every status payload
-- cross-platform smoke test for commands that read session history
+- すべての status payload に対する fixture validation
+- session history を読む commands の cross-platform smoke test
 
-### Self-Improving Harness Loop
+### 自己改善 Harness ループ (Self-Improving Harness Loop)
 
-Adopt from Meta-Harness, Autocontext, and Hermes Agent:
+Meta-Harness、Autocontext、Hermes Agent から採用:
 
-- Separate the loop into observation, proposal, verification, promotion, and
-  rollback.
-- Store every proposed improvement as trace plus artifact, not only as a final
-  changed file.
-- Promote playbooks only after a verifier proves that they improve a scenario
-  without widening blast radius.
-- Use RAG/reference sets for vetted ECC patterns, team history, CI failures,
-  review outcomes, harness config quality, and security decisions.
+- ループを observation、proposal、verification、promotion、rollback に分離する。
+- 提案された改善を最終的な変更ファイルだけでなく、trace plus artifact として保存する。
+- verifier が scenario を改善し、blast radius を広げないことを証明した後にのみ playbook を promote する。
+- vetted ECC patterns、team history、CI failures、review outcomes、harness config quality、security decisions 向けの RAG/reference sets を使用する。
 
-Repo work:
+リポジトリ作業:
 
-- `everything-claude-code`: document scenario specs, verifier contracts, and
-  playbook promotion rules.
-- `ECC-Tools`: map analyzer findings to PR comments, check runs, and Linear
-  tasks without flooding the workspace.
-- `agentshield`: feed prompt-injection and config-risk findings into regression
-  suites.
+- `everything-claude-code`: scenario specs、verifier contracts、playbook promotion rules を文書化する。
+- `ECC-Tools`: workspace を溢れさせずに analyzer findings を PR comments、check runs、Linear tasks にマップする。
+- `agentshield`: prompt-injection と config-risk findings を regression suites に供給する。
 
-Current prototype:
+現在のプロトタイプ:
 
-- `docs/architecture/evaluator-rag-prototype.md` defines the read-only
-  evaluator/RAG artifact contract.
-- `examples/evaluator-rag-prototype/` records the first scenario spec, trace,
-  report, candidate playbook, and verifier result for stale-PR salvage.
+- `docs/architecture/evaluator-rag-prototype.md` は read-only evaluator/RAG artifact contract を定義する。
+- `examples/evaluator-rag-prototype/` は stale-PR salvage 向けの最初の scenario spec、trace、report、candidate playbook、verifier result を記録する。
 
-Verification:
+検証:
 
-- read-only prototype that emits a trace, report, candidate playbook, and
-  verifier result
-- regression fixture proving a bad proposal is rejected
+- trace、report、candidate playbook、verifier result を出力する read-only prototype
+- bad proposal が拒否されることを証明する regression fixture
 
-### AgentShield Enterprise Security Platform
+### AgentShield Enterprise Security Platform (AgentShield Enterprise Security Platform)
 
-AgentShield should move from useful scanner to enterprise security platform.
+AgentShield は有用な scanner から enterprise security platform へ移行すべきである。
 
-Backlog shape:
+バックログの形:
 
-- Policy schema for org baseline, rule severity, owner, exception, expiration,
-  evidence, and audit trail.
-- SARIF output for GitHub code scanning.
-- Policy packs for OSS, team, enterprise, regulated, high-risk hooks/MCP, and
-  CI enforcement.
-- Supply-chain intelligence for MCP packages, npm/pip provenance, CVEs,
-  typosquats, and dependency reputation.
-- Prompt-injection corpus and regression benchmark.
-- JSON plus executive HTML/PDF report output.
+- org baseline、rule severity、owner、exception、expiration、
+  evidence、audit trail 向け policy schema。
+- GitHub code scanning 向け SARIF 出力。
+- OSS、team、enterprise、regulated、high-risk hooks/MCP、
+  CI enforcement 向け policy pack。
+- MCP package、npm/pip provenance、CVE、
+  typosquat、dependency reputation 向け supply-chain intelligence。
+- prompt-injection corpus と regression benchmark。
+- JSON および executive HTML/PDF report 出力。
 
-Verification:
+検証:
 
 - schema unit tests
 - SARIF fixture tests
 - policy-pack golden tests
-- false-positive regression tests from the public issue history
+- public issue history からの false-positive regression tests
 
-### ECC Tools Commercial And Review Platform
+### ECC Tools Commercial And Review Platform (ECC Tools Commercial And Review Platform)
 
-ECC Tools should become the GitHub-native layer for billing, deep analysis,
-PR checks, and Linear progress tracking.
+ECC Tools は billing、deep analysis、PR check、Linear progress tracking 向けの GitHub-native layer となるべきである。
 
-Backlog shape:
+バックログの形:
 
-- Native GitHub Marketplace billing audit before any payments announcement:
-  plans, seats, org/account mapping, subscription state, overage behavior,
-  downgrade/cancel behavior, and failure modes.
-- Deep analyzer comparable in scope to the useful parts of GitGuardian,
-  Dependabot, CodeRabbit, and Greptile: security evidence, dependency risk,
-  CI/CD recommendations, PR review behavior, config quality, token/cost risk,
-  and harness drift.
-- RAG/reference set over vetted ECC patterns, historical PR outcomes,
-  dependency advisories, CI failures, review decisions, and team-specific
-  conventions.
-- Linear sync that maps findings to project status, milestone evidence, and
-  owner-ready issues without exhausting issue limits.
+- payment 告知前の native GitHub Marketplace billing audit:
+  plan、seat、org/account mapping、subscription state、overage behavior、
+  downgrade/cancel behavior、failure mode。
+- GitGuardian、Dependabot、CodeRabbit、Greptile の有用部分に匹敵する deep analyzer:
+  security evidence、dependency risk、
+  CI/CD recommendation、PR review behavior、config quality、token/cost risk、
+  harness drift。
+- 検証済み ECC pattern、過去 PR outcome、
+  dependency advisory、CI failure、review decision、team 固有
+  convention 上の RAG/reference set。
+- finding を project status、milestone evidence、
+  owner-ready issue にマップし issue limit を枯渇させない Linear sync。
 
-Verification:
+検証:
 
 - check-run fixture tests
 - billing webhook replay tests
 - analyzer golden PR fixtures
 - Linear sync dry-run fixture
 
-### Closed-Stale Salvage Lane
+### Closed-Stale Salvage レーン (Closed-Stale Salvage Lane)
 
-Closing stale PRs keeps the public queue usable, but useful work should not be
-lost because a contributor no longer has time to rebase.
+stale PR を close することで public queue を使いやすく保つが、contributor が rebase する時間がなくなっただけで有用な作業を失ってはならない。
 
-Execution rule:
+実行ルール:
 
-1. Close stale, conflicted, or obsolete PRs with a clear courtesy comment.
-2. Record them in a salvage ledger with source PR, author, reason closed,
-   useful files/concepts, risk, and recommended maintainer action.
-3. After the cleanup batch, inspect each closed PR diff manually.
-4. Cherry-pick only when the patch still applies cleanly and preserves current
-   architecture. Otherwise reimplement the useful idea in a fresh maintainer
-   branch.
-5. Preserve attribution in the commit body or PR body.
-6. Comment back on the source PR when useful work lands, linking the maintainer
-   PR or merged commit.
-7. Mark the ledger item as landed, superseded, Linear-tracked, or no-action.
+1. stale、conflicted、または obsolete な PR を明確な courtesy comment 付きで close する。
+2. source PR、author、close 理由、有用 file/concept、risk、推奨 maintainer action を salvage ledger に記録する。
+3. cleanup batch の後、各 closed PR diff を手動で検査する。
+4. patch が clean に適用でき、現在のアーキテクチャを維持するときのみ cherry-pick する。それ以外は有用なアイデアを fresh maintainer branch で再実装する。
+5. commit body または PR body で attribution を保持する。
+6. 有用な作業が land したとき、maintainer PR または merged commit をリンクして source PR にコメントを返す。
+7. ledger item を landed、superseded、Linear-tracked、または no-action としてマークする。
 
-Required safeguards:
+必須の安全策:
 
-- Never blind cherry-pick generated churn, bulk localization, or dependency
-  major-version changes.
-- Prefer small maintainer PRs over one salvage megabranch.
-- Run the same validation gates as normal code, docs, or catalog changes.
-- Keep contributor credit even when the final implementation is rewritten.
+- generated churn、bulk localization、dependency major-version change を盲目的に cherry-pick しない。
+- 1つの salvage megabranch より小さな maintainer PR を優先する。
+- 通常の code、docs、catalog change と同じ validation gate を実行する。
+- 最終実装が書き直されても contributor credit を保持する。
 
-## Near-Term Implementation Order
+## 近い将来の実装順序 (Near-Term Implementation Order)
 
-1. Extend the harness adapter matrix and public scorecard onramp.
-2. Keep the release/name/plugin publication checklist current with fresh
-   final-commit evidence before rc.1 publication.
-3. Define the HUD/status JSON contract and fixture directory.
-4. Start AgentShield policy schema plus SARIF fixtures.
-5. Audit ECC Tools billing and check-run surfaces.
-6. Inventory legacy folders and closed-stale PRs into the salvage ledger.
-7. Port useful stale work in small attributed maintainer PRs.
+1. harness adapter matrix と public scorecard onramp を拡張する。
+2. rc.1 publication の前に fresh final-commit evidence で release/name/plugin publication checklist を最新に保つ。
+3. HUD/status JSON contract と fixture directory を定義する。
+4. AgentShield policy schema と SARIF fixtures を開始する。
+5. ECC Tools billing と check-run surfaces を監査する。
+6. legacy folders と closed-stale PRs を salvage ledger に棚卸しする。
+7. 有用な stale work を小さな attributed maintainer PR に移植する。
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-- Hosted telemetry before the local event model is useful and testable.
-- Automatic mutation of user harness configs without verifier evidence.
-- Treating any one agent harness as the canonical interface.
-- Release or payments announcements before command, package, marketplace, and
-  billing evidence is fresh.
+- local event model が有用でテスト可能になる前の hosted telemetry。
+- verifier evidence なしでの user harness configs の自動 mutation。
+- いずれか1つの agent harness を canonical interface として扱うこと。
+- command、package、marketplace、billing evidence が fresh になる前の release または payments announcements。

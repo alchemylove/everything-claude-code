@@ -1,35 +1,35 @@
 ---
-description: Fix React build failures (Vite, webpack, Next.js, CRA, Parcel, esbuild, Bun) incrementally — JSX/TSX compile errors, hydration mismatches, server/client component boundary failures, missing types. Invokes the react-build-resolver agent for minimal, surgical fixes.
+description: React のビルド失敗（Vite、webpack、Next.js、CRA、Parcel、esbuild、Bun）を段階的に修正する — JSX/TSX のコンパイルエラー、hydration mismatch、server/client component boundary の失敗、型不足。最小限の surgical fix のため react-build-resolver agent を起動する。
 ---
 
-# React Build and Fix
+# React ビルドと修正 (React Build and Fix)
 
-This command invokes the **react-build-resolver** agent to incrementally fix React build errors with minimal changes.
+このコマンドは **react-build-resolver** agent を起動し、最小限の変更で React のビルドエラーを段階的に修正する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Detect Build System**: Identify Vite, webpack, Next.js, CRA, Parcel, esbuild, or Bun
-2. **Run Build**: Execute the project's build script
-3. **Parse Errors**: Group by layer (TypeScript / bundler config / runtime / hydration)
-4. **Fix Incrementally**: One error at a time, re-running build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **ビルドシステムの検出**: Vite、webpack、Next.js、CRA、Parcel、esbuild、Bun を識別
+2. **ビルドの実行**: プロジェクトの build script を実行
+3. **エラーの解析**: レイヤー別にグループ化（TypeScript / bundler config / runtime / hydration）
+4. **段階的な修正**: 1 件ずつ修正し、変更のたびにビルドを再実行
+5. **サマリーの報告**: 修正内容と残件を表示
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/react-build` when:
+`/react-build` を使う場面:
 
-- `npm run build` (or pnpm/yarn/bun equivalent) fails
-- JSX/TSX compile errors after a TypeScript or React upgrade
-- Next.js hydration mismatch errors at runtime
-- Server/Client Component boundary errors in App Router
-- After installing or upgrading `react`, `react-dom`, `@types/react`, or a bundler
-- Missing types or "module not found" errors involving React
+- `npm run build`（または pnpm/yarn/bun 相当）が失敗したとき
+- TypeScript または React のアップグレード後に JSX/TSX のコンパイルエラーが出たとき
+- 実行時に Next.js の hydration mismatch エラーが出たとき
+- App Router で Server/Client Component boundary エラーが出たとき
+- `react`、`react-dom`、`@types/react`、または bundler のインストール・アップグレード後
+- React 関連の型不足や "module not found" エラー
 
-## Scope
+## スコープ (Scope)
 
-This command owns **React build/bundler/runtime hydration** failures. For pure TypeScript type errors with no React involvement, use `/build-fix` (generic) instead.
+このコマンドは **React の build/bundler/runtime hydration** 失敗を担当する。React を介さない純粋な TypeScript の型エラーには、代わりに `/build-fix`（汎用）を使う。
 
-## Diagnostic Commands Run
+## 実行する診断コマンド (Diagnostic Commands Run)
 
 ```bash
 # Project build script (preferred)
@@ -51,7 +51,7 @@ parcel build src/index.html         # Parcel
 bun build ./src/index.tsx --outdir=dist
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /react-build
@@ -142,7 +142,7 @@ $ npm test
 Build Status: PASS: SUCCESS
 ````
 
-## Common Errors Fixed
+## よくあるエラーと修正 (Common Errors Fixed)
 
 | Error | Typical Fix |
 |---|---|
@@ -155,32 +155,32 @@ Build Status: PASS: SUCCESS
 | `Invalid hook call` | Multiple React copies — dedupe via `resolutions`/`overrides` |
 | `Element type is invalid` | Default vs named import mismatch |
 
-## Fix Strategy
+## 修正戦略 (Fix Strategy)
 
-1. **Compile errors first** — code must build
-2. **Hydration errors second** — affects production correctness
-3. **Bundler config third** — restore plugin/loader correctness
-4. **One fix at a time** — verify each change
-5. **Minimal changes** — never `// @ts-ignore` without explanation
-6. **Re-run after each fix** — surface new errors immediately
+1. **コンパイルエラーを最優先** — コードはビルドできる必要がある
+2. **Hydration エラーを次に** — 本番の正確性に影響する
+3. **Bundler config をその次** — plugin/loader の正しさを復元
+4. **1 件ずつ修正** — 各変更を検証
+5. **最小限の変更** — 説明なしの `// @ts-ignore` は使わない
+6. **修正のたびに再実行** — 新しいエラーをすぐ表面化させる
 
-## Stop Conditions
+## 停止条件 (Stop Conditions)
 
-The agent will stop and report if:
+agent は次の場合に停止して報告する:
 
-- Same error persists after 3 attempts
-- Fix introduces more errors than it resolves
-- Requires architectural change beyond build resolution (e.g., redesigning the RSC boundary)
-- Bundler version no longer supports the installed React major
+- 同じエラーが 3 回試行後も残る
+- 修正が解消したエラーより多くのエラーを導入した
+- build resolution を超えるアーキテクチャ変更が必要（例: RSC boundary の再設計）
+- bundler のバージョンがインストール済み React major をサポートしなくなった
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/react-test` — run tests after the build is green
-- `/react-review` — review code quality after the build succeeds
-- `/build-fix` — generic build fixer (non-React)
-- `verification-loop` skill — full verification loop
+- `/react-test` — ビルドが通ったあとにテストを実行
+- `/react-review` — ビルド成功後にコード品質をレビュー
+- `/build-fix` — 汎用ビルド修正（非 React）
+- `verification-loop` skill — フル verification loop
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/react-build-resolver.md`
 - Skills: `skills/react-patterns/`, `skills/frontend-patterns/`

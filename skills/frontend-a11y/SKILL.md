@@ -11,7 +11,7 @@ origin: community
 
 Practical accessibility patterns for React and Next.js. Covers the issues most commonly flagged in code review: missing form labels, incorrect ARIA usage, non-semantic interactive elements, and broken keyboard navigation.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Building or reviewing form components (`<input>`, `<select>`, `<textarea>`)
 - Creating interactive elements (modals, dropdowns, tooltips, tabs)
@@ -21,7 +21,7 @@ Practical accessibility patterns for React and Next.js. Covers the issues most c
 - Receiving accessibility feedback from code review tools (CodeRabbit, ESLint a11y)
 - Building components that must support screen readers
 
-## Form Accessibility
+## フォームのアクセシビリティ (Form Accessibility)
 
 Missing `htmlFor` / `id` pairing and disconnected error messages are the most common issues flagged in code review.
 
@@ -147,7 +147,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
 }
 ```
 
-## Semantic HTML
+## セマンティック HTML (Semantic HTML)
 
 Use the element that matches the intent. Screen readers and keyboard users depend on native semantics.
 
@@ -177,7 +177,7 @@ Use the element that matches the intent. Screen readers and keyboard users depen
 <h2>Recent Activity</h2>
 ```
 
-## ARIA Attributes
+## ARIA 属性 (ARIA Attributes)
 
 Use ARIA only when native HTML semantics are insufficient. Wrong ARIA is worse than no ARIA.
 
@@ -245,7 +245,7 @@ export function Accordion({ title, children }: { title: string; children: React.
 }
 ```
 
-## Keyboard Navigation
+## キーボードナビゲーション (Keyboard Navigation)
 
 Every interactive element must be reachable and operable by keyboard alone.
 
@@ -314,7 +314,7 @@ export function Dropdown({ options, onSelect }: { options: string[]; onSelect: (
 }
 ```
 
-## Focus Management
+## フォーカス管理 (Focus Management)
 
 Focus must move logically when UI state changes — especially for modals and route transitions.
 
@@ -350,7 +350,7 @@ export function Modal({ isOpen, onClose, title, children }: { isOpen: boolean; o
 }
 ```
 
-## Images and Icons
+## 画像とアイコン (Images and Icons)
 
 ```tsx
 // BAD: decorative icon announced as unlabeled image
@@ -368,7 +368,7 @@ export function Modal({ isOpen, onClose, title, children }: { isOpen: boolean; o
 </button>
 ```
 
-## Reduced Motion
+## モーション削減 (Reduced Motion)
 
 Respect users who have requested reduced motion in their OS settings.
 
@@ -403,7 +403,7 @@ export function AnimatedCard({ children }: { children: React.ReactNode }) {
 }
 ```
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 ```tsx
 // BAD: onClick on non-interactive element with no keyboard support
@@ -426,7 +426,7 @@ export function AnimatedCard({ children }: { children: React.ReactNode }) {
 // Missing: tabIndex={0}, onKeyDown for Enter/Space
 ```
 
-## Checklist
+## チェックリスト (Checklist)
 
 Before submitting any interactive component for review:
 
@@ -439,7 +439,7 @@ Before submitting any interactive component for review:
 - [ ] Dynamic content updates use `aria-live`
 - [ ] `prefers-reduced-motion` is respected for animations
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - `frontend-patterns` — general React component and state patterns
 - `design-system` — design token and component consistency

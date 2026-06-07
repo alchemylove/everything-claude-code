@@ -4,78 +4,78 @@ description: Evidence-first live messaging workflow for ECC. Use when the user w
 origin: ECC
 ---
 
-# Messages Ops
+# メッセージ運用 (Messages Ops)
 
-Use this when the task is live-message retrieval: iMessage, DMs, recent one-time codes, or thread inspection before a follow-up.
+タスクがライブメッセージ取得（iMessage、DM、最近のワンタイムコード、フォローアップ前のスレッド検査）のときに使用する。
 
-This is not email work. If the dominant surface is a mailbox, use `email-ops`.
+これはメール作業ではない。主なサーフェスがメールボックスなら `email-ops` を使用する。
 
-## Skill Stack
+## スキルスタック (Skill Stack)
 
-Pull these ECC-native skills into the workflow when relevant:
+関連する場合はこれらの ECC ネイティブスキルをワークフローに取り込む:
 
-- `email-ops` when the message task is really mailbox work
-- `connections-optimizer` when the DM thread belongs to outbound network work
-- `lead-intelligence` when the live thread should inform targeting or warm-path outreach
-- `knowledge-ops` when the thread contents need to be captured into durable context
+- メッセージタスクが実質メールボックス作業の場合は `email-ops`
+- DM スレッドがアウトバウンドネットワーク作業に属する場合は `connections-optimizer`
+- ライブスレッドがターゲティングやウォームパスアウトリーチに資する場合は `lead-intelligence`
+- スレッド内容を永続コンテキストに取り込む必要がある場合は `knowledge-ops`
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- user says "read my messages", "check texts", "look in DMs", or "find the code"
-- the task depends on a live thread or a recent code delivered to a local messaging surface
-- the user wants proof of which source or thread was inspected
+- ユーザーが「メッセージを読んで」「テキストを確認」「DM を見て」「コードを探して」と言うとき
+- タスクがライブスレッドまたはローカルメッセージングサーフェスに届いた最近のコードに依存するとき
+- どのソースまたはスレッドを検査したかの証明が欲しいとき
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- resolve the source first:
-  - local messages
-  - X / social DM
-  - another browser-gated message surface
-- do not claim a thread was checked without naming the source
-- do not improvise raw database access if a checked helper or standard path exists
-- if auth or MFA blocks the surface, report the exact blocker
+- ソースを先に解決する:
+  - ローカルメッセージ
+  - X / ソーシャル DM
+  - 別のブラウザゲート付きメッセージサーフェス
+- ソースを名指しせずにスレッドを確認したと主張しない
+- 確認済みヘルパーや標準パスがある場合、生の DB アクセスを即興で行わない
+- 認証や MFA がサーフェスをブロックする場合、正確なブロッカーを報告する
 
-## Workflow
+## ワークフロー (Workflow)
 
-### 1. Resolve the exact thread
+### 1. 正確なスレッドを解決する (1. Resolve the exact thread)
 
-Before doing anything else, settle:
+他の作業の前に次を確定する:
 
-- message surface
-- sender / recipient / service
-- time window
-- whether the task is retrieval, inspection, or prep for a reply
+- メッセージサーフェス
+- 送信者 / 受信者 / サービス
+- 時間窓
+- タスクが取得、検査、返信準備のいずれか
 
-### 2. Read before drafting
+### 2. 草案の前に読む (2. Read before drafting)
 
-If the task may turn into an outbound follow-up:
+タスクがアウトバウンドフォローアップになり得る場合:
 
-- read the latest inbound
-- identify the open loop
-- then hand off to the correct outbound skill if needed
+- 最新の受信を読む
+- オープンループを特定する
+- 必要なら正しいアウトバウンドスキルへ引き渡す
 
-### 3. Handle codes as a focused retrieval task
+### 3. コードを集中取得タスクとして扱う (3. Handle codes as a focused retrieval task)
 
-For one-time codes:
+ワンタイムコード向け:
 
-- search the recent local message window first
-- narrow by service or sender when possible
-- stop once the code is found or the focused search is exhausted
+- まず最近のローカルメッセージ窓を検索する
+- 可能ならサービスまたは送信者で絞る
+- コードが見つかるか、集中検索が尽きたら停止する
 
-### 4. Report exact evidence
+### 4. 正確な証拠を報告する (4. Report exact evidence)
 
-Return:
+返すもの:
 
-- source used
-- thread or sender when possible
-- time window
-- exact status:
+- 使用したソース
+- 可能ならスレッドまたは送信者
+- 時間窓
+- 正確なステータス:
   - read
   - code-found
   - blocked
   - awaiting reply draft
 
-## Output Format
+## 出力形式 (Output Format)
 
 ```text
 SOURCE
@@ -90,15 +90,15 @@ STATUS
 - read / code-found / blocked / awaiting reply draft
 ```
 
-## Pitfalls
+## 落とし穴 (Pitfalls)
 
-- do not blur mailbox work and DM/text work
-- do not claim retrieval without naming the source
-- do not burn time on broad searches when the ask is a recent-code lookup
-- do not keep retrying a blocked auth path without surfacing the blocker
+- メールボックス作業と DM/テキスト作業を混同しない
+- ソースを名指しせずに取得したと主張しない
+- 最近のコード検索の依頼なのに広い検索に時間を使わない
+- ブロッカーを表に出さずにブロックされた認証パスをリトライし続けない
 
-## Verification
+## 検証 (Verification)
 
-- the response names the message source
-- the response includes a sender, service, thread, or clear blocker
-- the final state is explicit and bounded
+- レスポンスがメッセージソースを名指ししている
+- レスポンスに送信者、サービス、スレッド、または明確なブロッカーが含まれる
+- 最終状態が明示的で境界がはっきりしている

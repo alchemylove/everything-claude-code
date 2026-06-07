@@ -6,11 +6,11 @@ origin: ECC
 
 # Ralphinho RFC Pipeline
 
-Inspired by [humanplane](https://github.com/humanplane) style RFC decomposition patterns and multi-unit orchestration workflows.
+[humanplane](https://github.com/humanplane) スタイルのRFC分解パターンと複数ユニットオーケストレーションワークフローにインスパイア。
 
-Use this skill when a feature is too large for a single agent pass and must be split into independently verifiable work units.
+単一エージェントパスでは大きすぎる機能を独立して検証可能なワークユニットに分割する必要がある場合、このスキルを使用します。
 
-## Pipeline Stages
+## パイプライン段階 (Pipeline Stages)
 
 1. RFC intake
 2. DAG decomposition
@@ -20,9 +20,9 @@ Use this skill when a feature is too large for a single agent pass and must be s
 6. Merge queue and integration
 7. Final system verification
 
-## Unit Spec Template
+## ユニット仕様テンプレート (Unit Spec Template)
 
-Each work unit should include:
+各ワークユニットに含める：
 - `id`
 - `depends_on`
 - `scope`
@@ -30,13 +30,13 @@ Each work unit should include:
 - `risk_level`
 - `rollback_plan`
 
-## Complexity Tiers
+## 複雑度ティア (Complexity Tiers)
 
 - Tier 1: isolated file edits, deterministic tests
 - Tier 2: multi-file behavior changes, moderate integration risk
 - Tier 3: schema/auth/perf/security changes
 
-## Quality Pipeline per Unit
+## ユニットごとの品質パイプライン (Quality Pipeline per Unit)
 
 1. research
 2. implementation plan
@@ -45,21 +45,21 @@ Each work unit should include:
 5. review
 6. merge-ready report
 
-## Merge Queue Rules
+## マージキュールール (Merge Queue Rules)
 
 - Never merge a unit with unresolved dependency failures.
 - Always rebase unit branches on latest integration branch.
 - Re-run integration tests after each queued merge.
 
-## Recovery
+## リカバリ (Recovery)
 
-If a unit stalls:
+ユニットが stall した場合：
 - evict from active queue
 - snapshot findings
 - regenerate narrowed unit scope
 - retry with updated constraints
 
-## Outputs
+## 出力 (Outputs)
 
 - RFC execution log
 - unit scorecards

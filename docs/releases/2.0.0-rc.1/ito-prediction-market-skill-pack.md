@@ -1,78 +1,64 @@
-# Itô Prediction-Market Skill Pack
+# Itô 予測市場 Skill パック (Itô Prediction-Market Skill Pack)
 
-This rc.1 note records a public teaser skill pack that connects ECC's skill
-distribution loop with Itô prediction-market workflows while keeping the two
-businesses separate.
+この rc.1 note は、2つのビジネスを分離したまま ECC の skill 配布ループと Itô 予測市場 workflow を接続する公開 teaser skill pack を記録する。
 
-ECC remains the open agent-harness substrate and ECC Tools remains the hosted
-GitHub App / Pro surface. Itô remains a separate prediction-market basket
-business. The link is distribution: ECC can ship reusable skills that make
-agents better at researching, comparing, explaining, and planning around
-prediction-market baskets. Live Itô API access stays gated.
+ECC は open agent-harness substrate のまま、ECC Tools は hosted GitHub App / Pro surface のままである。Itô は別の予測市場バスケットビジネスである。リンクは配布である: ECC は予測市場バスケットの調査、比較、説明、計画を agent がより得意にする再利用可能 skill を出荷できる。live Itô API アクセスはゲートされたままである。
 
-## Included Skills
+## 含まれる Skill (Included Skills)
 
-| Skill | Use |
+| Skill | 用途 (Use) |
 | --- | --- |
-| `ito-market-intelligence` | Source-grounded event, underlier, venue, liquidity, and news context |
-| `ito-basket-compare` | Compare baskets against a knowledge base, portfolio notes, financial context, or thesis |
-| `ito-trade-planner` | Build a manual, non-advisory worksheet for market and venue review |
-| `ito-data-atlas-agent` | Design background research/drafting agents with human edit points |
-| `prediction-market-oracle-research` | Treat prediction markets as data/oracle inputs for agents and decision intelligence |
-| `prediction-market-risk-review` | Review advice, venue, security, privacy, and execution boundaries |
+| `ito-market-intelligence` | ソース根拠のある event、underlier、venue、流動性、ニュース context |
+| `ito-basket-compare` | バスケットを knowledge base、portfolio note、financial context、thesis と比較 |
+| `ito-trade-planner` | market と venue レビュー向けの手動・非助言 worksheet を構築 |
+| `ito-data-atlas-agent` | 人間の編集ポイント付き background research/drafting agent を設計 |
+| `prediction-market-oracle-research` | 予測市場を agent と decision intelligence 向け data/oracle 入力として扱う |
+| `prediction-market-risk-review` | 助言、venue、security、privacy、execution 境界をレビュー |
 
-## Access Model
+## アクセスモデル (Access Model)
 
-The public skills work without Itô credentials for research and planning. Any
-Itô-backed call requires explicit gated access:
+公開 skill は調査と計画に Itô 認証情報なしで動作する。Itô 連携呼び出しには明示的なゲート済みアクセスが必要:
 
 ```bash
 export ITO_API_KEY=...
 ```
 
-Do not include live keys, account data, positions, private strategy, or venue
-credentials in public docs, prompts, commits, slide decks, or support tickets.
+live key、account データ、position、private strategy、venue 認証情報を公開 doc、prompt、commit、slide deck、support ticket に含めないこと。
 
-Suggested public CTA:
+推奨公開 CTA:
 
-> The Itô skill pack works as public research/planning workflows today. DM or
-> request access for the Itô API key if you want live basket data.
+> Itô skill pack は今日、公開の research/planning workflow として動作する。live basket データが必要なら DM または Itô API key のアクセスをリクエストしてください。
 
-## Non-Advisory Boundary
+## 非助言境界 (Non-Advisory Boundary)
 
-These skills do not provide investment, legal, tax, or trading advice. They do
-not place trades. They can help a user:
+これらの skill は投資、法律、税務、取引助言を提供しない。取引は実行しない。ユーザーが次を行うのを助けられる:
 
-- inspect markets and underliers;
-- compare a basket against their own notes or constraints;
-- understand resolution and venue mechanics;
-- use prediction-market signals as one input to a broader research process;
-- draft a manual worksheet the user can review themselves.
+- market と underlier を検査する;
+- バスケットを自分の note や制約と比較する;
+- resolution と venue mechanics を理解する;
+- 予測市場シグナルをより広い調査プロセスの1入力として使う;
+- ユーザー自身がレビューできる手動 worksheet を下書きする。
 
-## Growth Loop
+## グロースループ (Growth Loop)
 
-For the general product-integration contract, see
-[`docs/architecture/platform-value-loop.md`](../../architecture/platform-value-loop.md).
+一般的な product-integration 契約は [`docs/architecture/platform-value-loop.md`](../../architecture/platform-value-loop.md) を参照。
 
-The loop is intentionally simple:
+ループは意図的に単純である:
 
-1. ECC users discover useful public prediction-market skills.
-2. Builders run the skills with public sources and see the Itô-shaped workflow.
-3. Serious users request gated API access for live Itô basket data.
-4. Itô usage creates more operator patterns.
-5. Sanitized patterns can become new ECC skills.
+1. ECC ユーザーが有用な公開予測市場 skill を発見する。
+2. builder が公開ソースで skill を実行し、Itô 型 workflow を見る。
+3. 本気のユーザーが live Itô basket データ向けにゲート済み API アクセスをリクエストする。
+4. Itô 利用がより多くの operator pattern を生む。
+5. サニタイズ済み pattern が新しい ECC skill になりうる。
 
-This sends agent/tooling traffic toward Itô without making ECC Tools look like
-an Itô product or mixing subscription ownership between businesses.
+これは ECC Tools を Itô 製品に見せず、ビジネス間の subscription 所有権を混ぜずに agent/tooling トラフィックを Itô に向ける。
 
-## Useful Chain
+## 有用なチェーン (Useful Chain)
 
-For a full workflow, chain:
+フル workflow では次をチェーンする:
 
-`deep-research` -> `x-api` or `exa-search` -> `ito-market-intelligence` ->
+`deep-research` -> `x-api` または `exa-search` -> `ito-market-intelligence` ->
 `ito-basket-compare` -> `prediction-market-risk-review` ->
 `ito-trade-planner`
 
-For corporate or industry use cases, replace trade planning with
-`prediction-market-oracle-research` and route the output into a dashboard,
-decision memo, or agent memory record.
+企業または業界ユースケースでは、trade planning を `prediction-market-oracle-research` に置き換え、出力を dashboard、decision memo、agent memory record にルーティングする。

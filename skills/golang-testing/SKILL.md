@@ -8,7 +8,7 @@ origin: ECC
 
 Comprehensive Go testing patterns for writing reliable, maintainable tests following TDD methodology.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Writing new Go functions or methods
 - Adding test coverage to existing code
@@ -16,7 +16,7 @@ Comprehensive Go testing patterns for writing reliable, maintainable tests follo
 - Implementing fuzz tests for input validation
 - Following TDD workflow in Go projects
 
-## TDD Workflow for Go
+## Go の TDD ワークフロー (TDD Workflow for Go)
 
 ### The RED-GREEN-REFACTOR Cycle
 
@@ -69,7 +69,7 @@ func Add(a, b int) int {
 // Step 6: Refactor if needed, verify tests still pass
 ```
 
-## Table-Driven Tests
+## テーブル駆動テスト (Table-Driven Tests)
 
 The standard pattern for Go tests. Enables comprehensive coverage with minimal code.
 
@@ -154,7 +154,7 @@ func TestParseConfig(t *testing.T) {
 }
 ```
 
-## Subtests and Sub-benchmarks
+## サブテストとサブベンチマーク (Subtests and Sub-benchmarks)
 
 ### Organizing Related Tests
 
@@ -219,7 +219,7 @@ func TestParallel(t *testing.T) {
 }
 ```
 
-## Test Helpers
+## テストヘルパー (Test Helpers)
 
 ### Helper Functions
 
@@ -285,7 +285,7 @@ func TestFileProcessing(t *testing.T) {
 }
 ```
 
-## Golden Files
+## ゴールデンファイル (Golden Files)
 
 Testing against expected output files stored in `testdata/`.
 
@@ -328,7 +328,7 @@ func TestRender(t *testing.T) {
 }
 ```
 
-## Mocking with Interfaces
+## インターフェースによるモック (Mocking with Interfaces)
 
 ### Interface-Based Mocking
 
@@ -385,7 +385,7 @@ func TestUserService(t *testing.T) {
 }
 ```
 
-## Benchmarks
+## ベンチマーク (Benchmarks)
 
 ### Basic Benchmarks
 
@@ -519,7 +519,7 @@ func FuzzCompare(f *testing.F) {
 }
 ```
 
-## Test Coverage
+## テストカバレッジ (Test Coverage)
 
 ### Running Coverage
 
@@ -558,7 +558,7 @@ go test -race -coverprofile=coverage.out ./...
 // go test -cover -tags=!generate ./...
 ```
 
-## HTTP Handler Testing
+## HTTP ハンドラーのテスト (HTTP Handler Testing)
 
 ```go
 func TestHealthHandler(t *testing.T) {
@@ -641,7 +641,7 @@ func TestAPIHandler(t *testing.T) {
 }
 ```
 
-## Testing Commands
+## テストコマンド (Testing Commands)
 
 ```bash
 # Run all tests
@@ -678,7 +678,7 @@ go test -fuzz=FuzzParse -fuzztime=30s ./...
 go test -count=10 ./...
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
 **DO:**
 - Write tests FIRST (TDD)
@@ -696,7 +696,7 @@ go test -count=10 ./...
 - Mock everything (prefer integration tests when possible)
 - Skip error path testing
 
-## Integration with CI/CD
+## CI/CD との統合 (Integration with CI/CD)
 
 ```yaml
 # GitHub Actions example

@@ -4,22 +4,22 @@ paths:
   - "**/pubspec.yaml"
   - "**/analysis_options.yaml"
 ---
-# Dart/Flutter Coding Style
+# Dart/Flutter コーディングスタイル (Dart/Flutter Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Dart and Flutter-specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Dart および Flutter 固有の内容を追加する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **dart format** for all `.dart` files — enforced in CI (`dart format --set-exit-if-changed .`)
-- Line length: 80 characters (dart format default)
-- Trailing commas on multi-line argument/parameter lists to improve diffs and formatting
+- すべての `.dart` ファイルに **dart format** を使う — CI で強制（`dart format --set-exit-if-changed .`）
+- 行長: 80 文字（dart format のデフォルト）
+- 複数行の引数/パラメータリストには末尾カンマを付け、diff とフォーマットを改善する
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer `final` for local variables and `const` for compile-time constants
-- Use `const` constructors wherever all fields are `final`
-- Return unmodifiable collections from public APIs (`List.unmodifiable`, `Map.unmodifiable`)
-- Use `copyWith()` for state mutations in immutable state classes
+- ローカル変数には `final`、コンパイル時定数には `const` を優先する
+- すべてのフィールドが `final` の場合は `const` コンストラクタを使う
+- public API からは変更不可コレクションを返す（`List.unmodifiable`、`Map.unmodifiable`）
+- 不変 state クラスの state 変更には `copyWith()` を使う
 
 ```dart
 // BAD
@@ -31,21 +31,21 @@ final count = 0;
 const items = ['a', 'b'];
 ```
 
-## Naming
+## 命名 (Naming)
 
-Follow Dart conventions:
-- `camelCase` for variables, parameters, and named constructors
-- `PascalCase` for classes, enums, typedefs, and extensions
-- `snake_case` for file names and library names
-- `SCREAMING_SNAKE_CASE` for constants declared with `const` at top level
-- Prefix private members with `_`
-- Extension names describe the type they extend: `StringExtensions`, not `MyHelpers`
+Dart の規約に従う:
+- 変数、パラメータ、named constructor には `camelCase`
+- クラス、enum、typedef、extension には `PascalCase`
+- ファイル名とライブラリ名には `snake_case`
+- トップレベルの `const` 定数には `SCREAMING_SNAKE_CASE`
+- private メンバーには `_` プレフィックス
+- extension 名は拡張する型を表す: `StringExtensions` であり `MyHelpers` ではない
 
 ## Null Safety
 
-- Avoid `!` (bang operator) — prefer `?.`, `??`, `if (x != null)`, or Dart 3 pattern matching; reserve `!` only where a null value is a programming error and crashing is the right behaviour
-- Avoid `late` unless initialization is guaranteed before first use (prefer nullable or constructor init)
-- Use `required` for constructor parameters that must always be provided
+- `!`（bang operator）は避ける — `?.`、`??`、`if (x != null)`、または Dart 3 の pattern matching を優先する。`!` は null がプログラミングエラーでありクラッシュが正しい挙動の場合のみ使う
+- 初回使用前に初期化が保証されない限り `late` は避ける（nullable または constructor init を優先）
+- 常に提供される必要がある constructor パラメータには `required` を使う
 
 ```dart
 // BAD — crashes at runtime if user is null
@@ -67,9 +67,9 @@ String getUserName(User? user) {
 }
 ```
 
-## Sealed Types and Pattern Matching (Dart 3+)
+## Sealed Types と Pattern Matching（Dart 3+）(Sealed Types and Pattern Matching (Dart 3+))
 
-Use sealed classes to model closed state hierarchies:
+closed state 階層をモデル化するには sealed class を使う:
 
 ```dart
 sealed class AsyncState<T> {
@@ -91,7 +91,7 @@ final class Failure<T> extends AsyncState<T> {
 }
 ```
 
-Always use exhaustive `switch` with sealed types — no default/wildcard:
+sealed types では常に網羅的な `switch` を使う — default/wildcard は使わない:
 
 ```dart
 // BAD
@@ -105,12 +105,12 @@ return switch (state) {
 };
 ```
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Specify exception types in `on` clauses — never use bare `catch (e)`
-- Never catch `Error` subtypes — they indicate programming bugs
-- Use `Result`-style types or sealed classes for recoverable errors
-- Avoid using exceptions for control flow
+- `on` 句で exception 型を指定する — 裸の `catch (e)` は使わない
+- `Error` サブタイプは catch しない — プログラミングバグを示す
+- 回復可能なエラーには `Result` スタイルの型または sealed class を使う
+- 制御フローに exception を使わない
 
 ```dart
 // BAD
@@ -132,10 +132,10 @@ try {
 
 ## Async / Futures
 
-- Always `await` Futures or explicitly call `unawaited()` to signal intentional fire-and-forget
-- Never mark a function `async` if it never `await`s anything
-- Use `Future.wait` / `Future.any` for concurrent operations
-- Check `context.mounted` before using `BuildContext` after any `await` (Flutter 3.7+)
+- Future は常に `await` するか、意図的な fire-and-forget であることを示すために明示的に `unawaited()` を呼ぶ
+- 何も `await` しない関数を `async` にしない
+- 並行操作には `Future.wait` / `Future.any` を使う
+- 任意の `await` の後に `BuildContext` を使う前に `context.mounted` を確認する（Flutter 3.7+）
 
 ```dart
 // BAD — ignoring Future
@@ -146,14 +146,14 @@ unawaited(fetchData()); // explicit fire-and-forget
 await fetchData();      // or properly awaited
 ```
 
-## Imports
+## インポート (Imports)
 
-- Use `package:` imports throughout — never relative imports (`../`) for cross-feature or cross-layer code
-- Order: `dart:` → external `package:` → internal `package:` (same package)
-- No unused imports — `dart analyze` enforces this with `unused_import`
+- 全体で `package:` import を使う — cross-feature や cross-layer のコードに relative import（`../`）は使わない
+- 順序: `dart:` → 外部 `package:` → 内部 `package:`（同一 package）
+- 未使用 import は禁止 — `dart analyze` が `unused_import` で強制する
 
-## Code Generation
+## コード生成 (Code Generation)
 
-- Generated files (`.g.dart`, `.freezed.dart`, `.gr.dart`) must be committed or gitignored consistently — pick one strategy per project
-- Never manually edit generated files
-- Keep generator annotations (`@JsonSerializable`, `@freezed`, `@riverpod`, etc.) on the canonical source file only
+- 生成ファイル（`.g.dart`、`.freezed.dart`、`.gr.dart`）はコミットするか gitignore するかを一貫させる — プロジェクトごとに 1 つの戦略を選ぶ
+- 生成ファイルを手動編集しない
+- generator アノテーション（`@JsonSerializable`、`@freezed`、`@riverpod` など）は canonical source ファイルのみに置く

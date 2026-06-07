@@ -6,17 +6,17 @@ origin: community
 
 # Social Publisher (SocialClaw)
 
-Connects Claude Code to [SocialClaw](https://getsocialclaw.com) for agent-driven social media publishing across 13 platforms through a single workspace API key.
+Claude Code を [SocialClaw](https://getsocialclaw.com) に接続し、単一 workspace API key で 13 プラットフォームへ agent 駆動 publishing を行う。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- publish content to X, LinkedIn, Instagram, TikTok, or other platforms
-- schedule a post campaign across multiple platforms at once
-- upload media for use in social posts
-- validate a post schedule before going live
-- monitor publishing run status and delivery analytics
+- X、LinkedIn、Instagram、TikTok などへ content を publish
+- 複数プラットフォームへ同時 post campaign をスケジュール
+- social post 用 media を upload
+- 公開前に post schedule を検証
+- publishing run status と配信 analytics を監視
 
-## Setup
+## セットアップ (Setup)
 
 ```bash
 # Required: workspace API key from https://getsocialclaw.com/dashboard
@@ -30,26 +30,26 @@ npm install -g socialclaw@0.1.12
 socialclaw login --api-key <workspace-key>
 ```
 
-## Core Workflow
+## コアワークフロー (Core Workflow)
 
-### 1. List connected accounts
+### 1. 接続済み account を一覧
 ```bash
 socialclaw accounts list --json
 ```
 
-If not connected:
+未接続の場合:
 ```bash
 socialclaw accounts connect --provider x --open
 socialclaw accounts connect --provider linkedin --open
 ```
 
-### 2. Upload media (optional)
+### 2. media を upload（任意）
 ```bash
 socialclaw assets upload --file ./image.png --json
 # → { "asset_id": "..." }
 ```
 
-### 3. Build schedule.json
+### 3. schedule.json を構築
 ```json
 {
   "posts": [
@@ -63,24 +63,24 @@ socialclaw assets upload --file ./image.png --json
 }
 ```
 
-### 4. Validate before publishing
+### 4. 公開前に validate
 ```bash
 socialclaw validate -f schedule.json --json
 ```
 
-### 5. Publish
+### 5. 公開
 ```bash
 socialclaw apply -f schedule.json --json
 # → { "run_id": "..." }
 ```
 
-### 6. Monitor
+### 6. 監視
 ```bash
 socialclaw status --run-id <run-id> --json
 socialclaw posts list --json
 ```
 
-## Supported Providers
+## 対応 Provider (Supported Providers)
 
 | Provider | Key |
 |----------|-----|
@@ -98,18 +98,18 @@ socialclaw posts list --json
 | Telegram | `telegram` |
 | Pinterest | `pinterest` |
 
-## Security
+## セキュリティ (Security)
 
-- Outbound requests go to `getsocialclaw.com` only
-- Provider OAuth is in the SocialClaw dashboard — no per-provider secrets exposed to the agent
-- `SC_API_KEY` is a workspace-scoped key
+- 外向き request は `getsocialclaw.com` のみ
+- Provider OAuth は SocialClaw dashboard 内 — agent に per-provider secret は露出しない
+- `SC_API_KEY` は workspace スコープ key
 
-## Related Skills
+## 関連 Skill (Related Skills)
 
-- `x-api` — direct X/Twitter API operations
-- `social-graph-ranker` — network analysis for outreach targeting
+- `x-api` — 直接 X/Twitter API 操作
+- `social-graph-ranker` — outreach targeting 向け network 分析
 
-## Source
+## ソース (Source)
 
 - npm: `npm install -g socialclaw@0.1.12`
 - Dashboard: [SocialClaw dashboard](https://getsocialclaw.com/dashboard)

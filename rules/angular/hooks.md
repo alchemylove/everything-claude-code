@@ -7,19 +7,19 @@ paths:
   - "**/*.pipe.ts"
   - "**/*.spec.ts"
 ---
-# Angular Hooks
+# Angular フック (Angular Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Angular specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Angular 固有の内容を追加する。
 
-## PostToolUse Hooks
+## PostToolUse フック (PostToolUse Hooks)
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定してください:
 
-- **Prettier**: Auto-format `.ts` and `.html` files after edit
-- **ESLint / ng lint**: Run `ng lint` after editing Angular source files to catch decorator misuse, template errors, and style violations
-- **TypeScript check**: Run `tsc --noEmit` after editing `.ts` files
-- **Build check**: Run `ng build` after generating or significantly changing Angular code to catch template and type errors early
+- **Prettier**: 編集後に `.ts` と `.html` ファイルを自動フォーマット
+- **ESLint / ng lint**: Angular ソースファイルの編集後に `ng lint` を実行し、デコレータの誤用、テンプレートエラー、スタイル違反を検出
+- **TypeScript チェック**: `.ts` ファイルの編集後に `tsc --noEmit` を実行
+- **ビルドチェック**: Angular コードの生成または大幅な変更後に `ng build` を実行し、テンプレートと型エラーを早期に検出
 
-## Stop Hooks
+## Stop フック (Stop Hooks)
 
-- **Lint audit**: Run `ng lint` across modified files before session ends to catch any outstanding violations
+- **Lint 監査**: セッション終了前に変更されたファイル全体で `ng lint` を実行し、未解決の違反を検出

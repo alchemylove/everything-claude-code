@@ -2,13 +2,13 @@
 paths:
   - "**/*.java"
 ---
-# Java Patterns
+# Java パターン (Java Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Java-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Java 固有の内容を追加する。
 
-## Repository Pattern
+## Repository パターン (Repository Pattern)
 
-Encapsulate data access behind an interface:
+データアクセスをインターフェースの背後にカプセル化:
 
 ```java
 public interface OrderRepository {
@@ -19,11 +19,11 @@ public interface OrderRepository {
 }
 ```
 
-Concrete implementations handle storage details (JPA, JDBC, in-memory for tests).
+具象実装がストレージの詳細（JPA、JDBC、テスト用インメモリ）を扱う。
 
-## Service Layer
+## Service レイヤー (Service Layer)
 
-Business logic in service classes; keep controllers and repositories thin:
+ビジネスロジックは service クラスに。controller と repository は薄く保つ:
 
 ```java
 public class OrderService {
@@ -44,9 +44,9 @@ public class OrderService {
 }
 ```
 
-## Constructor Injection
+## コンストラクタ注入 (Constructor Injection)
 
-Always use constructor injection — never field injection:
+常にコンストラクタ注入を使用 — フィールド注入は使わない:
 
 ```java
 // GOOD — constructor injection (testable, immutable)
@@ -65,9 +65,9 @@ public class NotificationService {
 }
 ```
 
-## DTO Mapping
+## DTO マッピング (DTO Mapping)
 
-Use records for DTOs. Map at service/controller boundaries:
+DTO には record を使用。service/controller 境界でマッピング:
 
 ```java
 public record OrderResponse(Long id, String customer, BigDecimal total) {
@@ -77,9 +77,9 @@ public record OrderResponse(Long id, String customer, BigDecimal total) {
 }
 ```
 
-## Builder Pattern
+## Builder パターン (Builder Pattern)
 
-Use for objects with many optional parameters:
+多くのオプションパラメータを持つオブジェクトに使用:
 
 ```java
 public class SearchCriteria {
@@ -110,7 +110,7 @@ public class SearchCriteria {
 }
 ```
 
-## Sealed Types for Domain Models
+## ドメインモデルの Sealed 型 (Sealed Types for Domain Models)
 
 ```java
 public sealed interface PaymentResult permits PaymentSuccess, PaymentFailure {
@@ -125,9 +125,9 @@ String message = switch (result) {
 };
 ```
 
-## API Response Envelope
+## API レスポンスエンベロープ (API Response Envelope)
 
-Consistent API responses:
+一貫した API レスポンス:
 
 ```java
 public record ApiResponse<T>(boolean success, T data, String error) {
@@ -140,8 +140,8 @@ public record ApiResponse<T>(boolean success, T data, String error) {
 }
 ```
 
-## References
+## 参照 (References)
 
-See skill: `springboot-patterns` for Spring Boot architecture patterns.
-See skill: `quarkus-patterns` for Quarkus architecture patterns with REST, Panache, and messaging.
-See skill: `jpa-patterns` for entity design and query optimization.
+Spring Boot アーキテクチャパターンは skill: `springboot-patterns` を参照。
+REST、Panache、メッセージングを含む Quarkus アーキテクチャパターンは skill: `quarkus-patterns` を参照。
+エンティティ設計とクエリ最適化は skill: `jpa-patterns` を参照。

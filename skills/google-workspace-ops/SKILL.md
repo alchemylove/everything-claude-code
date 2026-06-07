@@ -4,71 +4,71 @@ description: Operate across Google Drive, Docs, Sheets, and Slides as one workfl
 origin: ECC
 ---
 
-# Google Workspace Ops
+# Google Workspace 運用 (Google Workspace Ops)
 
-This skill is for operating shared docs, spreadsheets, and decks as working systems, not just editing one file in isolation.
+このスキルは、単一ファイルの孤立編集ではなく、共有ドキュメント、スプレッドシート、デッキを動くシステムとして運用するためのもの。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- User needs to find a doc, sheet, or deck and update it in place
-- Consolidating plans, trackers, notes, or customer lists stored in Google Drive
-- Cleaning or restructuring a shared spreadsheet
-- Importing, repairing, or reformatting a Google Slides deck
-- Producing summaries from Docs, Sheets, or Slides for decision-making
+- ユーザーが doc、sheet、deck を見つけてその場で更新する必要がある
+- Google Drive に保存された計画、トラッカー、メモ、顧客リストの統合
+- 共有スプレッドシートのクリーンアップまたは再構造化
+- Google Slides デッキのインポート、修復、再フォーマット
+- 意思決定のための Docs、Sheets、Slides からの要約作成
 
-## Preferred Tool Surface
+## 推奨ツールサーフェス (Preferred Tool Surface)
 
-Use Google Drive as the entry point, then switch to the right specialist:
+Google Drive をエントリポイントにし、適切なスペシャリストへ切り替える:
 
-- Google Docs for text-heavy docs
-- Google Sheets for tabular work, formulas, and charts
-- Google Slides for decks, imports, template migration, and cleanup
+- テキスト中心ドキュメントは Google Docs
+- 表形式作業、数式、チャートは Google Sheets
+- デッキ、インポート、テンプレート移行、クリーンアップは Google Slides
 
-Do not guess structure from filenames alone. Inspect first.
+ファイル名だけから構造を推測しない。先に検査する。
 
-## Workflow
+## ワークフロー (Workflow)
 
-### 1. Find the asset
+### 1. アセットを見つける (1. Find the asset)
 
-Start with the Drive search surface to locate:
+Drive 検索サーフェスから次を特定して開始する:
 
-- the exact file
-- sibling assets
-- likely duplicates
-- recently modified versions
+- 正確なファイル
+- 兄弟アセット
+- 重複の可能性
+- 最近更新されたバージョン
 
-If several documents look similar, confirm by title, owner, modified time, or folder.
+複数ドキュメントが似ている場合、タイトル、所有者、更新時刻、フォルダで確認する。
 
-### 2. Inspect before editing
+### 2. 編集前に検査する (2. Inspect before editing)
 
-Before making changes:
+変更前に:
 
-- summarize current structure
-- identify tabs, headings, or slide count
-- detect whether the task is local cleanup or structural surgery
+- 現在の構造を要約する
+- タブ、見出し、スライド数を特定する
+- タスクがローカルクリーンアップか構造手術かを検出する
 
-Pick the smallest tool that can safely perform the work.
+安全に作業できる最小ツールを選ぶ。
 
-### 3. Edit with precision
+### 3. 精密に編集する (3. Edit with precision)
 
-- For Docs: use index-aware edits, not vague rewrites
-- For Sheets: operate on explicit tabs and ranges
-- For Slides: distinguish content edits from visual cleanup or template migration
+- Docs: 曖昧な書き換えではなく index  aware 編集
+- Sheets: 明示的タブと範囲で操作
+- Slides: コンテンツ編集とビジュアルクリーンアップ/テンプレート移行を区別
 
-If the requested work is visual or layout-sensitive, iterate with inspection and verification instead of one giant blind update.
+要求作業がビジュアルまたはレイアウト敏感なら、一度の巨大な盲目更新ではなく検査と検証で反復する。
 
-### 4. Keep the working system clean
+### 4. 動くシステムをきれいに保つ (4. Keep the working system clean)
 
-When the file is part of a larger workflow, also surface:
+ファイルがより大きなワークフローの一部なら次も表面化する:
 
-- duplicate trackers
-- outdated decks
-- stale docs vs canonical docs
-- whether the asset should be archived, merged, or renamed
+- 重複トラッカー
+- 古いデッキ
+- 正規ドキュメント対古いドキュメント
+- アーカイブ、マージ、リネームすべきか
 
-## Output Format
+## 出力形式 (Output Format)
 
-Use:
+次を使用する:
 
 ```text
 ASSET
@@ -87,7 +87,7 @@ FOLLOW-UPS
 - archive / merge / duplicate cleanup / next file to update
 ```
 
-## Good Use Cases
+## 適したユースケース (Good Use Cases)
 
 - "Find the active planning doc and condense it"
 - "Clean up this customer spreadsheet and show me the churn-risk rows"

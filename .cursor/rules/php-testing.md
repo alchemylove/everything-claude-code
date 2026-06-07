@@ -1,15 +1,15 @@
 ---
-description: "PHP testing extending common rules"
+description: "PHP testing: common ルールの拡張"
 globs: ["**/*.php", "**/phpunit.xml", "**/phpunit.xml.dist", "**/composer.json"]
 alwaysApply: false
 ---
-# PHP Testing
+# PHP Testing (PHP Testing)
 
-> This file extends the common testing rule with PHP specific content.
+> このファイルは common testing ルールを PHP 固有の内容で拡張する。
 
 ## Framework
 
-Use **PHPUnit** as the default test framework. **Pest** is also acceptable when the project already uses it.
+デフォルト test framework は **PHPUnit**。**Pest** も project が既に使用している場合は可。
 
 ## Coverage
 
@@ -19,8 +19,8 @@ vendor/bin/phpunit --coverage-text
 vendor/bin/pest --coverage
 ```
 
-## Test Organization
+## Test 構成 (Test Organization)
 
-- Separate fast unit tests from framework/database integration tests.
-- Use factory/builders for fixtures instead of large hand-written arrays.
-- Keep HTTP/controller tests focused on transport and validation; move business rules into service-level tests.
+- 高速 unit test と framework/database integration test を分離。
+- 大きな手書き array の代わりに factory/builder で fixture を作成。
+- HTTP/controller test は transport と validation に集中。ビジネスルールは service レベル test に移す。

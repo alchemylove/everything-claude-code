@@ -5,11 +5,11 @@ metadata:
   tags: sequence, trim, clip, cut, offset
 ---
 
-Use `<Sequence>` with a negative `from` value to trim the start of an animation.
+animation の先頭を trim するには、負の `from` 値を持つ `<Sequence>` を使う。
 
-## Trim the Beginning
+## 先頭のトリム (Trim the Beginning)
 
-A negative `from` value shifts time backwards, making the animation start partway through:
+負の `from` は時間を後方にずらし、animation を途中から開始させる:
 
 ```tsx
 import { Sequence, useVideoConfig } from "remotion";
@@ -21,12 +21,12 @@ const fps = useVideoConfig();
 </Sequence>
 ```
 
-The animation appears 15 frames into its progress - the first 15 frames are trimmed off.
-Inside `<MyAnimation>`, `useCurrentFrame()` starts at 15 instead of 0.
+animation は進行 15 frame 目から見える — 最初の 15 frame は trim される。
+`<MyAnimation>` 内の `useCurrentFrame()` は 0 ではなく 15 から始まる。
 
-## Trim the End
+## 末尾のトリム (Trim the End)
 
-Use `durationInFrames` to unmount content after a specified duration:
+`durationInFrames` で指定時間後に unmount する:
 
 ```tsx
 
@@ -35,11 +35,11 @@ Use `durationInFrames` to unmount content after a specified duration:
 </Sequence>
 ```
 
-The animation plays for 45 frames, then the component unmounts.
+45 frame 再生後に component が unmount する。
 
-## Trim and Delay
+## トリムと遅延 (Trim and Delay)
 
-Nest sequences to both trim the beginning and delay when it appears:
+sequence をネストして先頭 trim と表示遅延の両方を行う:
 
 ```tsx
 <Sequence from={30}>
@@ -49,4 +49,4 @@ Nest sequences to both trim the beginning and delay when it appears:
 </Sequence>
 ```
 
-The inner sequence trims 15 frames from the start, and the outer sequence delays the result by 30 frames.
+内側 sequence が先頭 15 frame を trim し、外側 sequence が結果を 30 frame 遅延させる。

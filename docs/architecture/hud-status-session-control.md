@@ -1,17 +1,14 @@
-# HUD Status And Session Control Contract
+# HUD ステータスとセッション制御契約 (HUD Status And Session Control Contract)
 
-This contract defines the portable status payload ECC uses for local operator
-surfaces, handoffs, and future HUDs. It is intentionally harness-neutral: a
-Claude Code statusline, Codex pane, dmux session, OpenCode run, or terminal-only
-workflow can emit partial data without changing field names.
+この契約は、ローカル operator 面、handoff、将来の HUD 向けに ECC が使うポータブル status payload を定義します。意図的に harness-neutral です：Claude Code statusline、Codex pane、dmux session、OpenCode run、またはターミナルのみ workflow はフィールド名を変えずに部分データを emit できます。
 
-The canonical example lives at
-[`examples/hud-status-contract.json`](../../examples/hud-status-contract.json).
+正規の例は
+[`examples/hud-status-contract.json`](../../examples/hud-status-contract.json) にあります。
 
-## Payload Shape
+## Payload 形状 (Payload Shape)
 
-Every status payload uses `schema_version: "ecc.hud-status.v1"` and keeps these
-top-level sections stable:
+すべての status payload は `schema_version: "ecc.hud-status.v1"` を使い、次の
+トップレベルセクションを安定させます：
 
 | Field | Purpose | Primary Source |
 |---|---|---|
@@ -26,13 +23,11 @@ top-level sections stable:
 | `sessionControls` | Supported operator actions for the current target | ECC CLI, dmux, git/GitHub |
 | `sync` | Linear, GitHub, and handoff publication state | status updates, work items, handoff writer |
 
-Fields can be `null`, empty arrays, or `"unknown"` when a harness cannot expose
-the signal. Producers should not invent incompatible names. Consumers should
-render missing sections as unavailable, not as green.
+harness が signal を露出できない場合、フィールドは `null`、空配列、または `"unknown"` にできます。Producer は互換性のない名前を捏造すべきではありません。Consumer は欠落セクションを green ではなく unavailable として描画すべきです。
 
-## Session Controls
+## セッション制御 (Session Controls)
 
-The minimum session-control vocabulary is:
+最小 session-control 語彙は次です：
 
 | Control | Meaning |
 |---|---|
@@ -45,36 +40,33 @@ The minimum session-control vocabulary is:
 | `mergeQueue` | Show merge-ready, blocked, and waiting-check items |
 | `conflictQueue` | Show dirty/conflicting PRs or worktrees needing integration |
 
-`sessionControls.supported` lists the controls available for the current
-harness. `sessionControls.blocked` explains unavailable controls, for example a
-missing GitHub token, no tmux session, or a read-only adapter.
+`sessionControls.supported` は現在の harness で利用可能な制御を列挙します。
+`sessionControls.blocked` は利用不可制御を説明します（例：GitHub token 欠落、tmux session なし、read-only adapter）。
 
-## Sync Contract
+## 同期契約 (Sync Contract)
 
-The sync section separates durable trackers:
+sync セクションは durable tracker を分離します：
 
-- `Linear` records project status update id, health, and whether issue creation
-  is blocked by workspace capacity.
-- `GitHub` records the current repo, PR/issue/discussion queue counts, and the
-  latest merged or open PR tied to the session.
-- `handoff` records the durable Markdown handoff path and whether it has been
-  written after the latest batch.
+- `Linear` は project status update id、health、issue 作成が
+  workspace 容量でブロックされているかを記録します。
+- `GitHub` は現在の repo、PR/issue/discussion queue 件数、セッションに紐づく
+  最新 merged または open PR を記録します。
+- `handoff` は durable Markdown handoff path と、最新 batch 後に書き込まれたかを記録します。
 
-This makes real-time progress tracking explicit without requiring every run to
-create Linear issues or GitHub comments. When Linear issue capacity is blocked,
-the status payload can still prove progress through project updates and repo
-handoffs.
+これにより realtime 進捗追跡が明示的になり、すべての run が Linear issue や
+GitHub comment を作る必要はありません。Linear issue 容量がブロックされていても、
+status payload は project update と repo handoff で進捗を証明できます。
 
-## Current Implementations
+## 現在の実装 (Current Implementations)
 
-- `ecc status --json` exposes readiness, active sessions, skill runs, install
-  health, governance, and linked work items from the SQLite state store.
-- `ecc loop-status --json --write-dir <dir>` writes live transcript snapshots
-  and attention signals for long-running loops.
-- `ecc session-inspect <target> --write <path>` emits canonical session
-  snapshots from dmux and Claude-history adapters.
-- `scripts/hooks/ecc-statusline.js` renders compact model, task, cost, tool,
-  file, duration, directory, and context pressure signals inside Claude Code.
+- `ecc status --json` は SQLite state store から readiness、active sessions、skill runs、install
+  health、governance、リンクされた work items を公開します。
+- `ecc loop-status --json --write-dir <dir>` は長時間 loop 向けに live transcript snapshot と
+  attention signal を書き込みます。
+- `ecc session-inspect <target> --write <path>` は dmux と Claude-history adapter から
+  正規 session snapshot を emit します。
+- `scripts/hooks/ecc-statusline.js` は Claude Code 内で compact model、task、cost、tool、
+  file、duration、directory、context pressure signal を描画します。
 
-The `ecc.hud-status.v1` payload is the common outer contract these surfaces can
-project into before ECC grows a dedicated full-screen HUD.
+`ecc.hud-status.v1` payload は、ECC が専用フルスクリーン HUD を成長させる前に
+これらの面が投影できる共通 outer contract です。

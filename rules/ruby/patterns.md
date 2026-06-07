@@ -6,39 +6,39 @@ paths:
   - "**/app/**/*.erb"
   - "**/config/routes.rb"
 ---
-# Ruby Patterns
+# Ruby パターン (Ruby Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Ruby and Rails specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Ruby および Rails 固有の内容を追加する。
 
-## Rails Way First
+## まず Rails Way (Rails Way First)
 
-- Start with plain Rails MVC and Active Record conventions for small and medium features.
-- Introduce service objects, query objects, form objects, decorators, or presenters when the model/controller boundary is carrying multiple responsibilities.
-- Name extracted objects after the business operation they perform, not after generic layers like `Manager` or `Processor`.
+- 小規模および中規模の機能には、プレーンな Rails MVC と Active Record の規約から始める。
+- モデル/コントローラの境界が複数の責務を担っている場合に、サービスオブジェクト、クエリオブジェクト、フォームオブジェクト、デコレータ、またはプレゼンターを導入する。
+- 抽出したオブジェクトには `Manager` や `Processor` のような汎用的なレイヤー名ではなく、実行するビジネス操作にちなんだ名前を付ける。
 
-## Persistence
+## 永続化 (Persistence)
 
-- Prefer PostgreSQL for multi-host production Rails apps unless the existing platform has a clear reason for MySQL or SQLite.
-- Treat Rails 8 SQLite-backed defaults as viable for single-host or modest deployments, not as an automatic fit for shared multi-service systems.
-- Keep raw SQL behind query objects or model scopes and parameterize every dynamic value.
+- マルチホスト本番 Rails アプリでは、既存プラットフォームが MySQL や SQLite を使用する明確な理由がない限り PostgreSQL を優先する。
+- Rails 8 の SQLite ベースのデフォルトは、シングルホストまたは小規模なデプロイメントに適しているが、共有マルチサービスシステムに自動的に適合するわけではない。
+- 生の SQL はクエリオブジェクトまたはモデルスコープの背後に配置し、すべての動的値をパラメータ化する。
 
-## Background Jobs And Runtime Services
+## バックグラウンドジョブとランタイムサービス (Background Jobs And Runtime Services)
 
-- Use **Solid Queue** for greenfield Rails 8 apps with modest throughput and simple deployment needs.
-- Use **Sidekiq** when the app needs mature observability, high throughput, existing Redis infrastructure, or Pro/Enterprise features.
-- Use **Solid Cache** and **Solid Cable** when their deployment model matches the app; use Redis when shared cross-service behavior, high fanout, or advanced data structures matter.
+- グリーンフィールドの Rails 8 アプリで、適度なスループットとシンプルなデプロイメントが必要な場合は **Solid Queue** を使用する。
+- 成熟したオブザーバビリティ、高スループット、既存の Redis インフラストラクチャ、または Pro/Enterprise 機能が必要な場合は **Sidekiq** を使用する。
+- **Solid Cache** と **Solid Cable** はそのデプロイメントモデルがアプリに適合する場合に使用する。共有クロスサービス動作、高ファンアウト、または高度なデータ構造が重要な場合は Redis を使用する。
 
-## Frontend
+## フロントエンド (Frontend)
 
-- Prefer **Hotwire** with Turbo, Stimulus, Importmap, and Propshaft for server-rendered Rails apps.
-- Use React, Vue, Inertia.js, or a separate SPA when interaction complexity, existing product architecture, or team ownership justifies the extra client surface.
-- Keep view components, partials, and presenters focused on rendering decisions; keep persistence and authorization out of templates.
+- サーバーレンダリングの Rails アプリには Turbo、Stimulus、Importmap、Propshaft を使用した **Hotwire** を優先する。
+- インタラクションの複雑さ、既存のプロダクトアーキテクチャ、またはチームのオーナーシップが追加のクライアントサーフェスを正当化する場合は、React、Vue、Inertia.js、または個別の SPA を使用する。
+- ビューコンポーネント、パーシャル、プレゼンターはレンダリングの判断に集中させる。永続化と認可をテンプレートに含めない。
 
-## Authentication
+## 認証 (Authentication)
 
-- Use the Rails 8 authentication generator for straightforward session auth and password reset needs.
-- Use Devise or another established auth system when requirements include OAuth, MFA, confirmable/lockable flows, multi-model auth, or a large existing Devise footprint.
+- シンプルなセッション認証とパスワードリセットのニーズには Rails 8 認証ジェネレータを使用する。
+- OAuth、MFA、confirmable/lockable フロー、マルチモデル認証、または大規模な既存 Devise フットプリントが要件に含まれる場合は Devise または他の確立された認証システムを使用する。
 
-## Reference
+## リファレンス (Reference)
 
-See skill: `backend-patterns` for service boundaries and adapter patterns.
+サービス境界とアダプターパターンについてはスキル: `backend-patterns` を参照。

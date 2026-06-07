@@ -1,58 +1,58 @@
 ---
-description: Comprehensive Python code review for PEP 8 compliance, type hints, security, and Pythonic idioms. Invokes the python-reviewer agent.
+description: PEP 8 準拠、type hints、セキュリティ、Pythonic イディオム向けの包括的 Python コードレビュー。python-reviewer agent を起動する。
 ---
 
-# Python Code Review
+# Python コードレビュー (Python Code Review)
 
-This command invokes the **python-reviewer** agent for comprehensive Python-specific code review.
+このコマンドは、Python 固有の包括的コードレビューのために **python-reviewer** agent を起動する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Identify Python Changes**: Find modified `.py` files via `git diff`
-2. **Run Static Analysis**: Execute `ruff`, `mypy`, `pylint`, `black --check`
-3. **Security Scan**: Check for SQL injection, command injection, unsafe deserialization
-4. **Type Safety Review**: Analyze type hints and mypy errors
-5. **Pythonic Code Check**: Verify code follows PEP 8 and Python best practices
-6. **Generate Report**: Categorize issues by severity
+1. **Python 変更の特定**: `git diff` で変更された `.py` ファイルを検出
+2. **静的解析の実行**: `ruff`, `mypy`, `pylint`, `black --check` を実行
+3. **セキュリティスキャン**: SQL injection、command injection、unsafe deserialization を確認
+4. **型安全性レビュー**: type hints と mypy エラーを分析
+5. **Pythonic コードチェック**: PEP 8 と Python ベストプラクティスに従っているか検証
+6. **レポート生成**: 重大度別に issue を分類
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/python-review` when:
-- After writing or modifying Python code
-- Before committing Python changes
-- Reviewing pull requests with Python code
-- Onboarding to a new Python codebase
-- Learning Pythonic patterns and idioms
+以下の場合に `/python-review` を使用する:
+- Python コードを書いたまたは変更した後
+- Python 変更をコミットする前
+- Python コードを含む pull request をレビューするとき
+- 新しい Python コードベースにオンボーディングするとき
+- Pythonic パターンとイディオムを学ぶとき
 
-## Review Categories
+## レビューカテゴリ (Review Categories)
 
-### CRITICAL (Must Fix)
-- SQL/Command injection vulnerabilities
-- Unsafe eval/exec usage
-- Pickle unsafe deserialization
-- Hardcoded credentials
-- YAML unsafe load
-- Bare except clauses hiding errors
+### CRITICAL（必須修正）
+- SQL/Command injection の脆弱性
+- 安全でない eval/exec の使用
+- Pickle の unsafe deserialization
+- ハードコードされた認証情報
+- YAML の unsafe load
+- エラーを隠す bare except
 
-### HIGH (Should Fix)
-- Missing type hints on public functions
-- Mutable default arguments
-- Swallowing exceptions silently
-- Not using context managers for resources
-- C-style looping instead of comprehensions
-- Using type() instead of isinstance()
-- Race conditions without locks
+### HIGH（修正推奨）
+- public 関数に type hints がない
+- mutable default 引数
+- 例外を黙って飲み込む
+- リソースに context manager を使っていない
+- comprehension の代わりに C スタイルのループ
+- isinstance() の代わりに type() を使用
+- lock なしの race condition
 
-### MEDIUM (Consider)
-- PEP 8 formatting violations
-- Missing docstrings on public functions
-- Print statements instead of logging
-- Inefficient string operations
-- Magic numbers without named constants
-- Not using f-strings for formatting
-- Unnecessary list creation
+### MEDIUM（検討）
+- PEP 8 フォーマット違反
+- public 関数に docstring がない
+- logging の代わりに print
+- 非効率な文字列操作
+- 名前付き定数のないマジックナンバー
+- フォーマットに f-string を使っていない
+- 不要な list 作成
 
-## Automated Checks Run
+## 実行される自動チェック (Automated Checks Run)
 
 ```bash
 # Type checking
@@ -74,7 +74,7 @@ safety check
 pytest --cov=app --cov-report=term-missing
 ```
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ```text
 User: /python-review
@@ -161,53 +161,53 @@ Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 Run: `black app/routes/user.py app/services/auth.py`
 ```
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
 | Status | Condition |
 |--------|-----------|
-| PASS: Approve | No CRITICAL or HIGH issues |
-| WARNING: Warning | Only MEDIUM issues (merge with caution) |
-| FAIL: Block | CRITICAL or HIGH issues found |
+| PASS: Approve | CRITICAL または HIGH issue なし |
+| WARNING: Warning | MEDIUM issue のみ（注意してマージ） |
+| FAIL: Block | CRITICAL または HIGH issue あり |
 
-## Integration with Other Commands
+## 他コマンドとの連携 (Integration with Other Commands)
 
-- Use the `tdd-workflow` skill first to ensure tests pass
-- Use `/code-review` for non-Python specific concerns
-- Use `/python-review` before committing
-- Use `/build-fix` if static analysis tools fail
+- まず `tdd-workflow` skill でテストが通ることを確認
+- Python 以外の懸念には `/code-review` を使用
+- コミット前に `/python-review` を使用
+- 静的解析ツールが失敗した場合は `/build-fix` を使用
 
-## Framework-Specific Reviews
+## フレームワーク固有のレビュー (Framework-Specific Reviews)
 
-### Django Projects
-The reviewer checks for:
-- N+1 query issues (use `select_related` and `prefetch_related`)
-- Missing migrations for model changes
-- Raw SQL usage when ORM could work
-- Missing `transaction.atomic()` for multi-step operations
+### Django プロジェクト
+レビュアーは以下を確認する:
+- N+1 query（`select_related` と `prefetch_related` を使用）
+- model 変更に migration がない
+- ORM で済むのに raw SQL を使用
+- 複数ステップ操作に `transaction.atomic()` がない
 
-### FastAPI Projects
-The reviewer checks for:
-- CORS misconfiguration
-- Pydantic models for request validation
-- Response models correctness
-- Proper async/await usage
-- Dependency injection patterns
+### FastAPI プロジェクト
+レビュアーは以下を確認する:
+- CORS の誤設定
+- リクエスト検証用の Pydantic models
+- response models の正しさ
+- 適切な async/await の使用
+- dependency injection パターン
 
-### Flask Projects
-The reviewer checks for:
-- Context management (app context, request context)
-- Proper error handling
-- Blueprint organization
-- Configuration management
+### Flask プロジェクト
+レビュアーは以下を確認する:
+- context 管理（app context、request context）
+- 適切なエラーハンドリング
+- Blueprint の構成
+- 設定管理
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/python-reviewer.md`
 - Skills: `skills/python-patterns/`, `skills/python-testing/`
 
-## Common Fixes
+## よくある修正 (Common Fixes)
 
-### Add Type Hints
+### Type Hints の追加
 ```python
 # Before
 def calculate(x, y):
@@ -220,7 +220,7 @@ def calculate(x: Union[int, float], y: Union[int, float]) -> Union[int, float]:
     return x + y
 ```
 
-### Use Context Managers
+### Context Manager の使用
 ```python
 # Before
 f = open("file.txt")
@@ -232,7 +232,7 @@ with open("file.txt") as f:
     data = f.read()
 ```
 
-### Use List Comprehensions
+### List Comprehension の使用
 ```python
 # Before
 result = []
@@ -244,7 +244,7 @@ for item in items:
 result = [item.name for item in items if item.active]
 ```
 
-### Fix Mutable Defaults
+### Mutable Default の修正
 ```python
 # Before
 def append(value, items=[]):
@@ -259,7 +259,7 @@ def append(value, items=None):
     return items
 ```
 
-### Use f-strings (Python 3.6+)
+### f-string の使用（Python 3.6+）
 ```python
 # Before
 name = "Alice"
@@ -270,7 +270,7 @@ greeting2 = "Hello, {}".format(name)
 greeting = f"Hello, {name}!"
 ```
 
-### Fix String Concatenation in Loops
+### ループ内の文字列連結の修正
 ```python
 # Before
 result = ""
@@ -281,9 +281,9 @@ for item in items:
 result = "".join(str(item) for item in items)
 ```
 
-## Python Version Compatibility
+## Python バージョン互換性 (Python Version Compatibility)
 
-The reviewer notes when code uses features from newer Python versions:
+レビュアーは、新しい Python バージョンの機能を使用している場合に注記する:
 
 | Feature | Minimum Python |
 |---------|----------------|
@@ -294,4 +294,4 @@ The reviewer notes when code uses features from newer Python versions:
 | Match statements | 3.10+ |
 | Type unions (&#96;x &#124; None&#96;) | 3.10+ |
 
-Ensure your project's `pyproject.toml` or `setup.py` specifies the correct minimum Python version.
+プロジェクトの `pyproject.toml` または `setup.py` が正しい最小 Python バージョンを指定していることを確認する。

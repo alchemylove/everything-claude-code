@@ -5,11 +5,11 @@ origin: Health1 Super Speciality Hospitals — contributed by Dr. Keyur Patel
 version: "1.0.0"
 ---
 
-# Healthcare PHI/PII Compliance Patterns
+# Healthcare PHI/PII Compliance Patterns (Healthcare PHI/PII Compliance Patterns)
 
 Patterns for protecting patient data, clinician data, and financial data in healthcare applications. Applicable to HIPAA (US), DISHA (India), GDPR (EU), and general healthcare data protection.
 
-## When to Use
+## When to Use (When to Use)
 
 - Building any feature that touches patient records
 - Implementing access control or authentication for clinical systems
@@ -19,17 +19,17 @@ Patterns for protecting patient data, clinician data, and financial data in heal
 - Reviewing code for data exposure vulnerabilities
 - Setting up Row-Level Security (RLS) for multi-tenant healthcare systems
 
-## How It Works
+## How It Works (How It Works)
 
 Healthcare data protection operates on three layers: **classification** (what is sensitive), **access control** (who can see it), and **audit** (who did see it).
 
-### Data Classification
+### Data Classification (Data Classification)
 
 **PHI (Protected Health Information)** — any data that can identify a patient AND relates to their health: patient name, date of birth, address, phone, email, national ID numbers (SSN, Aadhaar, NHS number), medical record numbers, diagnoses, medications, lab results, imaging, insurance policy and claim details, appointment and admission records, or any combination of the above.
 
 **PII (Non-patient-sensitive data)** in healthcare systems: clinician/staff personal details, doctor fee structures and payout amounts, employee salary and bank details, vendor payment information.
 
-### Access Control: Row-Level Security
+### Access Control: Row-Level Security (Access Control: Row-Level Security)
 
 ```sql
 ALTER TABLE patients ENABLE ROW LEVEL SECURITY;
@@ -49,7 +49,7 @@ CREATE POLICY "audit_no_modify" ON audit_log FOR UPDATE USING (false);
 CREATE POLICY "audit_no_delete" ON audit_log FOR DELETE USING (false);
 ```
 
-### Audit Trail
+### Audit Trail (Audit Trail)
 
 Every PHI access or modification must be logged:
 
@@ -67,7 +67,7 @@ interface AuditEntry {
 }
 ```
 
-### Common Leak Vectors
+### Common Leak Vectors (Common Leak Vectors)
 
 **Error messages:** Never include patient-identifying data in error messages thrown to the client. Log details server-side only.
 
@@ -81,7 +81,7 @@ interface AuditEntry {
 
 **Logs and monitoring:** Never log full patient records. Use opaque record IDs only (not medical record numbers). Sanitize stack traces before sending to error tracking services.
 
-### Database Schema Tagging
+### Database Schema Tagging (Database Schema Tagging)
 
 Mark PHI/PII columns at the schema level:
 
@@ -92,7 +92,7 @@ COMMENT ON COLUMN patients.aadhaar IS 'PHI: national_id';
 COMMENT ON COLUMN doctor_payouts.amount IS 'PII: financial';
 ```
 
-### Deployment Checklist
+### Deployment Checklist (Deployment Checklist)
 
 Before every deployment:
 - No PHI in error messages or stack traces
@@ -106,9 +106,9 @@ Before every deployment:
 - API authentication on all PHI endpoints
 - Cross-facility data isolation verified
 
-## Examples
+## Examples (Examples)
 
-### Example 1: Safe vs Unsafe Error Handling
+### Example 1: Safe vs Unsafe Error Handling (Example 1: Safe vs Unsafe Error Handling)
 
 ```typescript
 // BAD — leaks PHI in error
@@ -119,7 +119,7 @@ logger.error('Patient lookup failed', { recordId: patient.id, facilityId });
 throw new Error('Record not found');
 ```
 
-### Example 2: RLS Policy for Multi-Facility Isolation
+### Example 2: RLS Policy for Multi-Facility Isolation (Example 2: RLS Policy for Multi-Facility Isolation)
 
 ```sql
 -- Doctor at Facility A cannot see Facility B patients
@@ -133,7 +133,7 @@ CREATE POLICY "facility_isolation"
 -- Expected: 0 rows returned
 ```
 
-### Example 3: Safe Logging
+### Example 3: Safe Logging (Example 3: Safe Logging)
 
 ```typescript
 // BAD — logs identifiable patient data

@@ -1,43 +1,43 @@
-# Sponsoring ECC
+# ECCのスポンサーシップ
 
-ECC is maintained as an open-source agent harness performance system across Claude Code, Cursor, OpenCode, and Codex app/CLI.
+ECCはClaude Code、Cursor、OpenCode、Codex app/CLIにまたがるオープンソースのエージェントハーネスパフォーマンスシステムとして維持されています。
 
-## Why Sponsor
+## スポンサーになる理由
 
-Sponsorship directly funds:
+スポンサーシップは以下を直接的に支援します：
 
-- Faster bug-fix and release cycles
-- Cross-platform parity work across harnesses
-- Public docs, skills, and reliability tooling that remain free for the community
+- より迅速なバグ修正とリリースサイクル
+- ハーネス間のクロスプラットフォーム互換性の作業
+- コミュニティに無料で提供され続ける公開ドキュメント、スキル、信頼性ツール
 
-## Sponsorship Tiers
+## スポンサーシップティア
 
-These are practical starting points and can be adjusted for partnership scope.
+これらは実用的な出発点であり、パートナーシップの範囲に応じて調整可能です。
 
-| Tier | Price | Best For | Includes |
-|------|-------|----------|----------|
-| Pilot Partner | $200/mo | First sponsor engagement | Monthly metrics update, roadmap preview, prioritized maintainer feedback |
-| Growth Partner | $500/mo | Teams actively adopting ECC | Pilot benefits + monthly office-hours sync + workflow integration guidance |
-| Strategic Partner | $1,000+/mo | Platform/ecosystem partnerships | Growth benefits + coordinated launch support + deeper maintainer collaboration |
+| ティア | 価格 | 最適な対象 | 含まれるもの |
+|--------|------|-----------|-------------|
+| パイロットパートナー | $200/月 | 初回スポンサーエンゲージメント | 月次メトリクスアップデート、ロードマッププレビュー、優先的なメンテナーフィードバック |
+| グロースパートナー | $500/月 | ECCを積極的に導入するチーム | パイロット特典 + 月次オフィスアワー同期 + ワークフロー統合ガイダンス |
+| ストラテジックパートナー | $1,000+/月 | プラットフォーム/エコシステムパートナーシップ | グロース特典 + 協調的なローンチサポート + より深いメンテナーコラボレーション |
 
-## Sponsor Reporting
+## スポンサーレポート
 
-Metrics shared monthly can include:
+月次で共有されるメトリクスには以下が含まれます：
 
-- npm downloads (`ecc-universal`, `ecc-agentshield`)
-- Repository adoption (stars, forks, contributors)
-- GitHub App install trend
-- Release cadence and reliability milestones
+- npmダウンロード数（`ecc-universal`、`ecc-agentshield`）
+- リポジトリ採用状況（スター、フォーク、コントリビューター）
+- GitHub Appインストール推移
+- リリース頻度と信頼性マイルストーン
 
-For exact command snippets and a repeatable pull process, see [`docs/business/metrics-and-sponsorship.md`](docs/business/metrics-and-sponsorship.md).
+正確なコマンドスニペットと再現可能なプルプロセスについては、[`docs/business/metrics-and-sponsorship.md`](./docs/business/metrics-and-sponsorship.md)を参照してください。
 
-## Expectations and Scope
+## 期待と範囲
 
-- Sponsorship supports maintenance and acceleration; it does not transfer project ownership.
-- Feature requests are prioritized based on sponsor tier, ecosystem impact, and maintenance risk.
-- Security and reliability fixes take precedence over net-new features.
+- スポンサーシップはメンテナンスと加速を支援します。プロジェクトの所有権の移転ではありません。
+- 機能リクエストはスポンサーティア、エコシステムへの影響、メンテナンスリスクに基づいて優先されます。
+- セキュリティと信頼性の修正は、新機能よりも優先されます。
 
-## Sponsor Here
+## スポンサーになる
 
 - GitHub Sponsors: [https://github.com/sponsors/affaan-m](https://github.com/sponsors/affaan-m)
-- Project site: [https://ecc.tools](https://ecc.tools)
+- プロジェクトサイト: [https://ecc.tools](https://ecc.tools)

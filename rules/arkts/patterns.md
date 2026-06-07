@@ -3,34 +3,34 @@ paths:
   - "**/*.ets"
   - "**/*.ts"
 ---
-# HarmonyOS / ArkTS Patterns
+# HarmonyOS / ArkTS パターン (HarmonyOS / ArkTS Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with HarmonyOS and ArkTS-specific patterns.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、HarmonyOS / ArkTS 固有の内容を追加する。
 
-## State Management: V2 Only
+## 状態管理: V2 のみ (State Management: V2 Only)
 
-**MUST use** ArkUI State Management V2. V1 decorators are deprecated and must not be used.
+ArkUI 状態管理 V2 を**必ず使用**すること。V1 デコレーターは非推奨であり、使用してはならない。
 
-### V2 Decorators
+### V2 デコレーター (V2 Decorators)
 
-| Decorator | Purpose |
-|-----------|---------|
-| `@ComponentV2` | Marks a struct as a V2 component |
-| `@Local` | Local state within a component |
-| `@Param` | Props received from parent (read-only) |
-| `@Event` | Callback events from child to parent |
-| `@Provider` | Provides state to descendant components |
-| `@Consumer` | Consumes state from ancestor `@Provider` |
-| `@Monitor` | Watches for state changes (replaces V1 `@Watch`) |
-| `@Computed` | Derived/computed values |
-| `@ObservedV2` | Makes a class observable for V2 state management |
-| `@Trace` | Marks observable properties in `@ObservedV2` classes |
+| デコレーター | 用途 |
+|------------|------|
+| `@ComponentV2` | 構造体を V2 コンポーネントとしてマークする |
+| `@Local` | コンポーネント内のローカル状態 |
+| `@Param` | 親から受け取るプロパティ（読み取り専用） |
+| `@Event` | 子から親へのコールバックイベント |
+| `@Provider` | 子孫コンポーネントへ状態を提供する |
+| `@Consumer` | 祖先の `@Provider` から状態を取得する |
+| `@Monitor` | 状態変化を監視する（V1 の `@Watch` を置き換え） |
+| `@Computed` | 派生/計算された値 |
+| `@ObservedV2` | V2 状態管理のためにクラスをオブザーバブルにする |
+| `@Trace` | `@ObservedV2` クラスのオブザーバブルプロパティをマークする |
 
-### Prohibited V1 Decorators
+### 禁止されている V1 デコレーター (Prohibited V1 Decorators)
 
-Never use: `@State`, `@Prop`, `@Link`, `@ObjectLink`, `@Observed`, `@Provide`, `@Consume`, `@Watch`, `@Component` (use `@ComponentV2` instead).
+絶対に使用しないこと: `@State`、`@Prop`、`@Link`、`@ObjectLink`、`@Observed`、`@Provide`、`@Consume`、`@Watch`、`@Component`（代わりに `@ComponentV2` を使用）。
 
-### V2 Component Example
+### V2 コンポーネントの例 (V2 Component Example)
 
 ```typescript
 @ObservedV2
@@ -57,7 +57,7 @@ struct UserCard {
 }
 ```
 
-### State Synchronization
+### 状態の同期 (State Synchronization)
 
 ```typescript
 @ComponentV2
@@ -66,7 +66,7 @@ struct ParentPage {
 
   build() {
     Column() {
-      ChildComponent()  // automatically receives @Consumer('userState')
+      ChildComponent()  // @Consumer('userState') を自動的に受け取る
     }
   }
 }
@@ -81,11 +81,11 @@ struct ChildComponent {
 }
 ```
 
-## Routing: Navigation Only
+## ルーティング: Navigation のみ (Routing: Navigation Only)
 
-**MUST use** `Navigation` component with `NavPathStack`. Never use `@ohos.router`.
+`NavPathStack` を使用した `Navigation` コンポーネントを**必ず使用**すること。`@ohos.router` は絶対に使用しないこと。
 
-### Navigation Setup
+### Navigation のセットアップ (Navigation Setup)
 
 ```typescript
 @ComponentV2
@@ -94,7 +94,7 @@ struct MainPage {
 
   build() {
     Navigation(this.navPathStack) {
-      // Home content
+      // ホームコンテンツ
     }
     .navDestination(this.routerMap)
   }
@@ -110,23 +110,23 @@ struct MainPage {
 }
 ```
 
-### Page Navigation
+### ページナビゲーション (Page Navigation)
 
 ```typescript
-// Push a new page
+// 新しいページをプッシュする
 this.navPathStack.pushPath({ name: 'detail', param: { id: '123' } })
 
-// Replace current page
+// 現在のページを置き換える
 this.navPathStack.replacePath({ name: 'settings' })
 
-// Pop back
+// 戻る
 this.navPathStack.pop()
 
-// Pop to root
+// ルートに戻る
 this.navPathStack.clear()
 ```
 
-### NavDestination Sub-page
+### NavDestination サブページ (NavDestination Sub-page)
 
 ```typescript
 @ComponentV2
@@ -142,26 +142,26 @@ struct DetailPage {
 }
 ```
 
-## Architecture Pattern: MVVM
+## アーキテクチャパターン: MVVM (Architecture Pattern: MVVM)
 
-Recommended architecture for HarmonyOS applications:
+HarmonyOS アプリケーションに推奨されるアーキテクチャ:
 
 ```
 feature/
-  |-- model/           # Data models (@ObservedV2 classes)
-  |-- viewmodel/       # Business logic (ViewModel classes)
-  |-- view/            # UI components (@ComponentV2 structs)
-  |-- service/         # API calls, data access
+  |-- model/           # データモデル（@ObservedV2 クラス）
+  |-- viewmodel/       # ビジネスロジック（ViewModel クラス）
+  |-- view/            # UI コンポーネント（@ComponentV2 構造体）
+  |-- service/         # API 呼び出し、データアクセス
 ```
 
-- **View**: Only rendering logic, no business logic in `build()`
-- **ViewModel**: All business logic encapsulated here
-- **Model**: Pure data classes with `@ObservedV2` and `@Trace`
-- **Service**: Network requests, database operations, file I/O
+- **View**: レンダリングロジックのみ、`build()` 内にビジネスロジックを含めない
+- **ViewModel**: すべてのビジネスロジックをここにカプセル化する
+- **Model**: `@ObservedV2` と `@Trace` を持つ純粋なデータクラス
+- **Service**: ネットワークリクエスト、データベース操作、ファイル I/O
 
-## ArkUI Animation Patterns
+## ArkUI アニメーションパターン (ArkUI Animation Patterns)
 
-### State-Driven Animation
+### 状態駆動アニメーション (State-Driven Animation)
 
 ```typescript
 @ComponentV2
@@ -171,7 +171,7 @@ struct AnimatedCard {
 
   build() {
     Column() {
-      // Content
+      // コンテンツ
     }
     .scale({ x: this.cardScale, y: this.cardScale })
     .animation({ duration: 300, curve: Curve.EaseInOut })
@@ -183,18 +183,18 @@ struct AnimatedCard {
 }
 ```
 
-### Animation Rules
+### アニメーションのルール (Animation Rules)
 
-- Prefer native HarmonyOS animation APIs and advanced templates
-- Use declarative UI with state-driven animations (change state variables to trigger animations)
-- Set `renderGroup(true)` for complex sub-component animations to reduce render batches
-- **NEVER** frequently change `width`, `height`, `padding`, `margin` during animations - severe performance impact
-- Use `animateTo` for explicit animation control
-- Prefer `transform` (translate, scale, rotate) and `opacity` for performant animations
+- ネイティブ HarmonyOS アニメーション API と高度なテンプレートを優先する
+- 状態変数の変更でアニメーションをトリガーする状態駆動アニメーションを持つ宣言的 UI を使用する
+- 複雑なサブコンポーネントアニメーションのレンダリングバッチを削減するために `renderGroup(true)` を設定する
+- アニメーション中に `width`、`height`、`padding`、`margin` を頻繁に変更しないこと — パフォーマンスに深刻な影響
+- 明示的なアニメーション制御には `animateTo` を使用する
+- パフォーマンスの高いアニメーションには `transform`（translate、scale、rotate）と `opacity` を優先する
 
-## Performance Patterns
+## パフォーマンスパターン (Performance Patterns)
 
-### LazyForEach for Large Lists
+### 大きなリストへの LazyForEach (LazyForEach for Large Lists)
 
 ```typescript
 @ComponentV2
@@ -213,23 +213,23 @@ struct LargeList {
 }
 ```
 
-### Component Reuse
+### コンポーネントの再利用 (Component Reuse)
 
-- Extract reusable components into separate files
-- Use `@Builder` for lightweight UI fragments within a component
-- Use `@Param` for configurable components
+- 再利用可能なコンポーネントを別のファイルに抽出する
+- コンポーネント内の軽量な UI フラグメントには `@Builder` を使用する
+- 設定可能なコンポーネントには `@Param` を使用する
 
-## Resource References
+## リソース参照 (Resource References)
 
-Always define UI constants as resources and reference via `$r()`:
+UI 定数は常にリソースとして定義し、`$r()` 経由で参照する:
 
 ```typescript
-// BAD: hardcoded values
+// BAD: ハードコードされた値
 Text('Hello')
   .fontSize(16)
   .fontColor('#333333')
 
-// GOOD: resource references
+// GOOD: リソース参照
 Text($r('app.string.greeting'))
   .fontSize($r('app.float.font_size_body'))
   .fontColor($r('app.color.text_primary'))

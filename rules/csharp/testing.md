@@ -4,22 +4,22 @@ paths:
   - "**/*.csx"
   - "**/*.csproj"
 ---
-# C# Testing
+# C# テスト (C# Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with C#-specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、C# 固有の内容を追加する。
 
-## Test Framework
+## テストフレームワーク (Test Framework)
 
-- Prefer **xUnit** for unit and integration tests
-- Use **FluentAssertions** for readable assertions
-- Use **Moq** or **NSubstitute** for mocking dependencies
-- Use **Testcontainers** when integration tests need real infrastructure
+- unit テストと integration テストには **xUnit** を優先する
+- 読みやすい assertion には **FluentAssertions** を使用する
+- 依存の mock には **Moq** または **NSubstitute** を使用する
+- integration テストで実インフラが必要な場合は **Testcontainers** を使用する
 
-## Test Organization
+## テスト構成 (Test Organization)
 
-- Mirror `src/` structure under `tests/`
-- Separate unit, integration, and end-to-end coverage clearly
-- Name tests by behavior, not implementation details
+- `src/` 構造を `tests/` 配下にミラーする
+- unit、integration、end-to-end カバレッジを明確に分離する
+- 実装詳細ではなく挙動でテストに名前を付ける
 
 ```csharp
 public sealed class OrderServiceTests
@@ -34,13 +34,13 @@ public sealed class OrderServiceTests
 }
 ```
 
-## ASP.NET Core Integration Tests
+## ASP.NET Core integration テスト (ASP.NET Core Integration Tests)
 
-- Use `WebApplicationFactory<TEntryPoint>` for API integration coverage
-- Test auth, validation, and serialization through HTTP, not by bypassing middleware
+- API integration カバレッジには `WebApplicationFactory<TEntryPoint>` を使用する
+- middleware をバイパスせず、HTTP 経由で auth、バリデーション、シリアライズをテストする
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Target 80%+ line coverage
-- Focus coverage on domain logic, validation, auth, and failure paths
-- Run `dotnet test` in CI with coverage collection enabled where available
+- 行カバレッジ 80%+ を目標とする
+- カバレッジはドメインロジック、バリデーション、auth、失敗パスに集中する
+- 可能な場合は CI でカバレッジ収集を有効にした `dotnet test` を実行する

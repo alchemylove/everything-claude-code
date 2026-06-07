@@ -1,39 +1,39 @@
 ---
 name: instinct-export
-description: Export instincts from project/global scope to a file
+description: project/global スコープの instincts をファイルにエクスポートする
 command: /instinct-export
 ---
 
-# Instinct Export Command
+# Instinct エクスポートコマンド (Instinct Export Command)
 
-Exports instincts to a shareable format. Perfect for:
-- Sharing with teammates
-- Transferring to a new machine
-- Contributing to project conventions
+instincts を共有可能な形式でエクスポートします。以下の用途に最適です:
+- チームメイトとの共有
+- 新しいマシンへの転送
+- プロジェクト規約への貢献
 
-## Usage
+## 使い方 (Usage)
 
 ```
-/instinct-export                           # Export all personal instincts
-/instinct-export --domain testing          # Export only testing instincts
-/instinct-export --min-confidence 0.7      # Only export high-confidence instincts
+/instinct-export                           # すべての個人 instincts をエクスポート
+/instinct-export --domain testing          # testing instincts のみをエクスポート
+/instinct-export --min-confidence 0.7      # 高信頼度の instincts のみをエクスポート
 /instinct-export --output team-instincts.yaml
 /instinct-export --scope project --output project-instincts.yaml
 ```
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Detect current project context
-2. Load instincts by selected scope:
-   - `project`: current project only
-   - `global`: global only
-   - `all`: project + global merged (default)
-3. Apply filters (`--domain`, `--min-confidence`)
-4. Write YAML-style export to file (or stdout if no output path provided)
+1. 現在のプロジェクトコンテキストを検出する
+2. 選択したスコープで instincts を読み込む:
+   - `project`: 現在のプロジェクトのみ
+   - `global`: global のみ
+   - `all`: project + global をマージ（デフォルト）
+3. フィルターを適用する（`--domain`、`--min-confidence`）
+4. YAML 形式のエクスポートをファイルに書き込む（出力パス未指定時は stdout）
 
-## Output Format
+## 出力形式 (Output Format)
 
-Creates a YAML file:
+YAML ファイルを作成します:
 
 ```yaml
 # Instincts Export
@@ -58,9 +58,9 @@ project_name: my-app
 Use functional patterns over classes.
 ```
 
-## Flags
+## フラグ (Flags)
 
-- `--domain <name>`: Export only specified domain
-- `--min-confidence <n>`: Minimum confidence threshold
-- `--output <file>`: Output file path (prints to stdout when omitted)
-- `--scope <project|global|all>`: Export scope (default: `all`)
+- `--domain <name>`: 指定ドメインのみをエクスポート
+- `--min-confidence <n>`: 最小信頼度閾値
+- `--output <file>`: 出力ファイルパス（省略時は stdout に出力）
+- `--scope <project|global|all>`: エクスポートスコープ（デフォルト: `all`）

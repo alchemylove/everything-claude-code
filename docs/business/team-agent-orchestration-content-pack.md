@@ -1,142 +1,142 @@
-# Team Agent Orchestration Content Pack
+# チームエージェントオーケストレーションコンテンツパック (Team Agent Orchestration Content Pack)
 
-This pack turns the current ECC direction into publishable ideas without exposing private research sources. The core claim: agent tools are moving from solo chat windows into team orchestration systems with boards, control panes, dynamic workflows, eval gates, and shared skills.
+このパックは、プライベート研究ソースを露出せずに現在の ECC 方向性を公開可能なアイデアに変換します。中核クレーム：エージェントツールはソロのチャットウィンドウから、ボード、コントロールペイン、動的ワークフロー、eval ゲート、共有 skills を持つチームオーケストレーションシステムへ移行しています。
 
-## Positioning
+## ポジショニング (Positioning)
 
-ECC should be framed as an orchestration and control-plane layer for the multi-agent stack. The point is not "another prompt library." The point is a workflow operating system for teams that use Claude Code, Codex, OpenCode, Hermes-style desktops, terminal panes, browser agents, MCP gateways, and internal agent tools at the same time.
+ECC はマルチエージェントスタック向けのオーケストレーションと control-plane レイヤーとして位置づけるべきです。要点は「もう一つのプロンプトライブラリ」ではありません。Claude Code、Codex、OpenCode、Hermes スタイルのデスクトップ、ターミナルペイン、ブラウザエージェント、MCP gateway、内部エージェントツールを同時に使うチーム向けのワークフロー operating system です。
 
-## Narrative Thesis
+## ナラティブテーゼ (Narrative Thesis)
 
-The old generation of agent Kanban failed because agents were not dependable enough to own real cards. They hallucinated context, skipped verification, and produced output that could not merge. The new generation can work because dynamic workflows, stronger code models, eval harnesses, local state, browser control, and MCP standardization make each card observable and gateable.
+旧世代のエージェント Kanban は、エージェントが実カードを信頼して担当できるほど dependable ではなかったため失敗しました。コンテキストを幻覚し、検証をスキップし、マージできない出力を生みました。新世代は動的ワークフロー、より強いコードモデル、eval harness、ローカル状態、ブラウザ制御、MCP 標準化により、各カードを observable で gateable にできるため機能します。
 
-## Video Concepts
+## 動画コンセプト (Video Concepts)
 
-### 1. Why Agent Kanban Failed, And Why It Can Work Now
+### 1. なぜエージェント Kanban は失敗し、今なら機能しうるか (1. Why Agent Kanban Failed, And Why It Can Work Now)
 
-- Hook: "Agent Kanban used to be theater. Now it can become the operating surface."
-- Show: one card moving from backlog to running to review to merged.
-- Key beats:
-  - Cards need owners, branches, evals, and merge gates.
-  - Dynamic workflows let agents create task-local harnesses.
-  - Control panes turn hidden chat output into operational state.
-- CTA: "Stop asking if agents can code. Ask whether your team can route, verify, and merge agent work."
+- Hook: 「エージェント Kanban はかつて theater でした。今は operating surface になり得ます。」
+- 表示：バックログから running、review、merged へ移動する1枚のカード。
+- キービート：
+  - カードには owner、branch、eval、merge gate が必要。
+  - 動的ワークフローはエージェントがタスクローカル harness を生成できる。
+  - コントロールペインは隠れたチャット出力を運用状態に変える。
+- CTA: 「エージェントがコードできるか聞くのをやめろ。チームがエージェント作業をルート、検証、マージできるか聞け。」
 
-### 2. The Control Pane Is The New IDE Primitive
+### 2. コントロールペインは新しい IDE プリミティブ (2. The Control Pane Is The New IDE Primitive)
 
-- Hook: "The next IDE is not a text editor. It is a mission control surface."
-- Show: sessions, work items, memory, connectors, actions, and merge readiness.
-- Key beats:
-  - Teams will run multiple harnesses at once.
-  - The winning product coordinates context, tools, and evidence.
-  - Desktop apps matter when they make state inspectable, not when they add another chat box.
-- CTA: "Build the pane that tells you what agents are doing, what failed, and what can ship."
+- Hook: 「次の IDE はテキストエディタではない。ミッションコントロール面だ。」
+- 表示：sessions、work items、memory、connectors、actions、merge readiness。
+- キービート：
+  - チームは複数 harness を同時に走らせる。
+  - 勝つプロダクトは context、tools、evidence を調整する。
+  - 状態を inspectable にするときデスクトップアプリが重要で、別のチャットボックスを足すときではない。
+- CTA: 「エージェントが何をしているか、何が失敗し、何が出荷できるかを伝えるペインを作れ。」
 
-### 3. A Harness For Every Task
+### 3. タスクごとの Harness (3. A Harness For Every Task)
 
-- Hook: "The agent should not just write code. It should build the workflow that proves the code works."
-- Show: a dynamic workflow creating tests, browser smoke, and handoff artifacts.
-- Key beats:
-  - Static workflows are good defaults.
-  - Dynamic workflows are task-local harnesses.
-  - Repeated dynamic workflows become shared skills.
-- CTA: "The real asset is the reusable workflow, not the one-off answer."
+- Hook: 「エージェントはコードを書くだけではない。コードが動くことを証明するワークフローを構築すべきだ。」
+- 表示：動的ワークフローが tests、browser smoke、handoff artifacts を生成。
+- キービート：
+  - 静的ワークフローは良いデフォルト。
+  - 動的ワークフローはタスクローカル harness。
+  - 繰り返される動的ワークフローは共有 skills になる。
+- CTA: 「本当の資産は使い捨て回答ではなく再利用可能なワークフローだ。」
 
-### 4. MCP Gateways And The End Of Reconfiguring Every Agent
+### 4. MCP Gateway と全エージェント再設定の終焉 (4. MCP Gateways And The End Of Reconfiguring Every Agent)
 
-- Hook: "If you configure every MCP server ten times, your agent stack is already broken."
-- Show: one tool registry feeding multiple harnesses.
-- Key beats:
-  - Tooling must be centrally declared and locally enforceable.
-  - The control pane should show connector health.
-  - Agent portability depends on shared tool contracts.
-- CTA: "Treat tools as infrastructure, not per-chat settings."
+- Hook: 「MCP server を10回設定するなら、エージェントスタックはすでに壊れている。」
+- 表示：複数 harness に供給する1つの tool registry。
+- キービート：
+  - ツールは中央宣言されローカルで強制可能であるべき。
+  - コントロールペインは connector 健全性を示すべき。
+  - エージェントポータビリティは共有 tool 契約に依存。
+- CTA: 「ツールを per-chat 設定ではなくインフラとして扱え。」
 
-### 5. Teams Will Run Like AI Labs
+### 5. チームは AI ラボのように動く (5. Teams Will Run Like AI Labs)
 
-- Hook: "Every company becomes an AI lab when every workflow has an eval."
-- Show: a business workflow with a pass/fail evaluator and a work item queue.
-- Key beats:
-  - Eval gates move agent work from demo to operations.
-  - Shared skills are team best-practice files.
-  - The control pane is where management sees throughput and risk.
-- CTA: "The future is not one agent. It is an evaluated team of agents."
+- Hook: 「すべてのワークフローに eval があるとき、すべての会社は AI ラボになる。」
+- 表示：pass/fail evaluator と work item queue を持つビジネスワークフロー。
+- キービート：
+  - Eval gate はエージェント作業をデモから運用へ移す。
+  - 共有 skills はチームのベストプラクティスファイル。
+  - コントロールペインは管理がスループットとリスクを見る場所。
+- CTA: 「未来は1エージェントではない。評価されたエージェントのチームだ。」
 
-## Article Angles
+## 記事アングル (Article Angles)
 
-### 1. Agent Kanban Was Early, Not Wrong
+### 1. エージェント Kanban は早すぎただけで間違いではなかった (1. Agent Kanban Was Early, Not Wrong)
 
-Argument:
+論点：
 
-- Kanban for agents failed when cards were just prompts.
-- It starts working when cards carry ownership, branch scope, tests, evals, and handoff.
-- Dynamic workflows let each card generate its own proof harness.
-- A control pane makes the board honest because it shows state from the filesystem, tests, and sessions.
+- カードがプロンプトだけだったとき、エージェント Kanban は失敗した。
+- カードが ownership、branch scope、tests、eval、handoff を持つと機能し始める。
+- 動的ワークフローは各カードが独自の proof harness を生成できる。
+- コントロールペインは filesystem、tests、sessions から状態を示すためボードを正直にする。
 
-Suggested sections:
+推奨セクション：
 
-1. Why early agent Kanban felt fake.
-2. What changed: better models, dynamic workflows, MCP, local state, browser automation.
-3. The minimum viable card schema.
-4. Why merge gates matter more than task assignment.
-5. What teams should build now.
+1. なぜ初期のエージェント Kanban はフェイクに感じたか。
+2. 何が変わったか：より良いモデル、動的ワークフロー、MCP、ローカル状態、ブラウザ自動化。
+3. 最小 viable カードスキーマ。
+4. なぜ merge gate はタスク割当より重要か。
+5. チームが今構築すべきこと。
 
-### 2. The Control Pane Era Of AI Development
+### 2. AI 開発のコントロールペイン時代 (2. The Control Pane Era Of AI Development)
 
-Argument:
+論点：
 
-- The next developer surface is a control pane that coordinates agents, tools, memory, and gates.
-- Chat remains the interaction layer, but the product value lives in orchestration state.
-- ECC should be positioned as the shared layer across local harnesses, desktop agents, and team systems.
+- 次の開発者面は、エージェント、ツール、memory、gate を調整するコントロールペイン。
+- チャットは相互作用レイヤーだが、プロダクト価値はオーケストレーション状態にある。
+- ECC はローカル harness、デスクトップエージェント、チームシステム横断の共有レイヤーとして位置づけるべき。
 
-Suggested sections:
+推奨セクション：
 
-1. Chat is not enough for team work.
-2. Sessions, memory, tools, and work items need one pane.
-3. Dynamic workflows need visibility.
-4. Control panes become the product moat.
-5. Open source distribution comes from becoming infrastructure.
+1. チーム作業にはチャットだけでは足りない。
+2. sessions、memory、tools、work items は1つのペインが必要。
+3. 動的ワークフローには可視性が必要。
+4. コントロールペインがプロダクトの moat になる。
+5. オープンソース配布はインフラになることから来る。
 
-### 3. Shared Skills Are The New Team Playbooks
+### 3. 共有 Skills は新しいチームプレイブック (3. Shared Skills Are The New Team Playbooks)
 
-Argument:
+論点：
 
-- The best companies will not rely on every engineer inventing their own agent workflow.
-- A shared skill file is the new best-practices document, but executable by agents.
-- Dynamic workflows are discovery; skills are institutional memory.
+- 最良の会社は、すべてのエンジニアが独自のエージェントワークフローを発明するのに頼らない。
+- 共有 skill ファイルは新しいベストプラクティス文書だが、エージェントが実行可能。
+- 動的ワークフローは発見；skills は組織記憶。
 
-Suggested sections:
+推奨セクション：
 
-1. Why team divergence in agent usage is expensive.
-2. What belongs in a skill.
-3. When to promote a task-local harness.
-4. How evals keep shared skills honest.
-5. How this becomes a platform layer.
+1. エージェント利用のチーム分岐が高コストな理由。
+2. skill に属するもの。
+3. タスクローカル harness を昇格するタイミング。
+4. eval が共有 skills を正直に保つ方法。
+5. これがプラットフォームレイヤーになる方法。
 
-## Short Posts
+## ショート投稿 (Short Posts)
 
-1. Agent Kanban did not fail because the board was wrong. It failed because the cards had no ownership, eval, branch, or merge gate. The new primitive is not "assign prompt to agent." It is "assign verified work item to agent team."
+1. エージェント Kanban はボードが間違っていたから失敗したのではない。カードに ownership、eval、branch、merge gate がなかったからだ。新しいプリミティブは「エージェントにプロンプトを割り当てる」ではない。「検証済み work item をエージェントチームに割り当てる」ことだ。
 
-2. Dynamic workflows change the unit of reuse. The answer is disposable. The harness is valuable. If the same task-local harness works twice, promote it into a shared skill.
+2. 動的ワークフローは再利用の単位を変える。回答は使い捨て。harness が価値ある。同じタスクローカル harness が2回機能したら、共有 skill に昇格させろ。
 
-3. The control pane is where agent work becomes management-visible: who owns the card, what changed, what failed, what passed, and what can merge.
+3. コントロールペインはエージェント作業を管理から見えるようにする場所：誰がカードを所有し、何が変わり、何が失敗し、何が合格し、何がマージできるか。
 
-4. The future OSS wedge for agent infrastructure looks like old infra wedges: become the thing teams install first because it standardizes tools, workflows, evidence, and handoff.
+4. エージェントインフラ向けの未来 OSS wedge は古い infra wedge に似る：ツール、ワークフロー、evidence、handoff を標準化するためチームが最初にインストールするものになる。
 
-5. Teams will not run one agent. They will run evaluated squads across code, browser, data, review, and content. The product layer is orchestration.
+5. チームは1エージェントを走らせない。コード、ブラウザ、データ、レビュー、コンテンツ横断の評価された squad を走らせる。プロダクトレイヤーはオーケストレーションだ。
 
-## Distribution Plan
+## 配信プラン (Distribution Plan)
 
-1. Publish one short post on agent Kanban.
-2. Follow with a 90-second video showing a card moving through a control pane.
-3. Publish the article on shared skills as team playbooks.
-4. Release a demo clip of ECC control pane plus a dynamic workflow card.
-5. Turn comments into the next skill or article.
+1. エージェント Kanban について短い投稿を1本公開。
+2. コントロールペインでカードが動く90秒動画でフォロー。
+3. チームプレイブックとしての共有 skills 記事を公開。
+4. ECC コントロールペイン + 動的ワークフローカードのデモクリップをリリース。
+5. コメントを次の skill または記事に変換。
 
-## Product Implications For ECC
+## ECC へのプロダクト含意 (Product Implications For ECC)
 
-- Build skills first; commands are compatibility shims.
-- Make the control pane show work items, agent Kanban state, gates, and reusable-skill candidates.
-- Treat dynamic workflows as a feeder system for shared skills.
-- Treat MCP and connector configuration as infrastructure that should be visible across harnesses.
-- Keep private research private; publish synthesized concepts and product evidence.
+- skills を先に構築；commands は互換性 shim。
+- コントロールペインに work items、エージェント Kanban 状態、gate、再利用 skill 候補を表示。
+- 動的ワークフローを共有 skills のフィーダーシステムとして扱う。
+- MCP と connector 設定を harness 横断で可視化すべきインフラとして扱う。
+- プライベート研究はプライベートのまま；合成された概念とプロダクト evidence を公開。

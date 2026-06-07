@@ -1,8 +1,8 @@
-# Coding Style
+# コーディングスタイル (Coding Style)
 
-## Immutability (CRITICAL)
+## 不変性（重要）(Immutability (CRITICAL))
 
-ALWAYS create new objects, NEVER mutate existing ones:
+常に新しいオブジェクトを作成し、既存オブジェクトを変更しない:
 
 ```
 // Pseudocode
@@ -10,81 +10,81 @@ WRONG:  modify(original, field, value) → changes original in-place
 CORRECT: update(original, field, value) → returns new copy with change
 ```
 
-Rationale: Immutable data prevents hidden side effects, makes debugging easier, and enables safe concurrency.
+理由: 不変データは隠れた副作用を防ぎ、デバッグを容易にし、安全な並行処理を可能にします。
 
-## Core Principles
+## 基本原則 (Core Principles)
 
 ### KISS (Keep It Simple)
 
-- Prefer the simplest solution that actually works
-- Avoid premature optimization
-- Optimize for clarity over cleverness
+- 実際に動作する最も単純な解決策を優先する
+- 早すぎる最適化を避ける
+- 巧妙さより明確さを優先する
 
 ### DRY (Don't Repeat Yourself)
 
-- Extract repeated logic into shared functions or utilities
-- Avoid copy-paste implementation drift
-- Introduce abstractions when repetition is real, not speculative
+- 繰り返しロジックを共有関数やユーティリティに抽出する
+- コピペによる実装のドリフトを避ける
+- 繰り返しが実在するときに抽象化を導入する（投機的ではない）
 
 ### YAGNI (You Aren't Gonna Need It)
 
-- Do not build features or abstractions before they are needed
-- Avoid speculative generality
-- Start simple, then refactor when the pressure is real
+- 必要になる前に feature や抽象化を作らない
+- 投機的な汎用性を避ける
+- シンプルに始め、圧力が実在するときにリファクタリングする
 
-## File Organization
+## ファイル構成 (File Organization)
 
-MANY SMALL FILES > FEW LARGE FILES:
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max
-- Extract utilities from large modules
-- Organize by feature/domain, not by type
+多数の小ファイル > 少数の大ファイル:
+- 高凝集、低結合
+- 典型的には 200–400 行、最大 800 行
+- 大きなモジュールからユーティリティを抽出する
+- 型ではなく feature／ドメインで整理する
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-ALWAYS handle errors comprehensively:
-- Handle errors explicitly at every level
-- Provide user-friendly error messages in UI-facing code
-- Log detailed error context on the server side
-- Never silently swallow errors
+常に包括的にエラーを処理する:
+- すべてのレベルで明示的にエラーを処理する
+- UI 向けコードではユーザーに分かりやすいエラーメッセージを提供する
+- サーバー側では詳細なエラーコンテキストをログに記録する
+- エラーを黙って握りつぶさない
 
-## Input Validation
+## 入力検証 (Input Validation)
 
-ALWAYS validate at system boundaries:
-- Validate all user input before processing
-- Use schema-based validation where available
-- Fail fast with clear error messages
-- Never trust external data (API responses, user input, file content)
+システム境界で常に検証する:
+- 処理前にすべてのユーザー入力を検証する
+- 可能なら schema ベースの検証を使用する
+- 明確なエラーメッセージで fail fast する
+- 外部データ（API レスポンス、ユーザー入力、ファイル内容）を信頼しない
 
-## Naming Conventions
+## 命名規約 (Naming Conventions)
 
-- Variables and functions: `camelCase` with descriptive names
-- Booleans: prefer `is`, `has`, `should`, or `can` prefixes
-- Interfaces, types, and components: `PascalCase`
-- Constants: `UPPER_SNAKE_CASE`
-- Custom hooks: `camelCase` with a `use` prefix
+- 変数と関数: 説明的な名前の `camelCase`
+- Boolean: `is`、`has`、`should`、`can` プレフィックスを優先
+- Interface、型、コンポーネント: `PascalCase`
+- 定数: `UPPER_SNAKE_CASE`
+- カスタム hooks: `use` プレフィックス付き `camelCase`
 
-## Code Smells to Avoid
+## 避けるべきコードの臭い (Code Smells to Avoid)
 
-### Deep Nesting
+### 深いネスト (Deep Nesting)
 
-Prefer early returns over nested conditionals once the logic starts stacking.
+ロジックが積み重なる場合は、ネストした条件分岐より early return を優先する。
 
-### Magic Numbers
+### マジックナンバー (Magic Numbers)
 
-Use named constants for meaningful thresholds, delays, and limits.
+意味のある閾値、遅延、制限には名前付き定数を使用する。
 
-### Long Functions
+### 長い関数 (Long Functions)
 
-Split large functions into focused pieces with clear responsibilities.
+大きな関数は、責務が明確な小さな単位に分割する。
 
-## Code Quality Checklist
+## コード品質チェックリスト (Code Quality Checklist)
 
-Before marking work complete:
-- [ ] Code is readable and well-named
-- [ ] Functions are small (<50 lines)
-- [ ] Files are focused (<800 lines)
-- [ ] No deep nesting (>4 levels)
-- [ ] Proper error handling
-- [ ] No hardcoded values (use constants or config)
-- [ ] No mutation (immutable patterns used)
+作業完了とマークする前に:
+- [ ] コードが読みやすく、命名が適切
+- [ ] 関数が小さい（<50 行）
+- [ ] ファイルが焦点を絞っている（<800 行）
+- [ ] 深いネストがない（>4 レベル）
+- [ ] 適切なエラーハンドリング
+- [ ] ハードコード値がない（定数または config を使用）
+- [ ] mutation がない（不変パターンを使用）

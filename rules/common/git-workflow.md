@@ -1,6 +1,6 @@
-# Git Workflow
+# Git ワークフロー (Git Workflow)
 
-## Commit Message Format
+## コミットメッセージ形式 (Commit Message Format)
 ```
 <type>: <description>
 
@@ -11,14 +11,14 @@ Types: feat, fix, refactor, docs, test, chore, perf, ci
 
 Note: Attribution disabled globally via ~/.claude/settings.json.
 
-## Pull Request Workflow
+## Pull Request ワークフロー (Pull Request Workflow)
 
-When creating PRs:
-1. Analyze full commit history (not just latest commit)
-2. Use `git diff [base-branch]...HEAD` to see all changes
-3. Draft comprehensive PR summary
-4. Include test plan with TODOs
-5. Push with `-u` flag if new branch
+PR 作成時:
+1. 全コミット履歴を分析する（最新コミットだけでなく）
+2. `git diff [base-branch]...HEAD` で全変更を確認する
+3. 包括的な PR サマリーを起草する
+4. TODO 付きのテストプランを含める
+5. 新規ブランチなら `-u` フラグで push する
 
-> For the full development process (planning, TDD, code review) before git operations,
-> see [development-workflow.md](./development-workflow.md).
+> git 操作の前の開発プロセス（計画、TDD、コードレビュー）の全体は
+> [development-workflow.md](./development-workflow.md) を参照。

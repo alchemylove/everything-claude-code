@@ -8,14 +8,14 @@ origin: ECC
 
 Run before PRs, after major changes, and pre-deploy.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - Before opening a pull request for a Laravel project
 - After major refactors or dependency upgrades
 - Pre-deployment verification for staging or production
 - Running full lint -> test -> security -> deploy readiness pipeline
 
-## How It Works
+## 仕組み (How It Works)
 
 - Run phases sequentially from environment checks through deployment readiness so each layer builds on the last.
 - Environment and Composer checks gate everything else; stop immediately if they fail.
@@ -23,7 +23,7 @@ Run before PRs, after major changes, and pre-deploy.
 - Security and migration reviews happen after tests so you verify behavior before data or release steps.
 - Build/deploy readiness and queue/scheduler checks are final gates; any failure blocks release.
 
-## Phase 1: Environment Checks
+## フェーズ1: 環境チェック (Phase 1: Environment Checks)
 
 ```bash
 php -v
@@ -42,14 +42,14 @@ If using Laravel Sail locally:
 ./vendor/bin/sail artisan --version
 ```
 
-## Phase 1.5: Composer and Autoload
+## フェーズ1.5: Composer とオートロード (Phase 1.5: Composer and Autoload)
 
 ```bash
 composer validate
 composer dump-autoload -o
 ```
 
-## Phase 2: Linting and Static Analysis
+## フェーズ2: リントと静的解析 (Phase 2: Linting and Static Analysis)
 
 ```bash
 vendor/bin/pint --test
@@ -62,7 +62,7 @@ If your project uses Psalm instead of PHPStan:
 vendor/bin/psalm
 ```
 
-## Phase 3: Tests and Coverage
+## フェーズ3: テストとカバレッジ (Phase 3: Tests and Coverage)
 
 ```bash
 php artisan test
@@ -82,13 +82,13 @@ vendor/bin/phpstan analyse
 XDEBUG_MODE=coverage php artisan test --coverage
 ```
 
-## Phase 4: Security and Dependency Checks
+## フェーズ4: セキュリティと依存関係チェック (Phase 4: Security and Dependency Checks)
 
 ```bash
 composer audit
 ```
 
-## Phase 5: Database and Migrations
+## フェーズ5: データベースとマイグレーション (Phase 5: Database and Migrations)
 
 ```bash
 php artisan migrate --pretend
@@ -100,7 +100,7 @@ php artisan migrate:status
 - Ensure rollbacks are possible
 - Verify `down()` methods and avoid irreversible data loss without explicit backups
 
-## Phase 6: Build and Deployment Readiness
+## フェーズ6: ビルドとデプロイ準備 (Phase 6: Build and Deployment Readiness)
 
 ```bash
 php artisan optimize:clear
@@ -113,7 +113,7 @@ php artisan view:cache
 - Verify queue workers and scheduler are configured
 - Confirm `storage/` and `bootstrap/cache/` are writable in the target environment
 
-## Phase 7: Queue and Scheduler Checks
+## フェーズ7: キューとスケジューラチェック (Phase 7: Queue and Scheduler Checks)
 
 ```bash
 php artisan schedule:list
@@ -143,7 +143,7 @@ Verify the job produced the expected side effect (log entry, healthcheck table r
 
 Only run this on non-production environments where processing a test job is safe.
 
-## Examples
+## 例 (Examples)
 
 Minimal flow:
 

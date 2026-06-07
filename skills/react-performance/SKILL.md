@@ -8,7 +8,7 @@ origin: ECC
 
 Performance optimization patterns for React 18/19 and Next.js, adapted from [Vercel Labs `react-best-practices`](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices) (MIT, v1.0.0). This skill organizes rules by priority and provides decision-tree guidance for active code review and refactoring.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Writing or reviewing React/Next.js code for performance
 - Diagnosing slow page loads, slow interactions, or high CPU on the client
@@ -18,7 +18,7 @@ Performance optimization patterns for React 18/19 and Next.js, adapted from [Ver
 - Optimizing long lists, animations, or hydration
 - Auditing optimization choices in PRs touching `app/`, `pages/`, `components/`, or data layers
 
-## Priority Index
+## 優先度インデックス (Priority Index)
 
 | Priority | Category | Prefix | When it matters |
 |---|---|---|---|
@@ -539,7 +539,7 @@ function useLatest<T>(value: T) {
 }
 ```
 
-## Automated Tools
+## 自動化ツール (Automated Tools)
 
 Many of these rules are now automated:
 
@@ -550,7 +550,7 @@ Many of these rules are now automated:
 
 When the project ships React Compiler, demote `rerender-*` manual memoization rules to "review-only" — the compiler handles them. Manual `useMemo`/`useCallback` becomes unnecessary noise.
 
-## Lighthouse / Web Vitals Mapping
+## Lighthouse / Web Vitals マッピング (Lighthouse / Web Vitals Mapping)
 
 | Metric | Most relevant categories |
 |---|---|
@@ -560,14 +560,14 @@ When the project ships React Compiler, demote `rerender-*` manual memoization ru
 | **TBT** (Total Blocking Time) | Bundle Size, JavaScript, Defer Third-Party |
 | **FID** (legacy) | Bundle Size, Hydration |
 
-## Related
+## 関連 (Related)
 
 - Skills: [react-patterns](../react-patterns/SKILL.md), [react-testing](../react-testing/SKILL.md), [frontend-patterns](../frontend-patterns/SKILL.md), [accessibility](../accessibility/SKILL.md), [nextjs-turbopack](../nextjs-turbopack/SKILL.md)
 - Rules: [rules/react/](../../rules/react/)
 - Agents: `react-reviewer` enforces these rules in code review; `react-build-resolver` handles related build failures
 - Commands: `/react-review`, `/react-build`, `/react-test`
 
-## Attribution
+## 帰属 (Attribution)
 
 Adapted from Vercel Labs `react-best-practices` skill (MIT License, copyright Vercel Engineering, v1.0.0 January 2026). Source: [https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices).
 

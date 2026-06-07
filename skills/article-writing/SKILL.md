@@ -1,79 +1,78 @@
 ---
 name: article-writing
-description: Write articles, guides, blog posts, tutorials, newsletter issues, and other long-form content in a distinctive voice derived from supplied examples or brand guidance. Use when the user wants polished written content longer than a paragraph, especially when voice consistency, structure, and credibility matter.
-origin: ECC
+description: 記事執筆 — 提供例または brand guidance から導いた distinctive voice で、記事、ガイド、ブログ投稿、チュートリアル、newsletter 号、その他長文コンテンツを執筆。voice 一貫性、構成、信頼性が重要で、段落より長い polished な文章が必要なときに使用。
 ---
 
-# Article Writing
+# 記事執筆 (Article Writing)
 
-Write long-form content that sounds like an actual person with a point of view, not an LLM smoothing itself into paste.
+LLM が paste に平滑化するのではなく、視点を持つ実在の人物のように聞こえる長文を書く。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- drafting blog posts, essays, launch posts, guides, tutorials, or newsletter issues
-- turning notes, transcripts, or research into polished articles
-- matching an existing founder, operator, or brand voice from examples
-- tightening structure, pacing, and evidence in already-written long-form copy
+- ブログ投稿、エッセイ、launch post、ガイド、チュートリアル、newsletter 号の起草
+- メモ、トランスクリプト、リサーチを polished な記事へ変換
+- 例から既存 founder、operator、brand voice に合わせる
+- 既存長文の構成、ペース、evidence を締める
 
-## Core Rules
+## コアルール (Core Rules)
 
-1. Lead with the concrete thing: artifact, example, output, anecdote, number, screenshot, or code.
-2. Explain after the example, not before.
-3. Keep sentences tight unless the source voice is intentionally expansive.
-4. Use proof instead of adjectives.
-5. Never invent facts, credibility, or customer evidence.
+1. 具体物から始める: artifact、example、output、anecdote、数値、screenshot、code。
+2. 例の後に説明する。前ではない。
+3. source voice が意図的に expansive でない限り、文は短く保つ。
+4. 形容詞ではなく proof を使う。
+5. 事実、credibility、customer evidence を捏造しない。
 
-## Voice Handling
+## Voice 扱い (Voice Handling)
 
-If the user wants a specific voice, run `brand-voice` first and reuse its `VOICE PROFILE`.
-Do not duplicate a second style-analysis pass here unless the user explicitly asks for one.
+特定 voice が必要なら先に `brand-voice` を実行し、その `VOICE PROFILE` を再利用する。
+ユーザーが明示的に求めない限り、ここで第 2 の style-analysis pass を重複しない。
 
-If no voice references are given, default to a sharp operator voice: concrete, unsentimental, useful.
+voice reference がなければ、鋭い operator voice をデフォルトとする: concrete、unsentimental、useful。
 
-## Banned Patterns
+## 禁止パターン (Banned Patterns)
 
-Delete and rewrite any of these:
+次があれば削除して書き直す:
 - "In today's rapidly evolving landscape"
 - "game-changer", "cutting-edge", "revolutionary"
-- "here's why this matters" as a standalone bridge
-- fake vulnerability arcs
-- a closing question added only to juice engagement
-- biography padding that does not move the argument
-- generic AI throat-clearing that delays the point
+- 単独 bridge としての "here's why this matters"
+- 偽 vulnerability arc
+- engagement を煽るだけの closing question
+- 議論を進めない biography padding
+- 要点を遅らせる generic AI throat-clearing
 
-## Writing Process
+## 執筆プロセス (Writing Process)
 
-1. Clarify the audience and purpose.
-2. Build a hard outline with one job per section.
-3. Start sections with proof, artifact, conflict, or example.
-4. Expand only where the next sentence earns space.
-5. Cut anything that sounds templated, overexplained, or self-congratulatory.
+1. 読者と目的を明確化する。
+2. section ごとに 1 つの役割を持つ hard outline を組む。
+3. section は proof、artifact、conflict、example から始める。
+4. 次の文が space を稼ぐ場合のみ展開する。
+5. templated、overexplained、self-congratulatory に聞こえる部分を削る。
 
-## Structure Guidance
+## 構成ガイダンス (Structure Guidance)
 
-### Technical Guides
+### 技術ガイド (Technical Guides)
 
-- open with what the reader gets
-- use code, commands, screenshots, or concrete output in major sections
-- end with actionable takeaways, not a soft recap
+- 読者が得るもので開く
+- 主要 section に code、command、screenshot、concrete output を使う
+- soft recap ではなく actionable takeaway で締める
 
-### Essays / Opinion
+### エッセイ / 意見 (Essays / Opinion)
 
-- start with tension, contradiction, or a specific observation
-- keep one argument thread per section
-- make opinions answer to evidence
+- tension、contradiction、specific observation から始める
+- section ごとに 1 本の argument thread を保つ
+- 意見は evidence に答える
 
-### Newsletters
+### Newsletter (Newsletters)
 
-- keep the first screen doing real work
-- do not front-load diary filler
-- use section labels only when they improve scanability
+- 最初の画面で実務をこなす
+- diary filler を front-load しない
+- scanability を改善する場合のみ section label を使う
 
-## Quality Gate
+## 品質ゲート (Quality Gate)
 
-Before delivering:
-- factual claims are backed by provided sources
-- generic AI transitions are gone
-- the voice matches the supplied examples or the agreed `VOICE PROFILE`
-- every section adds something new
-- formatting matches the intended medium
+納品前:
+- 事実 claim は提供 source で裏付けられている
+- generic AI transition が消えている
+- voice が提供例または合意した `VOICE PROFILE` と一致している
+- 各 section が新しい何かを追加している
+- formatting が intended medium に一致している

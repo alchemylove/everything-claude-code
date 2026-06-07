@@ -1,32 +1,32 @@
 ---
-description: "Extract reusable patterns from the session, self-evaluate quality before saving, and determine the right save location (Global vs Project)."
+description: "セッションから再利用可能なパターンを抽出し、保存前に品質を自己評価し、適切な保存場所（Global vs Project）を決定する。"
 ---
 
-# /learn-eval - Extract, Evaluate, then Save
+# /learn-eval - 抽出、評価、保存 (Extract, Evaluate, then Save)
 
-Extends `/learn` with a quality gate, save-location decision, and knowledge-placement awareness before writing any skill file.
+`/learn` を拡張し、skill ファイルを書く前に品質ゲート、保存場所の決定、ナレッジ配置の認識を追加します。
 
-## What to Extract
+## 抽出対象 (What to Extract)
 
-Look for:
+以下を探します:
 
-1. **Error Resolution Patterns** — root cause + fix + reusability
-2. **Debugging Techniques** — non-obvious steps, tool combinations
-3. **Workarounds** — library quirks, API limitations, version-specific fixes
-4. **Project-Specific Patterns** — conventions, architecture decisions, integration patterns
+1. **エラー解決パターン (Error Resolution Patterns)** — 根本原因 + 修正 + 再利用性
+2. **デバッグ技術 (Debugging Techniques)** — 自明でない手順、ツールの組み合わせ
+3. **ワークアラウンド (Workarounds)** — ライブラリの癖、API の制限、バージョン固有の修正
+4. **プロジェクト固有のパターン (Project-Specific Patterns)** — 規約、アーキテクチャの決定、統合パターン
 
-## Process
+## プロセス (Process)
 
-1. Review the session for extractable patterns
-2. Identify the most valuable/reusable insight
+1. セッションで抽出可能なパターンをレビューする
+2. 最も価値がある/再利用可能な洞察を特定する
 
-3. **Determine save location:**
-   - Ask: "Would this pattern be useful in a different project?"
-   - **Global** (`~/.claude/skills/learned/`): Generic patterns usable across 2+ projects (bash compatibility, LLM API behavior, debugging techniques, etc.)
-   - **Project** (`.claude/skills/learned/` in current project): Project-specific knowledge (quirks of a particular config file, project-specific architecture decisions, etc.)
-   - When in doubt, choose Global (moving Global → Project is easier than the reverse)
+3. **保存場所を決定する (Determine save location):**
+   - 質問: 「このパターンは別のプロジェクトでも役立つか？」
+   - **Global** (`~/.claude/skills/learned/`): 2 つ以上のプロジェクトで使える汎用パターン（bash 互換性、LLM API の動作、デバッグ技術など）
+   - **Project**（現在のプロジェクトの `.claude/skills/learned/`）: プロジェクト固有のナレッジ（特定の設定ファイルの癖、プロジェクト固有のアーキテクチャ決定など）
+   - 迷ったら Global を選択する（Global → Project への移動はその逆より容易）
 
-4. Draft the skill file using this format:
+4. 以下の形式で skill ファイルを下書きする:
 
 ```markdown
 ---
@@ -51,20 +51,20 @@ origin: auto-extracted
 [Trigger conditions]
 ```
 
-5. **Quality gate — Checklist + Holistic verdict**
+5. **品質ゲート — チェックリスト + 総合判定 (Quality gate — Checklist + Holistic verdict)**
 
-   ### 5a. Required checklist (verify by actually reading files)
+   ### 5a. 必須チェックリスト（実際にファイルを読んで検証）(Required checklist (verify by actually reading files))
 
-   Execute **all** of the following before evaluating the draft:
+   ドラフトを評価する前に、以下の**すべて**を実行する:
 
-   - [ ] Grep `~/.claude/skills/` and relevant project `.claude/skills/` files by keyword to check for content overlap
-   - [ ] Check MEMORY.md (both project and global) for overlap
-   - [ ] Consider whether appending to an existing skill would suffice
-   - [ ] Confirm this is a reusable pattern, not a one-off fix
+   - [ ] `~/.claude/skills/` および関連プロジェクトの `.claude/skills/` ファイルをキーワードで grep し、内容の重複を確認する
+   - [ ] MEMORY.md（プロジェクトと global 両方）の重複を確認する
+   - [ ] 既存 skill への追記で十分かを検討する
+   - [ ] これが再利用可能なパターンであり、一度限りの修正でないことを確認する
 
-   ### 5b. Holistic verdict
+   ### 5b. 総合判定 (Holistic verdict)
 
-   Synthesize the checklist results and draft quality, then choose **one** of the following:
+   チェックリスト結果とドラフト品質を統合し、以下の**いずれか 1 つ**を選択する:
 
    | Verdict | Meaning | Next Action |
    |---------|---------|-------------|
@@ -73,23 +73,23 @@ origin: auto-extracted
    | **Absorb into [X]** | Should be appended to an existing skill | Show target skill and additions → Step 6 |
    | **Drop** | Trivial, redundant, or too abstract | Explain reasoning and stop |
 
-**Guideline dimensions** (informing the verdict, not scored):
+**ガイドライン指標 (Guideline dimensions)**（判定を通知するが、スコアリングはしない）:
 
-- **Specificity & Actionability**: Contains code examples or commands that are immediately usable
-- **Scope Fit**: Name, trigger conditions, and content are aligned and focused on a single pattern
-- **Uniqueness**: Provides value not covered by existing skills (informed by checklist results)
-- **Reusability**: Realistic trigger scenarios exist in future sessions
+- **Specificity & Actionability**: すぐに使えるコード例やコマンドが含まれている
+- **Scope Fit**: 名前、トリガー条件、内容が整合し、単一のパターンに焦点を当てている
+- **Uniqueness**: 既存 skill でカバーされていない価値を提供する（チェックリスト結果から判断）
+- **Reusability**: 将来のセッションで現実的なトリガーシナリオが存在する
 
-6. **Verdict-specific confirmation flow**
+6. **判定別の確認フロー (Verdict-specific confirmation flow)**
 
-- **Improve then Save**: Present the required improvements + revised draft + updated checklist/verdict after one re-evaluation; if the revised verdict is **Save**, save after user confirmation, otherwise follow the new verdict
-- **Save**: Present save path + checklist results + 1-line verdict rationale + full draft → save after user confirmation
-- **Absorb into [X]**: Present target path + additions (diff format) + checklist results + verdict rationale → append after user confirmation
-- **Drop**: Show checklist results + reasoning only (no confirmation needed)
+- **Improve then Save**: 必要な改善 + 修正ドラフト + 更新されたチェックリスト/判定を 1 回の再評価後に提示する。修正後の判定が **Save** ならユーザー確認後に保存し、それ以外は新しい判定に従う
+- **Save**: 保存パス + チェックリスト結果 + 1 行の判定理由 + 完全なドラフトを提示 → ユーザー確認後に保存する
+- **Absorb into [X]**: 対象パス + 追加内容（diff 形式）+ チェックリスト結果 + 判定理由を提示 → ユーザー確認後に追記する
+- **Drop**: チェックリスト結果 + 理由のみを表示する（確認不要）
 
-7. Save / Absorb to the determined location
+7. 決定された場所に保存/追記する
 
-## Output Format for Step 5
+## ステップ 5 の出力形式 (Output Format for Step 5)
 
 ```
 ### Checklist
@@ -103,14 +103,14 @@ origin: auto-extracted
 **Rationale:** (1-2 sentences explaining the verdict)
 ```
 
-## Design Rationale
+## 設計の根拠 (Design Rationale)
 
-This version replaces the previous 5-dimension numeric scoring rubric (Specificity, Actionability, Scope Fit, Non-redundancy, Coverage scored 1-5) with a checklist-based holistic verdict system. Modern frontier models (Opus 4.6+) have strong contextual judgment — forcing rich qualitative signals into numeric scores loses nuance and can produce misleading totals. The holistic approach lets the model weigh all factors naturally, producing more accurate save/drop decisions while the explicit checklist ensures no critical check is skipped.
+このバージョンは、以前の 5 次元数値スコアリング rubric（Specificity、Actionability、Scope Fit、Non-redundancy、Coverage を 1-5 でスコアリング）をチェックリストベースの総合判定システムに置き換えています。最新の frontier model（Opus 4.6+）は強力なコンテキスト判断能力を持っており、豊かな定性的シグナルを数値スコアに強制するとニュアンスが失われ、誤解を招く合計を生み出す可能性があります。総合的なアプローチにより、モデルがすべての要因を自然に重み付けし、明示的なチェックリストが重要なチェックのスキップを防ぎながら、より正確な save/drop 決定を生み出します。
 
-## Notes
+## 注意事項 (Notes)
 
-- Don't extract trivial fixes (typos, simple syntax errors)
-- Don't extract one-time issues (specific API outages, etc.)
-- Focus on patterns that will save time in future sessions
-- Keep skills focused — one pattern per skill
-- When the verdict is Absorb, append to the existing skill rather than creating a new file
+- 些細な修正（タイプミス、単純な構文エラー）は抽出しない
+- 一度限りの問題（特定の API 障害など）は抽出しない
+- 将来のセッションで時間を節約できるパターンに焦点を当てる
+- skill は集中させる — 1 skill に 1 パターン
+- 判定が Absorb の場合、新しいファイルを作成せず既存 skill に追記する

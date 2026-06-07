@@ -1,20 +1,20 @@
-# Manual Adaptation Guide for Non-Native Harnesses
+# 非ネイティブ Harness 向け手動適応ガイド (Manual Adaptation Guide for Non-Native Harnesses)
 
-Use this guide when you want ECC behavior inside a harness that does not natively load `.claude/`, `.codex/`, `.opencode/`, `.cursor/`, or `.agent/` layouts.
+`.claude/`、`.codex/`、`.opencode/`、`.cursor/`、`.agent/` レイアウトをネイティブに読み込まない harness 内で ECC の振る舞いを使いたいときに、このガイドを使用してください。
 
-This is the fallback path for tools like Grok and other chat-style interfaces that can accept system prompts, uploaded files, or pasted instructions, but cannot execute the repo's native install surfaces directly.
+これは、system prompt、アップロードファイル、貼り付け指示は受け付けるが、リポジトリのネイティブ install surface を直接実行できない、Grok などのチャット型インターフェース向けのフォールバックパスです。
 
-## When to Use This
+## 使用するタイミング (When to Use This)
 
-Use manual adaptation when the target harness:
+次の条件に当てはまる target harness では手動適応を使用します:
 
-- does not auto-load repo folders
-- does not support custom slash commands
-- does not support hooks
-- does not support repo-local skill activation
-- has partial or no filesystem/tool access
+- repo フォルダを自動読み込みしない
+- カスタム slash command をサポートしない
+- hook をサポートしない
+- repo ローカルの skill 有効化をサポートしない
+- filesystem/tool アクセスが部分的またはない
 
-Prefer a first-class ECC target whenever one exists:
+可能なら first-class ECC target を優先してください:
 
 - Claude Code
 - Codex
@@ -23,54 +23,54 @@ Prefer a first-class ECC target whenever one exists:
 - CodeBuddy
 - Antigravity
 
-Use this guide only when you need ECC behavior in a non-native harness.
+非ネイティブ harness で ECC の振る舞いが必要な場合にのみ、このガイドを使用してください。
 
-## What You Are Reproducing
+## 再現するもの (What You Are Reproducing)
 
-When you adapt ECC manually, you are trying to preserve four things:
+ECC を手動適応するとき、次の4つを保持しようとします:
 
-1. Focused context instead of dumping the whole repo.
-2. Skill activation cues instead of hoping the model guesses the workflow.
-3. Command intent even when the harness has no slash-command system.
-4. Hook discipline even when the harness has no native automation.
+1. リポジトリ全体をダンプするのではなく、絞った context。
+2. モデルに workflow を推測させるのではなく、skill 有効化の手がかり。
+3. harness に slash-command システムがなくても、command の意図。
+4. harness にネイティブ自動化がなくても、hook の規律。
 
-You are not trying to mirror every file in the repo. You are trying to recreate the useful behavior with the smallest possible context bundle.
+リポジトリ内のすべてのファイルをミラーする必要はありません。最小限の context bundle で有用な振る舞いを再現することが目的です。
 
-## The ECC-Native Fallback
+## ECC ネイティブのフォールバック (The ECC-Native Fallback)
 
-Default to manual selection from the repo itself.
+リポジトリ自体からの手動選択をデフォルトにしてください。
 
-Start with only the files you actually need:
+実際に必要なファイルだけから始めます:
 
-- one language or framework skill
-- one workflow skill
-- one domain skill if the task is specialized
-- one agent or command only if the harness benefits from explicit orchestration
+- 言語または framework skill を1つ
+- workflow skill を1つ
+- タスクが専門的なら domain skill を1つ
+- harness が明示的な orchestration の恩恵を受ける場合のみ agent または command を1つ
 
-Good minimal examples:
+良い最小例:
 
-- Python feature work:
+- Python feature 作業:
   - `skills/python-patterns/SKILL.md`
   - `skills/tdd-workflow/SKILL.md`
   - `skills/verification-loop/SKILL.md`
-- TypeScript API work:
+- TypeScript API 作業:
   - `skills/backend-patterns/SKILL.md`
   - `skills/security-review/SKILL.md`
   - `skills/tdd-workflow/SKILL.md`
-- Content/outbound work:
+- Content/outbound 作業:
   - `skills/brand-voice/SKILL.md`
   - `skills/content-engine/SKILL.md`
   - `skills/crosspost/SKILL.md`
 
-If the harness supports file upload, upload only those files.
+harness がファイルアップロードをサポートする場合は、それらのファイルだけをアップロードしてください。
 
-If the harness only supports pasted context, extract the relevant sections and paste a compressed bundle rather than the raw full files.
+貼り付け context のみサポートする場合は、生の全ファイルではなく、関連セクションを抽出して圧縮 bundle を貼り付けてください。
 
-## Manual Context Packing
+## 手動 Context パッキング (Manual Context Packing)
 
-You do not need extra tooling to do this.
+これに追加ツールは不要です。
 
-Use the repo directly:
+リポジトリを直接使用します:
 
 ```bash
 cd /path/to/everything-claude-code
@@ -82,27 +82,27 @@ printf '\n\n---\n\n' >> /tmp/ecc-context.md
 sed -n '1,220p' skills/security-review/SKILL.md >> /tmp/ecc-context.md
 ```
 
-You can also use `rg` to identify the right skills before packing:
+パッキング前に `rg` で適切な skill を特定することもできます:
 
 ```bash
 rg -n "When to use|Use when|Trigger" skills -g 'SKILL.md'
 ```
 
-Optional: if you already use a repo packer like `repomix`, it can help compress selected files into one handoff document. It is a convenience tool, not the canonical ECC path.
+任意: すでに `repomix` などの repo packer を使っている場合、選択ファイルを1つの handoff ドキュメントに圧縮するのに役立ちます。便利ツールであり、canonical ECC パスではありません。
 
-## Compression Rules
+## 圧縮ルール (Compression Rules)
 
-When manually packing ECC for another harness:
+他の harness 向けに ECC を手動パッキングするとき:
 
-- keep the task framing
-- keep the activation conditions
-- keep the workflow steps
-- keep the critical examples
-- remove repetitive prose first
-- remove unrelated variants second
-- avoid pasting whole directories when one or two skills are enough
+- タスクの枠組みを残す
+- 有効化条件を残す
+- workflow 手順を残す
+- 重要な例を残す
+- まず繰り返しの散文を削除する
+- 次に無関係なバリアントを削除する
+- skill が1〜2個で足りるときはディレクトリ全体を貼り付けない
 
-If you need a tighter prompt format, convert the essential parts into a compact structured block:
+よりタイトな prompt 形式が必要なら、本質部分をコンパクトな構造化ブロックに変換します:
 
 ```xml
 <skill name="tdd-workflow">
@@ -115,11 +115,11 @@ If you need a tighter prompt format, convert the essential parts into a compact 
 </skill>
 ```
 
-## Reproducing Commands
+## Command の再現 (Reproducing Commands)
 
-If the harness has no slash-command system, define a small command registry in the system prompt or session preamble.
+harness に slash-command システムがない場合、system prompt またはセッション preamble に小さな command registry を定義します。
 
-Example:
+例:
 
 ```text
 Command registry:
@@ -129,13 +129,13 @@ Command registry:
 - /verify -> run a verification loop before claiming completion
 ```
 
-You are not implementing real commands. You are giving the harness explicit invocation handles that map to ECC behavior.
+実際の command を実装しているわけではありません。harness に ECC の振る舞いへマップする明示的な呼び出しハンドルを与えています。
 
-## Reproducing Hooks
+## Hook の再現 (Reproducing Hooks)
 
-If the harness has no native hooks, move the hook intent into the standing instructions.
+harness にネイティブ hook がない場合、hook の意図を standing instructions に移します。
 
-Example:
+例:
 
 ```text
 Before writing code:
@@ -149,9 +149,9 @@ Before finalizing:
 3. State what was actually validated and what was not.
 ```
 
-That does not recreate true automation, but it captures the operational discipline of ECC.
+真の自動化は再現できませんが、ECC の運用規律は捉えられます。
 
-## Harness Capability Matrix
+## Harness 能力マトリクス (Harness Capability Matrix)
 
 | Capability | First-Class ECC Targets | Manual-Adaptation Targets |
 | --- | --- | --- |
@@ -162,15 +162,15 @@ That does not recreate true automation, but it captures the operational discipli
 | Repo-local tooling | Native | Depends on harness |
 | Context packing | Optional | Required |
 
-## Practical Grok-Style Setup
+## 実践的な Grok スタイルセットアップ (Practical Grok-Style Setup)
 
-1. Pick the smallest useful bundle.
-2. Pack the selected ECC skill files into one upload or paste block.
-3. Add a short command registry.
-4. Add standing “hook intent” instructions.
-5. Start with one task and verify the harness follows the workflow before scaling up.
+1. 最小で有用な bundle を選ぶ。
+2. 選択した ECC skill ファイルを1つのアップロードまたは貼り付けブロックにパックする。
+3. 短い command registry を追加する。
+4. standing「hook intent」指示を追加する。
+5. 1つのタスクから始め、harness が workflow に従うことを確認してから拡大する。
 
-Example starter preamble:
+スターター preamble の例:
 
 ```text
 You are operating with a manually adapted ECC bundle.
@@ -189,24 +189,24 @@ Before writing code, follow the active skill instructions.
 Before finalizing, verify what changed and report any remaining gaps.
 ```
 
-## Limitations
+## 制限事項 (Limitations)
 
-Manual adaptation is useful, but it is still second-class compared with native targets.
+手動適応は有用ですが、ネイティブ target と比べて依然として二流です。
 
-You lose:
+失うもの:
 
-- automatic install and sync
-- native hook execution
-- true command plumbing
-- reliable skill discovery at runtime
-- built-in multi-agent/worktree orchestration
+- 自動 install と sync
+- ネイティブ hook 実行
+- 真の command plumbing
+- 実行時の信頼できる skill discovery
+- 組み込み multi-agent/worktree orchestration
 
-So the rule is simple:
+ルールは単純です:
 
-- use manual adaptation to carry ECC behavior into non-native harnesses
-- use native ECC targets whenever you want the full system
+- 非ネイティブ harness に ECC の振る舞いを持ち込むには手動適応を使う
+- フルシステムが欲しいときはネイティブ ECC target を使う
 
-## Related Work
+## 関連資料 (Related Work)
 
 - [Issue #1186](https://github.com/affaan-m/everything-claude-code/issues/1186)
 - [Discussion #1077](https://github.com/affaan-m/everything-claude-code/discussions/1077)

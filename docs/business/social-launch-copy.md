@@ -1,72 +1,72 @@
-# Social Launch Copy (X + LinkedIn)
+# ソーシャルローンチコピー（X + LinkedIn）(Social Launch Copy (X + LinkedIn))
 
-Use these templates as launch-ready starting points. Review channel tone before posting.
+これらのテンプレートをローンチ準備済みの出発点として使用してください。投稿前にチャネルトーンを確認してください。
 
-## X Post: Release Announcement
+## X 投稿：リリース告知 (X Post: Release Announcement)
 
 ```text
-ECC v2.0.0-rc.1 preview pack is ready for final release review.
+ECC v2.0.0-rc.1 preview pack が最終リリースレビューの準備完了。
 
-ECC 2.0 is the harness-native operator system for agentic work: skills, hooks,
-rules, MCP conventions, release gates, and an optional Hermes operator shell.
+ECC 2.0 はエージェント作業向けの harness-native operator システム：skills、hooks、
+rules、MCP 規約、リリースゲート、オプションの Hermes operator shell。
 
-What ships:
-- Hermes setup guide
-- release notes and launch collateral
-- cross-harness architecture docs
-- Hermes import guidance for turning local operator workflows into public ECC skills
+出荷内容：
+- Hermes セットアップガイド
+- リリースノートとローンチコラテラル
+- cross-harness アーキテクチャ docs
+- ローカル operator ワークフローを公開 ECC skills に変換する Hermes import ガイダンス
 
-Start here: https://github.com/affaan-m/ECC
-Release notes: https://github.com/affaan-m/ECC/blob/main/docs/releases/2.0.0-rc.1/release-notes.md
+ここから開始：https://github.com/affaan-m/ECC
+リリースノート：https://github.com/affaan-m/ECC/blob/main/docs/releases/2.0.0-rc.1/release-notes.md
 ```
 
-## X Post: Proof + Metrics
+## X 投稿：証拠 + メトリクス (X Post: Proof + Metrics)
 
 ```text
-ECC v2.0.0-rc.1 keeps the public surface honest:
-- reusable ECC substrate in repo
-- Hermes documented as the operator shell
-- private workspace state left out
-- release metadata and docs covered by tests
+ECC v2.0.0-rc.1 は公開面を正直に保つ：
+- リポジトリ内の再利用可能 ECC substrate
+- operator shell として文書化された Hermes
+- プライベートワークスペース状態は除外
+- リリース metadata と docs はテストでカバー
 
-This is the release-candidate line: public system shape now, deeper local integrations only after sanitization.
+これは release-candidate ライン：公開システム形状は今、より深いローカル統合はサニタイズ後のみ。
 ```
 
-## X Quote Tweet: Eval Skills Article
+## X 引用ツイート：Eval Skills 記事 (X Quote Tweet: Eval Skills Article)
 
 ```text
-Strong point on eval discipline.
+eval discipline について強い指摘。
 
-In ECC we turned this into production checks via:
+ECC ではこれを本番チェックに変換：
 - /harness-audit
 - /quality-gate
 - Stop-phase session summaries
 
-In v2.0.0-rc.1, that discipline extends to the release surface: docs, manifests, launch copy, and public/private boundaries are test-backed.
+v2.0.0-rc.1 では、その規律がリリース面に拡張：docs、manifest、ローンチコピー、公開/非公開境界はテストバック。
 ```
 
-## X Quote Tweet: Plankton / deslop workflow
+## X 引用ツイート：Plankton / deslop ワークフロー (X Quote Tweet: Plankton / deslop workflow)
 
 ```text
-This workflow direction is right: optimize the harness, not just prompts.
+このワークフロー方向は正しい：プロンプトだけでなく harness を最適化。
 
-ECC v2.0.0-rc.1 pushes that further: reusable skills, thin harness adapters, and Hermes as the operator shell on top.
+ECC v2.0.0-rc.1 はさらに推進：再利用可能 skills、薄い harness adapter、上に乗る Hermes operator shell。
 ```
 
-## LinkedIn Post: Partner-Friendly Summary
+## LinkedIn 投稿：パートナー向けサマリー (LinkedIn Post: Partner-Friendly Summary)
 
 ```text
-ECC v2.0.0-rc.1 preview pack is ready for final release review.
+ECC v2.0.0-rc.1 preview pack が最終リリースレビューの準備完了。
 
-ECC 2.0 is the harness-native operator system for agentic work. The same reusable layer now reaches Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot workflows, and terminal-only operator lanes.
+ECC 2.0 はエージェント作業向けの harness-native operator システム。同じ再利用レイヤーが Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot ワークフロー、ターミナルのみ operator lane に届きます。
 
-This release-candidate surface includes:
-- sanitized Hermes setup documentation
-- release notes and launch collateral
-- cross-harness architecture notes
-- Hermes import guidance for turning local operator patterns into public ECC skills
+この release-candidate 面には次が含まれます：
+- サニタイズされた Hermes セットアップドキュメント
+- リリースノートとローンチコラテラル
+- cross-harness アーキテクチャノート
+- ローカル operator パターンを公開 ECC skills に変換する Hermes import ガイダンス
 
-It does not include private workspace state, credentials, raw local exports, or personal datasets.
+プライベートワークスペース状態、認証情報、生ローカルエクスポート、個人データセットは含みません。
 
 Repo: https://github.com/affaan-m/ECC
 Release notes: https://github.com/affaan-m/ECC/blob/main/docs/releases/2.0.0-rc.1/release-notes.md

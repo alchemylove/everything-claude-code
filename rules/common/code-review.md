@@ -1,54 +1,54 @@
-# Code Review Standards
+# コードレビュー基準 (Code Review Standards)
 
-## Purpose
+## 目的 (Purpose)
 
-Code review ensures quality, security, and maintainability before code is merged. This rule defines when and how to conduct code reviews.
+コードレビューは、マージ前に品質、セキュリティ、保守性を確保します。本ルールは、いつ・どのようにレビューを行うかを定義します。
 
-## When to Review
+## レビュー実施タイミング (When to Review)
 
-**MANDATORY review triggers:**
+**必須のレビュートリガー:**
 
-- After writing or modifying code
-- Before any commit to shared branches
-- When security-sensitive code is changed (auth, payments, user data)
-- When architectural changes are made
-- Before merging pull requests
+- コードを書いた／変更した後
+- 共有ブランチへのコミット前
+- セキュリティに敏感なコード（auth、payments、user data）を変更したとき
+- アーキテクチャ変更を行ったとき
+- pull request をマージする前
 
-**Pre-Review Requirements:**
+**レビュー依頼前の要件 (Pre-Review Requirements):**
 
-Before requesting review, ensure:
+レビューを依頼する前に、以下を確認する:
 
-- All automated checks (CI/CD) are passing
-- Merge conflicts are resolved
-- Branch is up to date with target branch
+- すべての自動チェック（CI/CD）がパスしている
+- マージコンフリクトが解消されている
+- ブランチがターゲットブランチと同期している
 
-## Review Checklist
+## レビューチェックリスト (Review Checklist)
 
-Before marking code complete:
+コード完了とマークする前に:
 
-- [ ] Code is readable and well-named
-- [ ] Functions are focused (<50 lines)
-- [ ] Files are cohesive (<800 lines)
-- [ ] No deep nesting (>4 levels)
-- [ ] Errors are handled explicitly
-- [ ] No hardcoded secrets or credentials
-- [ ] No console.log or debug statements
-- [ ] Tests exist for new functionality
-- [ ] Test coverage meets 80% minimum
+- [ ] コードが読みやすく、命名が適切
+- [ ] 関数が焦点を絞っている（<50 行）
+- [ ] ファイルが凝集している（<800 行）
+- [ ] 深いネストがない（>4 レベル）
+- [ ] エラーが明示的に処理されている
+- [ ] ハードコードされた secret や credential がない
+- [ ] `console.log` や debug 文がない
+- [ ] 新機能にテストがある
+- [ ] テストカバレッジが最低 80% を満たす
 
-## Security Review Triggers
+## セキュリティレビュートリガー (Security Review Triggers)
 
-**STOP and use security-reviewer agent when:**
+**次の場合は STOP し、security-reviewer agent を使用する:**
 
-- Authentication or authorization code
-- User input handling
-- Database queries
-- File system operations
-- External API calls
-- Cryptographic operations
-- Payment or financial code
+- 認証または認可コード
+- ユーザー入力の処理
+- データベースクエリ
+- ファイルシステム操作
+- 外部 API 呼び出し
+- 暗号操作
+- 決済または金融コード
 
-## Review Severity Levels
+## レビュー重大度レベル (Review Severity Levels)
 
 | Level | Meaning | Action |
 |-------|---------|--------|
@@ -57,9 +57,9 @@ Before marking code complete:
 | MEDIUM | Maintainability concern | **INFO** - Consider fixing |
 | LOW | Style or minor suggestion | **NOTE** - Optional |
 
-## Agent Usage
+## Agent の利用 (Agent Usage)
 
-Use these agents for code review:
+コードレビューには次の agent を使用する:
 
 | Agent | Purpose |
 |-------|---------|
@@ -70,7 +70,7 @@ Use these agents for code review:
 | **go-reviewer** | Go specific issues |
 | **rust-reviewer** | Rust specific issues |
 
-## Review Workflow
+## レビューワークフロー (Review Workflow)
 
 ```
 1. Run git diff to understand changes
@@ -81,42 +81,42 @@ Use these agents for code review:
 6. Use appropriate agent for detailed review
 ```
 
-## Common Issues to Catch
+## よくある問題 (Common Issues to Catch)
 
-### Security
+### セキュリティ (Security)
 
-- Hardcoded credentials (API keys, passwords, tokens)
-- SQL injection (string concatenation in queries)
-- XSS vulnerabilities (unescaped user input)
-- Path traversal (unsanitized file paths)
-- CSRF protection missing
-- Authentication bypasses
+- ハードコードされた credential（API keys、passwords、tokens）
+- SQL injection（クエリ内の文字列連結）
+- XSS 脆弱性（エスケープされていないユーザー入力）
+- Path traversal（サニタイズされていないファイルパス）
+- CSRF 保護の欠如
+- 認証バイパス
 
-### Code Quality
+### コード品質 (Code Quality)
 
-- Large functions (>50 lines) - split into smaller
-- Large files (>800 lines) - extract modules
-- Deep nesting (>4 levels) - use early returns
-- Missing error handling - handle explicitly
-- Mutation patterns - prefer immutable operations
-- Missing tests - add test coverage
+- 大きな関数（>50 行）— 小さく分割する
+- 大きなファイル（>800 行）— モジュールを抽出する
+- 深いネスト（>4 レベル）— early return を使用する
+- エラーハンドリングの欠如 — 明示的に処理する
+- Mutation パターン — 不変操作を優先する
+- テストの欠如 — テストカバレッジを追加する
 
-### Performance
+### パフォーマンス (Performance)
 
-- N+1 queries - use JOINs or batching
-- Missing pagination - add LIMIT to queries
-- Unbounded queries - add constraints
-- Missing caching - cache expensive operations
+- N+1 クエリ — JOIN または batching を使用する
+- ページネーションの欠如 — クエリに LIMIT を追加する
+- 無制限クエリ — 制約を追加する
+- キャッシュの欠如 — 高コスト操作をキャッシュする
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
-- **Approve**: No CRITICAL or HIGH issues
-- **Warning**: Only HIGH issues (merge with caution)
-- **Block**: CRITICAL issues found
+- **Approve**: CRITICAL または HIGH の問題なし
+- **Warning**: HIGH の問題のみ（注意してマージ）
+- **Block**: CRITICAL の問題あり
 
-## Integration with Other Rules
+## 他ルールとの統合 (Integration with Other Rules)
 
-This rule works with:
+本ルールは次と連携します:
 
 - [testing.md](testing.md) - Test coverage requirements
 - [security.md](security.md) - Security checklist

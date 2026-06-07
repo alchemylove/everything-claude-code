@@ -3,11 +3,11 @@ paths:
   - "**/*.cs"
   - "**/*.csx"
 ---
-# C# Patterns
+# C# パターン (C# Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with C#-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、C# 固有の内容を追加する。
 
-## API Response Pattern
+## API レスポンスパターン (API Response Pattern)
 
 ```csharp
 public sealed record ApiResponse<T>(
@@ -17,7 +17,7 @@ public sealed record ApiResponse<T>(
     object? Meta = null);
 ```
 
-## Repository Pattern
+## リポジトリパターン (Repository Pattern)
 
 ```csharp
 public interface IRepository<T>
@@ -30,9 +30,9 @@ public interface IRepository<T>
 }
 ```
 
-## Options Pattern
+## Options パターン (Options Pattern)
 
-Use strongly typed options for config instead of reading raw strings throughout the codebase.
+コードベース全体で生文字列を読む代わりに、設定には strongly typed options を使用する。
 
 ```csharp
 public sealed class PaymentsOptions
@@ -43,8 +43,8 @@ public sealed class PaymentsOptions
 }
 ```
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-- Depend on interfaces at service boundaries
-- Keep constructors focused; if a service needs too many dependencies, split responsibilities
-- Register lifetimes intentionally: singleton for stateless/shared services, scoped for request data, transient for lightweight pure workers
+- サービス境界では interface に依存する
+- コンストラクタを焦点化する。依存が多すぎる場合は責務を分割する
+- lifetime を意図的に登録する: stateless/共有サービスは singleton、リクエストデータは scoped、軽量な pure worker は transient

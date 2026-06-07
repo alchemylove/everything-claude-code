@@ -4,60 +4,51 @@ description: Design background Data Atlas style agents for Itô basket research,
 origin: ECC
 ---
 
-# Itô Data Atlas Agent
+# Itô Data Atlas エージェント (Itô Data Atlas Agent)
 
-Use this skill to design an agent that watches data sources, builds candidate
-prediction-market baskets, drafts parameter changes, and hands the result to a
-human for review.
+データソースを監視し、候補の予測市場バスケットを構築し、パラメータ変更を草案し、結果を人間のレビューに渡すエージェントを設計するためにこのスキルを使用する。
 
-This skill describes architecture and workflow. It does not run live trading.
+このスキルはアーキテクチャとワークフローを記述する。ライブ取引は実行しない。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Keep all execution behind explicit human approval.
-- Require `ITO_API_KEY` only for read-only Itô data access unless a separate
-  private implementation explicitly adds execution controls.
-- Do not persist private user data unless the target repo already has a storage
-  contract and the user asks for it.
-- Do not expose private strategy logic, venue credentials, or local paths in
-  public docs.
+- すべての実行を明示的な人間の承認の背後に置く。
+- 別の非公開実装が明示的に実行制御を追加しない限り、読み取り専用の Itô データアクセスにのみ `ITO_API_KEY` を要求する。
+- ターゲットリポジトリに既にストレージ契約があり、ユーザーが要求しない限り、非公開ユーザーデータを永続化しない。
+- 公開ドキュメントに非公開戦略ロジック、会場認証情報、ローカルパスを露出しない。
 
-## Architecture Pattern
+## アーキテクチャパターン (Architecture Pattern)
 
-Use four lanes:
+4 つのレーンを使用する:
 
-1. Research collector: public web, X, GitHub, venue docs, API metadata, and
-   Itô read endpoints when gated access exists.
-2. Basket drafter: turns sources into candidate underliers, weights, rules, and
-   questions.
-3. Risk reviewer: checks data freshness, venue limits, resolution ambiguity,
-   compliance notes, and prompt-injection exposure.
-4. Human editor: opens a chat or UI state where the user can approve, reject,
-   adjust, or ask for more research.
+1. リサーチコレクター: 公開 Web、X、GitHub、会場ドキュメント、API メタデータ、ゲート付きアクセスがある場合の Itô 読み取りエンドポイント。
+2. バスケットドラフター: ソースを候補原資産、ウェイト、ルール、質問に変換する。
+3. リスクレビュアー: データ鮮度、会場制限、決済の曖昧さ、コンプライアンス注意、プロンプトインジェクション露出をチェックする。
+4. 人間エディター: ユーザーが承認、却下、調整、追加リサーチ要求ができるチャットまたは UI 状態を開く。
 
-## Workflow
+## ワークフロー (Workflow)
 
-1. Define the user objective and excluded actions.
-2. List data sources and access requirements.
-3. Draft a basket spec with provenance for every underlier.
-4. Produce editable parameters rather than executable orders.
-5. Store an audit trail: inputs, model output, sources, and human decision.
+1. ユーザー目標と除外アクションを定義する。
+2. データソースとアクセス要件を列挙する。
+3. すべての原資産に出典付きのバスケット仕様を草案する。
+4. 実行可能な注文ではなく編集可能なパラメータを作成する。
+5. 監査証跡を保存する: 入力、モデル出力、ソース、人間の決定。
 
-## Useful Skill Chains
+## 有用なスキルチェーン (Useful Skill Chains)
 
-- `deep-research` for source collection.
-- `x-api` for current social/event signal.
-- `ito-market-intelligence` for venue and underlier context.
-- `ito-basket-compare` for user knowledge-base matching.
-- `prediction-market-risk-review` before any execution-capable integration.
+- ソース収集に `deep-research`。
+- 現在のソーシャル/イベントシグナルに `x-api`。
+- 会場と原資産の文脈に `ito-market-intelligence`。
+- ユーザーナレッジベースマッチングに `ito-basket-compare`。
+- 実行可能な統合の前に `prediction-market-risk-review`。
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Return an implementation-ready workflow spec with:
+実装可能なワークフロー仕様を返す:
 
-- data sources
-- access gates
-- agent roles
-- human approval points
-- storage/audit boundary
-- non-goals
+- データソース
+- アクセスゲート
+- エージェントロール
+- 人間承認ポイント
+- ストレージ/監査境界
+- 非目標

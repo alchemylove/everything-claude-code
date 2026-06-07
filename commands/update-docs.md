@@ -1,74 +1,74 @@
 ---
-description: Sync documentation from source-of-truth files such as scripts, schemas, routes, and exports.
+description: scripts、schemas、routes、exports などの信頼できる情報源からドキュメントを同期します。
 ---
 
-# Update Documentation
+# ドキュメントの更新 (Update Documentation)
 
-Sync documentation with the codebase, generating from source-of-truth files.
+コードベースとドキュメントを同期し、信頼できる情報源から生成します。
 
-## Step 1: Identify Sources of Truth
+## ステップ 1: 信頼できる情報源の特定 (Step 1: Identify Sources of Truth)
 
-| Source | Generates |
+| 情報源 | 生成物 |
 |--------|-----------|
-| `package.json` scripts | Available commands reference |
-| `.env.example` | Environment variable documentation |
-| `openapi.yaml` / route files | API endpoint reference |
-| Source code exports | Public API documentation |
-| `Dockerfile` / `docker-compose.yml` | Infrastructure setup docs |
+| `package.json` scripts | 利用可能なコマンドリファレンス |
+| `.env.example` | 環境変数ドキュメント |
+| `openapi.yaml` / route files | API エンドポイントリファレンス |
+| Source code exports | 公開 API ドキュメント |
+| `Dockerfile` / `docker-compose.yml` | インフラセットアップドキュメント |
 
-## Step 2: Generate Script Reference
+## ステップ 2: スクリプトリファレンスの生成 (Step 2: Generate Script Reference)
 
-1. Read `package.json` (or `Makefile`, `Cargo.toml`, `pyproject.toml`)
-2. Extract all scripts/commands with their descriptions
-3. Generate a reference table:
+1. `package.json`（または `Makefile`、`Cargo.toml`、`pyproject.toml`）を読み取る
+2. 説明付きですべての scripts/commands を抽出
+3. リファレンステーブルを生成：
 
 ```markdown
 | Command | Description |
 |---------|-------------|
-| `npm run dev` | Start development server with hot reload |
-| `npm run build` | Production build with type checking |
-| `npm test` | Run test suite with coverage |
+| `npm run dev` | ホットリロード付きで開発サーバーを起動 |
+| `npm run build` | 型チェック付きの本番ビルド |
+| `npm test` | カバレッジ付きでテストスイートを実行 |
 ```
 
-## Step 3: Generate Environment Documentation
+## ステップ 3: 環境ドキュメントの生成 (Step 3: Generate Environment Documentation)
 
-1. Read `.env.example` (or `.env.template`, `.env.sample`)
-2. Extract all variables with their purposes
-3. Categorize as required vs optional
-4. Document expected format and valid values
+1. `.env.example`（または `.env.template`、`.env.sample`）を読み取る
+2. 目的付きですべての変数を抽出
+3. 必須とオプションに分類
+4. 期待されるフォーマットと有効な値を文書化
 
 ```markdown
 | Variable | Required | Description | Example |
 |----------|----------|-------------|---------|
-| `DATABASE_URL` | Yes | PostgreSQL connection string | `postgres://user:pass@host:5432/db` |
-| `LOG_LEVEL` | No | Logging verbosity (default: info) | `debug`, `info`, `warn`, `error` |
+| `DATABASE_URL` | Yes | PostgreSQL 接続文字列 | `postgres://user:pass@host:5432/db` |
+| `LOG_LEVEL` | No | ログの詳細度（デフォルト: info） | `debug`, `info`, `warn`, `error` |
 ```
 
-## Step 4: Update Contributing Guide
+## ステップ 4: コントリビューションガイドの更新 (Step 4: Update Contributing Guide)
 
-Generate or update `docs/CONTRIBUTING.md` with:
-- Development environment setup (prerequisites, install steps)
-- Available scripts and their purposes
-- Testing procedures (how to run, how to write new tests)
-- Code style enforcement (linter, formatter, pre-commit hooks)
-- PR submission checklist
+以下を含む `docs/CONTRIBUTING.md` を生成または更新：
+- 開発環境セットアップ（前提条件、インストール手順）
+- 利用可能なスクリプトとその目的
+- テスト手順（実行方法、新規テストの書き方）
+- コードスタイルの強制（linter、formatter、pre-commit hooks）
+- PR 提出チェックリスト
 
-## Step 5: Update Runbook
+## ステップ 5: ランブックの更新 (Step 5: Update Runbook)
 
-Generate or update `docs/RUNBOOK.md` with:
-- Deployment procedures (step-by-step)
-- Health check endpoints and monitoring
-- Common issues and their fixes
-- Rollback procedures
-- Alerting and escalation paths
+以下を含む `docs/RUNBOOK.md` を生成または更新：
+- デプロイ手順（ステップバイステップ）
+- ヘルスチェックエンドポイントとモニタリング
+- よくある問題とその修正
+- ロールバック手順
+- アラートとエスカレーションパス
 
-## Step 6: Staleness Check
+## ステップ 6: 鮮度チェック (Step 6: Staleness Check)
 
-1. Find documentation files not modified in 90+ days
-2. Cross-reference with recent source code changes
-3. Flag potentially outdated docs for manual review
+1. 90日以上変更されていないドキュメントファイルを検出
+2. 最近のソースコード変更と照合
+3. 手動レビュー用に古くなっている可能性のあるドキュメントをフラグ
 
-## Step 7: Show Summary
+## ステップ 7: サマリーの表示 (Step 7: Show Summary)
 
 ```
 Documentation Update
@@ -80,9 +80,9 @@ Skipped:  docs/API.md (no changes detected)
 ──────────────────────────────
 ```
 
-## Rules
+## ルール (Rules)
 
-- **Single source of truth**: Always generate from code, never manually edit generated sections
-- **Preserve manual sections**: Only update generated sections; leave hand-written prose intact
-- **Mark generated content**: Use `<!-- AUTO-GENERATED -->` markers around generated sections
-- **Don't create docs unprompted**: Only create new doc files if the command explicitly requests it
+- **単一の信頼できる情報源**: 常にコードから生成し、生成セクションを手動編集しない
+- **手動セクションの保持**: 生成セクションのみ更新し、手書きの文章はそのまま残す
+- **生成コンテンツのマーク**: 生成セクションの周囲に `<!-- AUTO-GENERATED -->` マーカーを使用
+- **未指示のドキュメント作成禁止**: コマンドが明示的に要求した場合のみ新規ドキュメントファイルを作成

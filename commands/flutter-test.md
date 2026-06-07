@@ -1,29 +1,29 @@
 ---
-description: Run Flutter/Dart tests, report failures, and incrementally fix test issues. Covers unit, widget, golden, and integration tests.
+description: Flutter/Dart テストを実行し、失敗を報告し、テスト問題を段階的に修正。unit、widget、golden、integration テストをカバー。
 ---
 
-# Flutter Test
+# Flutter テスト (Flutter Test)
 
-This command runs the Flutter test suite and reports results. When failures occur, it diagnoses and fixes issues incrementally.
+このコマンドは Flutter テストスイートを実行し、結果を報告する。失敗時は段階的に診断・修正する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Run Tests**: Execute `flutter test` (or scope to changed files)
-2. **Parse Failures**: Identify failing tests by type and cause
-3. **Fix Incrementally**: One failure at a time where possible
-4. **Verify**: Re-run after each fix
-5. **Report**: Show coverage summary and remaining failures
+1. **テストの実行**: `flutter test` を実行（または変更ファイルにスコープ）
+2. **失敗の解析**: 種別と原因で失敗テストを特定
+3. **段階的修正**: 可能な限り一度に 1 失敗ずつ
+4. **検証**: 各修正後に再実行
+5. **報告**: カバレッジサマリーと残りの失敗を表示
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/flutter-test` when:
-- After implementing a feature to verify nothing broke
-- After running `/flutter-build` to ensure tests pass
-- To check test coverage on new code
-- When a specific test file is failing
-- Before submitting a PR
+`/flutter-test` を使用する場合:
+- 機能実装後に何も壊れていないか確認するとき
+- `/flutter-build` 実行後にテストが通ることを確認するとき
+- 新規コードのテストカバレッジを確認するとき
+- 特定のテストファイルが失敗しているとき
+- PR 提出前
 
-## Commands Run
+## 実行コマンド (Commands Run)
 
 ```bash
 # Run all tests
@@ -45,7 +45,7 @@ flutter test integration_test/ 2>&1
 flutter test --update-goldens 2>&1
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /flutter-test
@@ -118,25 +118,25 @@ Coverage: 84.2% (target: 80%)
 Test Status: PASS ✓
 ````
 
-## Common Test Failures
+## よくあるテスト失敗 (Common Test Failures)
 
 | Failure | Typical Fix |
 |---------|-------------|
-| `Expected: <X> Actual: <Y>` | Update assertion or fix implementation |
-| `Widget not found` | Fix finder selector or update test after widget rename |
-| `Golden file not found` | Run `flutter test --update-goldens` to generate |
-| `Golden mismatch` | Inspect diff; run `--update-goldens` if change was intentional |
-| `MissingPluginException` | Mock platform channel in test setup |
-| `LateInitializationError` | Initialize `late` fields in `setUp()` |
-| `pumpAndSettle timed out` | Replace with explicit `pump(Duration)` calls |
+| `Expected: <X> Actual: <Y>` | アサーションを更新するか実装を修正 |
+| `Widget not found` | finder セレクタを修正するかウィジェット改名後にテストを更新 |
+| `Golden file not found` | `flutter test --update-goldens` で生成 |
+| `Golden mismatch` | diff を確認。意図した変更なら `--update-goldens` を実行 |
+| `MissingPluginException` | テストセットアップでプラットフォームチャネルをモック |
+| `LateInitializationError` | `setUp()` で `late` フィールドを初期化 |
+| `pumpAndSettle timed out` | 明示的な `pump(Duration)` 呼び出しに置き換え |
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/flutter-build` — Fix build errors before running tests
-- `/flutter-review` — Review code after tests pass
-- `tdd-workflow` skill — Test-driven development workflow
+- `/flutter-build` — テスト実行前にビルドエラーを修正
+- `/flutter-review` — テスト通過後にコードをレビュー
+- `tdd-workflow` skill — テスト駆動開発ワークフロー
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/flutter-reviewer.md`
 - Agent: `agents/dart-build-resolver.md`

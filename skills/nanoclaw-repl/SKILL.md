@@ -4,30 +4,30 @@ description: Operate and extend NanoClaw v2, ECC's zero-dependency session-aware
 origin: ECC
 ---
 
-# NanoClaw REPL
+# NanoClaw REPL (NanoClaw REPL)
 
-Use this skill when running or extending `scripts/claw.js`.
+`scripts/claw.js` の実行または拡張時にこの skill を使用する。
 
-## Capabilities
+## 機能 (Capabilities)
 
-- persistent markdown-backed sessions
-- model switching with `/model`
-- dynamic skill loading with `/load`
-- session branching with `/branch`
-- cross-session search with `/search`
-- history compaction with `/compact`
-- export to md/json/txt with `/export`
-- session metrics with `/metrics`
+- markdown 永続化セッション
+- `/model` による model 切り替え
+- `/load` による動的 skill 読み込み
+- `/branch` によるセッション分岐
+- `/search` によるクロスセッション検索
+- `/compact` による履歴コンパクション
+- `/export` による md/json/txt エクスポート
+- `/metrics` によるセッションメトリクス
 
-## Operating Guidance
+## 運用ガイダンス (Operating Guidance)
 
-1. Keep sessions task-focused.
-2. Branch before high-risk changes.
-3. Compact after major milestones.
-4. Export before sharing or archival.
+1. セッションはタスクに集中させる。
+2. 高リスク変更の前に branch する。
+3. 主要マイルストーン後に compact する。
+4. 共有・アーカイブ前に export する。
 
-## Extension Rules
+## 拡張ルール (Extension Rules)
 
-- keep zero external runtime dependencies
-- preserve markdown-as-database compatibility
-- keep command handlers deterministic and local
+- 外部 runtime 依存をゼロに保つ
+- markdown-as-database 互換を維持する
+- コマンドハンドラは決定的かつローカルに保つ

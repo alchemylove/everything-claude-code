@@ -1,30 +1,30 @@
 ---
-description: Enforce TDD workflow for Rust. Write tests first, then implement. Verify 80%+ coverage with cargo-llvm-cov.
+description: Rust 向けに TDD workflow を強制する。テストを先に書き、その後実装する。cargo-llvm-cov で 80%+ coverage を検証する。
 ---
 
-# Rust TDD Command
+# Rust TDD コマンド (Rust TDD Command)
 
-This command enforces test-driven development methodology for Rust code using `#[test]`, rstest, proptest, and mockall.
+このコマンドは `#[test]`、rstest、proptest、mockall を用いた Rust の test-driven development を強制する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Define Types/Traits**: Scaffold function signatures with `todo!()`
-2. **Write Tests**: Create comprehensive test module (RED)
-3. **Run Tests**: Verify tests fail for the right reason
-4. **Implement Code**: Write minimal code to pass (GREEN)
-5. **Refactor**: Improve while keeping tests green
-6. **Check Coverage**: Ensure 80%+ coverage with cargo-llvm-cov
+1. **型/Trait の定義**: `todo!()` 付きの関数シグネチャを scaffold
+2. **テストの記述**: 包括的な test module を作成（RED）
+3. **テストの実行**: 正しい理由で失敗することを確認
+4. **コードの実装**: 通過に足る最小コード（GREEN）
+5. **リファクタ**: テストを green のまま改善
+6. **Coverage の確認**: cargo-llvm-cov で 80%+ を確保
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/rust-test` when:
-- Implementing new Rust functions, methods, or traits
-- Adding test coverage to existing Rust code
-- Fixing bugs (write failing test first)
-- Building critical business logic
-- Learning TDD workflow in Rust
+`/rust-test` を使う場面:
+- 新しい Rust 関数、メソッド、trait を実装するとき
+- 既存 Rust コードに test coverage を追加するとき
+- bug 修正（先に失敗テストを書く）
+- 重要なビジネスロジックの構築
+- Rust での TDD workflow の学習
 
-## TDD Cycle
+## TDD サイクル (TDD Cycle)
 
 ```
 RED     -> Write failing test first
@@ -33,7 +33,7 @@ REFACTOR -> Improve code, tests stay green
 REPEAT  -> Next test case
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /rust-test I need a function to validate user registration
@@ -185,7 +185,7 @@ Coverage: 100%
 ## TDD Complete!
 ````
 
-## Test Patterns
+## テストパターン (Test Patterns)
 
 ### Unit Tests
 
@@ -208,7 +208,7 @@ mod tests {
 }
 ```
 
-### Parameterized Tests with rstest
+### rstest によるパラメータ化テスト (Parameterized Tests with rstest)
 
 ```rust
 use rstest::{rstest, fixture};
@@ -248,7 +248,7 @@ proptest! {
 }
 ```
 
-## Coverage Commands
+## Coverage コマンド (Coverage Commands)
 
 ```bash
 # Summary report
@@ -270,7 +270,7 @@ cargo test -- --nocapture
 cargo test --no-fail-fast
 ```
 
-## Coverage Targets
+## Coverage 目標 (Coverage Targets)
 
 | Code Type | Target |
 |-----------|--------|
@@ -279,30 +279,30 @@ cargo test --no-fail-fast
 | General code | 80%+ |
 | Generated / FFI bindings | Exclude |
 
-## TDD Best Practices
+## TDD ベストプラクティス (TDD Best Practices)
 
 **DO:**
-- Write test FIRST, before any implementation
-- Run tests after each change
-- Use `assert_eq!` over `assert!` for better error messages
-- Use `?` in tests that return `Result` for cleaner output
-- Test behavior, not implementation
-- Include edge cases (empty, boundary, error paths)
+- 実装より先にテストを書く
+- 変更のたびにテストを実行
+- より良いエラーメッセージのため `assert!` より `assert_eq!` を使う
+- 出力をきれいにするため `Result` を返すテストでは `?` を使う
+- implementation ではなく behavior をテスト
+- エッジケース（空、境界、エラーパス）を含める
 
 **DON'T:**
-- Write implementation before tests
-- Skip the RED phase
-- Use `#[should_panic]` when `Result::is_err()` works
-- Use `sleep()` in tests — use channels or `tokio::time::pause()`
-- Mock everything — prefer integration tests when feasible
+- テストより先に実装を書く
+- RED フェーズをスキップ
+- `Result::is_err()` で足りるときに `#[should_panic]` を使う
+- テストで `sleep()` を使う — channel または `tokio::time::pause()` を使う
+- すべてをモック — 可能なら integration test を優先
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/rust-build` - Fix build errors
-- `/rust-review` - Review code after implementation
-- `verification-loop` skill - Run full verification loop
+- `/rust-build` - ビルドエラーを修正
+- `/rust-review` - 実装後にコードをレビュー
+- `verification-loop` skill - フル verification loop を実行
 
-## Related
+## 関連 (Related)
 
 - Skill: `skills/rust-testing/`
 - Skill: `skills/rust-patterns/`

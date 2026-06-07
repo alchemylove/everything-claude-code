@@ -1,17 +1,17 @@
-# Metrics and Sponsorship Playbook
+# メトリクスとスポンサーシッププレイブック (Metrics and Sponsorship Playbook)
 
-This file is a practical script for sponsor calls and ecosystem partner reviews.
+このファイルはスポンサーコールとエコシステムパートナーレビュー向けの実用スクリプトです。
 
-## What to Track
+## 追跡すべき項目 (What to Track)
 
-Use four categories in every update:
+毎回の更新で4カテゴリを使ってください：
 
-1. **Distribution** — npm packages and GitHub App installs
-2. **Adoption** — stars, forks, contributors, release cadence
-3. **Product surface** — commands/skills/agents and cross-platform support
-4. **Reliability** — test pass counts and production bug turnaround
+1. **Distribution** — npm パッケージと GitHub App installs
+2. **Adoption** — stars、forks、contributors、リリース cadence
+3. **Product surface** — commands/skills/agents とクロスプラットフォームサポート
+4. **Reliability** — テスト合格数と本番 bug のターンアラウンド
 
-## Pull Live Metrics
+## ライブメトリクスの取得 (Pull Live Metrics)
 
 ### npm downloads
 
@@ -41,34 +41,34 @@ gh api repos/affaan-m/ECC/traffic/clones
 
 ### GitHub App installs
 
-GitHub App install count is currently most reliable in the Marketplace/App dashboard.
-Use the latest value from:
+GitHub App install 数は現在 Marketplace/App ダッシュボードが最も信頼できます。
+最新値は次から取得：
 
 - [ECC Tools Marketplace](https://github.com/marketplace/ecc-tools)
 
-## What Cannot Be Measured Publicly (Yet)
+## まだ公開計測できないもの (What Cannot Be Measured Publicly (Yet))
 
-- Claude plugin install/download counts are not currently exposed via a public API.
-- For partner conversations, use npm metrics + GitHub App installs + repo traffic as the proxy bundle.
+- Claude plugin の install/download 数は現在公開 API では露出していません。
+- パートナー会話では、npm メトリクス + GitHub App installs + リポジトリ traffic を proxy bundle として使ってください。
 
-## Suggested Sponsor Packaging
+## 推奨スポンサーパッケージング (Suggested Sponsor Packaging)
 
-Use these as starting points in negotiation:
+交渉の出発点として次を使ってください：
 
 - **Pilot Partner:** `$200/month`
-  - Best for first partnership validation and simple monthly sponsor updates.
+  - 最初のパートナーシップ検証とシンプルな月次スポンサー更新に最適。
 - **Growth Partner:** `$500/month`
-  - Includes roadmap check-ins and implementation feedback loop.
+  - roadmap チェックインと実装フィードバックループを含む。
 - **Strategic Partner:** `$1,000+/month`
-  - Multi-touch collaboration, launch support, and deeper operational alignment.
+  - マルチタッチ協業、ローンチサポート、より深い運用アライメント。
 
-## 60-Second Talking Track
+## 60秒トーキングトラック (60-Second Talking Track)
 
-Use this on calls:
+コールでこれを使ってください：
 
-> ECC is now positioned as an agent harness performance system, not a config repo.
-> We track adoption through npm distribution, GitHub App installs, and repository growth.
-> Claude plugin installs are structurally undercounted publicly, so we use a blended metrics model.
-> The project supports Claude Code, Cursor, OpenCode, and Codex app/CLI with production-grade hook reliability and a large passing test suite.
+> ECC は設定リポジトリではなく、エージェント harness パフォーマンスシステムとして位置づけられています。
+> 採用は npm distribution、GitHub App installs、リポジトリ成長で追跡します。
+> Claude plugin installs は構造的に公開では過小計上されるため、ブレンドメトリクスモデルを使います。
+> プロジェクトは本番グレードの hook 信頼性と大規模な合格テストスイートで、Claude Code、Cursor、OpenCode、Codex app/CLI をサポートします。
 
-For launch-ready social copy snippets, see [`social-launch-copy.md`](./social-launch-copy.md).
+ローンチ準備済みソーシャルコピースニペットは [`social-launch-copy.md`](./social-launch-copy.md) を参照。

@@ -1,15 +1,15 @@
 ---
-description: "Kotlin patterns extending common rules"
+description: "Kotlin patterns: common ルールの拡張"
 globs: ["**/*.kt", "**/*.kts", "**/build.gradle.kts"]
 alwaysApply: false
 ---
-# Kotlin Patterns
+# Kotlin Patterns (Kotlin Patterns)
 
-> This file extends the common patterns rule with Kotlin-specific content.
+> このファイルは common patterns ルールを Kotlin 固有の内容で拡張する。
 
 ## Sealed Classes
 
-Use sealed classes/interfaces for exhaustive type hierarchies:
+網羅的な型階層には sealed class/interface を使用:
 
 ```kotlin
 sealed class Result<out T> {
@@ -20,7 +20,7 @@ sealed class Result<out T> {
 
 ## Extension Functions
 
-Add behavior without inheritance, scoped to where they're used:
+継承なしで振る舞いを追加。使用箇所にスコープ:
 
 ```kotlin
 fun String.toSlug(): String =
@@ -29,14 +29,14 @@ fun String.toSlug(): String =
 
 ## Scope Functions
 
-- `let`: Transform nullable or scoped result
-- `apply`: Configure an object
-- `also`: Side effects
-- Avoid nesting scope functions
+- `let`: nullable またはスコープ内の結果を変換
+- `apply`: オブジェクトを設定
+- `also`: 副作用
+- scope function のネストは避ける
 
 ## Dependency Injection
 
-Use Koin for DI in Ktor projects:
+Ktor project では DI に Koin を使用:
 
 ```kotlin
 val appModule = module {
@@ -45,6 +45,6 @@ val appModule = module {
 }
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `kotlin-patterns` for comprehensive Kotlin patterns including coroutines, DSL builders, and delegation.
+coroutine、DSL builder、delegation を含む包括的な Kotlin パターンは skill: `kotlin-patterns` を参照。

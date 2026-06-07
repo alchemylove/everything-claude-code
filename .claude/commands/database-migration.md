@@ -1,36 +1,36 @@
 ---
 name: database-migration
-description: Workflow command scaffold for database-migration in everything-claude-code.
+description: everything-claude-code における database-migration 向けワークフローコマンドの雛形。
 allowed_tools: ["Bash", "Read", "Write", "Grep", "Glob"]
 ---
 
 # /database-migration
 
-Use this workflow when working on **database-migration** in `everything-claude-code`.
+`everything-claude-code` で **database-migration** に取り組むときはこのワークフローを使う。
 
-## Goal
+## 目的 (Goal)
 
-Database schema changes with migration files
+マイグレーションファイルを伴うデータベーススキーマの変更
 
-## Common Files
+## よく使うファイル (Common Files)
 
 - `**/schema.*`
 - `migrations/*`
 
-## Suggested Sequence
+## 推奨手順 (Suggested Sequence)
 
-1. Understand the current state and failure mode before editing.
-2. Make the smallest coherent change that satisfies the workflow goal.
-3. Run the most relevant verification for touched files.
-4. Summarize what changed and what still needs review.
+1. 編集前に現状と失敗モードを把握する。
+2. ワークフローの目的を満たす最小の一貫した変更を行う。
+3. 変更したファイルに最も関連する検証を実行する。
+4. 何を変更したか、何がまだレビュー待ちかを要約する。
 
-## Typical Commit Signals
+## 典型的なコミットシグナル (Typical Commit Signals)
 
-- Create migration file
-- Update schema definitions
-- Generate/update types
+- マイグレーションファイルを作成
+- スキーマ定義を更新
+- 型を生成または更新
 
-## Notes
+## 注意事項 (Notes)
 
-- Treat this as a scaffold, not a hard-coded script.
-- Update the command if the workflow evolves materially.
+- これは雛形であり、ハードコードされたスクリプトではない。
+- ワークフローが大きく変わったらコマンドを更新する。

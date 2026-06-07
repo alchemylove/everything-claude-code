@@ -1,13 +1,13 @@
 ---
-description: "TypeScript security extending common rules"
+description: "TypeScript security: common ルールの拡張"
 globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 alwaysApply: false
 ---
-# TypeScript/JavaScript Security
+# TypeScript/JavaScript Security (TypeScript/JavaScript Security)
 
-> This file extends the common security rule with TypeScript/JavaScript specific content.
+> このファイルは common security ルールを TypeScript/JavaScript 固有の内容で拡張する。
 
-## Secret Management
+## Secret 管理 (Secret Management)
 
 ```typescript
 // NEVER: Hardcoded secrets
@@ -21,6 +21,6 @@ if (!apiKey) {
 }
 ```
 
-## Agent Support
+## Agent サポート (Agent Support)
 
-- Use **security-reviewer** skill for comprehensive security audits
+- 包括的なセキュリティ監査には **security-reviewer** skill を使用

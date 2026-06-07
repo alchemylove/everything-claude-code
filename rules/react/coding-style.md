@@ -7,26 +7,26 @@ paths:
   - "**/hooks/**/*.ts"
   - "**/hooks/**/*.js"
 ---
-# React Coding Style
+# React コーディングスタイル (React Coding Style)
 
-> This file extends [typescript/coding-style.md](../typescript/coding-style.md) and [common/coding-style.md](../common/coding-style.md) with React specific content.
+> このファイルは [typescript/coding-style.md](../typescript/coding-style.md) および [common/coding-style.md](../common/coding-style.md) を拡張し、React 固有の内容を追加する。
 
-## File Extensions
+## ファイル拡張子 (File Extensions)
 
-- `.tsx` for any file containing JSX, even one-liner snippets
-- `.ts` for pure logic, custom hooks without JSX, type definitions, utilities
-- `.test.tsx` / `.test.ts` mirroring the source file
-- Use `.jsx` only when the project intentionally avoids TypeScript — flag every new untyped React file in review
+- JSX を含むファイルは 1 行 snippet でも `.tsx`
+- 純粋な logic、JSX のない custom hook、型定義、utility には `.ts`
+- source file と対応する `.test.tsx` / `.test.ts`
+- プロジェクトが意図的に TypeScript を避ける場合のみ `.jsx` — 新規の untyped React file は review で指摘する
 
-## Naming
+## 命名 (Naming)
 
-- Components: `PascalCase` for both the symbol and the file (`UserCard.tsx`, default export `UserCard`)
-- Custom hooks: `useCamelCase` for the symbol, kebab-case for the file when the project convention is kebab-case (`use-debounce.ts` exports `useDebounce`)
-- Context: `<Domain>Context` symbol, `<Domain>Provider` provider component, `use<Domain>` consumer hook
-- Event handlers: `handleClick`, `handleSubmit` inside the component; the prop that receives it is `onClick`, `onSubmit`
-- Boolean props: `isLoading`, `hasError`, `canSubmit` — never `loading` or `error` alone for booleans
+- Component: symbol も file も `PascalCase`（`UserCard.tsx`、default export `UserCard`）
+- Custom hook: symbol は `useCamelCase`、プロジェクト規約が kebab-case なら file も kebab-case（`use-debounce.ts` が `useDebounce` を export）
+- Context: `<Domain>Context` symbol、`<Domain>Provider` provider component、`use<Domain>` consumer hook
+- Event handler: component 内は `handleClick`、`handleSubmit`；受け取る prop は `onClick`、`onSubmit`
+- Boolean prop: `isLoading`、`hasError`、`canSubmit` — boolean だけの `loading` や `error` は使わない
 
-## Component Shape
+## Component の形 (Component Shape)
 
 ```tsx
 type Props = {
@@ -43,17 +43,17 @@ export function UserCard({ user, onSelect }: Props) {
 }
 ```
 
-- Prefer `type Props = {}` for closed component prop shapes
-- Use `interface` only when the prop type is extended via declaration merging or exported as a public API extension point
-- Always destructure props in the parameter list — no `props.user` access inside the body
-- Type the return implicitly through JSX (`function Foo(): JSX.Element` only when the function returns conditionally and the union confuses inference)
+- closed な component prop shape には `type Props = {}` を優先
+- declaration merging で拡張する、または public API の extension point として export する場合のみ `interface` を使う
+- parameter list で props を必ず destructure する — body 内で `props.user` にアクセスしない
+- return type は JSX から暗黙推論（条件分岐 return で union が inference を混乱させる場合のみ `function Foo(): JSX.Element`）
 
 ## JSX
 
-- Self-close tags with no children: `<img />`, `<UserCard user={u} />`
-- Use fragments `<>...</>` over wrapper `<div>` when no DOM element is needed
-- Conditional rendering: `{condition && <Foo />}` for booleans, ternary for either/or, early return for guard clauses
-- Never put logic inline in JSX when it reads as multi-line — extract to a const above the return or a function
+- 子要素のない tag は self-close: `<img />`、`<UserCard user={u} />`
+- DOM element が不要なら wrapper `<div>` より fragment `<>...</>` を使う
+- 条件付きレンダリング: boolean は `{condition && <Foo />}`、either/or は ternary、guard clause は early return
+- 複数行に読める logic を JSX 内に書かない — return の上で const に抽出するか function に切り出す
 
 ```tsx
 // Prefer
@@ -64,39 +64,39 @@ return <h1>{greeting}</h1>;
 return <h1>{user.isAdmin ? "Welcome, admin" : `Hello ${user.name}`}</h1>;
 ```
 
-## Server / Client Boundary (Next.js App Router, RSC)
+## Server / Client 境界（Next.js App Router、RSC）(Server / Client Boundary (Next.js App Router, RSC))
 
-- Default a new file to Server Component — only add `"use client"` when the file uses state, effects, refs, browser APIs, or event handlers
-- Place the `"use client"` directive on line 1, before any imports
-- Never import a Client Component file from inside a `"use server"` action file
-- Never re-export server-only code through a client module — the bundler will silently include it
+- 新規 file は Server Component をデフォルト — state、effects、refs、browser API、event handler を使う場合のみ `"use client"` を追加
+- `"use client"` directive は import より前の 1 行目に置く
+- `"use server"` action file 内から Client Component file を import しない
+- server-only code を client module 経由で re-export しない — bundler が黙って含めてしまう
 
-## Imports
+## インポート (Imports)
 
-- React imports first: `import { useState } from "react"`
-- Then third-party libs, then absolute project imports, then relative
-- Type-only imports: `import type { ReactNode } from "react"` — never mix runtime and type imports in one statement when ESLint's `consistent-type-imports` is configured
+- React import を最初: `import { useState } from "react"`
+- 次に third-party lib、次に absolute project import、最後に relative
+- type-only import: `import type { ReactNode } from "react"` — ESLint の `consistent-type-imports` 設定時は runtime と type を 1 文に混ぜない
 
-## Hooks Discipline
+## Hooks の規律 (Hooks Discipline)
 
-See [hooks.md](./hooks.md) for the full ruleset. Style highlights:
+完全な ruleset は [hooks.md](./hooks.md) を参照。スタイル上の要点:
 
-- Custom hooks must start with `use` — enforced by `eslint-plugin-react-hooks`
-- Group all hook calls at the top of the component, before any conditional logic
-- Avoid creating ad-hoc hooks for one-line wrappers — inline the call instead
+- custom hook は `use` で始める — `eslint-plugin-react-hooks` で強制
+- すべての hook call を component 先頭、conditional logic の前にまとめる
+- 1 行 wrapper の ad-hoc hook は作らない — 呼び出しを inline する
 
 ## State
 
-- Local first (`useState`), lift only when shared
-- Context for cross-cutting state read by many components (theme, auth, i18n) — not for high-frequency updates
-- External store (Zustand, Jotai, Redux Toolkit) when state must persist across route changes, sync across tabs, or be debugged via devtools
-- Never duplicate state that can be derived — compute during render
+- まず local（`useState`）、共有が必要なときだけ lift
+- 多くの component が読む横断 state（theme、auth、i18n）に Context — 高頻度更新には使わない
+- route 変更を跨いで persist する、tab 間同期、devtools で debug する state には external store（Zustand、Jotai、Redux Toolkit）
+- 導出できる state を duplicate しない — render 中に計算する
 
-## Class Components
+## Class Component
 
-Forbidden in new code. Convert legacy class components to function components when touching them for non-trivial changes.
+新規 code では禁止。非 trivial な変更で触る legacy class component は function component に変換する。
 
-## File Layout per Component
+## Component ごとのファイル構成 (File Layout per Component)
 
 ```
 components/UserCard/
@@ -106,4 +106,4 @@ components/UserCard/
   index.ts              # re-export only
 ```
 
-Inline single-file components are fine for trivial presentational pieces.
+trivial な presentational piece は single-file component で問題ない。

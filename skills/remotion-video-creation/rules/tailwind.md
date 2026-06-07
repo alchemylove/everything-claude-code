@@ -4,8 +4,8 @@ description: Using TailwindCSS in Remotion.
 metadata:
 ---
 
-You can and should use TailwindCSS in Remotion, if TailwindCSS is installed in the project.
+プロジェクトに TailwindCSS がインストールされていれば、Remotion で使用してよい（推奨）。
 
-Don't use `transition-*` or `animate-*` classes - always animate using the `useCurrentFrame()` hook.
+`transition-*` または `animate-*` クラスは使わない — 常に `useCurrentFrame()` hook で animate する。
 
-Tailwind must be installed and enabled first in a Remotion project - fetch  <https://www.remotion.dev/docs/tailwind> using WebFetch for instructions.
+Remotion プロジェクトでは先に Tailwind をインストール・有効化する必要がある — 手順は WebFetch で <https://www.remotion.dev/docs/tailwind> を参照。

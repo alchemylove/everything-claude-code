@@ -4,18 +4,18 @@ description: F# testing patterns with xUnit, FsUnit, Unquote, FsCheck property-b
 origin: ECC
 ---
 
-# F# Testing Patterns
+# F# Testing Patterns (F# Testing Patterns)
 
 Comprehensive testing patterns for F# applications using xUnit, FsUnit, Unquote, FsCheck, and modern .NET testing practices.
 
-## When to Activate
+## When to Activate (When to Activate)
 
 - Writing new tests for F# code
 - Reviewing test quality and coverage
 - Setting up test infrastructure for F# projects
 - Debugging flaky or slow tests
 
-## Test Framework Stack
+## Test Framework Stack (Test Framework Stack)
 
 | Tool | Purpose |
 |---|---|
@@ -27,9 +27,9 @@ Comprehensive testing patterns for F# applications using xUnit, FsUnit, Unquote,
 | **Testcontainers** | Real infrastructure in integration tests |
 | **WebApplicationFactory** | ASP.NET Core integration tests |
 
-## Unit Tests with xUnit + FsUnit
+## Unit Tests with xUnit + FsUnit (Unit Tests with xUnit + FsUnit)
 
-### Basic Test Structure
+### Basic Test Structure (Basic Test Structure)
 
 ```fsharp
 module OrderServiceTests
@@ -49,7 +49,7 @@ let ``confirm changes status to Confirmed`` () =
     confirmed.Status |> should be (ofCase <@ Confirmed @>)
 ```
 
-### Assertions with Unquote
+### Assertions with Unquote (Assertions with Unquote)
 
 Unquote uses F# quotations so failure messages show the full expression that failed, not just "expected X got Y".
 
@@ -78,7 +78,7 @@ let ``validated email rejects empty input`` () =
     test <@ Result.isError result @>
 ```
 
-### Async Tests
+### Async Tests (Async Tests)
 
 ```fsharp
 [<Fact>]
@@ -102,7 +102,7 @@ let ``PlaceOrder returns error when items are empty`` () = task {
 }
 ```
 
-### Parameterized Tests with Theory
+### Parameterized Tests with Theory (Parameterized Tests with Theory)
 
 ```fsharp
 [<Theory>]
@@ -122,9 +122,9 @@ let ``IsValidEmail returns expected result`` (email: string, expected: bool) =
     test <@ EmailValidator.isValid email = expected @>
 ```
 
-## Property-Based Testing with FsCheck
+## Property-Based Testing with FsCheck (Property-Based Testing with FsCheck)
 
-### Using FsCheck.xUnit
+### Using FsCheck.xUnit (Using FsCheck.xUnit)
 
 ```fsharp
 open FsCheck
@@ -146,7 +146,7 @@ let ``serialization roundtrips`` (order: Order) =
     deserialized = order
 ```
 
-### Custom Generators
+### Custom Generators (Custom Generators)
 
 ```fsharp
 type OrderGenerators =
@@ -163,9 +163,9 @@ let ``valid emails pass validation`` (email: string) =
     EmailValidator.isValid email
 ```
 
-## Mocking Dependencies
+## Mocking Dependencies (Mocking Dependencies)
 
-### Function Stubs (Preferred)
+### Function Stubs (Function Stubs)
 
 ```fsharp
 let createTestDeps () =
@@ -187,7 +187,7 @@ let ``PlaceOrder saves the confirmed order`` () = task {
 }
 ```
 
-### NSubstitute for .NET Interfaces
+### NSubstitute for .NET Interfaces (NSubstitute for .NET Interfaces)
 
 ```fsharp
 open NSubstitute
@@ -205,7 +205,7 @@ let ``calls repository with correct ID`` () = task {
 }
 ```
 
-## ASP.NET Core Integration Tests
+## ASP.NET Core Integration Tests (ASP.NET Core Integration Tests)
 
 ```fsharp
 type OrderApiTests (factory: WebApplicationFactory<Program>) =
@@ -226,7 +226,7 @@ type OrderApiTests (factory: WebApplicationFactory<Program>) =
     }
 ```
 
-## Test Organization
+## Test Organization (Test Organization)
 
 ```
 tests/
@@ -244,7 +244,7 @@ tests/
       TestDeps.fs
 ```
 
-## Common Anti-Patterns
+## Common Anti-Patterns (Common Anti-Patterns)
 
 | Anti-Pattern | Fix |
 |---|---|
@@ -255,12 +255,12 @@ tests/
 | Ignoring `CancellationToken` | Always pass and verify cancellation |
 | Skipping property-based tests | Use FsCheck for any function with clear invariants |
 
-## Related Skills
+## Related Skills (Related Skills)
 
 - `dotnet-patterns` - Idiomatic .NET patterns, dependency injection, and architecture
 - `csharp-testing` - C# testing patterns (shared infrastructure like WebApplicationFactory and Testcontainers applies to F# too)
 
-## Running Tests
+## Running Tests (Running Tests)
 
 ```bash
 # Run all tests

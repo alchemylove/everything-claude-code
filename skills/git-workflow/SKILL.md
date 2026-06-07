@@ -4,11 +4,11 @@ description: Git workflow patterns including branching strategies, commit conven
 origin: ECC
 ---
 
-# Git Workflow Patterns
+# Git Workflow Patterns (Git Workflow Patterns)
 
 Best practices for Git version control, branching strategies, and collaborative development.
 
-## When to Activate
+## When to Activate (When to Activate)
 
 - Setting up Git workflow for a new project
 - Deciding on branching strategy (GitFlow, trunk-based, GitHub flow)
@@ -17,9 +17,9 @@ Best practices for Git version control, branching strategies, and collaborative 
 - Managing releases and version tags
 - Onboarding new team members to Git practices
 
-## Branching Strategies
+## Branching Strategies (Branching Strategies)
 
-### GitHub Flow (Simple, Recommended for Most)
+### GitHub Flow (GitHub Flow)
 
 Best for continuous deployment and small-to-medium teams.
 
@@ -38,7 +38,7 @@ main (protected, always deployable)
 - After approval and CI passes, merge to `main`
 - Deploy immediately after merge
 
-### Trunk-Based Development (High-Velocity Teams)
+### Trunk-Based Development (Trunk-Based Development)
 
 Best for teams with strong CI/CD and feature flags.
 
@@ -56,7 +56,7 @@ main (trunk)
 - CI must pass before merge
 - Deploy multiple times per day
 
-### GitFlow (Complex, Release-Cycle Driven)
+### GitFlow (GitFlow)
 
 Best for scheduled releases and enterprise projects.
 
@@ -80,7 +80,7 @@ main (production releases)
 - Release branches from `develop`, merge to `main` and `develop`
 - Hotfix branches from `main`, merge to both `main` and `develop`
 
-### When to Use Which
+### When to Use Which (When to Use Which)
 
 | Strategy | Team Size | Release Cadence | Best For |
 |----------|-----------|-----------------|----------|
@@ -88,9 +88,9 @@ main (production releases)
 | Trunk-Based | 5+ experienced | Multiple/day | High-velocity teams, feature flags |
 | GitFlow | 10+ | Scheduled | Enterprise, regulated industries |
 
-## Commit Messages
+## Commit Messages (Commit Messages)
 
-### Conventional Commits Format
+### Conventional Commits Format (Conventional Commits Format)
 
 ```
 <type>(<scope>): <subject>
@@ -100,7 +100,7 @@ main (production releases)
 [optional footer(s)]
 ```
 
-### Types
+### Types (Types)
 
 | Type | Use For | Example |
 |------|---------|---------|
@@ -115,7 +115,7 @@ main (production releases)
 | `ci` | CI/CD changes | `ci: add PostgreSQL service to test workflow` |
 | `revert` | Revert previous commit | `revert: revert "feat(auth): add OAuth2 login"` |
 
-### Good vs Bad Examples
+### Good vs Bad Examples (Good vs Bad Examples)
 
 ```
 # BAD: Vague, no context
@@ -132,7 +132,7 @@ Added exponential backoff retry logic with max 3 attempts.
 Closes #123"
 ```
 
-### Commit Message Template
+### Commit Message Template (Commit Message Template)
 
 Create `.gitmessage` in repo root:
 
@@ -148,9 +148,9 @@ Create `.gitmessage` in repo root:
 
 Enable with: `git config commit.template .gitmessage`
 
-## Merge vs Rebase
+## Merge vs Rebase (Merge vs Rebase)
 
-### Merge (Preserves History)
+### Merge (Merge)
 
 ```bash
 # Creates a merge commit
@@ -171,7 +171,7 @@ git merge feature/user-auth
 - Multiple people worked on the branch
 - The branch has been pushed and others may have based work on it
 
-### Rebase (Linear History)
+### Rebase (Rebase)
 
 ```bash
 # Rewrites feature commits onto target branch
@@ -189,7 +189,7 @@ git rebase main
 - The branch is local-only (not pushed)
 - You're the only one working on the branch
 
-### Rebase Workflow
+### Rebase Workflow (Rebase Workflow)
 
 ```bash
 # Update feature branch with latest main (before PR)
@@ -204,7 +204,7 @@ git rebase origin/main
 git push --force-with-lease origin feature/user-auth
 ```
 
-### When NOT to Rebase
+### When NOT to Rebase (When NOT to Rebase)
 
 ```
 # NEVER rebase branches that:
@@ -216,9 +216,9 @@ git push --force-with-lease origin feature/user-auth
 # Why: Rebase rewrites history, breaking others' work
 ```
 
-## Pull Request Workflow
+## Pull Request Workflow (Pull Request Workflow)
 
-### PR Title Format
+### PR Title Format (PR Title Format)
 
 ```
 <type>(<scope>): <description>
@@ -229,22 +229,22 @@ fix(api): resolve race condition in order processing
 docs(api): add OpenAPI specification for v2 endpoints
 ```
 
-### PR Description Template
+### PR Description Template (PR Description Template)
 
 ```markdown
-## What
+## 概要 (What)
 
 Brief description of what this PR does.
 
-## Why
+## 理由 (Why)
 
 Explain the motivation and context.
 
-## How
+## 方法 (How)
 
 Key implementation details worth highlighting.
 
-## Testing
+## テスト (Testing)
 
 - [ ] Unit tests added/updated
 - [ ] Integration tests added/updated
@@ -254,7 +254,7 @@ Key implementation details worth highlighting.
 
 Before/after screenshots for UI changes.
 
-## Checklist
+## チェックリスト (Checklist)
 
 - [ ] Code follows project style guidelines
 - [ ] Self-review completed
@@ -267,7 +267,7 @@ Before/after screenshots for UI changes.
 Closes #123
 ```
 
-### Code Review Checklist
+### Code Review Checklist (Code Review Checklist)
 
 **For Reviewers:**
 
@@ -286,9 +286,9 @@ Closes #123
 - [ ] Related to a single feature/fix
 - [ ] Description clearly explains the change
 
-## Conflict Resolution
+## Conflict Resolution (Conflict Resolution)
 
-### Identify Conflicts
+### Identify Conflicts (Identify Conflicts)
 
 ```bash
 # Check for conflicts before merge
@@ -300,7 +300,7 @@ git merge feature/user-auth --no-commit --no-ff
 # Automatic merge failed; fix conflicts and then commit the result.
 ```
 
-### Resolve Conflicts
+### Resolve Conflicts (Resolve Conflicts)
 
 ```bash
 # See conflicted files
@@ -328,7 +328,7 @@ git add src/auth/login.ts
 git commit
 ```
 
-### Conflict Prevention Strategies
+### Conflict Prevention Strategies (Conflict Prevention Strategies)
 
 ```bash
 # 1. Keep feature branches small and short-lived
@@ -342,9 +342,9 @@ git rebase origin/main
 # 5. Review and merge PRs promptly
 ```
 
-## Branch Management
+## Branch Management (Branch Management)
 
-### Naming Conventions
+### Naming Conventions (Naming Conventions)
 
 ```
 # Feature branches
@@ -368,7 +368,7 @@ experiment/new-caching-strategy
 poc/graphql-migration
 ```
 
-### Branch Cleanup
+### Branch Cleanup (Branch Cleanup)
 
 ```bash
 # Delete local branches that are merged
@@ -385,7 +385,7 @@ git branch -D feature/user-auth  # Force delete
 git push origin --delete feature/user-auth
 ```
 
-### Stash Workflow
+### Stash Workflow (Stash Workflow)
 
 ```bash
 # Save work in progress
@@ -404,9 +404,9 @@ git stash apply stash@{2}
 git stash drop stash@{0}
 ```
 
-## Release Management
+## Release Management (Release Management)
 
-### Semantic Versioning
+### Semantic Versioning (Semantic Versioning)
 
 ```
 MAJOR.MINOR.PATCH
@@ -421,7 +421,7 @@ Examples:
 1.1.0 → 2.0.0 (major: breaking change)
 ```
 
-### Creating Releases
+### Creating Releases (Creating Releases)
 
 ```bash
 # Create annotated tag
@@ -448,7 +448,7 @@ git tag -d v1.2.0
 git push origin --delete v1.2.0
 ```
 
-### Changelog Generation
+### Changelog Generation (Changelog Generation)
 
 ```bash
 # Generate changelog from commits
@@ -458,9 +458,9 @@ git log v1.1.0..v1.2.0 --oneline --no-merges
 npx conventional-changelog -i CHANGELOG.md -s
 ```
 
-## Git Configuration
+## Git Configuration (Git Configuration)
 
-### Essential Configs
+### Essential Configs (Essential Configs)
 
 ```bash
 # User identity
@@ -486,7 +486,7 @@ git config --global diff.algorithm histogram
 git config --global color.ui auto
 ```
 
-### Useful Aliases
+### Useful Aliases (Useful Aliases)
 
 ```bash
 # Add to ~/.gitconfig
@@ -504,7 +504,7 @@ git config --global color.ui auto
     contributors = shortlog -sn
 ```
 
-### Gitignore Patterns
+### Gitignore Patterns (Gitignore Patterns)
 
 ```gitignore
 # Dependencies
@@ -544,9 +544,9 @@ coverage/
 *.tsbuildinfo
 ```
 
-## Common Workflows
+## Common Workflows (Common Workflows)
 
-### Starting a New Feature
+### Starting a New Feature (Starting a New Feature)
 
 ```bash
 # 1. Update main branch
@@ -566,7 +566,7 @@ git push -u origin feature/user-auth
 # 5. Create Pull Request on GitHub/GitLab
 ```
 
-### Updating a PR with New Changes
+### Updating a PR with New Changes (Updating a PR with New Changes)
 
 ```bash
 # 1. Make additional changes
@@ -577,7 +577,7 @@ git commit -m "feat(auth): add error handling"
 git push origin feature/user-auth
 ```
 
-### Syncing Fork with Upstream
+### Syncing Fork with Upstream (Syncing Fork with Upstream)
 
 ```bash
 # 1. Add upstream remote (once)
@@ -594,7 +594,7 @@ git merge upstream/main
 git push origin main
 ```
 
-### Undoing Mistakes
+### Undoing Mistakes (Undoing Mistakes)
 
 ```bash
 # Undo last commit (keep changes)
@@ -618,9 +618,9 @@ git add forgotten-file
 git commit --amend --no-edit
 ```
 
-## Git Hooks
+## Git Hooks (Git Hooks)
 
-### Pre-Commit Hook
+### Pre-Commit Hook (Pre-Commit Hook)
 
 ```bash
 #!/bin/bash
@@ -639,7 +639,7 @@ if git diff --cached | grep -E '(password|api_key|secret)'; then
 fi
 ```
 
-### Pre-Push Hook
+### Pre-Push Hook (Pre-Push Hook)
 
 ```bash
 #!/bin/bash
@@ -655,7 +655,7 @@ if git diff origin/main | grep -E 'console\.log'; then
 fi
 ```
 
-## Anti-Patterns
+## Anti-Patterns (Anti-Patterns)
 
 ```
 # BAD: Committing directly to main
@@ -695,7 +695,7 @@ git add node_modules/
 # GOOD: Add to .gitignore
 ```
 
-## Quick Reference
+## Quick Reference (Quick Reference)
 
 | Task | Command |
 |------|---------|

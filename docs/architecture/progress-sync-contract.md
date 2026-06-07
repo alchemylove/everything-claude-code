@@ -1,10 +1,8 @@
-# Progress Sync Contract
+# 進捗同期契約 (Progress Sync Contract)
 
-ECC 2.0 tracks execution state across GitHub, Linear, local handoffs, and the
-repo roadmap. This contract defines the minimum evidence required before a
-status update can claim a lane is current.
+ECC 2.0 は GitHub、Linear、ローカル handoff、リポジトリ roadmap 横断で実行状態を追跡します。この契約は、lane が current と主張する前に必要な最小 evidence を定義します。
 
-## Sources Of Truth
+## 真実のソース (Sources Of Truth)
 
 | Surface | Role | Current rule |
 | --- | --- | --- |
@@ -14,10 +12,10 @@ status update can claim a lane is current.
 | Repo roadmap | Auditable planning mirror | Keep `docs/ECC-2.0-GA-ROADMAP.md` aligned to merged PR evidence and unresolved gates. |
 | `scripts/work-items.js` | Local tracker bridge | Sync GitHub PRs/issues into the SQLite work-items store for status snapshots and blocked follow-up. |
 
-## Flow Lanes
+## フロー Lane (Flow Lanes)
 
-The repo mirror uses these flow lanes so ECC work does not collapse into one
-undifferentiated backlog:
+リポジトリミラーは次のフロー lane を使い、ECC 作業が1つの
+区別のない backlog に潰れないようにします：
 
 - Queue hygiene and stale-work salvage
 - Release, naming, plugin publication, and announcements
@@ -28,43 +26,43 @@ undifferentiated backlog:
 - ECC Tools billing, PR-risk checks, deep analysis, and Linear sync
 - Legacy artifact audit and translator/manual-review tails
 
-Each flow lane needs one owner artifact, one current evidence source, and one
-next action. A lane is not current if any of those three fields are missing.
+各フロー lane には owner artifact 1つ、current evidence source 1つ、
+next action 1つが必要です。3つのフィールドのいずれかが欠けていれば lane は current ではありません。
 
-## Significant Merge Batch Update
+## 重要な Merge Batch 更新 (Significant Merge Batch Update)
 
-After a significant merge batch, update Linear and the handoff with:
+重要な merge batch の後、Linear と handoff を次で更新：
 
-1. Current public queue counts for tracked GitHub repos.
-2. Merged PR numbers, commit IDs, and validation evidence.
-3. Changed release gates, if any.
-4. Deferred or skipped work and the explicit reason.
-5. The next one or two implementation slices.
+1. 追跡 GitHub リポジトリの現在の公開 queue 件数。
+2. マージされた PR 番号、commit ID、validation evidence。
+3. 変更されたリリースゲート（あれば）。
+4. 延期またはスキップされた作業と明示的な理由。
+5. 次の1〜2実装スライス。
 
-When Linear project status updates are unavailable, use a project document plus
-project/issue comments instead of creating placeholder issues. Issue capacity is
-available for durable execution lanes, but do not use that issue capacity as a
-substitute for evidence-backed project status. Create or reuse exact-title
-issues only when the lane needs a durable execution owner, and link those issues
-to repo evidence.
+Linear project status update が利用できない場合は、placeholder issue を作る代わりに
+project document と project/issue comments を使います。Issue 容量は
+durable execution lane に使えますが、evidence バックドの project status の
+代替に issue 容量を使わないでください。lane に durable execution owner が
+必要なときのみ exact-title issue を作成または再利用し、それらの issue を
+リポジトリ evidence にリンクします。
 
-## Realtime Boundary
+## リアルタイム境界 (Realtime Boundary)
 
-The local realtime path is file-backed by default:
+ローカル realtime path はデフォルトで file-backed です：
 
-- `node scripts/work-items.js sync-github --repo <owner/repo>` imports current
-  GitHub PR and issue state into the SQLite work-items store.
-- `node scripts/status.js --json` and `node scripts/work-items.js list --json`
-  expose local state for a HUD, handoff, or later Linear sync.
-- Linear remains the external status surface; the repo does not require hosted
-  telemetry to be release-ready.
+- `node scripts/work-items.js sync-github --repo <owner/repo>` は現在の
+  GitHub PR と issue 状態を SQLite work-items store に import します。
+- `node scripts/status.js --json` と `node scripts/work-items.js list --json` は
+  HUD、handoff、または将来の Linear sync 向けにローカル状態を公開します。
+- Linear は外部 status 面のまま；リポジトリは release-ready にするために
+  hosted telemetry を要求しません。
 
-Hosted telemetry such as PostHog can be added later, but it must consume the
-same event model rather than becoming a second source of truth.
+PostHog などの hosted telemetry は後から追加できますが、
+第2の真実のソースになるのではなく同じ event model を消費する必要があります。
 
-## Release Gate
+## リリースゲート (Release Gate)
 
-Do not publish, tag, announce, submit marketplace packages, or claim plugin
-availability from this contract alone. Release readiness still requires the
-publication-readiness evidence documents, fresh queue checks, package checks,
-plugin checks, and explicit maintainer approval.
+この契約だけから publish、tag、announce、marketplace package 提出、
+plugin 可用性の主張をしないでください。リリース準備には依然として
+publication-readiness evidence ドキュメント、新鮮な queue チェック、package チェック、
+plugin チェック、明示的な maintainer 承認が必要です。

@@ -1,45 +1,44 @@
-# patch_settings_cl_v2_simple.ps1 argv-dup bug workaround (2026-04-22)
+# patch_settings_cl_v2_simple.ps1 argv-dup bug 回避策 (2026-04-22) (patch_settings_cl_v2_simple.ps1 argv-dup bug workaround (2026-04-22))
 
-## Summary
+## 概要 (Summary)
 
-`docs/fixes/patch_settings_cl_v2_simple.ps1` is the minimal PowerShell
-helper that patches `~/.claude/settings.local.json` so the observer hook
-points at `observe-wrapper.sh`. It is the "simple" counterpart of
-`docs/fixes/install_hook_wrapper.ps1` (PR #1540): it never copies the
-wrapper script, it only rewrites the settings file.
+`docs/fixes/patch_settings_cl_v2_simple.ps1` は最小限の PowerShell
+ヘルパーで、observer hook が `observe-wrapper.sh` を指すよう
+`~/.claude/settings.local.json` をパッチします。PR #1540 の
+`docs/fixes/install_hook_wrapper.ps1` の「シンプル」版で、wrapper スクリプトは
+コピーせず settings ファイルのみ書き換えます。
 
-The previous version of this helper registered the raw `observe.sh` path
-as the hook command, shared a single command string across `PreToolUse`
-and `PostToolUse`, and relied on `ConvertTo-Json` defaults that can emit
-CRLF line endings. Under Claude Code v2.1.116 the first argv token is
-duplicated, so the wrapper needs to be invoked with a specific shape and
-the two hook phases need distinct entries.
+このヘルパーの以前のバージョンは、生の `observe.sh` パスを
+hook command として登録し、`PreToolUse` と `PostToolUse` で単一 command 文字列を
+共有し、CRLF 改行を出力しうる `ConvertTo-Json` デフォルトに依存していました。
+Claude Code v2.1.116 では第1 argv トークンが重複するため、wrapper は
+特定の形状で呼び出す必要があり、2つの hook phase は個別エントリが必要です。
 
-## What the fix does
+## 修正内容 (What the fix does)
 
-- First token is the PATH-resolved `bash` (no quoted `.exe` path), so the
-  argv-dup bug no longer passes a binary as a script. Matches PR #1524 and
-  PR #1540.
-- The wrapper path is normalized to forward slashes before it is embedded
-  in the hook command, avoiding MSYS backslash handling surprises.
-- `PreToolUse` and `PostToolUse` receive distinct commands with explicit
-  `pre` / `post` positional arguments.
-- The settings file is written UTF-8 (no BOM) with CRLF normalized to LF
-  so downstream JSON parsers never see mixed line endings.
-- Existing hooks (including legacy `observe.sh` entries and unrelated
-  third-party hooks) are preserved — the script only appends the new
-  wrapper entries when they are not already registered.
-- Idempotent on re-runs: a second invocation recognizes the canonical
-  command strings and logs `[SKIP]` instead of duplicating entries.
+- 第1トークンは PATH 解決された `bash`（引用符付き `.exe` パスなし）で、
+  argv-dup bug がバイナリをスクリプトとして渡さなくなります。PR #1524 と
+  PR #1540 に一致。
+- wrapper パスは hook command に埋め込む前に forward slash に正規化され、
+  MSYS のバックスラッシュ処理の意外な挙動を避けます。
+- `PreToolUse` と `PostToolUse` は明示的な
+  `pre` / `post` 位置引数を持つ個別 command を受け取ります。
+- settings ファイルは UTF-8（BOM なし）で書き込まれ、CRLF は LF に正規化され、
+  下流 JSON パーサーが混在改行を見ないようにします。
+- 既存 hooks（レガシー `observe.sh` エントリや無関係な
+  第三者 hooks を含む）は保持 — スクリプトはまだ登録されていない場合のみ
+  新しい wrapper エントリを追加します。
+- 再実行時に冪等：2回目の呼び出しは正規 command 文字列を認識し、
+  エントリを重複させず `[SKIP]` をログします。
 
-## Resulting command shape
+## 結果の command 形状 (Resulting command shape)
 
 ```
 bash "C:/Users/<you>/.claude/skills/continuous-learning/hooks/observe-wrapper.sh" pre
 bash "C:/Users/<you>/.claude/skills/continuous-learning/hooks/observe-wrapper.sh" post
 ```
 
-## Usage
+## 使い方 (Usage)
 
 ```powershell
 pwsh -File docs/fixes/patch_settings_cl_v2_simple.ps1
@@ -47,32 +46,31 @@ pwsh -File docs/fixes/patch_settings_cl_v2_simple.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File docs/fixes/patch_settings_cl_v2_simple.ps1
 ```
 
-The script backs up the existing settings file to
-`settings.local.json.bak-<timestamp>` before writing.
+スクリプトは既存 settings ファイルを
+`settings.local.json.bak-<timestamp>` にバックアップしてから書き込みます。
 
-## PowerShell 5.1 compatibility
+## PowerShell 5.1 互換性 (PowerShell 5.1 compatibility)
 
-`ConvertFrom-Json -AsHashtable` is PowerShell 7+ only. The script tries
-`-AsHashtable` first and falls back to a manual `PSCustomObject` →
-`Hashtable` conversion on Windows PowerShell 5.1. Both hook buckets
-(`PreToolUse`, `PostToolUse`) and their inner `hooks` arrays are
-materialized as `System.Collections.ArrayList` before serialization, so
-PS 5.1's `ConvertTo-Json` cannot collapse single-element arrays into bare
-objects.
+`ConvertFrom-Json -AsHashtable` は PowerShell 7+ のみです。スクリプトは
+まず `-AsHashtable` を試し、Windows PowerShell 5.1 では手動の `PSCustomObject` →
+`Hashtable` 変換にフォールバックします。両方の hook バケット
+（`PreToolUse`、`PostToolUse`）とその内部 `hooks` 配列は
+シリアライズ前に `System.Collections.ArrayList` として具体化されるため、
+PS 5.1 の `ConvertTo-Json` が単一要素配列を素のオブジェクトに潰しません。
 
-## Verified cases (dry-run)
+## 検証済みケース（dry-run）(Verified cases (dry-run))
 
-1. Fresh install — no existing settings → creates canonical file.
-2. Idempotent re-run — existing canonical file → `[SKIP]` both phases,
-   file contents unchanged apart from the pre-write backup.
-3. Legacy `observe.sh` present → preserves the legacy entries and
-   appends the new `observe-wrapper.sh` entries alongside them.
+1. 新規インストール — 既存 settings なし → 正規ファイルを作成。
+2. 冪等な再実行 — 既存の正規ファイル → 両 phase で `[SKIP]`、
+   書き込み前バックアップ以外はファイル内容不変。
+3. レガシー `observe.sh` 存在 → レガシーエントリを保持し、
+   新しい `observe-wrapper.sh` エントリを並べて追加。
 
-All three cases produce LF-only output and match the shape registered by
-PR #1524's manual fix to `settings.local.json`.
+3ケースすべて LF のみ出力を生成し、PR #1524 の `settings.local.json` 手動修正と
+同じ形状に一致します。
 
-## Related
+## 関連 (Related)
 
-- PR #1524 — settings.local.json shape fix (same argv-dup root cause)
-- PR #1539 — locale-independent `detect-project.sh`
-- PR #1540 — `install_hook_wrapper.ps1` argv-dup fix (companion script)
+- PR #1524 — settings.local.json 形状修正（同じ argv-dup 根本原因）
+- PR #1539 — ロケール非依存の `detect-project.sh`
+- PR #1540 — `install_hook_wrapper.ps1` argv-dup 修正（コンパニオンスクリプト）

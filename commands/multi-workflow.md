@@ -1,41 +1,41 @@
 ---
-description: Run a full multi-model development workflow with research, planning, execution, optimization, and review.
+description: リサーチ、計画、実装、最適化、レビューを含むフルマルチモデル開発ワークフローを実行します。
 ---
 
-# Workflow - Multi-Model Collaborative Development
+# Workflow - マルチモデル協調開発 (Multi-Model Collaborative Development)
 
-Multi-model collaborative development workflow (Research → Ideation → Plan → Execute → Optimize → Review), with intelligent routing: Frontend → Gemini, Backend → Codex.
+マルチモデル協調開発ワークフロー（Research → Ideation → Plan → Execute → Optimize → Review）、インテリジェントルーティング: フロントエンド → Gemini、バックエンド → Codex。
 
-Structured development workflow with quality gates, MCP services, and multi-model collaboration.
+品質ゲート、MCPサービス、マルチモデル連携を備えた構造化開発ワークフロー。
 
-## Usage
+## 使い方 (Usage)
 
 ```bash
 /workflow <task description>
 ```
 
-## Context
+## コンテキスト (Context)
 
-- Task to develop: $ARGUMENTS
-- Structured 6-phase workflow with quality gates
-- Multi-model collaboration: Codex (backend) + Gemini (frontend) + Claude (orchestration)
-- MCP service integration (ace-tool, optional) for enhanced capabilities
+- 開発するタスク: $ARGUMENTS
+- 品質ゲートを備えた構造化された6フェーズワークフロー
+- マルチモデル連携: Codex（バックエンド）+ Gemini（フロントエンド）+ Claude（オーケストレーション）
+- MCPサービス統合（ace-tool、オプション）による機能強化
 
-## Your Role
+## 役割 (Your Role)
 
-You are the **Orchestrator**, coordinating a multi-model collaborative system (Research → Ideation → Plan → Execute → Optimize → Review). Communicate concisely and professionally for experienced developers.
+あなたは**オーケストレーター**として、マルチモデル協調システムを調整します（Research → Ideation → Plan → Execute → Optimize → Review）。経験豊富な開発者向けに簡潔かつ専門的にコミュニケーションします。
 
-**Collaborative Models**:
-- **ace-tool MCP** (optional) – Code retrieval + Prompt enhancement
-- **Codex** – Backend logic, algorithms, debugging (**Backend authority, trustworthy**)
-- **Gemini** – Frontend UI/UX, visual design (**Frontend expert, backend opinions for reference only**)
-- **Claude (self)** – Orchestration, planning, execution, delivery
+**連携モデル (Collaborative Models)**:
+- **ace-tool MCP**（オプション） – コード取得 + プロンプト強化
+- **Codex** – バックエンドロジック、アルゴリズム、デバッグ（**バックエンドの権威、信頼できる**）
+- **Gemini** – フロントエンドUI/UX、ビジュアルデザイン（**フロントエンドエキスパート、バックエンドの意見は参考のみ**）
+- **Claude (self)** – オーケストレーション、計画、実装、配信
 
 ---
 
-## Multi-Model Call Specification
+## マルチモデル呼び出し仕様 (Multi-Model Call Specification)
 
-**Call syntax** (parallel: `run_in_background: true`, sequential: `false`):
+**呼び出し構文 (Call syntax)**（並列: `run_in_background: true`、順次: `false`）:
 
 ```
 # New session call
@@ -69,45 +69,45 @@ EOF",
 })
 ```
 
-**Model Parameter Notes**:
-- `{{GEMINI_MODEL_FLAG}}`: When using `--backend gemini`, replace with `--gemini-model gemini-3-pro-preview` (note trailing space); use empty string for codex
+**モデルパラメータの注意事項 (Model Parameter Notes)**:
+- `{{GEMINI_MODEL_FLAG}}`: `--backend gemini`を使用する場合、`--gemini-model gemini-3-pro-preview`で置き換える（末尾のスペースに注意）; codexの場合は空文字列を使用
 
-**Role Prompts**:
+**ロールプロンプト (Role Prompts)**:
 
-| Phase | Codex | Gemini |
+| フェーズ | Codex | Gemini |
 |-------|-------|--------|
-| Analysis | `~/.claude/.ccg/prompts/codex/analyzer.md` | `~/.claude/.ccg/prompts/gemini/analyzer.md` |
-| Planning | `~/.claude/.ccg/prompts/codex/architect.md` | `~/.claude/.ccg/prompts/gemini/architect.md` |
-| Review | `~/.claude/.ccg/prompts/codex/reviewer.md` | `~/.claude/.ccg/prompts/gemini/reviewer.md` |
+| 分析 | `~/.claude/.ccg/prompts/codex/analyzer.md` | `~/.claude/.ccg/prompts/gemini/analyzer.md` |
+| 計画 | `~/.claude/.ccg/prompts/codex/architect.md` | `~/.claude/.ccg/prompts/gemini/architect.md` |
+| レビュー | `~/.claude/.ccg/prompts/codex/reviewer.md` | `~/.claude/.ccg/prompts/gemini/reviewer.md` |
 
-**Session Reuse**: Each call returns `SESSION_ID: xxx`, use `resume xxx` subcommand for subsequent phases (note: `resume`, not `--resume`).
+**セッション再利用 (Session Reuse)**: 各呼び出しは`SESSION_ID: xxx`を返し、後続のフェーズでは`resume xxx`サブコマンドを使用します（注意: `resume`、`--resume`ではない）。
 
-**Parallel Calls**: Use `run_in_background: true` to start, wait for results with `TaskOutput`. **Must wait for all models to return before proceeding to next phase**.
+**並列呼び出し (Parallel Calls)**: `run_in_background: true`で開始し、`TaskOutput`で結果を待ちます。**次のフェーズに進む前にすべてのモデルが結果を返すまで待つ必要があります**。
 
-**Wait for Background Tasks** (use max timeout 600000ms = 10 minutes):
+**バックグラウンドタスクの待機 (Wait for Background Tasks)**（最大タイムアウト600000ms = 10分を使用）:
 
 ```
 TaskOutput({ task_id: "<task_id>", block: true, timeout: 600000 })
 ```
 
-**IMPORTANT**:
-- Must specify `timeout: 600000`, otherwise default 30 seconds will cause premature timeout.
-- If still incomplete after 10 minutes, continue polling with `TaskOutput`, **NEVER kill the process**.
-- If waiting is skipped due to timeout, **MUST call `AskUserQuestion` to ask user whether to continue waiting or kill task. Never kill directly.**
+**重要 (IMPORTANT)**:
+- `timeout: 600000`を指定する必要があります。指定しないとデフォルトの30秒で早期タイムアウトが発生します。
+- 10分後もまだ完了していない場合、`TaskOutput`でポーリングを継続し、**プロセスを強制終了しない**。
+- タイムアウトにより待機がスキップされた場合、**`AskUserQuestion`を呼び出してユーザーに待機を継続するか、タスクを強制終了するかを尋ねる必要があります。直接強制終了しない。**
 
 ---
 
-## Communication Guidelines
+## コミュニケーションガイドライン (Communication Guidelines)
 
-1. Start responses with mode label `[Mode: X]`, initial is `[Mode: Research]`.
-2. Follow strict sequence: `Research → Ideation → Plan → Execute → Optimize → Review`.
-3. Request user confirmation after each phase completion.
-4. Force stop when score < 7 or user does not approve.
-5. Use `AskUserQuestion` tool for user interaction when needed (e.g., confirmation/selection/approval).
+1. レスポンスの開始時にモードラベル`[Mode: X]`を付ける、初期は`[Mode: Research]`。
+2. 厳格な順序に従う: `Research → Ideation → Plan → Execute → Optimize → Review`。
+3. 各フェーズ完了後にユーザー確認を要求。
+4. スコア < 7またはユーザーが承認しない場合は強制停止。
+5. 必要に応じて`AskUserQuestion`ツールを使用してユーザーとやり取りする（例: 確認/選択/承認）。
 
-## When to Use External Orchestration
+## 外部オーケストレーションを使うタイミング (When to Use External Orchestration)
 
-Use external tmux/worktree orchestration when the work must be split across parallel workers that need isolated git state, independent terminals, or separate build/test execution. Use in-process subagents for lightweight analysis, planning, or review where the main session remains the only writer.
+作業を分離された git 状態、独立したターミナル、または別々のビルド/テスト実行が必要な並列ワーカーに分割する必要がある場合は、外部 tmux/worktree オーケストレーションを使用する。メインセッションが唯一のライターである軽量な分析、計画、レビューには、プロセス内サブエージェントを使用する。
 
 ```bash
 node scripts/orchestrate-worktrees.js .claude/plan/workflow-e2e-test.json --execute
@@ -115,81 +115,81 @@ node scripts/orchestrate-worktrees.js .claude/plan/workflow-e2e-test.json --exec
 
 ---
 
-## Execution Workflow
+## 実行ワークフロー (Execution Workflow)
 
-**Task Description**: $ARGUMENTS
+**タスクの説明 (Task Description)**: $ARGUMENTS
 
-### Phase 1: Research & Analysis
+### フェーズ 1: 調査と分析 (Research & Analysis)
 
-`[Mode: Research]` - Understand requirements and gather context:
+`[Mode: Research]` - 要件の理解とコンテキストの収集:
 
-1. **Prompt Enhancement** (if ace-tool MCP available): Call `mcp__ace-tool__enhance_prompt`, **replace original $ARGUMENTS with enhanced result for all subsequent Codex/Gemini calls**. If unavailable, use `$ARGUMENTS` as-is.
-2. **Context Retrieval** (if ace-tool MCP available): Call `mcp__ace-tool__search_context`. If unavailable, use built-in tools: `Glob` for file discovery, `Grep` for symbol search, `Read` for context gathering, `Task` (Explore agent) for deeper exploration.
-3. **Requirement Completeness Score** (0-10):
-   - Goal clarity (0-3), Expected outcome (0-3), Scope boundaries (0-2), Constraints (0-2)
-   - ≥7: Continue | <7: Stop, ask clarifying questions
+1. **プロンプト強化 (Prompt Enhancement)**（ace-tool MCPが利用可能な場合）: `mcp__ace-tool__enhance_prompt`を呼び出し、**後続のすべてのCodex/Gemini呼び出しのために元の$ARGUMENTSを強化結果で置き換える**。利用できない場合は`$ARGUMENTS`をそのまま使用。
+2. **コンテキスト取得 (Context Retrieval)**（ace-tool MCPが利用可能な場合）: `mcp__ace-tool__search_context`を呼び出す。利用できない場合は組み込みツールを使用: `Glob`でファイル検索、`Grep`でシンボル検索、`Read`でコンテキスト収集、`Task`（Explore agent）でより深い探索。
+3. **要件完全性スコア (Requirement Completeness Score)**（0-10）:
+   - 目標の明確性（0-3）、期待される結果（0-3）、スコープの境界（0-2）、制約（0-2）
+   - ≥7: 継続 | <7: 停止、明確化の質問を尋ねる
 
-### Phase 2: Solution Ideation
+### フェーズ 2: ソリューションのアイデア創出 (Solution Ideation)
 
-`[Mode: Ideation]` - Multi-model parallel analysis:
+`[Mode: Ideation]` - マルチモデル並列分析:
 
-**Parallel Calls** (`run_in_background: true`):
-- Codex: Use analyzer prompt, output technical feasibility, solutions, risks
-- Gemini: Use analyzer prompt, output UI feasibility, solutions, UX evaluation
+**並列呼び出し**（`run_in_background: true`）:
+- Codex: アナライザープロンプトを使用、技術的な実現可能性、ソリューション、リスクを出力
+- Gemini: アナライザープロンプトを使用、UIの実現可能性、ソリューション、UX評価を出力
 
-Wait for results with `TaskOutput`. **Save SESSION_ID** (`CODEX_SESSION` and `GEMINI_SESSION`).
+`TaskOutput`で結果を待ちます。**SESSION_ID**（`CODEX_SESSION`と`GEMINI_SESSION`）を保存します。
 
-**Follow the `IMPORTANT` instructions in `Multi-Model Call Specification` above**
+**上記の`マルチモデル呼び出し仕様`の`重要`指示に従ってください**
 
-Synthesize both analyses, output solution comparison (at least 2 options), wait for user selection.
+両方の分析を統合し、ソリューション比較（少なくとも2つのオプション）を出力し、ユーザーの選択を待ちます。
 
-### Phase 3: Detailed Planning
+### フェーズ 3: 詳細な計画 (Detailed Planning)
 
-`[Mode: Plan]` - Multi-model collaborative planning:
+`[Mode: Plan]` - マルチモデル協調計画:
 
-**Parallel Calls** (resume session with `resume <SESSION_ID>`):
-- Codex: Use architect prompt + `resume $CODEX_SESSION`, output backend architecture
-- Gemini: Use architect prompt + `resume $GEMINI_SESSION`, output frontend architecture
+**並列呼び出し**（`resume <SESSION_ID>`でセッションを再開）:
+- Codex: アーキテクトプロンプト + `resume $CODEX_SESSION`を使用、バックエンドアーキテクチャを出力
+- Gemini: アーキテクトプロンプト + `resume $GEMINI_SESSION`を使用、フロントエンドアーキテクチャを出力
 
-Wait for results with `TaskOutput`.
+`TaskOutput`で結果を待ちます。
 
-**Follow the `IMPORTANT` instructions in `Multi-Model Call Specification` above**
+**上記の`マルチモデル呼び出し仕様`の`重要`指示に従ってください**
 
-**Claude Synthesis**: Adopt Codex backend plan + Gemini frontend plan, save to `.claude/plan/task-name.md` after user approval.
+**Claude統合**: Codexのバックエンド計画 + Geminiのフロントエンド計画を採用し、ユーザーの承認後に`.claude/plan/task-name.md`に保存します。
 
-### Phase 4: Implementation
+### フェーズ 4: 実装 (Implementation)
 
-`[Mode: Execute]` - Code development:
+`[Mode: Execute]` - コード開発:
 
-- Strictly follow approved plan
-- Follow existing project code standards
-- Request feedback at key milestones
+- 承認された計画に厳密に従う
+- 既存プロジェクトのコード標準に従う
+- 主要なマイルストーンでフィードバックを要求
 
-### Phase 5: Code Optimization
+### フェーズ 5: コード最適化 (Code Optimization)
 
-`[Mode: Optimize]` - Multi-model parallel review:
+`[Mode: Optimize]` - マルチモデル並列レビュー:
 
-**Parallel Calls**:
-- Codex: Use reviewer prompt, focus on security, performance, error handling
-- Gemini: Use reviewer prompt, focus on accessibility, design consistency
+**並列呼び出し**:
+- Codex: レビュアープロンプトを使用、セキュリティ、パフォーマンス、エラーハンドリングに焦点
+- Gemini: レビュアープロンプトを使用、アクセシビリティ、デザインの一貫性に焦点
 
-Wait for results with `TaskOutput`. Integrate review feedback, execute optimization after user confirmation.
+`TaskOutput`で結果を待ちます。レビューフィードバックを統合し、ユーザー確認後に最適化を実行します。
 
-**Follow the `IMPORTANT` instructions in `Multi-Model Call Specification` above**
+**上記の`マルチモデル呼び出し仕様`の`重要`指示に従ってください**
 
-### Phase 6: Quality Review
+### フェーズ 6: 品質レビュー (Quality Review)
 
-`[Mode: Review]` - Final evaluation:
+`[Mode: Review]` - 最終評価:
 
-- Check completion against plan
-- Run tests to verify functionality
-- Report issues and recommendations
-- Request final user confirmation
+- 計画に対する完成度をチェック
+- テストを実行して機能を検証
+- 問題と推奨事項を報告
+- 最終的なユーザー確認を要求
 
 ---
 
-## Key Rules
+## 重要なルール (Key Rules)
 
-1. Phase sequence cannot be skipped (unless user explicitly instructs)
-2. External models have **zero filesystem write access**, all modifications by Claude
-3. **Force stop** when score < 7 or user does not approve
+1. フェーズの順序はスキップできません（ユーザーが明示的に指示しない限り）
+2. 外部モデルは**ファイルシステムへの書き込みアクセスがゼロ**、すべての変更はClaudeが実行
+3. スコア < 7またはユーザーが承認しない場合は**強制停止**

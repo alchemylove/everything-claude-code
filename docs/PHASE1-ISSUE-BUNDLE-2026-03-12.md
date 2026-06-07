@@ -1,14 +1,12 @@
-# Phase 1 Issue Bundle — March 12, 2026
+# Phase 1 Issue Bundle — 2026年3月12日 (Phase 1 Issue Bundle — March 12, 2026)
 
-## Status
+## ステータス (Status)
 
-These issue drafts were prepared from the March 11 mega plan plus the March 12
-handoff. I attempted to open them directly in GitHub, but issue creation was
-blocked by missing GitHub authentication in the MCP session.
+これらの issue ドラフトは、3月11日の mega plan と 3月12日の handoff から作成した。GitHub 上で直接 issue を開こうとしたが、MCP セッションに GitHub 認証がなく issue 作成はブロックされた。
 
-## GitHub Status
+## GitHub ステータス (GitHub Status)
 
-These drafts were later posted via `gh`:
+これらのドラフトは後に `gh` 経由で投稿された:
 
 - `#423` Implement manifest-driven selective install profiles for ECC
 - `#421` Add ECC install-state plus uninstall / doctor / repair lifecycle
@@ -16,29 +14,26 @@ These drafts were later posted via `gh`:
 - `#422` Define generated skill placement and provenance policy
 - `#425` Define governance and visibility past the tool call
 
-The bodies below are preserved as the local source bundle used to create the
-issues.
+以下の本文は、issue 作成に使ったローカル source bundle として保存されている。
 
 ## Issue 1
 
-### Title
+### タイトル (Title)
 
 Implement manifest-driven selective install profiles for ECC
 
-### Labels
+### ラベル (Labels)
 
 - `enhancement`
 
-### Body
+### 本文 (Body)
 
 ```md
-## Problem
+## 問題 (Problem)
 
-ECC still installs primarily by target and language. The repo now has first-pass
-selective-install manifests and a non-mutating plan resolver, but the installer
-itself does not yet consume those profiles.
+ECC は依然として主に target と language 単位でインストールされる。リポジトリには selective-install manifest と non-mutating plan resolver の第一版が既にあるが、インストーラー自体はまだそれら profile を消費していない。
 
-Current groundwork already landed in-repo:
+既存の groundwork はリポジトリ内に既に land 済み:
 
 - `manifests/install-modules.json`
 - `manifests/install-profiles.json`
@@ -46,85 +41,81 @@ Current groundwork already landed in-repo:
 - `scripts/lib/install-manifests.js`
 - `scripts/install-plan.js`
 
-That means the missing step is no longer design discovery. The missing step is
-execution: wire profile/module resolution into the actual install flow while
-preserving backward compatibility.
+つまり、不足しているのは design discovery ではなくなった。不足しているのは execution である: profile/module resolution を実際の install flow に接続し、後方互換性を維持すること。
 
-## Scope
+## スコープ (Scope)
 
-Implement manifest-driven install execution for current ECC targets:
+現在の ECC target 向けに manifest-driven install execution を実装する:
 
 - `claude`
 - `cursor`
 - `antigravity`
 
-Add first-pass support for:
+第一版として以下を追加:
 
 - `ecc-install --profile <name>`
 - `ecc-install --modules <id,id,...>`
-- target-aware filtering based on module target support
-- backward-compatible legacy language installs during rollout
+- module の target サポートに基づく target-aware filtering
+- rollout 中の後方互換 legacy language install
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-- Full uninstall/doctor/repair lifecycle in the same issue
-- Codex/OpenCode install targets in the first pass if that blocks rollout
-- Reorganizing the repository into separate published packages
+- 同一 issue 内での uninstall/doctor/repair lifecycle の完全実装
+- rollout を阻害する場合の第一版での Codex/OpenCode install target
+- リポジトリを別 published package へ再編成すること
 
-## Acceptance Criteria
+## 受け入れ基準 (Acceptance Criteria)
 
-- `install.sh` can resolve and install a named profile
-- `install.sh` can resolve explicit module IDs
-- Unsupported modules for a target are skipped or rejected deterministically
-- Legacy language-based install mode still works
-- Tests cover profile resolution and installer behavior
-- Docs explain the new preferred profile/module install path
+- `install.sh` が named profile を resolve してインストールできる
+- `install.sh` が explicit module ID を resolve できる
+- target 非対応 module は deterministically に skip または reject される
+- legacy language-based install mode が引き続き動作する
+- profile resolution と installer 動作をテストでカバーする
+- 新しい推奨 profile/module install path を docs で説明する
 ```
 
 ## Issue 2
 
-### Title
+### タイトル (Title)
 
 Add ECC install-state plus uninstall / doctor / repair lifecycle
 
-### Labels
+### ラベル (Labels)
 
 - `enhancement`
 
-### Body
+### 本文 (Body)
 
 ```md
-## Problem
+## 問題 (Problem)
 
-ECC has no canonical installed-state record. That makes uninstall, repair, and
-post-install inspection nondeterministic.
+ECC には canonical installed-state record がない。そのため uninstall、repair、post-install inspection が nondeterministic になる。
 
-Today the repo can classify installable content, but it still cannot reliably
-answer:
+現状、リポジトリは installable content を分類できるが、以下には依然として確実に答えられない:
 
-- what profile/modules were installed
-- what target they were installed into
-- what paths ECC owns
-- how to remove or repair only ECC-managed files
+- どの profile/modules がインストールされたか
+- どの target にインストールされたか
+- ECC,ECC が所有する path は何か
+- ECC-managed file のみをどう remove または repair するか
 
-Without install-state, lifecycle commands are guesswork.
+install-state がなければ、lifecycle command は guesswork になる。
 
-## Scope
+## スコープ (Scope)
 
-Introduce a durable install-state contract and the first lifecycle commands:
+durable install-state contract と最初の lifecycle command を導入する:
 
 - `ecc list-installed`
 - `ecc uninstall`
 - `ecc doctor`
 - `ecc repair`
 
-Suggested state locations:
+推奨 state 配置:
 
 - Claude: `~/.claude/ecc/install-state.json`
 - Cursor: `./.cursor/ecc-install-state.json`
 - Antigravity: `./.agent/ecc-install-state.json`
 
-The state file should capture at minimum:
+state file は最低限以下を記録する:
 
 - installed version
 - timestamp
@@ -132,141 +123,130 @@ The state file should capture at minimum:
 - profile
 - resolved modules
 - copied/managed paths
-- source repo version or package version
+- source repo version または package version
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-- Rebuilding the installer architecture from scratch
-- Full remote/cloud control-plane functionality
-- Target support expansion beyond the current local installers unless it falls
-  out naturally
+- インストーラー architecture のゼロからの再構築
+- remote/cloud control-plane 機能の完全実装
+- 自然に含まれない限り、現在の local installer を超える target サポート拡張
 
-## Acceptance Criteria
+## 受け入れ基準 (Acceptance Criteria)
 
-- Successful installs write install-state deterministically
-- `list-installed` reports target/profile/modules/version cleanly
-- `doctor` reports missing or drifted managed paths
-- `repair` restores missing managed files from recorded install-state
-- `uninstall` removes only ECC-managed files and leaves unrelated local files
-  alone
-- Tests cover install-state creation and lifecycle behavior
+- 成功した install が deterministically に install-state を書き込む
+- `list-installed` が target/profile/modules/version を明確に報告する
+- `doctor` が missing または drift した managed path を報告する
+- `repair` が記録された install-state から missing managed file を復元する
+- `uninstall` が ECC-managed file のみを削除し、無関係な local file は残す
+- install-state 作成と lifecycle 動作をテストでカバーする
 ```
 
 ## Issue 3
 
-### Title
+### タイトル (Title)
 
 Define canonical session adapter contract for ECC 2.0 control plane
 
-### Labels
+### ラベル (Labels)
 
 - `enhancement`
 
-### Body
+### 本文 (Body)
 
 ```md
-## Problem
+## 問題 (Problem)
 
-ECC now has real orchestration/session substrate, but it is still
-implementation-specific.
+ECC には実際の orchestration/session substrate があるが、依然として implementation-specific である。
 
-Current state:
+現状:
 
-- tmux/worktree orchestration exists
-- machine-readable session snapshots exist
-- Claude local session-history commands exist
+- tmux/worktree orchestration が存在する
+- machine-readable session snapshot が存在する
+- Claude local session-history command が存在する
 
-What does not exist yet is a harness-neutral adapter boundary that can normalize
-session/task state across:
+まだ存在しないのは、以下を横断して session/task state を normalize できる harness-neutral adapter boundary である:
 
-- tmux-orchestrated workers
-- plain Claude sessions
-- Codex worktrees
-- OpenCode sessions
-- later remote or GitHub-integrated operator surfaces
+- tmux-orchestrated worker
+- plain Claude session
+- Codex worktree
+- OpenCode session
+- 将来の remote または GitHub-integrated operator surface
 
-Without that adapter contract, any future ECC 2.0 operator shell will be forced
-to read tmux-specific and markdown-coordination details directly.
+その adapter contract がなければ、将来の ECC 2.0 operator shell は tmux-specific と markdown-coordination の詳細を直接読むことを強いられる。
 
-## Scope
+## スコープ (Scope)
 
-Define and implement the first-pass canonical session adapter layer.
+第一版 canonical session adapter layer を定義し実装する。
 
-Suggested deliverables:
+推奨 deliverable:
 
 - adapter registry
 - canonical session snapshot schema
-- `dmux-tmux` adapter backed by current orchestration code
-- `claude-history` adapter backed by current session history utilities
-- read-only inspection CLI for canonical session snapshots
+- 現在の orchestration code を backing とする `dmux-tmux` adapter
+- 現在の session history utility を backing とする `claude-history` adapter
+- canonical session snapshot 向け read-only inspection CLI
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-- Full ECC 2.0 UI in the same issue
-- Monetization/GitHub App implementation
-- Remote multi-user control plane
+- 同一 issue 内での ECC 2.0 UI の完全実装
+- monetization/GitHub App 実装
+- remote multi-user control plane
 
-## Acceptance Criteria
+## 受け入れ基準 (Acceptance Criteria)
 
-- There is a documented canonical snapshot contract
-- Current tmux orchestration snapshot code is wrapped as an adapter rather than
-  the top-level product contract
-- A second non-tmux adapter exists to prove the abstraction is real
-- Tests cover adapter selection and normalized snapshot output
-- The design clearly separates adapter concerns from orchestration and UI
-  concerns
+- documented canonical snapshot contract がある
+- 現在の tmux orchestration snapshot code が top-level product contract ではなく adapter として wrap されている
+- abstraction が実在することを示す second non-tmux adapter がある
+- adapter selection と normalized snapshot output をテストでカバーする
+- design が adapter concern を orchestration と UI concern から明確に分離している
 ```
 
 ## Issue 4
 
-### Title
+### タイトル (Title)
 
 Define generated skill placement and provenance policy
 
-### Labels
+### ラベル (Labels)
 
 - `enhancement`
 
-### Body
+### 本文 (Body)
 
 ```md
-## Problem
+## 問題 (Problem)
 
-ECC now has a large and growing skill surface, but generated/imported/learned
-skills do not yet have a clear long-term placement and provenance policy.
+ECC には大きく成長し続ける skill surface があるが、generated/imported/learned skill にはまだ明確な long-term placement と provenance policy がない。
 
-This creates several problems:
+これにより複数の問題が生じる:
 
-- unclear separation between curated skills and generated/learned skills
-- validator noise around directories that may or may not exist locally
-- weak provenance for imported or machine-generated skill content
-- uncertainty about where future automated learning outputs should live
+- curated skill と generated/learned skill の分離が不明確
+- ローカルに存在するかどうか不明な directory 周辺の validator noise
+- imported または machine-generated skill content の weak provenance
+- 将来の automated learning output の配置先の不確実性
 
-As ECC grows, the repo needs explicit rules for where generated skill artifacts
-belong and how they are identified.
+ECC が成長するにつれ、generated skill artifact の所属先と識別方法について explicit rule が必要になる。
 
-## Scope
+## スコープ (Scope)
 
-Define a repo-wide policy for:
+以下について repo-wide policy を定義する:
 
 - curated vs generated vs imported skill placement
-- provenance metadata requirements
-- validator behavior for optional/generated skill directories
-- whether generated skills are shipped, ignored, or materialized during
-  install/build steps
+- provenance metadata 要件
+- optional/generated skill directory に対する validator 動作
+- generated skill を ship、ignore、install/build step で materialize するかどうか
 
-## Non-Goals
+## 非目標 (Non-Goals)
 
-- Building a full external skill marketplace
-- Rewriting all existing skill content in one pass
-- Solving every content-quality issue in the same issue
+- 完全な external skill marketplace の構築
+- 既存 skill content の一括 rewrite
+- 同一 issue 内でのすべての content-quality issue の解決
 
-## Acceptance Criteria
+## 受け入れ基準 (Acceptance Criteria)
 
-- A documented placement policy exists for generated/imported skills
-- Provenance requirements are explicit
-- Validators no longer produce ambiguous behavior around optional/generated
-  skill locations
-- The policy clearly states what is publishable vs local-only
-- Follow-on implementation work is split into concrete, bounded PR-sized steps
+- generated/imported skill 向け documented placement policy がある
+- provenance 要件が explicit である
+- optional/generated skill location 周辺で validator が ambiguous な動作を出さない
+- policy が publishable と local-only を明確に区別する
+- follow-on implementation work が concrete で bounded な PR-sized step に分割されている
 ```

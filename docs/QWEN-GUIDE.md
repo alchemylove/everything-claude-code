@@ -1,26 +1,26 @@
-# Qwen CLI Adapter Guide
+# Qwen CLI Adapter ガイド (Qwen CLI Adapter Guide)
 
-ECC can install its managed command, agent, skill, rule, and MCP surfaces into the Qwen CLI home directory.
+ECC は管理対象の command、agent、skill、rule、MCP 面を Qwen CLI のホームディレクトリにインストールできます。
 
-## Install
+## インストール (Install)
 
-From the ECC repository root:
+ECC リポジトリのルートから：
 
 ```bash
 ./install.sh --target qwen --profile minimal
 ```
 
-Preview a larger install before copying files:
+ファイルをコピーする前に、より大きなインストールをプレビュー：
 
 ```bash
 ./install.sh --target qwen --profile full --dry-run
 ```
 
-The Qwen adapter writes into `~/.qwen/` and records managed file ownership in `~/.qwen/ecc-install-state.json`.
+Qwen adapter は `~/.qwen/` に書き込み、管理対象ファイルの所有権を `~/.qwen/ecc-install-state.json` に記録します。
 
-## Installed Layout
+## インストール後のレイアウト (Installed Layout)
 
-The managed install can populate:
+管理対象インストールは次を投入できます：
 
 ```text
 ~/.qwen/
@@ -33,22 +33,22 @@ The managed install can populate:
   ecc-install-state.json
 ```
 
-The installer preserves the source layout for rules, so language rule sets stay under paths such as `~/.qwen/rules/common/` and `~/.qwen/rules/typescript/`.
+インストーラーは rules のソースレイアウトを保持するため、言語ルールセットは `~/.qwen/rules/common/` や `~/.qwen/rules/typescript/` などのパスに残ります。
 
-## Updating
+## 更新 (Updating)
 
-Rerun the same install command after pulling ECC updates. The installer uses the install-state file to update ECC-managed files without claiming unrelated user files in `~/.qwen/`.
+ECC の更新を pull した後、同じインストールコマンドを再実行してください。インストーラーは install-state ファイルを使って ECC 管理ファイルを更新し、`~/.qwen/` 内の無関係なユーザーファイルは要求しません。
 
-## Uninstalling
+## アンインストール (Uninstalling)
 
-Use the managed uninstall path rather than deleting the whole Qwen directory:
+Qwen ディレクトリ全体を削除するのではなく、管理対象のアンインストールパスを使用してください：
 
 ```bash
 node scripts/uninstall.js --target qwen
 ```
 
-That removes files recorded in `~/.qwen/ecc-install-state.json` and leaves unrelated Qwen configuration alone.
+これは `~/.qwen/ecc-install-state.json` に記録されたファイルを削除し、無関係な Qwen 設定はそのまま残します。
 
-## Scope
+## スコープ (Scope)
 
-This target is intentionally narrower than stale PR #1352. It ports the maintainable Qwen install-target intent onto the current selective installer and avoids unverified hook-runtime claims until Qwen's hook/event contract is confirmed.
+このターゲットは、古い PR #1352 より意図的に狭く設計されています。保守可能な Qwen install-target の意図を現在の selective installer に移植し、Qwen の hook/event 契約が確認されるまで未検証の hook-runtime クレームは避けます。

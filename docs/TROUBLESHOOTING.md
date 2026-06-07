@@ -1,23 +1,23 @@
-# Troubleshooting
+# トラブルシューティング (Troubleshooting)
 
-Community-reported workarounds for current Claude Code bugs that can affect ECC users.
+ECC ユーザーに影響しうる現在の Claude Code bug 向けに、コミュニティが報告した回避策。
 
-These are upstream Claude Code behaviors, not ECC bugs. The entries below summarize the production-tested workarounds collected in [issue #644](https://github.com/affaan-m/everything-claude-code/issues/644) on Claude Code `v2.1.79` (macOS, heavy hook usage, MCP connectors enabled). Treat them as pragmatic stopgaps until upstream fixes land.
+これらは ECC の bug ではなく、上流の Claude Code 動作です。以下の項目は、Claude Code `v2.1.79`（macOS、hook 多用、MCP connector 有効）において [issue #644](https://github.com/affaan-m/everything-claude-code/issues/644) で収集された本番検証済み回避策の要約です。上流修正が入るまでの実用的な暫定策として扱ってください。
 
-## Community Workarounds For Open Claude Code Bugs
+## 未解決 Claude Code Bug 向けコミュニティ回避策 (Community Workarounds For Open Claude Code Bugs)
 
-### False "Hook Error" labels on otherwise successful hooks
+### 成功している hook に誤った "Hook Error" ラベル (False "Hook Error" labels on otherwise successful hooks)
 
-**Symptoms:** Hook runs successfully, but Claude Code still shows `Hook Error` in the transcript.
+**症状:** Hook は正常に実行されるが、Claude Code の transcript に `Hook Error` が表示される。
 
-**What helps:**
+**有効な対処:**
 
-- Consume stdin at the start of the hook (`input=$(cat)` in shell hooks) so the parent process does not see an unconsumed pipe.
-- For simple allow/block hooks, send human-readable diagnostics to stderr and keep stdout quiet unless your hook implementation explicitly requires structured stdout.
-- Redirect noisy child-process stderr when it is not actionable.
-- Use the correct exit codes: `0` allows, `2` blocks, other non-zero exits are treated as errors.
+- hook 開始時に stdin を消費する（shell hook では `input=$(cat)`）ことで、親プロセスが未消費パイプを見ないようにする。
+- 単純な allow/block hook では、人間が読める診断を stderr に送り、hook 実装が明示的に structured stdout を要求しない限り stdout は静かに保つ。
+- 対処不要な子プロセスの stderr はリダイレクトする。
+- 正しい終了コードを使う：`0` は allow、`2` は block、その他の非ゼロ終了は error として扱われる。
 
-**Example:**
+**例:**
 
 ```bash
 # Good: block with stderr message and exit 2
@@ -26,50 +26,50 @@ echo "[BLOCKED] Reason here" >&2
 exit 2
 ```
 
-### Earlier-than-expected compaction with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`
+### `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` による予想より早い compaction (Earlier-than-expected compaction with `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE`)
 
-**Symptoms:** Lowering `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` causes compaction to happen sooner, not later.
+**症状:** `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` を下げると、compaction が遅くなるのではなく早くなる。
 
-**What helps:**
+**有効な対処:**
 
-- On some current Claude Code builds, lower values may reduce the compaction threshold instead of extending it.
-- If you want more working room, remove `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` and prefer manual `/compact` at logical task boundaries.
-- Use ECC's `strategic-compact` guidance instead of forcing a lower auto-compact threshold.
+- 一部の現在の Claude Code ビルドでは、低い値が compaction 閾値を下げる可能性がある。
+- 作業余地を増やしたい場合は `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` を削除し、論理的なタスク境界で手動 `/compact` を優先する。
+- auto-compact 閾値を無理に下げる代わりに、ECC の `strategic-compact` ガイダンスを使う。
 
-### MCP connectors look connected but fail after compaction
+### MCP connector が接続済みに見えるが compaction 後に失敗 (MCP connectors look connected but fail after compaction)
 
-**Symptoms:** Gmail or Google Drive MCP tools fail after compaction even though the connector still looks authenticated in the UI.
+**症状:** Gmail や Google Drive の MCP ツールが、UI では connector が認証済みに見えても compaction 後に失敗する。
 
-**What helps:**
+**有効な対処:**
 
-- Toggle the affected connector off and back on after compaction.
-- If your Claude Code build supports it, add a `PostCompact` reminder hook that warns you to re-check connector auth after compaction.
-- Treat this as an auth-state recovery step, not a permanent fix.
+- compaction 後に影響を受けた connector をオフにしてから再度オンにする。
+- Claude Code ビルドが対応していれば、compaction 後に connector 認証を再確認するよう警告する `PostCompact` reminder hook を追加する。
+- これは恒久的な修正ではなく、auth 状態のリカバリ手順として扱う。
 
-### Hook edits do not hot-reload
+### Hook 編集がホットリロードされない (Hook edits do not hot-reload)
 
-**Symptoms:** Changes to `settings.json` hooks do not take effect until the session is restarted.
+**症状:** `settings.json` の hook 変更がセッション再起動まで反映されない。
 
-**What helps:**
+**有効な対処:**
 
-- Restart the Claude Code session after changing hooks.
-- Advanced users sometimes script a local `/reload` command around `kill -HUP $PPID`, but ECC does not ship that because it is shell-dependent and not universally reliable.
+- hook 変更後に Claude Code セッションを再起動する。
+- 上級ユーザーは `kill -HUP $PPID` を使ったローカル `/reload` コマンドをスクリプト化することもあるが、shell 依存で普遍的に信頼できないため ECC は同梱しない。
 
-### Repeated `529 Overloaded` responses
+### 繰り返し `529 Overloaded` レスポンス (Repeated `529 Overloaded` responses)
 
-**Symptoms:** Claude Code starts failing under high hook/tool/context pressure.
+**症状:** hook/tool/context 圧力が高い状態で Claude Code が失敗し始める。
 
-**What helps:**
+**有効な対処:**
 
-- Reduce tool-definition pressure with `ENABLE_TOOL_SEARCH=auto:5` if your setup supports it.
-- Lower `MAX_THINKING_TOKENS` for routine work.
-- Route subagent work to a cheaper model such as `CLAUDE_CODE_SUBAGENT_MODEL=haiku` if your setup exposes that knob.
-- Disable unused MCP servers per project.
-- Compact manually at natural breakpoints instead of waiting for auto-compaction.
+- セットアップが対応していれば `ENABLE_TOOL_SEARCH=auto:5` で tool-definition 圧力を下げる。
+- 日常作業では `MAX_THINKING_TOKENS` を下げる。
+- セットアップが露出していれば `CLAUDE_CODE_SUBAGENT_MODEL=haiku` など安価なモデルに subagent 作業をルーティングする。
+- プロジェクトごとに未使用の MCP server を無効化する。
+- auto-compaction を待つ代わりに、自然なブレークポイントで手動 compact する。
 
-## Related ECC Docs
+## 関連 ECC Docs (Related ECC Docs)
 
-- [hook-bug-workarounds.md](./hook-bug-workarounds.md) for the shorter hook/compaction/MCP recovery checklist.
-- [hooks/README.md](../hooks/README.md) for ECC's documented hook lifecycle and exit-code behavior.
-- [token-optimization.md](./token-optimization.md) for cost and context management settings.
-- [issue #644](https://github.com/affaan-m/everything-claude-code/issues/644) for the original report and tested environment.
+- より短い hook/compaction/MCP リカバリチェックリストは [hook-bug-workarounds.md](./hook-bug-workarounds.md)。
+- ECC の hook ライフサイクルと終了コード動作は [hooks/README.md](../hooks/README.md)。
+- コストと context 管理設定は [token-optimization.md](./token-optimization.md)。
+- 元の報告と検証環境は [issue #644](https://github.com/affaan-m/everything-claude-code/issues/644)。

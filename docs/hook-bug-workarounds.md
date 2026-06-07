@@ -1,31 +1,31 @@
-# Hook Bug Workarounds
+# Hook Bug 回避策 (Hook Bug Workarounds)
 
-Community-tested workarounds for current Claude Code bugs that can affect ECC hook-heavy setups.
+hook 多用の ECC セットアップに影響しうる現在の Claude Code bug 向けに、コミュニティ検証済みの回避策。
 
-This page is intentionally narrow: it collects the highest-signal operational fixes from the longer troubleshooting surface without repeating speculative or unsupported configuration advice. These are upstream Claude Code behaviors, not ECC bugs.
+このページは意図的に狭く設計されています。より長いトラブルシューティング面から、推測的または未サポートの設定アドバイスを繰り返さず、最高シグナルの運用修正のみを集めます。これらは ECC の bug ではなく、上流の Claude Code 動作です。
 
-## When To Use This Page
+## このページを使うタイミング (When To Use This Page)
 
-Use this page when you are specifically debugging:
+次を具体的にデバッグしているときにこのページを使ってください：
 
-- false `Hook Error` labels on otherwise successful hook runs
-- earlier-than-expected compaction
-- MCP connectors that look authenticated but fail after compaction
-- hook edits that do not hot-reload
-- repeated `529 Overloaded` responses under heavy hook/tool pressure
+- 正常な hook 実行に誤った `Hook Error` ラベル
+- 予想より早い compaction
+- 認証済みに見えるが compaction 後に失敗する MCP connector
+- ホットリロードされない hook 編集
+- hook/tool 圧力が高い状態での繰り返し `529 Overloaded` レスポンス
 
-For the fuller ECC troubleshooting surface, use [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
+より完全な ECC トラブルシューティング面は [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) を使用してください。
 
-## High-Signal Workarounds
+## 高シグナル回避策 (High-Signal Workarounds)
 
-### False `Hook Error` labels
+### 誤った `Hook Error` ラベル (False `Hook Error` labels)
 
-What helps:
+有効な対処:
 
-- Consume stdin at the start of shell hooks (`input=$(cat)`).
-- Keep stdout quiet for simple allow/block hooks unless your hook explicitly requires structured stdout.
-- Send human-readable diagnostics to stderr.
-- Use the correct exit codes: `0` allow, `2` block, other non-zero values are treated as errors.
+- shell hook 開始時に stdin を消費する（`input=$(cat)`）。
+- hook が明示的に structured stdout を要求しない限り、単純な allow/block hook では stdout を静かに保つ。
+- 人間が読める診断を stderr に送る。
+- 正しい終了コードを使う：`0` allow、`2` block、その他の非ゼロ値は error として扱われる。
 
 ```bash
 input=$(cat)
@@ -33,40 +33,40 @@ echo "[BLOCKED] Reason here" >&2
 exit 2
 ```
 
-### Earlier-than-expected compaction
+### 予想より早い compaction (Earlier-than-expected compaction)
 
-What helps:
+有効な対処:
 
-- Remove `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` if lowering it causes earlier compaction in your build.
-- Prefer manual `/compact` at natural task boundaries.
-- Use ECC's `strategic-compact` guidance instead of forcing a lower threshold.
+- 下げるとビルドで compaction が早くなる場合は `CLAUDE_AUTOCOMPACT_PCT_OVERRIDE` を削除する。
+- 自然なタスク境界で手動 `/compact` を優先する。
+- 閾値を無理に下げる代わりに ECC の `strategic-compact` ガイダンスを使う。
 
-### MCP auth looks live but fails after compaction
+### MCP 認証は生きているように見えるが compaction 後に失敗 (MCP auth looks live but fails after compaction)
 
-What helps:
+有効な対処:
 
-- Toggle the affected connector off and back on after compaction.
-- If your Claude Code build supports it, add a lightweight `PostCompact` reminder hook that tells you to re-check connector auth.
-- Treat this as a recovery reminder, not a permanent fix.
+- compaction 後に影響を受けた connector をオフにしてから再度オンにする。
+- Claude Code ビルドが対応していれば、connector 認証を再確認するよう伝える軽量な `PostCompact` reminder hook を追加する。
+- これは恒久的な修正ではなく、リカバリリマインダーとして扱う。
 
-### Hook edits do not hot-reload
+### Hook 編集がホットリロードされない (Hook edits do not hot-reload)
 
-What helps:
+有効な対処:
 
-- Restart the Claude Code session after changing hooks.
-- Advanced users sometimes use shell-local reload helpers, but ECC does not ship one because those approaches are shell- and platform-dependent.
+- hook 変更後に Claude Code セッションを再起動する。
+- 上級ユーザーは shell ローカルの reload ヘルパーを使うこともあるが、shell と platform 依存のため ECC は同梱しない。
 
-### Repeated `529 Overloaded`
+### 繰り返し `529 Overloaded` (Repeated `529 Overloaded`)
 
-What helps:
+有効な対処:
 
-- Reduce tool-definition pressure with `ENABLE_TOOL_SEARCH=auto:5` if your setup supports it.
-- Lower `MAX_THINKING_TOKENS` for routine work.
-- Route subagent work to a cheaper model such as `CLAUDE_CODE_SUBAGENT_MODEL=haiku` if your setup exposes that knob.
-- Disable unused MCP servers per project.
-- Compact manually at natural breakpoints instead of waiting for auto-compaction.
+- セットアップが対応していれば `ENABLE_TOOL_SEARCH=auto:5` で tool-definition 圧力を下げる。
+- 日常作業では `MAX_THINKING_TOKENS` を下げる。
+- セットアップが露出していれば `CLAUDE_CODE_SUBAGENT_MODEL=haiku` など安価なモデルに subagent 作業をルーティングする。
+- プロジェクトごとに未使用の MCP server を無効化する。
+- auto-compaction を待つ代わりに、自然なブレークポイントで手動 compact する。
 
-## Related ECC Docs
+## 関連 ECC Docs (Related ECC Docs)
 
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md)
 - [token-optimization.md](./token-optimization.md)

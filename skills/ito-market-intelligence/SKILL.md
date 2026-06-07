@@ -4,55 +4,49 @@ description: Research prediction-market events, venues, underliers, liquidity, a
 origin: ECC
 ---
 
-# Itô Market Intelligence
+# Itô 市場インテリジェンス (Itô Market Intelligence)
 
-Use this skill when a user wants prediction-market context, event discovery,
-venue comparison, basket theme exploration, or an Itô API-backed market brief.
+ユーザーが予測市場の文脈、イベント発見、会場比較、バスケットテーマ探索、または Itô API 連携の市場ブリーフを求めるときにこのスキルを使用する。
 
-This is a public teaser skill. It can work with public sources by default. Any
-Itô-backed data call requires explicit API access through `ITO_API_KEY`.
+これは公開ティーザースキルである。デフォルトでは公開ソースで動作できる。Itô 連携のデータ呼び出しには `ITO_API_KEY` による明示的な API アクセスが必要。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not provide investment, legal, tax, or trading advice.
-- Do not place, cancel, route, or simulate live orders.
-- Do not infer the user's financial situation unless they provide it.
-- Treat Polymarket, Kalshi, Itô, X, Exa, GitHub, and web data as source inputs,
-  not as truth by themselves.
-- Separate facts, market-implied signals, and your interpretation.
+- 投資、法務、税務、取引のアドバイスを提供しない。
+- ライブ注文の発注、取消、ルーティング、シミュレーションを行わない。
+- ユーザーが明示しない限り、ユーザーの財務状況を推測しない。
+- Polymarket、Kalshi、Itô、X、Exa、GitHub、Web データはそれ自体が真実ではなく、ソース入力として扱う。
+- 事実、市場が示唆するシグナル、自分の解釈を分離する。
 
-## Workflow
+## ワークフロー (Workflow)
 
-1. Clarify the market theme, venue, geography, and time horizon.
-2. Gather public market data from venue docs/APIs or source-grounded research.
-3. If `ITO_API_KEY` is present and the user explicitly asks for Itô data, call
-   only read endpoints and state that access is gated.
-4. Normalize event, underlier, liquidity, fee, resolution, and data-latency
-   differences across venues.
-5. Produce a decision brief:
-   - market/event summary
-   - available venues and underliers
-   - liquidity and data-quality caveats
-   - relevant news/source context
-   - open questions before any user action
+1. 市場テーマ、会場、地域、時間軸を明確にする。
+2. 会場ドキュメント/API または出典に基づくリサーチから公開市場データを収集する。
+3. `ITO_API_KEY` が存在し、ユーザーが明示的に Itô データを求める場合のみ、読み取り専用エンドポイントを呼び出し、アクセスがゲートされていることを明記する。
+4. 会場間のイベント、原資産、流動性、手数料、決済、データレイテンシの差異を正規化する。
+5. 意思決定ブリーフを作成する:
+   - 市場/イベント要約
+   - 利用可能な会場と原資産
+   - 流動性とデータ品質の注意事項
+   - 関連ニュース/ソース文脈
+   - ユーザーが行動する前の未解決の質問
 
-## Useful Skill Chains
+## 有用なスキルチェーン (Useful Skill Chains)
 
-- Use `deep-research` or `exa-search` for source discovery.
-- Use `x-api` for public social signal discovery when X access is configured.
-- Use `market-research` for market sizing, competitors, or business use cases.
-- Use `prediction-market-risk-review` before any workflow touches user capital,
-  portfolio data, or execution-capable credentials.
+- ソース発見には `deep-research` または `exa-search` を使用する。
+- X アクセスが設定されている場合、公開ソーシャルシグナル発見に `x-api` を使用する。
+- 市場規模、競合、ビジネスユースケースには `market-research` を使用する。
+- ワークフローがユーザーの資本、ポートフォリオデータ、実行可能な認証情報に触れる前に `prediction-market-risk-review` を使用する。
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Default to a compact brief with source links and a clear caveat:
+ソースリンクと明確な注意書き付きのコンパクトなブリーフをデフォルトとする:
 
 ```text
 This is market intelligence, not investment or trading advice.
 ```
 
-If access is missing, say:
+アクセスがない場合は次のように伝える:
 
 ```text
 Itô live basket/API data requires gated access. Request an ITO_API_KEY before

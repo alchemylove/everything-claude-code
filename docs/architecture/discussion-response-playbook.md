@@ -1,90 +1,78 @@
-# Discussion Response Playbook
+# Discussion 応答プレイブック (Discussion Response Playbook)
 
-This playbook turns GitHub Discussions into the same operating queue as PRs,
-issues, Linear work, and release evidence. It is an operator guide, not a
-promise that every informational thread needs a public reply.
+このプレイブックは GitHub Discussions を PR、issue、Linear 作業、リリース evidence と
+同じ運用 queue に変換します。operator ガイドであり、すべての情報スレッドに
+公開返信が必要という約束ではありません。
 
-## Audit Loop
+## 監査ループ (Audit Loop)
 
-Run these checks before a release, after a major merge batch, and when Linear
-ITO-59 is refreshed:
+リリース前、主要 merge batch 後、Linear ITO-59 更新時に次を実行：
 
 ```bash
 npm run discussion:audit -- --json
 node scripts/platform-audit.js --json
 ```
 
-The queue is current only when:
+queue が current なのは次のときのみ：
 
-- discussion fetch errors are explained or fixed;
-- `needsMaintainerTouch` is zero for support-like discussion categories;
-- answerable Q&A discussions either have an accepted answer or a clear routing
-  note; and
-- any product-scope thread is linked to a GitHub issue, Linear issue, roadmap
-  row, or explicit deferral.
+- discussion fetch エラーが説明または修正されている；
+- サポート系 discussion カテゴリで `needsMaintainerTouch` がゼロ；
+- 回答可能な Q&A discussion に accepted answer があるか明確な routing
+  note がある；および
+- プロダクトスコープのスレッドが GitHub issue、Linear issue、roadmap
+  行、または明示的 deferral にリンクされている。
 
-Informational threads such as announcements, references, show-and-tell, or
-maintainer-authored updates can remain visible without becoming response debt.
+announcement、reference、show-and-tell、maintainer 作成の更新などの
+情報スレッドは、response debt にならず visible のままでよい。
 
-## Categories
+## カテゴリ (Categories)
 
-| Category | Route | Required readback |
+| カテゴリ (Category) | ルーティング (Route) | 必須 readback (Required readback) |
 | --- | --- | --- |
-| Product support or install confusion | Reply with the exact command/doc path; mark accepted answer for Q&A when the fix is complete | Discussion URL plus accepted-answer URL when applicable |
-| Bug report | Ask for a minimal repro, version, harness, and logs; create or link a GitHub issue when reproducible | Issue URL or deferral reason |
-| Feature request | Acknowledge the desired outcome and link the closest roadmap issue; do not imply commitment unless scoped | Linear/GitHub roadmap link |
-| Security concern | Move exploit details and secrets to a private channel; keep the public reply short and non-operational | Private escalation note plus public safety reply |
-| Release or billing question | Answer from the release URL ledger and publication-readiness gates; do not claim unpublished URLs, billing readiness, or plugin availability | Evidence artifact or blocker link |
-| Show-and-tell, reference, or announcement | Leave as informational unless there is a direct question or a product-scope signal | Optional roadmap link if useful |
-| Stale or concluded thread | Summarize the current state and link the durable doc/issue; avoid reviving low-signal threads | Closure note or explicit no-action rationale |
+| プロダクトサポートまたはインストール混乱 (Product support or install confusion) | 正確な command/doc path で返信; 修正完了時に Q&A で accepted answer をマーク | 該当時は Discussion URL と accepted-answer URL |
+| バグ報告 (Bug report) | 最小 repro、version、harness、log を依頼; 再現可能なら GitHub issue を作成またはリンク | Issue URL または延期理由 |
+| 機能リクエスト (Feature request) | 望ましい outcome を認め、最も近い roadmap issue にリンク; スコープ化されていない限りコミットを暗示しない | Linear/GitHub roadmap リンク |
+| セキュリティ懸念 (Security concern) | exploit 詳細と secret を private channel へ; 公開返信は短く非運用的に保つ | private escalation note と公開 safety 返信 |
+| リリースまたは billing 質問 (Release or billing question) | release URL ledger と publication-readiness gate から回答; 未公開 URL、billing readiness、plugin 利用可能性を主張しない | evidence artifact または blocker リンク |
+| Show-and-tell、reference、announcement | 直接質問または product-scope シグナルがない限り情報として残す | 有用なら任意の roadmap リンク |
+| 古いまたは終了スレッド (Stale or concluded thread) | 現状を要約し durable doc/issue にリンク; 低シグナルスレッドの復活を避ける | closure note または明示的 no-action 理由 |
 
-## Templates
+## テンプレート (Templates)
 
-### Public Support
+### 公開サポート (Public Support)
 
-Thanks for the report. The current supported path is:
+報告ありがとうございます。現在サポートされている path は次のとおりです:
 
 ```bash
 <command>
 ```
 
-The relevant doc is `<doc path or URL>`. If this does not match your setup,
-please reply with the harness, OS, package manager, and the exact error text.
+関連 doc は `<doc path or URL>` です。セットアップが一致しない場合は、harness、OS、package manager、正確なエラーテキストを返信してください。
 
-### Maintainer Coordination
+### Maintainer 調整 (Maintainer Coordination)
 
-I am routing this into `<issue or Linear key>` so it does not get lost in the
-discussion queue. The next decision is `<specific decision>`. Until that lands,
-the supported workaround is `<workaround or "none">`.
+discussion queue で失われないよう、`<issue or Linear key>` に routing します。次の判断は `<specific decision>` です。それが land するまで、サポートされる workaround は `<workaround or "none">` です。
 
-### Stale Or Concluded
+### 古いまたは終了 (Stale Or Concluded)
 
-This thread looks resolved or superseded by `<doc/issue/release>`. I am leaving
-it visible for history, but it is no longer an active support queue item. New
-repro details should go to `<issue/discussion path>`.
+このスレッドは `<doc/issue/release>` により解決済みまたは置き換えられたように見えます。履歴のため visible のまま残しますが、アクティブな support queue item ではありません。新しい repro 詳細は `<issue/discussion path>` へ送ってください。
 
-### Release Announcement
+### リリース告知 (Release Announcement)
 
-The current release status is `<rc/beta/GA state>`. Live URLs are recorded in
-`docs/releases/2.0.0-rc.1/release-url-ledger-2026-05-18.md`. Anything marked
-pending there should not be announced as shipped yet.
+現在のリリースステータスは `<rc/beta/GA state>` です。live URL は `docs/releases/2.0.0-rc.1/release-url-ledger-2026-05-18.md` に記録されています。そこで pending とマークされたものは、まだ出荷済みとして告知しないでください。
 
-### Security Escalation
+### セキュリティエスカレーション (Security Escalation)
 
-Thanks for flagging this. Please do not post exploit steps, tokens, customer
-data, or secret values in the public thread. I am routing this through the
-security response path and will keep the public thread limited to safe status
-updates.
+指摘ありがとうございます。公開スレッドに exploit 手順、token、顧客データ、secret 値を投稿しないでください。security response path 経由で routing し、公開スレッドは安全なステータス更新に限定します。
 
-## Recording Outcomes
+## 結果の記録 (Recording Outcomes)
 
-For each high-signal discussion, record one of these outcomes:
+高シグナル discussion ごとに、次のいずれかの結果を記録：
 
-- replied publicly and accepted answer read back;
-- linked to a GitHub issue or Linear issue;
-- routed to the security response path;
-- classified as informational; or
-- explicitly deferred with a reason.
+- 公開返信し accepted answer を read back；
+- GitHub issue または Linear issue にリンク；
+- security response path に routing；
+- informational と分類；または
+- 理由付きで明示的に defer。
 
-Mirror the summary into ITO-59 when the batch closes, and include the counts in
-the next operator dashboard or publication evidence refresh.
+batch 終了時に ITO-59 にサマリーをミラーし、次の operator dashboard または publication evidence refresh に件数を含める。

@@ -8,7 +8,7 @@ origin: ECC
 
 Use for data modeling, repositories, and performance tuning in Spring Boot.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Designing JPA entities and table mappings
 - Defining relationships (@OneToMany, @ManyToOne, @ManyToMany)
@@ -17,7 +17,7 @@ Use for data modeling, repositories, and performance tuning in Spring Boot.
 - Setting up pagination, sorting, or custom repository methods
 - Tuning connection pooling (HikariCP) or second-level caching
 
-## Entity Design
+## エンティティ設計 (Entity Design)
 
 ```java
 @Entity
@@ -50,7 +50,7 @@ Enable auditing:
 class JpaConfig {}
 ```
 
-## Relationships and N+1 Prevention
+## リレーションと N+1 防止 (Relationships and N+1 Prevention)
 
 ```java
 @OneToMany(mappedBy = "market", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,7 +65,7 @@ private List<PositionEntity> positions = new ArrayList<>();
 Optional<MarketEntity> findWithPositions(@Param("id") Long id);
 ```
 
-## Repository Patterns
+## リポジトリパターン (Repository Patterns)
 
 ```java
 public interface MarketRepository extends JpaRepository<MarketEntity, Long> {
@@ -86,7 +86,7 @@ public interface MarketSummary {
 Page<MarketSummary> findAllBy(Pageable pageable);
 ```
 
-## Transactions
+## トランザクション (Transactions)
 
 - Annotate service methods with `@Transactional`
 - Use `@Transactional(readOnly = true)` for read paths to optimize
@@ -102,7 +102,7 @@ public Market updateStatus(Long id, MarketStatus status) {
 }
 ```
 
-## Pagination
+## ページネーション (Pagination)
 
 ```java
 PageRequest page = PageRequest.of(pageNumber, pageSize, Sort.by("createdAt").descending());
@@ -111,7 +111,7 @@ Page<MarketEntity> markets = repo.findByStatus(MarketStatus.ACTIVE, page);
 
 For cursor-like pagination, include `id > :lastId` in JPQL with ordering.
 
-## Indexing and Performance
+## インデックスとパフォーマンス (Indexing and Performance)
 
 - Add indexes for common filters (`status`, `slug`, foreign keys)
 - Use composite indexes matching query patterns (`status, created_at`)
@@ -133,17 +133,17 @@ For PostgreSQL LOB handling, add:
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 ```
 
-## Caching
+## キャッシュ (Caching)
 
 - 1st-level cache is per EntityManager; avoid keeping entities across transactions
 - For read-heavy entities, consider second-level cache cautiously; validate eviction strategy
 
-## Migrations
+## マイグレーション (Migrations)
 
 - Use Flyway or Liquibase; never rely on Hibernate auto DDL in production
 - Keep migrations idempotent and additive; avoid dropping columns without plan
 
-## Testing Data Access
+## データアクセスのテスト (Testing Data Access)
 
 - Prefer `@DataJpaTest` with Testcontainers to mirror production
 - Assert SQL efficiency using logs: set `logging.level.org.hibernate.SQL=DEBUG` and `logging.level.org.hibernate.orm.jdbc.bind=TRACE` for parameter values

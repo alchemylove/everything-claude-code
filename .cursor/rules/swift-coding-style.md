@@ -1,33 +1,33 @@
 ---
-description: "Swift coding style extending common rules"
+description: "Swift coding style: common ルールの拡張"
 globs: ["**/*.swift", "**/Package.swift"]
 alwaysApply: false
 ---
-# Swift Coding Style
+# Swift Coding Style (Swift Coding Style)
 
-> This file extends the common coding style rule with Swift specific content.
+> このファイルは common coding style ルールを Swift 固有の内容で拡張する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **SwiftFormat** for auto-formatting, **SwiftLint** for style enforcement
-- `swift-format` is bundled with Xcode 16+ as an alternative
+- auto-format に **SwiftFormat**、スタイル強制に **SwiftLint**
+- Xcode 16+ では代替として `swift-format` が同梱
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer `let` over `var` -- define everything as `let` and only change to `var` if the compiler requires it
-- Use `struct` with value semantics by default; use `class` only when identity or reference semantics are needed
+- `var` より `let` を優先 — すべて `let` で定義し、compiler が要求する場合のみ `var` に変更
+- デフォルトは value semantics の `struct`。identity または reference semantics が必要な場合のみ `class`
 
-## Naming
+## 命名 (Naming)
 
-Follow [Apple API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/):
+[Apple API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/) に従う:
 
-- Clarity at the point of use -- omit needless words
-- Name methods and properties for their roles, not their types
-- Use `static let` for constants over global constants
+- 使用箇所での明瞭さ — 不要な語を省略
+- 型ではなく役割に基づいてメソッドと property に命名
+- グローバル定数より `static let` を使用
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-Use typed throws (Swift 6+) and pattern matching:
+typed throws（Swift 6+）と pattern matching を使用:
 
 ```swift
 func load(id: String) throws(LoadError) -> Item {
@@ -38,10 +38,10 @@ func load(id: String) throws(LoadError) -> Item {
 }
 ```
 
-## Concurrency
+## 並行処理 (Concurrency)
 
-Enable Swift 6 strict concurrency checking. Prefer:
+Swift 6 strict concurrency checking を有効化。優先:
 
-- `Sendable` value types for data crossing isolation boundaries
-- Actors for shared mutable state
-- Structured concurrency (`async let`, `TaskGroup`) over unstructured `Task {}`
+- isolation 境界を越えるデータには `Sendable` value type
+- 共有 mutable state には actor
+- 非構造化 `Task {}` より structured concurrency（`async let`, `TaskGroup`）

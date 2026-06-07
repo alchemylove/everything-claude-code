@@ -1,31 +1,31 @@
-# 常用模式
+# 共通パターン (Common Patterns)
 
-## 骨架项目
+## スケルトンプロジェクト (Skeleton Projects)
 
-实现新功能时：
-1. 搜索久经考验的骨架项目
-2. 使用并行代理评估选项：
-   - 安全性评估
-   - 可扩展性分析
-   - 相关性评分
-   - 实现规划
-3. 克隆最佳匹配作为基础
-4. 在经验证的结构内迭代
+新機能を実装するとき:
+1. 実戦で検証されたスケルトンプロジェクトを検索する
+2. 並列 agent でオプションを評価する:
+   - セキュリティ評価
+   - 拡張性分析
+   - 関連性スコアリング
+   - 実装計画
+3. 最適なものを基盤として clone する
+4. 実証済みの構造内で反復する
 
-## 设计模式
+## デザインパターン (Design Patterns)
 
-### 仓储模式
+### Repository パターン (Repository Pattern)
 
-将数据访问封装在一致的接口后面：
-- 定义标准操作：findAll、findById、create、update、delete
-- 具体实现处理存储细节（数据库、API、文件等）
-- 业务逻辑依赖抽象接口，而非存储机制
-- 便于轻松切换数据源，并简化使用模拟的测试
+一貫した interface の背後にデータアクセスをカプセル化する:
+- 標準操作を定義する: findAll、findById、create、update、delete
+- 具象実装がストレージ詳細（database、API、file など）を扱う
+- ビジネスロジックはストレージ機構ではなく抽象 interface に依存する
+- データソースの差し替えを容易にし、mock によるテストを簡素化する
 
-### API 响应格式
+### API レスポンス形式 (API Response Format)
 
-对所有 API 响应使用一致的信封：
-- 包含成功/状态指示器
-- 包含数据负载（错误时可为空）
-- 包含错误消息字段（成功时可为空）
-- 包含分页响应的元数据（total、page、limit）
+すべての API レスポンスに一貫した envelope を使用する:
+- success／status インジケータを含める
+- data payload を含める（エラー時は nullable）
+- error message フィールドを含める（成功時は nullable）
+- ページネーション付きレスポンス用の metadata（total、page、limit）を含める

@@ -5,11 +5,11 @@ origin: Health1 Super Speciality Hospitals — contributed by Dr. Keyur Patel
 version: "1.0.0"
 ---
 
-# Healthcare CDSS Development Patterns
+# Healthcare CDSS Development Patterns (Healthcare CDSS Development Patterns)
 
 Patterns for building Clinical Decision Support Systems that integrate into EMR workflows. CDSS modules are patient safety critical — zero tolerance for false negatives.
 
-## When to Use
+## When to Use (When to Use)
 
 - Implementing drug interaction checking
 - Building dose validation engines
@@ -18,7 +18,7 @@ Patterns for building Clinical Decision Support Systems that integrate into EMR 
 - Building medication order entry with safety checks
 - Integrating lab result interpretation with clinical context
 
-## How It Works
+## How It Works (How It Works)
 
 The CDSS engine is a **pure function library with zero side effects**. Input clinical data, output alerts. This makes it fully testable.
 
@@ -40,7 +40,7 @@ CDSS Engine (pure functions, no side effects)
 EMR UI (displays alerts inline, blocks if critical)
 ```
 
-### Drug Interaction Checking
+### Drug Interaction Checking (Drug Interaction Checking)
 
 ```typescript
 interface DrugInteractionPair {
@@ -79,7 +79,7 @@ function checkInteractions(
 
 Interaction pairs must be **bidirectional**: if Drug A interacts with Drug B, then Drug B interacts with Drug A.
 
-### Dose Validation
+### Dose Validation (Dose Validation)
 
 ```typescript
 interface DoseValidationResult {
@@ -146,7 +146,7 @@ function validateDose(
 }
 ```
 
-### Clinical Scoring: NEWS2
+### Clinical Scoring: NEWS2 (Clinical Scoring: NEWS2)
 
 ```typescript
 interface NEWS2Input {
@@ -164,7 +164,7 @@ interface NEWS2Result {
 
 Scoring tables must match the Royal College of Physicians specification exactly.
 
-### Alert Severity and UI Behavior
+### Alert Severity and UI Behavior (Alert Severity and UI Behavior)
 
 | Severity | UI Behavior | Clinician Action Required |
 |----------|-------------|--------------------------|
@@ -174,7 +174,7 @@ Scoring tables must match the Royal College of Physicians specification exactly.
 
 Critical alerts must NEVER be auto-dismissed or implemented as toast notifications. Override reasons must be stored in the audit trail.
 
-### Testing CDSS (Zero Tolerance for False Negatives)
+### Testing CDSS (Testing CDSS)
 
 ```typescript
 describe('CDSS — Patient Safety', () => {
@@ -202,7 +202,7 @@ describe('CDSS — Patient Safety', () => {
 
 Pass criteria: 100%. A single missed interaction is a patient safety event.
 
-### Anti-Patterns
+### Anti-Patterns (Anti-Patterns)
 
 - Making CDSS checks optional or skippable without documented reason
 - Implementing interaction checks as toast notifications
@@ -211,9 +211,9 @@ Pass criteria: 100%. A single missed interaction is a patient safety event.
 - Silently catching errors in CDSS engine (must surface failures loudly)
 - Skipping weight-based validation when weight is not available (must block, not pass)
 
-## Examples
+## Examples (Examples)
 
-### Example 1: Drug Interaction Check
+### Example 1: Drug Interaction Check (Example 1: Drug Interaction Check)
 
 ```typescript
 const alerts = checkInteractions('warfarin', ['aspirin', 'metformin'], ['penicillin']);
@@ -221,7 +221,7 @@ const alerts = checkInteractions('warfarin', ['aspirin', 'metformin'], ['penicil
 //    message: 'Increased bleeding risk', recommendation: 'Avoid combination' }]
 ```
 
-### Example 2: Dose Validation
+### Example 2: Dose Validation (Example 2: Dose Validation)
 
 ```typescript
 const ok = validateDose('paracetamol', 1000, 'oral', 70, 45);
@@ -234,7 +234,7 @@ const noWeight = validateDose('gentamicin', 300, 'iv');
 // { valid: false, factors: ['weight_missing'] }
 ```
 
-### Example 3: NEWS2 Scoring
+### Example 3: NEWS2 Scoring (Example 3: NEWS2 Scoring)
 
 ```typescript
 const result = calculateNEWS2({

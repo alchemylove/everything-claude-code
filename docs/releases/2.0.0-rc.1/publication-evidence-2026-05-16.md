@@ -1,86 +1,75 @@
-# ECC v2.0.0-rc.1 Publication Evidence - 2026-05-16
+# ECC v2.0.0-rc.1 公開証跡 - 2026-05-16 (ECC v2.0.0-rc.1 Publication Evidence - 2026-05-16)
 
-This is release-readiness evidence only. It does not create a GitHub release,
-npm publication, plugin tag, marketplace submission, or announcement post.
+これはリリース準備の証跡のみです。GitHub リリース、npm 公開、plugin tag、marketplace 提出、またはアナウンス投稿は作成しません。
 
-## Source Commit
+## ソースコミット (Source Commit)
 
-| Field | Evidence |
+| 項目 (Field) | エビデンス (Evidence) |
 | --- | --- |
 | Upstream main | `6bced468d76b269243a6f0bd28472853aa78e0e4` |
 | Git remote | `https://github.com/affaan-m/everything-claude-code.git` |
-| Evidence scope | Current `main` after PR #1944, PR #1945, issue #1946 triage, PR #1947 supply-chain protection, AgentShield PR #87, AgentShield PR #88, AgentShield PR #89, AgentShield PR #90, AgentShield PR #91, AgentShield PR #92, ECC-Tools PR #76, ECC-Tools PR #77, ECC-Tools PR #78, Japanese localization triage, ITO-57 sync, and operator dashboard refresh |
-| Local status caveat | `git status --short --branch` showed `## main...origin/main` plus unrelated untracked `docs/drafts/` |
+| Evidence scope | PR #1944、PR #1945、issue #1946 トリアージ、PR #1947 supply-chain protection、AgentShield PR #87、AgentShield PR #88、AgentShield PR #89、AgentShield PR #90、AgentShield PR #91、AgentShield PR #92、ECC-Tools PR #76、ECC-Tools PR #77、ECC-Tools PR #78、日本語ローカライズトリアージ、ITO-57 同期、operator dashboard 更新後の現在の `main` |
+| Local status caveat | `git status --short --branch` は `## main...origin/main` と無関係な未追跡 `docs/drafts/` を表示 |
 
-The actual release operator should repeat all publish-facing checks from the
-final release commit with a strictly clean checkout before publishing.
+実際のリリースオペレーターは、公開前に最終リリースコミットからすべての公開向けチェックを、厳密にクリーンな checkout で繰り返す必要があります。
 
-## Queue And Discussion State
+## キューとディスカッション状態 (Queue And Discussion State)
 
-| Surface | Command | Result |
+| サーフェス (Surface) | コマンド (Command) | 結果 (Result) |
 | --- | --- | --- |
-| Trunk PRs | `gh pr list --state open --json number,title,url --limit 20` | 6 open PRs: Dependabot #1959-#1963 plus PR #1953, which remains open with changes requested for Japanese localization parity |
-| Trunk issues | `gh issue list --state open --json number,title,url --limit 20` | 3 open issues: #1951 linked to held localization PR, plus #1957 and #1958 awaiting the next queue batch |
-| Platform audit | `node scripts/platform-audit.js --json --allow-untracked docs/drafts/` | Ready; open PRs 6, open issues 3, discussion maintainer-touch gaps 0, discussion missing-answer gaps 0, blocking dirty files 0 on a clean checkout; current branch generation sees the mirror edits as local dirty work |
-| Operator dashboard | `npm run operator:dashboard -- --json --allow-untracked docs/drafts/` | `dashboardReady: true`, `platformReady: true`, head `6bced468d76b269243a6f0bd28472853aa78e0e4` |
+| Trunk PRs | `gh pr list --state open --json number,title,url --limit 20` | open PR 6 件: Dependabot #1959-#1963 および PR #1953。後者は日本語ローカライズパリティについて changes requested のまま open |
+| Trunk issues | `gh issue list --state open --json number,title,url --limit 20` | open issue 3 件: #1951（保留中のローカライズ PR にリンク）、#1957 と #1958（次のキューバッチ待ち） |
+| Platform audit | `node scripts/platform-audit.js --json --allow-untracked docs/drafts/` | ready; open PR 6 件、open issue 3 件、discussion maintainer-touch gaps 0、discussion missing-answer gaps 0、クリーン checkout 上の blocking dirty files 0; 現在の branch 生成では mirror 編集を local dirty work として検出 |
+| Operator dashboard | `npm run operator:dashboard -- --json --allow-untracked docs/drafts/` | `dashboardReady: true`、`platformReady: true`、head `6bced468d76b269243a6f0bd28472853aa78e0e4` |
 
-## Merge And Triage Batch
+## マージとトリアージバッチ (Merge And Triage Batch)
 
-| Item | Result |
+| 項目 (Item) | 結果 (Result) |
 | --- | --- |
-| PR #1944 | Merged statusline ANSI palette update as `50ac061f9e72d7daa137f1bd08760cf74e9b577d`; targeted `node tests/hooks/ecc-statusline.test.js` and `node scripts/ci/validate-hooks.js` passed before merge |
-| PR #1945 | Merged `recsys-pipeline-architect` community skill as `9e973b29fb1a2a0aeb9e6980017b67c3ddb05201`; maintainer patches synced catalog counts and removed emoji blocked by Unicode safety |
-| Issue #1946 | Closed as triaged with a corrected maintainer comment; Linear `ITO-60` now tracks GateGuard proactive fact-forcing preflight UX |
-| PR #1947 | Merged scheduled supply-chain watch/advisory-source evidence as `4093d1bb7a14db1b4d4ea5bd00f2073baf94bfb0`; trunk now has the TanStack/Mini Shai-Hulud/node-ipc IOC scan plus advisory-source report surfaces wired into scheduled watch evidence |
-| AgentShield PR #87 | Merged plugin-cache runtime-confidence classification as `26bb44650663816d07180e0d20c1895e431a326c`; installed Claude plugin cache findings now emit `runtimeConfidence: plugin-cache`, `plugins/cache` only maps to Claude cache under `.claude`, and cached hook implementations are no longer mislabeled as active `hook-code` |
-| AgentShield PR #88 | Merged evidence-pack inspect/readback as `65ed6e2a87545dc99d962b58413f49096a4d70ec`; `agentshield evidence-pack inspect` now emits verified JSON/text summaries for report, policy, baseline, supply-chain, CI context, remediation, and malformed artifact errors |
-| AgentShield PR #89 | Merged evidence-pack fleet routing as `521ada9091bb6d818511ab8589ae675b920c106a`; `agentshield evidence-pack fleet <dirs...> [--json]` now aggregates multiple verified bundles into ready, security-blocker, policy-review, baseline-regression, supply-chain-review, and invalid routes with finding, policy, baseline, supply-chain, and remediation totals |
-| AgentShield PR #90 | Merged fleet review items as `6d1c57c92000541d65a3b6bc366f0322d7d0dacc`; `agentshield evidence-pack fleet --json` now emits `reviewItems` with route, severity, repository/target context, source evidence paths, reason, and owner-ready recommendation, and the text CLI prints a `Review items` block |
-| AgentShield PR #91 | Merged checksum-backed policy export as `73e1e3586dc4513a462e39c9799f75eea104e110`; `agentshield policy export` writes one JSON policy file per selected pack plus `manifest.json` with SHA-256 digests, and supports pack selection, repeated owners, name prefixes, and JSON output |
-| AgentShield PR #92 | Merged checksum-verified policy promotion as `e7e259dc6212b63a8e03a253ca6b8c1e3c2abff7`; `agentshield policy promote` verifies the export manifest and selected policy digest, rejects tampered JSON, requires explicit pack selection for multi-pack manifests, supports dry-run JSON review, and writes the active policy only after verification |
-| ECC-Tools PR #76 | Merged AgentShield fleet-summary consumption as `5bde2328d15f584481fb6334e6960716dbf3e16f`; hosted `security-evidence-review` now recognizes `agentshield-evidence/fleet-summary.json`, classifies it as `evidence-pack-fleet`, routes invalid/security-blocker/policy/baseline/supply-chain fleet outcomes into hosted findings, and fails closed on malformed fleet JSON |
-| ECC-Tools PR #77 | Merged hosted finding source-evidence output as `31fd883b3f0cee135aee4839b01d34855b7867f6`; hosted job PR comments and check-run details now include an `Evidence` column with up to three source evidence paths per finding, including AgentShield fleet-derived findings |
-| ECC-Tools PR #78 | Merged AgentShield fleet-route harness review as `0d4eb949aa56f56da88e6654273a22ffb95983a1`; hosted `harness-compatibility-audit` now collects fleet summaries, maps route target paths to Claude/Codex/OpenCode/MCP/plugin harness owners, and emits owner-review findings with source evidence paths |
-| ITO-57 | Updated with PR #1947 advisory-source evidence, post-merge source refresh, IOC scan, npm audit/signature checks, and OpenAI app update caveat |
-| ITO-49 | Updated with AgentShield PR #87, #88, #89, #90, #91, and #92 merge evidence, local test evidence, CI status, live `~/.claude` scan classification counts, local Mini Shai-Hulud protection scan results, and policy promotion validation |
-| ITO-50 | Updated with ECC-Tools PR #76, PR #77, and PR #78 merge evidence, hosted security review behavior, hosted finding evidence-path behavior, harness fleet-route owner-review behavior, local test evidence, and remote Verify/Security Audit/Workers build checks |
-| ITO-44 | Updated with queue cleanup, dashboard refresh, and remaining macro gaps |
+| PR #1944 | statusline ANSI palette 更新を `50ac061f9e72d7daa137f1bd08760cf74e9b577d` としてマージ; マージ前に `node tests/hooks/ecc-statusline.test.js` と `node scripts/ci/validate-hooks.js` がパス |
+| PR #1945 | `recsys-pipeline-architect` コミュニティ skill を `9e973b29fb1a2a0aeb9e6980017b67c3ddb05201` としてマージ; メンテナーパッチで catalog 件数を同期し、Unicode safety でブロックされた emoji を削除 |
+| Issue #1946 | 修正済みメンテナーコメントでトリアージ済みとしてクローズ; Linear `ITO-60` が GateGuard proactive fact-forcing preflight UX を追跡 |
+| PR #1947 | スケジュール済み supply-chain watch/advisory-source 証跡を `4093d1bb7a14db1b4d4ea5bd00f2073baf94bfb0` としてマージ; trunk に TanStack/Mini Shai-Hulud/node-ipc IOC scan と advisory-source report surfaces が scheduled watch 証跡に組み込まれた |
+| AgentShield PR #87 | plugin-cache runtime-confidence 分類を `26bb44650663816d07180e0d20c1895e431a326c` としてマージ; インストール済み Claude plugin cache の findings は `runtimeConfidence: plugin-cache` を出力し、`plugins/cache` は `.claude` 配下の Claude cache にのみマップされ、cached hook 実装は active `hook-code` と誤ラベル付けされなくなった |
+| AgentShield PR #88 | evidence-pack inspect/readback を `65ed6e2a87545dc99d962b58413f49096a4d70ec` としてマージ; `agentshield evidence-pack inspect` が report、policy、baseline、supply-chain、CI context、remediation、malformed artifact errors の検証済み JSON/text サマリーを出力 |
+| AgentShield PR #89 | evidence-pack fleet routing を `521ada9091bb6d818511ab8589ae675b920c106a` としてマージ; `agentshield evidence-pack fleet <dirs...> [--json]` が複数の検証済み bundle を ready、security-blocker、policy-review、baseline-regression、supply-chain-review、invalid routes に集約し、finding、policy、baseline、supply-chain、remediation の合計を出力 |
+| AgentShield PR #90 | fleet review items を `6d1c57c92000541d65a3b6bc366f0322d7d0dacc` としてマージ; `agentshield evidence-pack fleet --json` が route、severity、repository/target context、source evidence paths、reason、owner-ready recommendation を含む `reviewItems` を出力し、text CLI は `Review items` ブロックを表示 |
+| AgentShield PR #91 | checksum-backed policy export を `73e1e3586dc4513a462e39c9799f75eea104e110` としてマージ; `agentshield policy export` が選択した pack ごとに 1 つの JSON policy ファイルと SHA-256 digest を含む `manifest.json` を書き込み、pack 選択、繰り返し owners、name prefixes、JSON 出力をサポート |
+| AgentShield PR #92 | checksum-verified policy promotion を `e7e259dc6212b63a8e03a253ca6b8c1e3c2abff7` としてマージ; `agentshield policy promote` が export manifest と選択した policy digest を検証し、改ざん JSON を拒否し、multi-pack manifest では明示的な pack 選択を要求し、dry-run JSON review をサポートし、検証後にのみ active policy を書き込む |
+| ECC-Tools PR #76 | AgentShield fleet-summary 消費を `5bde2328d15f584481fb6334e6960716dbf3e16f` としてマージ; hosted `security-evidence-review` が `agentshield-evidence/fleet-summary.json` を認識し、`evidence-pack-fleet` として分類し、invalid/security-blocker/policy/baseline/supply-chain fleet outcomes を hosted findings にルーティングし、malformed fleet JSON で fail closed |
+| ECC-Tools PR #77 | hosted finding source-evidence 出力を `31fd883b3f0cee135aee4839b01d34855b7867f6` としてマージ; hosted job PR comments と check-run details に finding あたり最大 3 つの source evidence paths を含む `Evidence` 列を追加（AgentShield fleet 由来の findings を含む） |
+| ECC-Tools PR #78 | AgentShield fleet-route harness review を `0d4eb949aa56f56da88e6654273a22ffb95983a1` としてマージ; hosted `harness-compatibility-audit` が fleet summaries を収集し、route target paths を Claude/Codex/OpenCode/MCP/plugin harness owners にマップし、source evidence paths 付きの owner-review findings を出力 |
+| ITO-57 | PR #1947 advisory-source 証跡、マージ後ソース更新、IOC scan、npm audit/signature チェック、OpenAI app 更新 caveat で更新 |
+| ITO-49 | AgentShield PR #87、#88、#89、#90、#91、#92 マージ証跡、ローカルテスト証跡、CI ステータス、ライブ `~/.claude` scan 分類件数、ローカル Mini Shai-Hulud protection scan 結果、policy promotion 検証で更新 |
+| ITO-50 | ECC-Tools PR #76、PR #77、PR #78 マージ証跡、hosted security review 動作、hosted finding evidence-path 動作、harness fleet-route owner-review 動作、ローカルテスト証跡、リモート Verify/Security Audit/Workers build チェックで更新 |
+| ITO-44 | キュークリーンアップ、dashboard 更新、残りの macro gaps で更新 |
 
-## Release Gate Commands
+## リリースゲートコマンド (Release Gate Commands)
 
-| Gate | Command | Result |
+| ゲート (Gate) | コマンド (Command) | 結果 (Result) |
 | --- | --- | --- |
-| Root suite | `npm test` | 2469 passed, 0 failed |
-| Rust `ecc2` suite | `cd ecc2 && cargo test` | 462 passed, 0 failed; existing dead-code/unused warnings only |
-| Release surface | `node tests/docs/ecc2-release-surface.test.js` | 20 passed |
-| Harness adapters | `npm run harness:adapters -- --check` | PASS; 11 adapters |
-| Harness audit | `npm run harness:audit -- --format json` | 70/70, no top actions |
-| Observability readiness | `npm run observability:ready` | 21/21, ready yes |
-| Supply-chain IOC scan | `npm run security:ioc-scan` | Passed; 227 files inspected |
-| Advisory source refresh | `npm run security:advisory-sources -- --refresh --json` | Ready; 9 active sources; Linear payload still points at `ITO-57` for sync |
-| npm audit | `npm audit --audit-level=moderate` | 0 vulnerabilities |
-| npm signatures | `npm audit signatures` | 241 verified registry signatures; 30 verified attestations |
-| Dashboard renderer | `node tests/scripts/operator-readiness-dashboard.test.js` | 7 passed, 0 failed |
+| Root suite | `npm test` | 2469 合格、0 失敗 |
+| Rust `ecc2` suite | `cd ecc2 && cargo test` | 462 合格、0 失敗; 既存 dead-code/unused warnings のみ |
+| Release surface | `node tests/docs/ecc2-release-surface.test.js` | 20 合格 |
+| Harness adapters | `npm run harness:adapters -- --check` | PASS; adapter 11 件 |
+| Harness audit | `npm run harness:audit -- --format json` | 70/70、top action なし |
+| Observability readiness | `npm run observability:ready` | 21/21、ready yes |
+| Supply-chain IOC scan | `npm run security:ioc-scan` | 合格; 227 ファイルを検査 |
+| Advisory source refresh | `npm run security:advisory-sources -- --refresh --json` | ready; active source 9 件; Linear payload は sync 向けに引き続き `ITO-57` を指す |
+| npm audit | `npm audit --audit-level=moderate` | 脆弱性 0 |
+| npm signatures | `npm audit signatures` | registry signature 241 件検証済み; attestation 30 件検証済み |
+| Dashboard renderer | `node tests/scripts/operator-readiness-dashboard.test.js` | 7 合格、0 失敗 |
 
-## Current Publication Blockers
+## 現在の公開ブロッカー (Current Publication Blockers)
 
-- GitHub prerelease `v2.0.0-rc.1` is still not created in this pass.
-- npm `ecc-universal@2.0.0-rc.1` is still not published to the `next` dist-tag.
-- Claude plugin tag and marketplace propagation remain approval-gated.
-- Codex repo-marketplace distribution is verified for rc.1, but official
-  Plugin Directory publishing remains blocked on OpenAI's coming-soon
-  self-serve publishing surface.
-- ECC Tools billing/native-payments copy remains blocked until live
-  Marketplace-managed test-account readback returns an announcement-ready gate.
-- Release notes, X, LinkedIn, GitHub release, and longform copy still need final
-  live URLs after release/package/plugin URLs exist.
-- The local checkout still has unrelated untracked `docs/drafts/`, so a strict
-  clean-checkout release pass remains required before real publication.
+- このパスでは GitHub prerelease `v2.0.0-rc.1` はまだ作成されていない。
+- npm `ecc-universal@2.0.0-rc.1` はまだ `next` dist-tag に公開されていない。
+- Claude plugin tag と marketplace 伝播は approval-gated のまま。
+- Codex repo-marketplace 配布は rc.1 で検証済みだが、公式 Plugin Directory 公開は OpenAI の coming-soon self-serve publishing surface によりブロックされている。
+- ECC Tools billing/native-payments コピーは、ライブ Marketplace-managed test-account readback が announcement-ready gate を返すまでブロックされている。
+- リリースノート、X、LinkedIn、GitHub release、longform コピーは、リリース/package/plugin URL が存在した後の最終ライブ URL がまだ必要。
+- ローカル checkout には無関係な未追跡 `docs/drafts/` が残っているため、実際の公開前には厳密なクリーン checkout によるリリースパスが依然必要。
 
-## Result
+## 結果 (Result)
 
-The public PR queue, issue queue, and discussion queue are clear, and the rc.1
-preview pack passed the main Node, Rust, release-surface, harness, observability,
-and supply-chain gates on May 16, 2026. This improves publication readiness but
-does not replace the approval-gated release, package, plugin, and announcement
-steps in `publication-readiness.md`.
+公開 PR キュー、issue キュー、discussion キューはクリアであり、rc.1 preview pack は 2026年5月16日に主要な Node、Rust、release-surface、harness、observability、supply-chain ゲートをパスした。これは公開準備を改善するが、`publication-readiness.md` にある approval-gated なリリース、package、plugin、アナウンス手順の代替にはならない。

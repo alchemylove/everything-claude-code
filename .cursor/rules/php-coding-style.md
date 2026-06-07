@@ -1,25 +1,25 @@
 ---
-description: "PHP coding style extending common rules"
+description: "PHP coding style: common ルールの拡張"
 globs: ["**/*.php", "**/composer.json"]
 alwaysApply: false
 ---
-# PHP Coding Style
+# PHP Coding Style (PHP Coding Style)
 
-> This file extends the common coding style rule with PHP specific content.
+> このファイルは common coding style ルールを PHP 固有の内容で拡張する。
 
-## Standards
+## 標準 (Standards)
 
-- Follow **PSR-12** formatting and naming conventions.
-- Prefer `declare(strict_types=1);` in application code.
-- Use scalar type hints, return types, and typed properties everywhere new code permits.
+- **PSR-12** のフォーマットと命名規則に従う。
+- application コードでは `declare(strict_types=1);` を優先。
+- 新規コードで可能な限り scalar type hint、return type、typed property を使用。
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer immutable DTOs and value objects for data crossing service boundaries.
-- Use `readonly` properties or immutable constructors for request/response payloads where possible.
-- Keep arrays for simple maps; promote business-critical structures into explicit classes.
+- service 境界を越えるデータには不変 DTO と value object を優先。
+- 可能な場合は request/response payload に `readonly` property または不変 constructor を使用。
+- 単純な map には array を保持。ビジネス上重要な構造は明示的な class に昇格。
 
-## Formatting
+## フォーマット (Formatting)
 
-- Use **PHP-CS-Fixer** or **Laravel Pint** for formatting.
-- Use **PHPStan** or **Psalm** for static analysis.
+- フォーマットに **PHP-CS-Fixer** または **Laravel Pint** を使用。
+- static analysis に **PHPStan** または **Psalm** を使用。

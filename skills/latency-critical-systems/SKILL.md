@@ -5,69 +5,63 @@ origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Latency Critical Systems
+# レイテンシクリティカルシステム (Latency Critical Systems)
 
-Use this skill when the user cares about realtime behavior, hot paths, streaming
-freshness, or execution speed. This includes HFT-like infrastructure, but the
-skill is engineering-focused. It does not authorize live trading or financial
-advice.
+ユーザーがリアルタイム動作、ホットパス、ストリーミング鮮度、実行速度を重視するときにこのスキルを使用する。HFT 的インフラを含むが、このスキルはエンジニアリング重視である。ライブ取引や金融アドバイスを許可しない。
 
-## Split The Metrics
+## メトリクスの分離 (Split The Metrics)
 
-Do not collapse everything into "fast." Track:
+すべてを「速い」にまとめない。次を追跡する:
 
-- p50, p95, and p99 latency;
-- throughput;
-- freshness age;
-- queue depth;
-- cache hit rate;
-- provider/API response time;
-- browser render time;
-- correctness under load;
-- failure and retry behavior.
+- p50、p95、p99 レイテンシ
+- スループット
+- 鮮度年齢
+- キュー深度
+- キャッシュヒット率
+- プロバイダー/API 応答時間
+- ブラウザレンダリング時間
+- 負荷下の正確性
+- 障害とリトライ動作
 
-## Map The Hot Path
+## ホットパスのマッピング (Map The Hot Path)
 
-Write the path from user/event to final visible state:
+ユーザー/イベントから最終可視状態までのパスを書く:
 
 ```text
 source event -> provider API -> ingest worker -> queue -> cache -> edge route
 -> client stream -> browser render -> user-visible state
 ```
 
-Then measure each segment separately.
+次に各セグメントを個別に計測する。
 
-## Optimization Order
+## 最適化の順序 (Optimization Order)
 
-1. Remove unnecessary round trips.
-2. Cache stable reads with freshness metadata.
-3. Batch small calls and writes.
-4. Move compute closer to the data or the user.
-5. Split hot and cold paths.
-6. Apply backpressure before queues grow unbounded.
-7. Use streaming only when it improves freshness or user experience.
-8. Add canaries for stale data, degraded providers, and bad cache state.
+1. 不要なラウンドトリップを除去する。
+2. 鮮度メタデータ付きで安定読み取りをキャッシュする。
+3. 小さな呼び出しと書き込みをバッチ化する。
+4. 計算をデータまたはユーザーに近づける。
+5. ホットパスとコールドパスを分離する。
+6. キューが無制限に成長する前にバックプレッシャーを適用する。
+7. 鮮度または UX が改善される場合のみストリーミングを使用する。
+8. 古いデータ、劣化プロバイダー、不良キャッシュ状態のカナリアを追加する。
 
-## Verification
+## 検証 (Verification)
 
-Use live readbacks when a deployed surface exists:
+デプロイ済みサーフェスが存在する場合はライブ読み戻しを使用する:
 
-- HTTP timing and response headers;
-- provider freshness timestamp;
-- queue or job state;
-- edge/cache state;
-- browser verification for actual UI freshness;
-- logs around retries and degraded mode.
+- HTTP タイミングとレスポンスヘッダー
+- プロバイダー鮮度タイムスタンプ
+- キューまたはジョブ状態
+- エッジ/キャッシュ状態
+- 実際の UI 鮮度のブラウザ検証
+- リトライと劣化モード周辺のログ
 
-For market-data or execution-adjacent paths, also verify orderbook age, VWAP
-assumptions, provider status, and kill-switch behavior before calling the path
-ready.
+マーケットデータまたは実行隣接パスでは、パスを ready と呼ぶ前にオーダーブック年齢、VWAP 前提、プロバイダーステータス、キルスイッチ動作も検証する。
 
-## Guardrails
+## ガードレール (Guardrails)
 
-- Do not optimize latency by dropping required validation.
-- Do not hide stale data behind fast cache hits.
-- Do not claim millisecond behavior from client labels without measurement.
-- Do not run live orders, destructive migrations, or customer-impacting deploys
-  without an explicit approval gate.
-- Keep secrets and private payloads out of logs and benchmark artifacts.
+- 必須バリデーションを落としてレイテンシを最適化しない。
+- 高速キャッシュヒットの背後に古いデータを隠さない。
+- 計測なしにクライアントラベルからミリ秒動作を主張しない。
+- 明示的な承認ゲートなしにライブ注文、破壊的マイグレーション、顧客影響デプロイを実行しない。
+- ログとベンチマークアーティファクトから秘密と非公開ペイロードを除外する。

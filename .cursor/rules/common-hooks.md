@@ -1,34 +1,34 @@
 ---
-description: "Hooks system: types, auto-accept permissions, TodoWrite best practices"
+description: "Hooks system: 種類、auto-accept permissions、TodoWrite ベストプラクティス"
 alwaysApply: true
 ---
-# Hooks System
+# Hooks System (Hooks System)
 
-## Hook Types
+## Hook 種類 (Hook Types)
 
-- **PreToolUse**: Before tool execution (validation, parameter modification)
-- **PostToolUse**: After tool execution (auto-format, checks)
-- **Stop**: When session ends (final verification)
+- **PreToolUse**: tool 実行前（バリデーション、パラメータ変更）
+- **PostToolUse**: tool 実行後（auto-format、チェック）
+- **Stop**: セッション終了時（最終検証）
 
 ## Auto-Accept Permissions
 
-Use with caution:
-- Enable for trusted, well-defined plans
-- Disable for exploratory work
-- Never use dangerously-skip-permissions flag
-- Configure `allowedTools` in `~/.claude.json` instead
+慎重に使用:
+- 信頼できる明確な plan 向けに有効化
+- 探索的作業では無効化
+- dangerously-skip-permissions フラグは使わない
+- 代わりに `~/.claude.json` で `allowedTools` を設定
 
-## TodoWrite Best Practices
+## TodoWrite ベストプラクティス (TodoWrite Best Practices)
 
-Use TodoWrite tool to:
-- Track progress on multi-step tasks
-- Verify understanding of instructions
-- Enable real-time steering
-- Show granular implementation steps
+TodoWrite tool で:
+- 複数ステップのタスクの進捗を追跡
+- 指示の理解を検証
+- リアルタイムの steering を有効化
+- 細かい実装ステップを表示
 
-Todo list reveals:
-- Out of order steps
-- Missing items
-- Extra unnecessary items
-- Wrong granularity
-- Misinterpreted requirements
+Todo list が明らかにするもの:
+- 順序が狂ったステップ
+- 欠けている項目
+- 不要な余分な項目
+- 粒度の誤り
+- 誤解された要件

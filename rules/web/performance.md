@@ -1,64 +1,64 @@
-> This file extends [common/performance.md](../common/performance.md) with web-specific performance content.
+> このファイルは [common/performance.md](../common/performance.md) を拡張し、Web 固有のパフォーマンス内容を追加する。
 
-# Web Performance Rules
+# Web パフォーマンスルール (Web Performance Rules)
 
-## Core Web Vitals Targets
+## Core Web Vitals 目標 (Core Web Vitals Targets)
 
-| Metric | Target |
-|--------|--------|
+| メトリクス | 目標 |
+|-----------|------|
 | LCP | < 2.5s |
 | INP | < 200ms |
 | CLS | < 0.1 |
 | FCP | < 1.5s |
 | TBT | < 200ms |
 
-## Bundle Budget
+## バンドルバジェット (Bundle Budget)
 
-| Page Type | JS Budget (gzipped) | CSS Budget |
-|-----------|---------------------|------------|
-| Landing page | < 150kb | < 30kb |
-| App page | < 300kb | < 50kb |
-| Microsite | < 80kb | < 15kb |
+| ページタイプ | JS バジェット（gzip 圧縮後） | CSS バジェット |
+|-------------|---------------------------|--------------|
+| ランディングページ | < 150kb | < 30kb |
+| アプリページ | < 300kb | < 50kb |
+| マイクロサイト | < 80kb | < 15kb |
 
-## Loading Strategy
+## ローディング戦略 (Loading Strategy)
 
-1. Inline critical above-the-fold CSS where justified
-2. Preload the hero image and primary font only
-3. Defer non-critical CSS or JS
-4. Dynamically import heavy libraries
+1. 正当な場合、クリティカルなアバブ・ザ・フォールド CSS をインライン化する
+2. ヒーロー画像とプライマリフォントのみをプリロードする
+3. 非クリティカルな CSS や JS を遅延読み込みする
+4. 重いライブラリを動的インポートする
 
 ```js
 const gsapModule = await import('gsap');
 const { ScrollTrigger } = await import('gsap/ScrollTrigger');
 ```
 
-## Image Optimization
+## 画像最適化 (Image Optimization)
 
-- Explicit `width` and `height`
-- `loading="eager"` plus `fetchpriority="high"` for hero media only
-- `loading="lazy"` for below-the-fold assets
-- Prefer AVIF or WebP with fallbacks
-- Never ship source images far beyond rendered size
+- 明示的な `width` と `height`
+- ヒーローメディアのみに `loading="eager"` と `fetchpriority="high"`
+- ビロウ・ザ・フォールドのアセットには `loading="lazy"`
+- フォールバック付きで AVIF または WebP を優先する
+- レンダリングサイズを大幅に超えるソース画像を配信しない
 
-## Font Loading
+## フォント読み込み (Font Loading)
 
-- Max two font families unless there is a clear exception
+- 明確な例外がない限り、フォントファミリーは最大2つ
 - `font-display: swap`
-- Subset where possible
-- Preload only the truly critical weight/style
+- 可能な場合はサブセット化する
+- 本当にクリティカルなウェイト/スタイルのみをプリロードする
 
-## Animation Performance
+## アニメーションパフォーマンス (Animation Performance)
 
-- Animate compositor-friendly properties only
-- Use `will-change` narrowly and remove it when done
-- Prefer CSS for simple transitions
-- Use `requestAnimationFrame` or established animation libraries for JS motion
-- Avoid scroll handler churn; use IntersectionObserver or well-behaved libraries
+- コンポジタフレンドリーなプロパティのみをアニメーションする
+- `will-change` は狭い範囲で使用し、完了時に削除する
+- シンプルなトランジションには CSS を優先する
+- JS モーションには `requestAnimationFrame` または確立されたアニメーションライブラリを使用する
+- スクロールハンドラの乱発を避ける。IntersectionObserver または行儀の良いライブラリを使用する
 
-## Performance Checklist
+## パフォーマンスチェックリスト (Performance Checklist)
 
-- [ ] All images have explicit dimensions
-- [ ] No accidental render-blocking resources
-- [ ] No layout shifts from dynamic content
-- [ ] Motion stays on compositor-friendly properties
-- [ ] Third-party scripts load async/defer and only when needed
+- [ ] すべての画像に明示的なサイズがある
+- [ ] 意図しないレンダーブロッキングリソースがない
+- [ ] 動的コンテンツによるレイアウトシフトがない
+- [ ] モーションがコンポジタフレンドリーなプロパティにとどまっている
+- [ ] サードパーティスクリプトが async/defer で読み込まれ、必要な場合のみ使用されている

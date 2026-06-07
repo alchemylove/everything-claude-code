@@ -5,15 +5,15 @@ paths:
   - "**/*.csproj"
   - "**/appsettings*.json"
 ---
-# C# Security
+# C# セキュリティ (C# Security)
 
-> This file extends [common/security.md](../common/security.md) with C#-specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、C# 固有の内容を追加する。
 
-## Secret Management
+## シークレット管理 (Secret Management)
 
-- Never hardcode API keys, tokens, or connection strings in source code
-- Use environment variables, user secrets for local development, and a secret manager in production
-- Keep `appsettings.*.json` free of real credentials
+- API キー、トークン、接続文字列をソースコードにハードコードしない
+- 環境変数、ローカル開発用 user secrets、本番用 secret manager を使用する
+- `appsettings.*.json` に実際の認証情報を含めない
 
 ```csharp
 // BAD
@@ -24,35 +24,35 @@ var apiKey = builder.Configuration["OpenAI:ApiKey"]
     ?? throw new InvalidOperationException("OpenAI:ApiKey is not configured.");
 ```
 
-## SQL Injection Prevention
+## SQL インジェクション防止 (SQL Injection Prevention)
 
-- Always use parameterized queries with ADO.NET, Dapper, or EF Core
-- Never concatenate user input into SQL strings
-- Validate sort fields and filter operators before using dynamic query composition
+- ADO.NET、Dapper、EF Core では常に parameterized query を使用する
+- ユーザー入力を SQL 文字列に連結しない
+- 動的クエリ合成を使う前に sort フィールドと filter 演算子を検証する
 
 ```csharp
 const string sql = "SELECT * FROM Orders WHERE CustomerId = @customerId";
 await connection.QueryAsync<Order>(sql, new { customerId });
 ```
 
-## Input Validation
+## 入力検証 (Input Validation)
 
-- Validate DTOs at the application boundary
-- Use data annotations, FluentValidation, or explicit guard clauses
-- Reject invalid model state before running business logic
+- アプリケーション境界で DTO を検証する
+- data annotations、FluentValidation、または明示的 guard clause を使用する
+- ビジネスロジック実行前に無効な model state を拒否する
 
-## Authentication and Authorization
+## 認証と認可 (Authentication and Authorization)
 
-- Prefer framework auth handlers instead of custom token parsing
-- Enforce authorization policies at endpoint or handler boundaries
-- Never log raw tokens, passwords, or PII
+- カスタム token 解析より framework auth handler を優先する
+- エンドポイントまたは handler 境界で authorization policy を強制する
+- 生トークン、パスワード、PII をログに記録しない
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Return safe client-facing messages
-- Log detailed exceptions with structured context server-side
-- Do not expose stack traces, SQL text, or filesystem paths in API responses
+- クライアント向けには安全なメッセージを返す
+- サーバー側では structured context 付きで詳細な例外をログに記録する
+- API レスポンスに stack trace、SQL テキスト、filesystem パスを露出しない
 
-## References
+## 参照 (References)
 
-See skill: `security-review` for broader application security review checklists.
+より広いアプリケーションセキュリティレビューチェックリストは skill: `security-review` を参照。

@@ -4,38 +4,38 @@ description: "Design task-local harnesses, eval gates, and reusable skill extrac
 origin: ECC
 ---
 
-# Dynamic Workflow Mode
+# ダイナミックワークフローモード (Dynamic Workflow Mode)
 
-Use this skill when a coding agent can generate or adapt a task-local harness instead of only following a static command flow. The goal is to turn dynamic workflow mode into a disciplined system: temporary harnesses for one-off work, shared skill extraction for repeated work, and observable control pane checkpoints for teams.
+コーディングエージェントが静的コマンドフローに従うだけでなくタスクローカル harness を生成・適応できるときにこのスキルを使用する。目標は dynamic workflow mode を規律あるシステムにすること: 一回限り作業の一時 harness、繰り返し作業の共有スキル抽出、チーム向け可観測 control pane チェックポイント。
 
-## When To Activate
+## 有効化タイミング (When To Activate)
 
-- The user mentions dynamic workflows, custom harnesses, harness-per-task, adaptive workflows, or Claude Code dynamic workflow mode.
-- A task needs a custom loop, evaluator, crawler, fixture generator, watcher, or local dashboard.
-- Multiple agents need the same repeatable process but the process is not yet captured as a shared skill.
-- A workflow needs durable handoff artifacts, eval evidence, or operator approval before merge.
+- ユーザーが dynamic workflows、custom harnesses、harness-per-task、adaptive workflows、Claude Code dynamic workflow mode に言及する。
+- タスクにカスタムループ、evaluator、crawler、fixture generator、watcher、ローカルダッシュボードが必要。
+- 複数エージェントが同じ繰り返しプロセスを必要とするが、まだ共有スキルとして捕捉されていない。
+- ワークフローに永続 handoff アーティファクト、eval 証拠、マージ前のオペレーター承認が必要。
 
-## Core Contract
+## コア契約 (Core Contract)
 
-Dynamic workflow mode should produce a task-local harness only when the harness is cheaper and safer than manually driving the same steps. The harness must have:
+dynamic workflow mode は、同じステップを手動で駆動するより harness が安く安全な場合にのみタスクローカル harness を生成すべき。harness には次が必要:
 
-- **Objective**: the outcome it owns and the outcome it explicitly does not own.
-- **Inputs**: files, URLs, prompts, data sources, credentials policy, and user-provided constraints.
-- **Outputs**: commits, reports, screenshots, status files, or control pane snapshots.
-- **Eval**: at least one pass/fail check tied to the task, not only "it ran".
-- **Handoff**: a short artifact that tells the next operator what happened, what is blocked, and how to resume.
+- **Objective**: 所有する成果と明示的に所有しない成果。
+- **Inputs**: ファイル、URL、プロンプト、データソース、認証情報ポリシー、ユーザー制約。
+- **Outputs**: コミット、レポート、スクリーンショット、ステータスファイル、control pane スナップショット。
+- **Eval**: タスクに紐づく少なくとも 1 つの pass/fail チェック（「動いた」だけではない）。
+- **Handoff**: 次のオペレーターに何が起きたか、何がブロックされているか、どう再開するかを伝える短いアーティファクト。
 
-## Dynamic Harness Decision Tree
+## ダイナミック Harness 決定木 (Dynamic Harness Decision Tree)
 
-1. **One-shot task**: keep it inline. Do not invent a harness.
-2. **Repeated task with changing inputs**: create a task-local harness and keep it under a temp or project-local working area.
-3. **Repeated task across teammates or repos**: extract the pattern into a shared skill.
-4. **Task with external state, queueing, or approvals**: add control pane visibility before adding more automation.
-5. **Task with safety risk**: add an eval gate and a human merge gate before autonomous execution.
+1. **ワンショットタスク**: インラインのまま。harness を発明しない。
+2. **入力が変わる繰り返しタスク**: タスクローカル harness を作り temp またはプロジェクトローカル作業領域に置く。
+3. **チームメイトやリポジトリ横断の繰り返しタスク**: パターンを共有スキルに抽出。
+4. **外部状態、キューイング、承認があるタスク**: 自動化を増やす前に control pane 可視性を追加。
+5. **安全リスクがあるタスク**: 自律実行前に eval ゲートと人間マージゲートを追加。
 
-## Task-Local Harness Template
+## タスクローカル Harness テンプレート (Task-Local Harness Template)
 
-Use this structure before writing code:
+コードを書く前にこの構造を使う:
 
 ```markdown
 # Dynamic Workflow Harness
@@ -67,33 +67,33 @@ Handoff:
 - Next action:
 ```
 
-## Shared Skill Extraction
+## 共有スキル抽出 (Shared Skill Extraction)
 
-Promote a task-local harness into a shared skill only when at least two of these are true:
+次の少なくとも 2 つが真のときのみタスクローカル harness を共有スキルに昇格:
 
-- The same workflow appears in multiple sessions, repos, teams, or launches.
-- The workflow needs specific language, tool, or safety sequencing.
-- Failures repeat because operators skip a gate or lose context.
-- The workflow has a stable input/output contract.
-- The workflow benefits from a control pane, status board, or team handoff.
+- 同じワークフローが複数セッション、リポジトリ、チーム、ローンチに現れる。
+- ワークフローに特定の言語、ツール、安全シーケンスが必要。
+- オペレーターがゲートをスキップまたはコンテキストを失うため障害が繰り返される。
+- ワークフローに安定した入出力契約がある。
+- control pane、ステータスボード、チーム handoff が有益。
 
-When extracting, write the skill first in `skills/<name>/SKILL.md`. Add command shims only if a legacy slash-entry surface is still required.
+抽出時はまず `skills/<name>/SKILL.md` にスキルを書く。レガシースラッシュエントリ面がまだ必要な場合のみ command shim を追加。
 
-## Control Pane Checkpoints
+## Control Pane チェックポイント (Control Pane Checkpoints)
 
-Dynamic workflow mode becomes team-usable when it exposes state. Record these checkpoints whenever the task spans more than one session:
+dynamic workflow mode は状態を露出するとチームで使える。タスクが 1 セッションを超えるときはこれらのチェックポイントを記録:
 
-- **Plan**: objective, owner, acceptance criteria, and risky external systems.
-- **Queue**: work items, assigned agent role, branch/worktree, and dependency edges.
-- **Run**: active harness, current loop step, recent eval result, and token/cost signal if available.
-- **Gate**: test results, browser screenshots, security review, and merge readiness.
-- **Handoff**: what is done, what failed, what needs a human decision.
+- **Plan**: 目的、所有者、受け入れ基準、リスクのある外部システム。
+- **Queue**: 作業項目、割り当てエージェントロール、branch/worktree、依存エッジ。
+- **Run**: アクティブ harness、現在ループステップ、最近の eval 結果、利用可能なら token/cost シグナル。
+- **Gate**: テスト結果、ブラウザスクリーンショット、セキュリティレビュー、マージ準備。
+- **Handoff**: 完了、失敗、人間判断が必要なこと。
 
-If the repo has ECC2 state enabled, prefer adding or reading checkpoints through the ECC control pane or state-store-backed scripts instead of scattering untracked notes.
+リポジトリで ECC2 state が有効なら、追跡されないメモを散らす代わりに ECC control pane または state-store バックスクリプトでチェックポイントを追加/読み取りを優先。
 
-## Eval Gates
+## Eval ゲート (Eval Gates)
 
-Every dynamic harness needs a task-specific eval. Pick the cheapest reliable gate:
+すべての dynamic harness にタスク固有 eval が必要。最安で信頼できるゲートを選ぶ:
 
 | Work Type | Eval Gate |
 | --- | --- |
@@ -103,21 +103,21 @@ Every dynamic harness needs a task-specific eval. Pick the cheapest reliable gat
 | Research/content | Source-neutral brief, claim checklist, and publish-ready outline |
 | Integration | Dry-run command, config validation, and no-secret scan |
 
-Do not claim a dynamic workflow is reusable until the eval can be rerun by another teammate.
+別のチームメイトが eval を再実行できるまで dynamic workflow を再利用可能と主張しない。
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Generating scripts that hide the real decision logic from the operator.
-- Treating dynamic workflow mode as permission to skip tests.
-- Creating one-off docs when a shared skill or status artifact is the real product.
-- Running multiple agents without ownership, merge gate, or conflict policy.
-- Letting raw private research data leak into public docs.
+- 実際の意思決定ロジックをオペレーターから隠すスクリプト生成。
+- dynamic workflow mode をテストスキップの許可と扱う。
+- 共有スキルやステータスアーティファクトが本当の成果物なのに一回限りドキュメントを作る。
+- 所有権、マージゲート、コンフリクトポリシーなしで複数エージェント実行。
+- 生の非公開リサーチデータを公開ドキュメントに漏らす。
 
-## Output Standard
+## 出力標準 (Output Standard)
 
-Finish with:
+次で終える:
 
-- The harness or skill path.
-- The eval commands and results.
-- The control pane or handoff artifact path.
-- The next reusable extraction candidate.
+- harness またはスキルパス。
+- eval コマンドと結果。
+- control pane または handoff アーティファクトパス。
+- 次の再利用可能抽出候補。

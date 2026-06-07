@@ -1,55 +1,55 @@
 ---
-description: Comprehensive Kotlin code review for idiomatic patterns, null safety, coroutine safety, and security. Invokes the kotlin-reviewer agent.
+description: idiomatic patterns、null safety、coroutine safety、security を含む包括的な Kotlin コードレビュー。kotlin-reviewer agent を呼び出す。
 ---
 
-# Kotlin Code Review
+# Kotlin コードレビュー (Kotlin Code Review)
 
-This command invokes the **kotlin-reviewer** agent for comprehensive Kotlin-specific code review.
+このコマンドは **kotlin-reviewer** agent を呼び出し、Kotlin 固有の包括的なコードレビューを行います。
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. **Identify Kotlin Changes**: Find modified `.kt` and `.kts` files via `git diff`
-2. **Run Build & Static Analysis**: Execute `./gradlew build`, `detekt`, `ktlintCheck`
-3. **Security Scan**: Check for SQL injection, command injection, hardcoded secrets
-4. **Null Safety Review**: Analyze `!!` usage, platform type handling, unsafe casts
-5. **Coroutine Review**: Check structured concurrency, dispatcher usage, cancellation
-6. **Generate Report**: Categorize issues by severity
+1. **Kotlin 変更を特定 (Identify Kotlin Changes)**: `git diff` で変更された `.kt` と `.kts` ファイルを検出する
+2. **ビルドと静的解析を実行 (Run Build & Static Analysis)**: `./gradlew build`、`detekt`、`ktlintCheck` を実行する
+3. **セキュリティスキャン (Security Scan)**: SQL injection、command injection、ハードコードされた secret をチェックする
+4. **Null Safety レビュー (Null Safety Review)**: `!!` の使用、platform type の扱い、unsafe cast を分析する
+5. **Coroutine レビュー (Coroutine Review)**: structured concurrency、dispatcher の使用、cancellation をチェックする
+6. **レポート生成 (Generate Report)**: 重大度別に issue を分類する
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/kotlin-review` when:
-- After writing or modifying Kotlin code
-- Before committing Kotlin changes
-- Reviewing pull requests with Kotlin code
-- Onboarding to a new Kotlin codebase
-- Learning idiomatic Kotlin patterns
+`/kotlin-review` を使用するのは:
+- Kotlin コードを書いた、または変更した後
+- Kotlin 変更をコミットする前
+- Kotlin コードを含む pull request をレビューするとき
+- 新しい Kotlin コードベースにオンボーディングするとき
+- idiomatic Kotlin パターンを学ぶとき
 
-## Review Categories
+## レビューカテゴリ (Review Categories)
 
-### CRITICAL (Must Fix)
-- SQL/Command injection vulnerabilities
-- Force-unwrap `!!` without justification
-- Platform type null safety violations
-- GlobalScope usage (structured concurrency violation)
-- Hardcoded credentials
-- Unsafe deserialization
+### CRITICAL（必須修正）
+- SQL/Command injection の脆弱性
+- 正当化なしの force-unwrap `!!`
+- Platform type の null safety 違反
+- GlobalScope の使用（structured concurrency 違反）
+- ハードコードされた認証情報
+- 安全でない deserialization
 
-### HIGH (Should Fix)
-- Mutable state where immutable suffices
-- Blocking calls inside coroutine context
-- Missing cancellation checks in long loops
-- Non-exhaustive `when` on sealed types
-- Large functions (>50 lines)
-- Deep nesting (>4 levels)
+### HIGH（修正推奨）
+- immutable で十分な箇所での mutable state
+- coroutine context 内の blocking 呼び出し
+- 長いループでの cancellation チェック不足
+- sealed types に対する non-exhaustive `when`
+- 大きな関数（50行超）
+- 深いネスト（4レベル超）
 
-### MEDIUM (Consider)
-- Non-idiomatic Kotlin (Java-style patterns)
-- Missing trailing commas
-- Scope function misuse or nesting
-- Missing sequence for large collection chains
-- Redundant explicit types
+### MEDIUM（検討）
+- non-idiomatic Kotlin（Java スタイルのパターン）
+- trailing comma の欠落
+- scope function の誤用またはネスト
+- 大きな collection chain での sequence 未使用
+- 冗長な明示的型
 
-## Automated Checks Run
+## 自動チェック (Automated Checks Run)
 
 ```bash
 # Build check
@@ -65,7 +65,7 @@ Use `/kotlin-review` when:
 ./gradlew test
 ```
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ````text
 User: /kotlin-review
@@ -119,7 +119,7 @@ launch {
 Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 ````
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
 | Status | Condition |
 |--------|-----------|
@@ -127,14 +127,14 @@ Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 | WARNING: Warning | Only MEDIUM issues (merge with caution) |
 | FAIL: Block | CRITICAL or HIGH issues found |
 
-## Integration with Other Commands
+## 他コマンドとの統合 (Integration with Other Commands)
 
-- Use `/kotlin-test` first to ensure tests pass
-- Use `/kotlin-build` if build errors occur
-- Use `/kotlin-review` before committing
-- Use `/code-review` for non-Kotlin-specific concerns
+- まず `/kotlin-test` でテストが通ることを確認する
+- ビルドエラーがある場合は `/kotlin-build` を使用する
+- コミット前に `/kotlin-review` を使用する
+- Kotlin 以外の懸念には `/code-review` を使用する
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/kotlin-reviewer.md`
 - Skills: `skills/kotlin-patterns/`, `skills/kotlin-testing/`

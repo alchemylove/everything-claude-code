@@ -1,50 +1,50 @@
-# 代理编排
+# Agent オーケストレーション (Agent Orchestration)
 
-## 可用代理
+## 利用可能な Agent (Available Agents)
 
-位于 `~/.claude/agents/`：
+`~/.claude/agents/` に配置:
 
-| 代理 | 用途 | 何时使用 |
-|-------|---------|------------|
-| planner | 实现规划 | 复杂功能、重构 |
-| architect | 系统设计 | 架构决策 |
-| tdd-guide | 测试驱动开发 | 新功能、bug 修复 |
-| code-reviewer | 代码审查 | 编写代码后 |
-| security-reviewer | 安全分析 | 提交前 |
-| build-error-resolver | 修复构建错误 | 构建失败时 |
-| e2e-runner | E2E 测试 | 关键用户流程 |
-| refactor-cleaner | 死代码清理 | 代码维护 |
-| doc-updater | 文档 | 更新文档 |
-| rust-reviewer | Rust 代码审查 | Rust 项目 |
+| Agent | Purpose | When to Use |
+|-------|---------|-------------|
+| planner | Implementation planning | Complex features, refactoring |
+| architect | System design | Architectural decisions |
+| tdd-guide | Test-driven development | New features, bug fixes |
+| code-reviewer | Code review | After writing code |
+| security-reviewer | Security analysis | Before commits |
+| build-error-resolver | Fix build errors | When build fails |
+| e2e-runner | E2E testing | Critical user flows |
+| refactor-cleaner | Dead code cleanup | Code maintenance |
+| doc-updater | Documentation | Updating docs |
+| rust-reviewer | Rust code review | Rust projects |
 
-## 立即使用代理
+## 即時 Agent 利用 (Immediate Agent Usage)
 
-无需用户提示：
-1. 复杂功能请求 - 使用 **planner** 代理
-2. 刚编写/修改的代码 - 使用 **code-reviewer** 代理
-3. Bug 修复或新功能 - 使用 **tdd-guide** 代理
-4. 架构决策 - 使用 **architect** 代理
+ユーザーのプロンプトは不要:
+1. 複雑な feature 要求 — **planner** agent を使用
+2. コードを書いた／変更した直後 — **code-reviewer** agent を使用
+3. bug 修正または新 feature — **tdd-guide** agent を使用
+4. アーキテクチャ上の判断 — **architect** agent を使用
 
-## 并行任务执行
+## 並列タスク実行 (Parallel Task Execution)
 
-对独立操作始终使用并行 Task 执行：
+独立した操作には常に並列 Task 実行を使用する:
 
 ```markdown
-# 好：并行执行
-同时启动 3 个代理：
-1. 代理 1：认证模块安全分析
-2. 代理 2：缓存系统性能审查
-3. 代理 3：工具类型检查
+# GOOD: Parallel execution
+Launch 3 agents in parallel:
+1. Agent 1: Security analysis of auth module
+2. Agent 2: Performance review of cache system
+3. Agent 3: Type checking of utilities
 
-# 坏：不必要的顺序
-先代理 1，然后代理 2，然后代理 3
+# BAD: Sequential when unnecessary
+First agent 1, then agent 2, then agent 3
 ```
 
-## 多视角分析
+## 多角的分析 (Multi-Perspective Analysis)
 
-对于复杂问题，使用分角色子代理：
-- 事实审查者
-- 高级工程师
-- 安全专家
-- 一致性审查者
-- 冗余检查者
+複雑な問題には、役割分割した sub-agent を使用する:
+- Factual reviewer
+- Senior engineer
+- Security expert
+- Consistency reviewer
+- Redundancy checker

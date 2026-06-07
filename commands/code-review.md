@@ -1,147 +1,147 @@
 ---
-description: Code review — local uncommitted changes or GitHub PR (pass PR number/URL for PR mode)
+description: コードレビュー — ローカルの未コミット変更、または GitHub PR（PR モードでは PR 番号/URL を渡す）
 argument-hint: [pr-number | pr-url | blank for local review]
 ---
 
-# Code Review
+# コードレビュー (Code Review)
 
-> PR review mode adapted from PRPs-agentic-eng by Wirasm. Part of the PRP workflow series.
+> PR レビューモードは Wirasm による PRPs-agentic-eng から適応。PRP ワークフローシリーズの一部。
 
 **Input**: $ARGUMENTS
 
 ---
 
-## Mode Selection
+## モード選択 (Mode Selection)
 
-If `$ARGUMENTS` contains a PR number, PR URL, or `--pr`:
-→ Jump to **PR Review Mode** below.
+`$ARGUMENTS` に PR 番号、PR URL、または `--pr` が含まれる場合:
+→ 下記の **PR Review Mode** へ進む。
 
-Otherwise:
-→ Use **Local Review Mode**.
+それ以外:
+→ **Local Review Mode** を使用する。
 
 ---
 
-## Local Review Mode
+## ローカルレビューモード (Local Review Mode)
 
-Comprehensive security and quality review of uncommitted changes.
+未コミット変更の包括的なセキュリティ・品質レビュー。
 
-### Phase 1 — GATHER
+### フェーズ 1 — 収集 (Phase 1 — GATHER)
 
 ```bash
 git diff --name-only HEAD
 ```
 
-If no changed files, stop: "Nothing to review."
+変更ファイルがなければ停止: "Nothing to review."
 
-### Phase 2 — REVIEW
+### フェーズ 2 — レビュー (Phase 2 — REVIEW)
 
-Read each changed file in full. Check for:
+変更された各ファイルを全文読む。以下を確認:
 
 **Security Issues (CRITICAL):**
-- Hardcoded credentials, API keys, tokens
-- SQL injection vulnerabilities
-- XSS vulnerabilities
-- Missing input validation
-- Insecure dependencies
-- Path traversal risks
+- ハードコードされた認証情報、API キー、トークン
+- SQL インジェクションの脆弱性
+- XSS の脆弱性
+- 入力検証の欠如
+- 安全でない依存関係
+- パストラバーサルのリスク
 
 **Code Quality (HIGH):**
-- Functions > 50 lines
-- Files > 800 lines
-- Nesting depth > 4 levels
-- Missing error handling
-- console.log statements
-- TODO/FIXME comments
-- Missing JSDoc for public APIs
+- 50 行を超える関数
+- 800 行を超えるファイル
+- ネスト深度 4 レベル超
+- エラーハンドリングの欠如
+- `console.log` 文
+- TODO/FIXME コメント
+- 公開 API の JSDoc 欠如
 
 **Best Practices (MEDIUM):**
-- Mutation patterns (use immutable instead)
-- Emoji usage in code/comments
-- Missing tests for new code
-- Accessibility issues (a11y)
+- ミューテーションパターン（代わりに immutable を使用）
+- コード/コメント内の絵文字使用
+- 新規コードのテスト欠如
+- アクセシビリティの問題（a11y）
 
-### Phase 3 — REPORT
+### フェーズ 3 — レポート (Phase 3 — REPORT)
 
-Generate report with:
+以下を含むレポートを生成:
 - Severity: CRITICAL, HIGH, MEDIUM, LOW
-- File location and line numbers
-- Issue description
-- Suggested fix
+- ファイル位置と行番号
+- 問題の説明
+- 修正提案
 
-Block commit if CRITICAL or HIGH issues found.
-Never approve code with security vulnerabilities.
+CRITICAL または HIGH の問題がある場合はコミットをブロックする。
+セキュリティ脆弱性のあるコードは決して承認しない。
 
 ---
 
-## PR Review Mode
+## PR レビューモード (PR Review Mode)
 
-Comprehensive GitHub PR review — fetches diff, reads full files, runs validation, posts review.
+包括的な GitHub PR レビュー — diff を取得し、ファイル全文を読み、検証を実行し、レビューを投稿する。
 
-### Phase 1 — FETCH
+### フェーズ 1 — 取得 (Phase 1 — FETCH)
 
-Parse input to determine PR:
+入力を解析して PR を特定:
 
 | Input | Action |
 |---|---|
-| Number (e.g. `42`) | Use as PR number |
-| URL (`github.com/.../pull/42`) | Extract PR number |
-| Branch name | Find PR via `gh pr list --head <branch>` |
+| Number (e.g. `42`) | PR 番号として使用 |
+| URL (`github.com/.../pull/42`) | PR 番号を抽出 |
+| Branch name | `gh pr list --head <branch>` で PR を検索 |
 
 ```bash
 gh pr view <NUMBER> --json number,title,body,author,baseRefName,headRefName,changedFiles,additions,deletions
 gh pr diff <NUMBER>
 ```
 
-If PR not found, stop with error. Store PR metadata for later phases.
+PR が見つからない場合はエラーで停止。後続フェーズ用に PR メタデータを保存する。
 
-### Phase 2 — CONTEXT
+### フェーズ 2 — コンテキスト (Phase 2 — CONTEXT)
 
-Build review context:
+レビューコンテキストを構築:
 
-1. **Project rules** — Read `CLAUDE.md`, `.claude/docs/`, and any contributing guidelines
-2. **Planning artifacts** — Check `.claude/prds/`, `.claude/plans/`, `.claude/reviews/`, and legacy `.claude/PRPs/{prds,plans,reports,reviews}/` for context related to this PR
-3. **PR intent** — Parse PR description for goals, linked issues, test plans
-4. **Changed files** — List all modified files and categorize by type (source, test, config, docs)
+1. **Project rules** — `CLAUDE.md`、`.claude/docs/`、およびコントリビューションガイドラインを読む
+2. **Planning artifacts** — この PR に関連するコンテキストのため `.claude/prds/`、`.claude/plans/`、`.claude/reviews/`、およびレガシー `.claude/PRPs/{prds,plans,reports,reviews}/` を確認
+3. **PR intent** — 目標、リンクされた issue、テストプランのため PR 説明を解析
+4. **Changed files** — 変更された全ファイルを一覧し、種別（source, test, config, docs）で分類
 
-### Phase 3 — REVIEW
+### フェーズ 3 — レビュー (Phase 3 — REVIEW)
 
-Read each changed file **in full** (not just the diff hunks — you need surrounding context).
+変更された各ファイルを **全文** 読む（diff ハンクだけでなく — 周辺コンテキストが必要）。
 
-For PR reviews, fetch the full file contents at the PR head revision:
+PR レビューでは、PR head リビジョンのファイル全文を取得:
 ```bash
 gh pr diff <NUMBER> --name-only | while IFS= read -r file; do
   gh api "repos/{owner}/{repo}/contents/$file?ref=<head-branch>" --jq '.content' | base64 -d
 done
 ```
 
-Apply the review checklist across 7 categories:
+7 カテゴリにわたるレビューチェックリストを適用:
 
 | Category | What to Check |
 |---|---|
-| **Correctness** | Logic errors, off-by-ones, null handling, edge cases, race conditions |
-| **Type Safety** | Type mismatches, unsafe casts, `any` usage, missing generics |
-| **Pattern Compliance** | Matches project conventions (naming, file structure, error handling, imports) |
-| **Security** | Injection, auth gaps, secret exposure, SSRF, path traversal, XSS |
-| **Performance** | N+1 queries, missing indexes, unbounded loops, memory leaks, large payloads |
-| **Completeness** | Missing tests, missing error handling, incomplete migrations, missing docs |
-| **Maintainability** | Dead code, magic numbers, deep nesting, unclear naming, missing types |
+| **Correctness** | ロジックエラー、オフバイワン、null 処理、エッジケース、競合状態 |
+| **Type Safety** | 型不一致、安全でないキャスト、`any` 使用、ジェネリクス欠如 |
+| **Pattern Compliance** | プロジェクト規約との一致（命名、ファイル構造、エラーハンドリング、import） |
+| **Security** | インジェクション、認証ギャップ、シークレット露出、SSRF、パストラバーサル、XSS |
+| **Performance** | N+1 クエリ、インデックス欠如、無制限ループ、メモリリーク、大きなペイロード |
+| **Completeness** | テスト欠如、エラーハンドリング欠如、不完全なマイグレーション、ドキュメント欠如 |
+| **Maintainability** | デッドコード、マジックナンバー、深いネスト、不明瞭な命名、型欠如 |
 
-Assign severity to each finding:
+各所見に severity を割り当て:
 
 | Severity | Meaning | Action |
 |---|---|---|
-| **CRITICAL** | Security vulnerability or data loss risk | Must fix before merge |
-| **HIGH** | Bug or logic error likely to cause issues | Should fix before merge |
-| **MEDIUM** | Code quality issue or missing best practice | Fix recommended |
-| **LOW** | Style nit or minor suggestion | Optional |
+| **CRITICAL** | セキュリティ脆弱性またはデータ損失リスク | マージ前に必須修正 |
+| **HIGH** | 問題を引き起こしうるバグまたはロジックエラー | マージ前に修正推奨 |
+| **MEDIUM** | コード品質の問題またはベストプラクティス欠如 | 修正推奨 |
+| **LOW** | スタイル上の指摘または軽微な提案 | 任意 |
 
-### Phase 4 — VALIDATE
+### フェーズ 4 — 検証 (Phase 4 — VALIDATE)
 
-Run available validation commands:
+利用可能な検証コマンドを実行:
 
-Detect the project type from config files (`package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, etc.), then run the appropriate commands:
+設定ファイル（`package.json`、`Cargo.toml`、`go.mod`、`pyproject.toml` など）からプロジェクト種別を検出し、適切なコマンドを実行:
 
-**Node.js / TypeScript** (has `package.json`):
+**Node.js / TypeScript** (`package.json` がある場合):
 ```bash
 npm run typecheck 2>/dev/null || npx tsc --noEmit 2>/dev/null  # Type check
 npm run lint                                                    # Lint
@@ -149,46 +149,46 @@ npm test                                                        # Tests
 npm run build                                                   # Build
 ```
 
-**Rust** (has `Cargo.toml`):
+**Rust** (`Cargo.toml` がある場合):
 ```bash
 cargo clippy -- -D warnings  # Lint
 cargo test                   # Tests
 cargo build                  # Build
 ```
 
-**Go** (has `go.mod`):
+**Go** (`go.mod` がある場合):
 ```bash
 go vet ./...    # Lint
 go test ./...   # Tests
 go build ./...  # Build
 ```
 
-**Python** (has `pyproject.toml` / `setup.py`):
+**Python** (`pyproject.toml` / `setup.py` がある場合):
 ```bash
 pytest  # Tests
 ```
 
-Run only the commands that apply to the detected project type. Record pass/fail for each.
+検出されたプロジェクト種別に該当するコマンドのみ実行。各コマンドの pass/fail を記録。
 
-### Phase 5 — DECIDE
+### フェーズ 5 — 判定 (Phase 5 — DECIDE)
 
-Form recommendation based on findings:
+所見に基づき推奨を決定:
 
 | Condition | Decision |
 |---|---|
-| Zero CRITICAL/HIGH issues, validation passes | **APPROVE** |
-| Only MEDIUM/LOW issues, validation passes | **APPROVE** with comments |
-| Any HIGH issues or validation failures | **REQUEST CHANGES** |
-| Any CRITICAL issues | **BLOCK** — must fix before merge |
+| CRITICAL/HIGH 問題ゼロ、検証成功 | **APPROVE** |
+| MEDIUM/LOW のみ、検証成功 | コメント付き **APPROVE** |
+| HIGH 問題または検証失敗あり | **REQUEST CHANGES** |
+| CRITICAL 問題あり | **BLOCK** — マージ前に必須修正 |
 
-Special cases:
-- Draft PR → Always use **COMMENT** (not approve/block)
-- Only docs/config changes → Lighter review, focus on correctness
-- Explicit `--approve` or `--request-changes` flag → Override decision (but still report all findings)
+特殊ケース:
+- Draft PR → 常に **COMMENT**（approve/block しない）
+- docs/config のみの変更 → 軽いレビュー、正確性に焦点
+- 明示的な `--approve` または `--request-changes` フラグ → 判定を上書き（ただし全所見は報告）
 
-### Phase 6 — REPORT
+### フェーズ 6 — レポート (Phase 6 — REPORT)
 
-Create review artifact at `.claude/reviews/pr-<NUMBER>-review.md` unless the repo already uses legacy `.claude/PRPs/reviews/` for this workstream:
+リポジトリがレガシー `.claude/PRPs/reviews/` をこのワークストリームで既に使用していない限り、`.claude/reviews/pr-<NUMBER>-review.md` にレビュー成果物を作成:
 
 ```markdown
 # PR Review: #<NUMBER> — <TITLE>
@@ -228,9 +228,9 @@ Create review artifact at `.claude/reviews/pr-<NUMBER>-review.md` unless the rep
 <list of files with change type: Added/Modified/Deleted>
 ```
 
-### Phase 7 — PUBLISH
+### フェーズ 7 — 公開 (Phase 7 — PUBLISH)
 
-Post the review to GitHub:
+GitHub にレビューを投稿:
 
 ```bash
 # If APPROVE
@@ -243,7 +243,7 @@ gh pr review <NUMBER> --request-changes --body "<summary with required fixes>"
 gh pr review <NUMBER> --comment --body "<summary>"
 ```
 
-For inline comments on specific lines, use the GitHub review comments API:
+特定行へのインラインコメントには GitHub review comments API を使用:
 ```bash
 gh api "repos/{owner}/{repo}/pulls/<NUMBER>/comments" \
   -f body="<comment>" \
@@ -253,7 +253,7 @@ gh api "repos/{owner}/{repo}/pulls/<NUMBER>/comments" \
   -f commit_id="$(gh pr view <NUMBER> --json headRefOid --jq .headRefOid)"
 ```
 
-Alternatively, post a single review with multiple inline comments at once:
+または、複数のインラインコメントを一度に投稿:
 ```bash
 gh api "repos/{owner}/{repo}/pulls/<NUMBER>/reviews" \
   -f event="COMMENT" \
@@ -261,9 +261,9 @@ gh api "repos/{owner}/{repo}/pulls/<NUMBER>/reviews" \
   --input comments.json  # [{"path": "file", "line": N, "body": "comment"}, ...]
 ```
 
-### Phase 8 — OUTPUT
+### フェーズ 8 — 出力 (Phase 8 — OUTPUT)
 
-Report to user:
+ユーザーに報告:
 
 ```
 PR #<NUMBER>: <TITLE>
@@ -282,8 +282,8 @@ Next steps:
 
 ---
 
-## Edge Cases
+## エッジケース (Edge Cases)
 
-- **No `gh` CLI**: Fall back to local-only review (read the diff, skip GitHub publish). Warn user.
-- **Diverged branches**: Suggest `git fetch origin && git rebase origin/<base>` before review.
-- **Large PRs (>50 files)**: Warn about review scope. Focus on source changes first, then tests, then config/docs.
+- **`gh` CLI なし**: ローカルのみのレビューにフォールバック（diff を読み、GitHub 公開はスキップ）。ユーザーに警告。
+- **分岐したブランチ**: レビュー前に `git fetch origin && git rebase origin/<base>` を提案。
+- **大きな PR（50 ファイル超）**: レビュー範囲について警告。まずソース変更、次にテスト、最後に config/docs に焦点。

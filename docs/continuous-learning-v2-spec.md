@@ -1,14 +1,14 @@
-# Continuous Learning v2 Spec
+# Continuous Learning v2 仕様 (Continuous Learning v2 Spec)
 
-This document captures the v2 continuous-learning architecture:
+このドキュメントは v2 continuous-learning アーキテクチャを記述します：
 
-1. Hook-based observation capture
-2. Background observer analysis loop
-3. Instinct scoring and persistence
-4. Evolution of instincts into reusable skills/commands
+1. Hook ベースの観測キャプチャ
+2. バックグラウンド observer 分析ループ
+3. Instinct のスコアリングと永続化
+4. Instinct から再利用可能な skills/commands への進化
 
-Primary implementation lives in:
+主な実装は次にあります：
 - `skills/continuous-learning-v2/`
 - `scripts/hooks/`
 
-Use this file as the stable reference path for docs and translations.
+docs と翻訳向けの安定した参照パスとしてこのファイルを使用してください。

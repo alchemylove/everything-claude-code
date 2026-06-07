@@ -1,53 +1,46 @@
-# ECC v2.0.0-rc.1 Release Name And Plugin Publication Checklist
+# ECC v2.0.0-rc.1 リリース名とプラグイン公開チェックリスト (ECC v2.0.0-rc.1 Release Name And Plugin Publication Checklist)
 
-Snapshot date: 2026-05-18. Canonical repo decision refreshed 2026-05-19
-after the public repo rename to `affaan-m/ECC`; release/package state refreshed
-2026-05-26 after the GitHub prerelease and npm `next` readbacks succeeded.
+スナップショット日: 2026-05-18。公開リポジトリ名を `affaan-m/ECC` に変更した後、2026-05-19 に正規リポジトリ決定を更新。GitHub prerelease と npm `next` の readback が成功した後、2026-05-26 にリリース/パッケージ状態を更新。
 
-This checklist is the operator gate for release naming, package publication,
-and Claude/Codex plugin distribution. It is not a publication action by itself.
-Run it from the exact release commit before creating tags, publishing npm,
-submitting marketplace forms, or posting announcements.
+このチェックリストは、リリース名、パッケージ公開、Claude/Codex プラグイン配布のオペレーターゲートである。それ自体は公開アクションではない。タグ作成、npm 公開、マーケットプレイスフォーム送信、告知投稿の前に、正確なリリースコミットから実行すること。
 
-## Fixed rc.1 Decision
+## 確定済み rc.1 決定 (Fixed rc.1 Decision)
 
-Ship `v2.0.0-rc.1` as **ECC**.
+`v2.0.0-rc.1` を **ECC** として出荷する。
 
-- Keep the GitHub repo at `affaan-m/ECC`.
-- Keep the npm package as `ecc-universal`.
-- Keep Claude and Codex plugin slugs as `ecc`.
-- Publish the npm prerelease on the `next` dist-tag, not `latest`.
-- Do not rename the npm package to `ecc` or `@affaan-m/ecc` before rc.1.
-- Treat `affaan-m/ECC` as the canonical public repo for rc.1 and GA release
-  copy.
+- GitHub リポジトリは `affaan-m/ECC` のまま維持する。
+- npm パッケージは `ecc-universal` のまま維持する。
+- Claude と Codex のプラグイン slug は `ecc` のまま維持する。
+- npm prerelease は `latest` ではなく `next` dist-tag で公開する。
+- rc.1 の前に npm パッケージ名を `ecc` または `@affaan-m/ecc` にリネームしない。
+- rc.1 と GA リリースコピーの正規公開リポジトリとして `affaan-m/ECC` を扱う。
 
-Reasons:
+理由:
 
-- `ecc-universal` is the current working install and package surface.
-- `ecc` on npm is occupied by an unrelated elliptic-curve package.
-- `@affaan-m/ecc` is unclaimed on npm, but would require a migration plan.
-- `affaan-m/ECC` is now the live public GitHub repo.
-- Claude and Codex already expose the desired short namespace as `ecc`.
+- `ecc-universal` が現在の動作するインストールとパッケージ surface である。
+- npm の `ecc` は無関係な楕円曲線パッケージに占有されている。
+- `@affaan-m/ecc` は npm 上で未請求だが、移行計画が必要になる。
+- `affaan-m/ECC` が現在のライブ公開 GitHub リポジトリである。
+- Claude と Codex はすでに `ecc` として望ましい短い namespace を公開している。
 
-## Current Surface Evidence
+## 現在の Surface 証拠 (Current Surface Evidence)
 
-| Surface | Current value | Evidence command | Current result | Release action |
+| サーフェス (Surface) | 現在値 (Current value) | エビデンスコマンド (Evidence command) | 現在の結果 (Current result) | リリースアクション (Release action) |
 | --- | --- | --- | --- | --- |
-| Git commit | `67e63e63f9bfd074bd6a21bf6bac71f3dfefa58b` | `git rev-parse HEAD` | Recorded from clean `main` before this ITO-46 evidence refresh | Re-run from final release commit |
-| GitHub repo | `affaan-m/ECC` | `git remote get-url origin` | `https://github.com/affaan-m/ECC.git` | Keep for rc.1 and GA |
-| npm package | `ecc-universal@2.0.0-rc.1` local and registry next, `1.10.0` registry latest | `node -p "require('./package.json').name + '@' + require('./package.json').version"` and `npm view ecc-universal name version dist-tags --json` | Local rc.1 ready; registry `next` points to `2.0.0-rc.1`; `latest` remains `1.10.0` | Keep rc.1 on `next`; do not move to `latest` before GA approval |
-| Exact npm short name | `ecc` | `npm view ecc name version description repository.url --json` | Occupied by unrelated `ecc@0.0.2` | Do not use |
-| Scoped npm short name | `@affaan-m/ecc` | `npm view @affaan-m/ecc name version --json` | 404 | Candidate only after migration plan |
-| Claude plugin | `ecc@2.0.0-rc.1` | `claude plugin validate .claude-plugin/plugin.json`; `claude plugin validate .`; `claude plugin tag .claude-plugin --dry-run` | Validation passed on Claude Code `2.1.143`; full plugin validation has one expected root `CLAUDE.md` context warning; dry run would create `ecc--v2.0.0-rc.1` | Run dry-run tag again from the final commit, then tag/push only after approval |
-| Claude marketplace | `.claude-plugin/marketplace.json` | `claude plugin marketplace add --help`; Anthropic plugin marketplace docs | GitHub repo, git URL, remote marketplace JSON, and local path marketplace sources are supported | Verify post-tag marketplace install/update path after final evidence |
-| Codex plugin | `ecc@2.0.0-rc.1` | `node tests/plugin-manifest.test.js`; `codex plugin marketplace add --help`; OpenAI Codex plugin docs | Plugin manifest passed 54/54; local and GitHub-ref repo marketplace smokes passed on Codex CLI `0.131.0` | Use repo marketplace for rc.1; do not claim official directory listing until OpenAI publishing path is available |
-| OpenCode package | `ecc-universal@2.0.0-rc.1` | `node -p "require('./.opencode/package.json').name + '@' + require('./.opencode/package.json').version"` | Matches rc.1 package identity | Follow npm package publication |
-| Billing claim | ECC Tools selected-target billing evidence ready | ECC Tools billing gate and Marketplace account readback | May 20 selected-target readback and live selected-target announcement gate passed with `announcementGateReady: true`; repeat immediately before announcement | Do not announce native payments until final release/plugin/live URL approvals are green |
+| Git commit | `67e63e63f9bfd074bd6a21bf6bac71f3dfefa58b` | `git rev-parse HEAD` | この ITO-46 証拠更新前のクリーンな `main` から記録 | 最終リリースコミットから再実行 |
+| GitHub repo | `affaan-m/ECC` | `git remote get-url origin` | `https://github.com/affaan-m/ECC.git` | rc.1 と GA で維持 |
+| npm package | ローカル `ecc-universal@2.0.0-rc.1`、registry `next`、registry `latest` は `1.10.0` | `node -p "require('./package.json').name + '@' + require('./package.json').version"` and `npm view ecc-universal name version dist-tags --json` | ローカル rc.1 準備完了; registry `next` は `2.0.0-rc.1` を指す; `latest` は `1.10.0` のまま | rc.1 を `next` に維持; GA 承認前に `latest` へ移動しない |
+| 正確な npm 短名 (Exact npm short name) | `ecc` | `npm view ecc name version description repository.url --json` | 無関係な `ecc@0.0.2` に占有 | 使用しない |
+| Scoped npm short name | `@affaan-m/ecc` | `npm view @affaan-m/ecc name version --json` | 404 | 移行計画後の候補のみ |
+| Claude plugin | `ecc@2.0.0-rc.1` | `claude plugin validate .claude-plugin/plugin.json`; `claude plugin validate .`; `claude plugin tag .claude-plugin --dry-run` | Claude Code `2.1.143` で検証成功; フルプラグイン検証には想定内のルート `CLAUDE.md` context 警告が 1 件; dry run は `ecc--v2.0.0-rc.1` を作成する | 最終コミットから dry-run tag を再実行し、承認後にのみ tag/push |
+| Claude marketplace | `.claude-plugin/marketplace.json` | `claude plugin marketplace add --help`; Anthropic plugin marketplace docs | GitHub repo、git URL、remote marketplace JSON、local path marketplace source がサポートされている | 最終証拠後に post-tag marketplace install/update path を検証 |
+| Codex plugin | `ecc@2.0.0-rc.1` | `node tests/plugin-manifest.test.js`; `codex plugin marketplace add --help`; OpenAI Codex plugin docs | Plugin manifest は 54/54 合格; Codex CLI `0.131.0` で local と GitHub-ref repo marketplace smoke が合格 | rc.1 には repo marketplace を使用; OpenAI 公開パスが利用可能になるまで公式 directory listing を主張しない |
+| OpenCode package | `ecc-universal@2.0.0-rc.1` | `node -p "require('./.opencode/package.json').name + '@' + require('./.opencode/package.json').version"` | rc.1 パッケージ identity と一致 | npm パッケージ公開に従う |
+| Billing 主張 (Billing claim) | ECC Tools selected-target billing エビデンス ready | ECC Tools billing gate と Marketplace account readback | 5月20日 selected-target readback と live selected-target announcement gate が `announcementGateReady: true` で合格; 告知直前に再実行 | 最終リリース/プラグイン/live URL 承認がすべて green になるまで native payments を告知しない |
 
-## Required Gate
+## 必須ゲート (Required Gate)
 
-Run these checks from the final release commit and paste the exact output into
-a fresh `publication-evidence-YYYY-MM-DD.md` file before release actions:
+最終リリースコミットからこれらのチェックを実行し、リリースアクション前に正確な出力を新しい `publication-evidence-YYYY-MM-DD.md` ファイルに貼り付けること:
 
 ```bash
 git status --short --branch
@@ -70,42 +63,35 @@ npm run preview-pack:smoke
 npm run release:approval-gate -- --format json
 ```
 
-If a command is unavailable on the release machine, record the exact error and
-keep the related publication action blocked.
+リリースマシンでコマンドが利用できない場合は、正確なエラーを記録し、関連する公開アクションをブロックしたままにすること。
 
-## Publication Order
+## 公開順序 (Publication Order)
 
-| Step | Action | Required evidence | Stop condition |
+| ステップ (Step) | アクション (Action) | 必要なエビデンス (Required evidence) | 停止条件 (Stop condition) |
 | --- | --- | --- | --- |
-| 1 | Freeze name and version | Package, Claude plugin, Codex plugin, OpenCode package, `VERSION`, and release docs all say `2.0.0-rc.1` | Any `preview`/`rc.1` mismatch |
-| 2 | Verify clean release branch | `git status --short --branch` shows only the intended release commit and no unrelated drift | Any unexplained dirty file |
-| 3 | Verify package and plugin manifests | `node tests/plugin-manifest.test.js` and `node tests/docs/ecc2-release-surface.test.js` pass | Manifest or release-surface failure |
-| 4 | Dry-run package surface | `npm pack --dry-run --json`; `npm publish --tag next --dry-run` | Missing files, wrong dist-tag, or publish dry-run failure |
-| 5 | Dry-run Claude distribution | `claude plugin validate`; `claude plugin tag .claude-plugin --dry-run`; marketplace source/help evidence | Validation, tag, or install-smoke failure |
-| 6 | Verify Codex repo marketplace | `codex plugin marketplace add --help`; temp-home local and GitHub-ref repo marketplace add smoke; OpenAI official directory status recorded | Missing repo marketplace or unverified official-directory status |
-| 7 | Verify OpenCode package | `npm run build:opencode` | Build failure |
-| 8 | Regenerate release URL ledger | Live and approval-gated URLs separated in `release-url-ledger-YYYY-MM-DD.md` | Placeholder, private URL, or announcement URL drift |
-| 9 | Verify GitHub prerelease | `gh release view v2.0.0-rc.1 --json tagName,url,isPrerelease` | Missing URL or wrong prerelease flag |
-| 10 | Verify npm rc | `npm view ecc-universal version dist-tags --json` shows rc.1 on `next` and latest still on GA/stable | rc.1 lands on `latest` or registry output is unclear |
-| 11 | Publish/plugin-submit | Claude official submission and Codex repo marketplace evidence recorded | Form not submitted, listing not visible, or docs status changed |
-| 12 | Announce | X, LinkedIn, GitHub release, and longform copy use final live URLs | Any final URL is still pending |
+| 1 | 名前とバージョンを凍結 | Package、Claude plugin、Codex plugin、OpenCode package、`VERSION`、リリースドキュメントがすべて `2.0.0-rc.1` と一致 | `preview`/`rc.1` の不一致 |
+| 2 | クリーンなリリースブランチを検証 | `git status --short --branch` が意図したリリースコミットのみを示し、無関係な drift がない | 説明不能な dirty file |
+| 3 | パッケージとプラグイン manifest を検証 | `node tests/plugin-manifest.test.js` と `node tests/docs/ecc2-release-surface.test.js` が合格 | Manifest または release-surface の失敗 |
+| 4 | パッケージ surface を dry-run | `npm pack --dry-run --json`; `npm publish --tag next --dry-run` | 欠落ファイル、誤った dist-tag、publish dry-run の失敗 |
+| 5 | Claude 配布を dry-run | `claude plugin validate`; `claude plugin tag .claude-plugin --dry-run`; marketplace source/help 証拠 | 検証、tag、install-smoke の失敗 |
+| 6 | Codex repo marketplace を検証 | `codex plugin marketplace add --help`; temp-home local と GitHub-ref repo marketplace add smoke; OpenAI 公式 directory ステータスを記録 | repo marketplace の欠落または未検証の公式 directory ステータス |
+| 7 | OpenCode パッケージを検証 | `npm run build:opencode` | ビルド失敗 |
+| 8 | リリース URL ledger を再生成 | `release-url-ledger-YYYY-MM-DD.md` で live と approval-gated URL を分離 | プレースホルダー、private URL、announcement URL の drift |
+| 9 | GitHub prerelease を検証 | `gh release view v2.0.0-rc.1 --json tagName,url,isPrerelease` | URL 欠落または誤った prerelease フラグ |
+| 10 | npm rc を検証 | `npm view ecc-universal version dist-tags --json` が rc.1 を `next` に、latest を GA/stable に示す | rc.1 が `latest` に載る、または registry 出力が不明確 |
+| 11 | 公開/プラグイン送信 | Claude 公式送信と Codex repo marketplace 証拠を記録 | フォーム未送信、listing 非表示、または docs ステータス変更 |
+| 12 | 告知 | X、LinkedIn、GitHub release、longform コピーが最終 live URL を使用 | 最終 URL がまだ pending |
 
-## Do Not Proceed
+## 進めてはいけないこと (Do Not Proceed)
 
-- Do not publish an additional npm build before `npm pack --dry-run --json` is
-  captured from the final release commit.
-- Do not create or push Claude plugin tags before `claude plugin tag
-  .claude-plugin --dry-run` passes from the final release commit.
-- Do not claim an official Codex Plugin Directory listing unless OpenAI
-  documents a public submission path or confirms the plugin has been listed.
-- Do not announce billing, Marketplace, or native payments until ECC Tools live
-  Marketplace account readback returns ready.
-- Do not rename the npm package until rc.1 is published and a migration guide
-  maps old install names to new names.
-- Do not post social copy while any required plugin, video, billing, or
-  outbound URL is still approval-gated.
+- 最終リリースコミットから `npm pack --dry-run --json` を取得する前に、追加の npm ビルドを公開しない。
+- 最終リリースコミットから `claude plugin tag .claude-plugin --dry-run` が合格する前に、Claude プラグイン tag を作成または push しない。
+- OpenAI が公開送信パスを文書化するか、プラグインが listing されたことを確認しない限り、公式 Codex Plugin Directory listing を主張しない。
+- ECC Tools live Marketplace account readback が ready を返すまで、billing、Marketplace、native payments を告知しない。
+- rc.1 が公開され、移行ガイドが旧インストール名から新インストール名へマッピングするまで、npm パッケージをリネームしない。
+- 必須のプラグイン、video、billing、outbound URL がまだ approval-gated の間は、ソーシャルコピーを投稿しない。
 
-## External Distribution Sources
+## 外部配布ソース (External Distribution Sources)
 
 - Anthropic Claude Code plugin docs: `https://code.claude.com/docs/en/plugins`
 - Anthropic Claude Code marketplace docs:
@@ -113,8 +99,4 @@ keep the related publication action blocked.
 - OpenAI Codex plugin docs:
   `https://developers.openai.com/codex/plugins/build#add-a-marketplace-from-the-cli`
 
-As of this snapshot, Anthropic documents self-hosted marketplace distribution
-through GitHub, git URL, remote marketplace JSON, and local path sources.
-OpenAI documents repo/personal marketplace distribution for Codex and describes
-an official Plugin Directory, but ECC has not submitted or received an official
-directory listing in this pass.
+このスナップショット時点で、Anthropic は GitHub、git URL、remote marketplace JSON、local path source を通じた self-hosted marketplace 配布を文書化している。OpenAI は Codex の repo/personal marketplace 配布を文書化し、公式 Plugin Directory について説明しているが、ECC はこの pass で公式 directory listing を送信または受領していない。

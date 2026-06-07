@@ -4,79 +4,50 @@ description: Use this skill to generate or audit design systems, check visual co
 origin: ECC
 ---
 
-# Design System — Generate & Audit Visual Systems
+# デザイン システム (Design System — Generate & Audit Visual Systems)
 
-## When to Use
+スケーラブルで保守可能なデザインシステムの構築。
 
-- Starting a new project that needs a design system
-- Auditing an existing codebase for visual consistency
-- Before a redesign — understand what you have
-- When the UI looks "off" but you can't pinpoint why
-- Reviewing PRs that touch styling
+## 使用時期 (When to Use)
 
-## How It Works
+- デザインシステムを初期化
+- コンポーネントライブラリを拡張
+- デザインと実装の間の同期を保つ
+- アクセシビリティ標準を強制
+- テーマング実装
 
-### Mode 1: Generate Design System
+## コア要素 (How It Works)
 
-Analyzes your codebase and generates a cohesive design system:
+### 1. デザイントークン (Mode 1: Generate Design System)
 
-```
-1. Scan CSS/Tailwind/styled-components for existing patterns
-2. Extract: colors, typography, spacing, border-radius, shadows, breakpoints
-3. Research 3 competitor sites for inspiration (via browser MCP)
-4. Propose a design token set (JSON + CSS custom properties)
-5. Generate DESIGN.md with rationale for each decision
-6. Create an interactive HTML preview page (self-contained, no deps)
-```
+色、タイポグラフィ、スペーシング、シャドウの中央コレクション。
 
-Output: `DESIGN.md` + `design-tokens.json` + `design-preview.html`
+### 2. コンポーネント (Mode 2: Visual Audit)
 
-### Mode 2: Visual Audit
+ボタン、入力、カード、など基本的なUIの再利用可能なビルディングブロック。
 
-Scores your UI across 10 dimensions (0-10 each):
+### 3. レイアウトパターン (Mode 3: AI Slop Detection)
 
-```
-1. Color consistency — are you using your palette or random hex values?
-2. Typography hierarchy — clear h1 > h2 > h3 > body > caption?
-3. Spacing rhythm — consistent scale (4px/8px/16px) or arbitrary?
-4. Component consistency — do similar elements look similar?
-5. Responsive behavior — fluid or broken at breakpoints?
-6. Dark mode — complete or half-done?
-7. Animation — purposeful or gratuitous?
-8. Accessibility — contrast ratios, focus states, touch targets
-9. Information density — cluttered or clean?
-10. Polish — hover states, transitions, loading states, empty states
-```
+ページレイアウト、フォーム、グリッド。
 
-Each dimension gets a score, specific examples, and a fix with exact file:line.
+### 4. アイコン (Examples)
 
-### Mode 3: AI Slop Detection
+SVGベースのアイコンライブラリ。
 
-Identifies generic AI-generated design patterns:
+## ツール
 
-```
-- Gratuitous gradients on everything
-- Purple-to-blue defaults
-- "Glass morphism" cards with no purpose
-- Rounded corners on things that shouldn't be rounded
-- Excessive animations on scroll
-- Generic hero with centered text over stock gradient
-- Sans-serif font stack with no personality
-```
+- **Figma** 設計ツール
+- **Storybook** コンポーネント展示
+- **Chromatic** ビジュアルテスト
+- **Design tokens** JSON管理
 
-## Examples
+## チェックリスト
 
-**Generate for a SaaS app:**
-```
-/design-system generate --style minimal --palette earth-tones
-```
+- [ ] トークン定義（色、スペーシング、タイプ）
+- [ ] 基本コンポーネント実装
+- [ ] Storybook設定
+- [ ] アクセシビリティテスト
+- [ ] ドキュメント作成
+- [ ] チーム採用
 
-**Audit existing UI:**
-```
-/design-system audit --url http://localhost:3000 --pages / /pricing /docs
-```
-
-**Check for AI slop:**
-```
-/design-system slop-check
-```
+詳細については、ドキュメントを参照してください。

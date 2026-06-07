@@ -6,16 +6,16 @@ paths:
   - "**/*.store.ts"
   - "**/*.routes.ts"
 ---
-# Angular Patterns
+# Angular パターン (Angular Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with Angular specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Angular 固有の内容を追加する。
 
-## Smart / Dumb Component Split
+## Smart / Dumb コンポーネント分離 (Smart / Dumb Component Split)
 
-Smart (container) components own data fetching and state. Dumb (presentational) components receive inputs and emit outputs only — no service injection.
+Smart（コンテナ）コンポーネントはデータ取得と状態を所有します。Dumb（プレゼンテーション）コンポーネントは入力の受け取りと出力の発行のみを行い、サービスの注入は行いません。
 
 ```typescript
-// Smart — owns data
+// Smart — データを所有
 @Component({ standalone: true, changeDetection: ChangeDetectionStrategy.OnPush })
 export class UserPageComponent {
   private userService = inject(UserService);
@@ -24,13 +24,13 @@ export class UserPageComponent {
 ```
 
 ```html
-<!-- Dumb — pure presentation -->
+<!-- Dumb — 純粋なプレゼンテーション -->
 <app-user-card [user]="user()" (select)="onSelect($event)" />
 ```
 
-## Service Layer
+## サービスレイヤー (Service Layer)
 
-Services own all data access and business logic. Components delegate — no `HttpClient` in components.
+サービスがすべてのデータアクセスとビジネスロジックを所有します。コンポーネントは委譲のみ — コンポーネント内に `HttpClient` を配置しないでください。
 
 ```typescript
 @Injectable({ providedIn: 'root' })
@@ -43,9 +43,9 @@ export class UserService {
 }
 ```
 
-## Async Data with `resource`
+## `resource` を使用した非同期データ (Async Data with `resource`)
 
-Use `resource()` for reactive async fetching. Prefer over manual RxJS pipelines for simple data loading:
+リアクティブな非同期フェッチには `resource()` を使用してください。単純なデータ読み込みには手動の RxJS パイプラインよりも優先してください:
 
 ```typescript
 export class UserDetailComponent {
@@ -59,29 +59,29 @@ export class UserDetailComponent {
 }
 ```
 
-Access state: `userResource.value()`, `userResource.isLoading()`, `userResource.error()`, `userResource.reload()`.
+状態へのアクセス: `userResource.value()`、`userResource.isLoading()`、`userResource.error()`、`userResource.reload()`。
 
-## Signal State Patterns
+## シグナル状態パターン (Signal State Patterns)
 
 ```typescript
-// Local mutable state
+// ローカルの可変状態
 count = signal(0);
 
-// Derived (never duplicated)
+// 派生（複製しない）
 doubled = computed(() => this.count() * 2);
 
-// Writable derived state that resets with source
+// ソースとともにリセットされる書き込み可能な派生状態
 selectedItem = linkedSignal(() => this.items()[0]);
 
-// Bridge Observable to signal
+// Observable からシグナルへのブリッジ
 users = toSignal(this.userService.getUsers(), { initialValue: [] });
 ```
 
-Never store derived values in separate signals — use `computed`. Never use `effect` to sync signals — use `computed` or `linkedSignal`.
+派生値を別のシグナルに格納しないでください — `computed` を使用してください。シグナルの同期に `effect` を使用しないでください — `computed` または `linkedSignal` を使用してください。
 
-## Subscription Cleanup
+## サブスクリプションのクリーンアップ (Subscription Cleanup)
 
-Use `takeUntilDestroyed()` for all manual subscriptions. Never use manual `ngOnDestroy` + `Subject` + `takeUntil` on new code.
+すべての手動サブスクリプションには `takeUntilDestroyed()` を使用してください。新しいコードでは手動の `ngOnDestroy` + `Subject` + `takeUntil` を使用しないでください。
 
 ```typescript
 export class UserComponent {
@@ -95,9 +95,9 @@ export class UserComponent {
 }
 ```
 
-## Routing
+## ルーティング (Routing)
 
-### Route Definition
+### ルート定義 (Route Definition)
 
 ```typescript
 // app.routes.ts
@@ -105,7 +105,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'admin',
-    canMatch: [authGuard],           // CanMatch prevents loading the chunk at all
+    canMatch: [authGuard],           // CanMatch はチャンクの読み込み自体を防止
     loadChildren: () => import('./admin/admin.routes').then(m => m.ADMIN_ROUTES),
   },
   {
@@ -116,11 +116,11 @@ export const routes: Routes = [
 ];
 ```
 
-- Use `canMatch` over `canActivate` when the route module should not load for unauthorized users
-- Lazy-load all feature modules with `loadChildren`
-- Pre-fetch data with `resolve` to avoid loading states in components
+- 未認証ユーザーに対してルートモジュールを読み込まないようにする場合は `canMatch` を `canActivate` より優先
+- すべての機能モジュールを `loadChildren` で遅延読み込み
+- コンポーネント内のローディング状態を回避するため `resolve` でデータをプリフェッチ
 
-### Functional Guards
+### 関数型ガード (Functional Guards)
 
 ```typescript
 export const authGuard: CanActivateFn = () => {
@@ -131,7 +131,7 @@ export const authGuard: CanActivateFn = () => {
 };
 ```
 
-### Data Resolvers
+### データリゾルバ (Data Resolvers)
 
 ```typescript
 export const userResolver: ResolveFn<User> = (route) => {
@@ -139,49 +139,49 @@ export const userResolver: ResolveFn<User> = (route) => {
 };
 ```
 
-### View Transitions
+### ビュートランジション (View Transitions)
 
-Enable smooth route transitions with the View Transitions API:
+View Transitions API でスムーズなルート遷移を有効化:
 
 ```typescript
 // app.config.ts
 provideRouter(routes, withViewTransitions())
 ```
 
-## Dependency Injection Patterns
+## 依存性注入パターン (Dependency Injection Patterns)
 
-### Scoped Providers
+### スコープ付きプロバイダ (Scoped Providers)
 
-Provide services at component or route level when they should not be singletons:
+サービスがシングルトンであるべきでない場合、コンポーネントまたはルートレベルで提供してください:
 
 ```typescript
 @Component({
-  providers: [UserEditService],   // scoped to this component subtree
+  providers: [UserEditService],   // このコンポーネントサブツリーにスコープ
 })
 export class UserEditComponent {}
 ```
 
-### `InjectionToken`
+### `InjectionToken` (`InjectionToken`)
 
 ```typescript
 export const CONFIG = new InjectionToken<AppConfig>('APP_CONFIG');
 
-// In providers:
+// プロバイダ内:
 { provide: CONFIG, useValue: appConfig }
 { provide: CONFIG, useFactory: () => loadConfig(), deps: [] }
 
-// Consume:
+// 使用:
 private config = inject(CONFIG);
 ```
 
-### `viewProviders` vs `providers`
+### `viewProviders` と `providers` (`viewProviders` vs `providers`)
 
-- `providers`: Available to the component and all its content children
-- `viewProviders`: Available only to the component's own view (not projected content)
+- `providers`: コンポーネントとそのすべてのコンテンツ子要素で利用可能
+- `viewProviders`: コンポーネント自身のビューでのみ利用可能（投影されたコンテンツでは不可）
 
-## HTTP Interceptors
+## HTTP インターセプター (HTTP Interceptors)
 
-Use functional interceptors (v15+) for auth, error handling, and retries:
+認証、エラーハンドリング、リトライには関数型インターセプター（v15+）を使用してください:
 
 ```typescript
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
@@ -191,18 +191,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 };
 ```
 
-Register in `app.config.ts`:
+`app.config.ts` で登録:
 
 ```typescript
 provideHttpClient(withInterceptors([authInterceptor, errorInterceptor]))
 ```
 
-## RxJS Operators
+## RxJS オペレータ (RxJS Operators)
 
-- `switchMap` — search, navigation (cancels previous)
-- `mergeMap` — independent parallel requests
-- `exhaustMap` — form submissions (ignores until complete)
-- Always handle errors with `catchError` — never let streams die silently
+- `switchMap` — 検索、ナビゲーション（前のリクエストをキャンセル）
+- `mergeMap` — 独立した並列リクエスト
+- `exhaustMap` — フォーム送信（完了するまで無視）
+- 常に `catchError` でエラーを処理 — ストリームを暗黙的に死なせない
 
 ```typescript
 search$ = this.query$.pipe(
@@ -212,12 +212,12 @@ search$ = this.query$.pipe(
 );
 ```
 
-## Forms
+## フォーム (Forms)
 
-Match the project's existing form strategy. For new v21+ apps, prefer signal forms.
+プロジェクトの既存のフォーム戦略に合わせてください。v21+ の新規アプリにはシグナルフォームを優先してください。
 
 ```typescript
-// Reactive Forms — standard for complex forms
+// Reactive Forms — 複雑なフォームの標準
 export class UserFormComponent {
   private fb = inject(FormBuilder);
 
@@ -228,22 +228,22 @@ export class UserFormComponent {
 }
 ```
 
-## Rendering Strategies
+## レンダリング戦略 (Rendering Strategies)
 
-- **CSR** (default): Standard SPA
-- **SSR + Hydration**: `ng add @angular/ssr` — improves FCP and SEO
-- **SSG (Prerendering)**: Static pages at build time for content-heavy routes
+- **CSR**（デフォルト）: 標準 SPA
+- **SSR + ハイドレーション**: `ng add @angular/ssr` — FCP と SEO を改善
+- **SSG（プリレンダリング）**: コンテンツの多いルート向けにビルド時に静的ページを生成
 
-When using SSR, avoid `window`, `document`, `localStorage` directly — use `isPlatformBrowser` or `DOCUMENT` token.
+SSR を使用する場合、`window`、`document`、`localStorage` を直接使用しないでください — `isPlatformBrowser` または `DOCUMENT` トークンを使用してください。
 
-## Accessibility
+## アクセシビリティ (Accessibility)
 
-Use Angular CDK for headless, accessible components (Accordion, Listbox, Combobox, Menu, Tabs, Toolbar, Tree, Grid). Style ARIA attributes rather than managing them manually:
+ヘッドレスでアクセシブルなコンポーネント（Accordion、Listbox、Combobox、Menu、Tabs、Toolbar、Tree、Grid）には Angular CDK を使用してください。ARIA 属性を手動で管理するのではなく、スタイルを適用してください:
 
 ```css
 [aria-selected="true"] { background: var(--color-selected); }
 ```
 
-## Skill Reference
+## スキルリファレンス (Skill Reference)
 
-See skill: `angular-developer` for deep guidance on signals, forms, routing, DI, SSR, and accessibility patterns.
+シグナル、フォーム、ルーティング、DI、SSR、アクセシビリティパターンの詳細なガイダンスについては、スキル: `angular-developer` を参照してください。

@@ -1,34 +1,33 @@
 ---
 name: bun-runtime
-description: Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support.
-origin: ECC
+description: ランタイム・パッケージマネージャー・バンドラー・テストランナーとして Bun を使うパターン。Bun vs Node の選択、移行メモ、Vercel サポート。Bun, Node, migration, Vercel.
 ---
 
-# Bun Runtime
+# Bun ランタイム (Bun Runtime)
 
-Bun is a fast all-in-one JavaScript runtime and toolkit: runtime, package manager, bundler, and test runner.
+Bun は高速なオールインワン JavaScript ランタイムおよびツールキットです。ランタイム、パッケージマネージャー、バンドラー、テストランナーを兼ね備えています。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- **Prefer Bun** for: new JS/TS projects, scripts where install/run speed matters, Vercel deployments with Bun runtime, and when you want a single toolchain (run + install + test + build).
-- **Prefer Node** for: maximum ecosystem compatibility, legacy tooling that assumes Node, or when a dependency has known Bun issues.
+- **Bun を優先:** 新規 JS/TS プロジェクト、インストール/実行速度が重要なスクリプト、Bun ランタイムでの Vercel デプロイ、単一ツールチェーン（run + install + test + build）を望む場合。
+- **Node を優先:** 最大のエコシステム互換性、Node を前提としたレガシーツール、既知の Bun 互換問題がある依存関係がある場合。
 
-Use when: adopting Bun, migrating from Node, writing or debugging Bun scripts/tests, or configuring Bun on Vercel or other platforms.
+次の場合に使用: Bun の採用、Node からの移行、Bun スクリプト/テストの作成・デバッグ、Vercel や他プラットフォームでの Bun 設定。
 
-## How It Works
+## 仕組み (How It Works)
 
-- **Runtime**: Drop-in Node-compatible runtime (built on JavaScriptCore, implemented in Zig).
-- **Package manager**: `bun install` is significantly faster than npm/yarn. Lockfile is `bun.lock` (text) by default in current Bun; older versions used `bun.lockb` (binary).
-- **Bundler**: Built-in bundler and transpiler for apps and libraries.
-- **Test runner**: Built-in `bun test` with Jest-like API.
+- **Runtime**: Node 互換のドロップインランタイム（JavaScriptCore 上に構築、Zig で実装）。
+- **Package manager**: `bun install` は npm/yarn より大幅に高速。現在の Bun ではデフォルトのロックファイルは `bun.lock`（テキスト）。旧バージョンは `bun.lockb`（バイナリ）を使用。
+- **Bundler**: アプリとライブラリ向けの組み込みバンドラーとトランスパイラ。
+- **Test runner**: Jest 風 API の組み込み `bun test`。
 
-**Migration from Node**: Replace `node script.js` with `bun run script.js` or `bun script.js`. Run `bun install` in place of `npm install`; most packages work. Use `bun run` for npm scripts; `bun x` for npx-style one-off runs. Node built-ins are supported; prefer Bun APIs where they exist for better performance.
+**Node からの移行**: `node script.js` を `bun run script.js` または `bun script.js` に置き換える。`npm install` の代わりに `bun install` を実行。ほとんどのパッケージは動作する。npm スクリプトには `bun run`、npx 風のワンショット実行には `bun x` を使用。Node 組み込みモジュールはサポート。パフォーマンス向上のため、存在する場合は Bun API を優先。
 
-**Vercel**: Set runtime to Bun in project settings. Build: `bun run build` or `bun build ./src/index.ts --outdir=dist`. Install: `bun install --frozen-lockfile` for reproducible deploys.
+**Vercel**: プロジェクト設定でランタイムを Bun に設定。ビルド: `bun run build` または `bun build ./src/index.ts --outdir=dist`。インストール: 再現可能なデプロイには `bun install --frozen-lockfile`。
 
-## Examples
+## 例 (Examples)
 
-### Run and install
+### 実行とインストール (Run and install)
 
 ```bash
 # Install dependencies (creates/updates bun.lock or bun.lockb)
@@ -40,14 +39,14 @@ bun run src/index.ts
 bun src/index.ts
 ```
 
-### Scripts and env
+### スクリプトと環境変数 (Scripts and env)
 
 ```bash
 bun run --env-file=.env dev
 FOO=bar bun run script.ts
 ```
 
-### Testing
+### テスト (Testing)
 
 ```bash
 bun test
@@ -63,7 +62,7 @@ test("add", () => {
 });
 ```
 
-### Runtime API
+### ランタイム API (Runtime API)
 
 ```typescript
 const file = Bun.file("package.json");
@@ -77,8 +76,8 @@ Bun.serve({
 });
 ```
 
-## Best Practices
+## ベストプラクティス (Best Practices)
 
-- Commit the lockfile (`bun.lock` or `bun.lockb`) for reproducible installs.
-- Prefer `bun run` for scripts. For TypeScript, Bun runs `.ts` natively.
-- Keep dependencies up to date; Bun and the ecosystem evolve quickly.
+- 再現可能なインストールのためロックファイル（`bun.lock` または `bun.lockb`）をコミットする。
+- スクリプトには `bun run` を優先。TypeScript は Bun が `.ts` をネイティブ実行。
+- 依存関係を最新に保つ。Bun とエコシステムは急速に進化している。

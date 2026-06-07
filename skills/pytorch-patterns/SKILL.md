@@ -8,7 +8,7 @@ origin: ECC
 
 Idiomatic PyTorch patterns and best practices for building robust, efficient, and reproducible deep learning applications.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Writing new PyTorch models or training scripts
 - Reviewing deep learning code
@@ -16,7 +16,7 @@ Idiomatic PyTorch patterns and best practices for building robust, efficient, an
 - Optimizing GPU memory usage or training speed
 - Setting up reproducible experiments
 
-## Core Principles
+## コア原則 (Core Principles)
 
 ### 1. Device-Agnostic Code
 
@@ -72,7 +72,7 @@ def forward(self, x):
     return self.fc(x)           # Will this even work?
 ```
 
-## Model Architecture Patterns
+## モデルアーキテクチャパターン (Model Architecture Patterns)
 
 ### Clean nn.Module Structure
 
@@ -126,7 +126,7 @@ model = MyModel()
 model.apply(model._init_weights)
 ```
 
-## Training Loop Patterns
+## トレーニングループパターン (Training Loop Patterns)
 
 ### Standard Training Loop
 
@@ -195,7 +195,7 @@ def evaluate(
     return total_loss / len(dataloader), correct / total
 ```
 
-## Data Pipeline Patterns
+## データパイプラインパターン (Data Pipeline Patterns)
 
 ### Custom Dataset
 
@@ -256,7 +256,7 @@ def collate_fn(batch: list[tuple[torch.Tensor, int]]) -> tuple[torch.Tensor, tor
 dataloader = DataLoader(dataset, batch_size=32, collate_fn=collate_fn)
 ```
 
-## Checkpointing Patterns
+## チェックポイントパターン (Checkpointing Patterns)
 
 ### Save and Load Checkpoints
 
@@ -291,7 +291,7 @@ def load_checkpoint(
 torch.save(model.state_dict(), "model.pt")
 ```
 
-## Performance Optimization
+## パフォーマンス最適化 (Performance Optimization)
 
 ### Mixed Precision Training
 
@@ -332,7 +332,7 @@ model = torch.compile(model, mode="reduce-overhead")
 # Modes: "default" (safe), "reduce-overhead" (faster), "max-autotune" (fastest)
 ```
 
-## Quick Reference: PyTorch Idioms
+## クイックリファレンス: PyTorch イディオム (Quick Reference: PyTorch Idioms)
 
 | Idiom | Description |
 |-------|-------------|
@@ -347,7 +347,7 @@ model = torch.compile(model, mode="reduce-overhead")
 | `torch.manual_seed` | Reproducible experiments |
 | `gradient_checkpointing` | Trade compute for memory |
 
-## Anti-Patterns to Avoid
+## 避けるべきアンチパターン (Anti-Patterns to Avoid)
 
 ```python
 # Bad: Forgetting model.eval() during validation

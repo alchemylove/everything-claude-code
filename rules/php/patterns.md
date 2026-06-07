@@ -3,31 +3,31 @@ paths:
   - "**/*.php"
   - "**/composer.json"
 ---
-# PHP Patterns
+# PHP パターン (PHP Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with PHP specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、PHP 固有の内容を追加する。
 
-## Thin Controllers, Explicit Services
+## 薄いコントローラ、明示的なサービス (Thin Controllers, Explicit Services)
 
-- Keep controllers focused on transport: auth, validation, serialization, status codes.
-- Move business rules into application/domain services that are easy to test without HTTP bootstrapping.
+- コントローラは transport に集中させる: 認証、バリデーション、シリアライズ、ステータスコード。
+- ビジネスルールは HTTP ブートストラップなしでテストしやすい application/domain サービスへ移す。
 
-## DTOs and Value Objects
+## DTO と value object (DTOs and Value Objects)
 
-- Replace shape-heavy associative arrays with DTOs for requests, commands, and external API payloads.
-- Use value objects for money, identifiers, date ranges, and other constrained concepts.
+- 形状が複雑な連想配列は、リクエスト、コマンド、外部 API ペイロード用の DTO に置き換える。
+- 金額、識別子、日付範囲など制約のある概念には value object を使用する。
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-- Depend on interfaces or narrow service contracts, not framework globals.
-- Pass collaborators through constructors so services are testable without service-locator lookups.
+- フレームワークのグローバルではなく、インターフェースまたは狭いサービス契約に依存する。
+- コンストラクタ経由で協調者を渡し、service locator 参照なしでサービスをテスト可能にする。
 
-## Boundaries
+## 境界 (Boundaries)
 
-- Isolate ORM models from domain decisions when the model layer is doing more than persistence.
-- Wrap third-party SDKs behind small adapters so the rest of the codebase depends on your contract, not theirs.
+- モデル層が永続化以上の役割を担う場合、ORM モデルをドメイン判断から分離する。
+- サードパーティ SDK は小さなアダプタでラップし、コードベースの残りは相手側ではなく自前の契約に依存させる。
 
-## Reference
+## 参照 (Reference)
 
-See skill: `api-design` for endpoint conventions and response-shape guidance.
-See skill: `laravel-patterns` for Laravel-specific architecture guidance.
+エンドポイント規約とレスポンス形状のガイダンスは skill: `api-design` を参照。
+Laravel 固有のアーキテクチャガイダンスは skill: `laravel-patterns` を参照。

@@ -1,55 +1,55 @@
 ---
-description: Comprehensive Go code review for idiomatic patterns, concurrency safety, error handling, and security. Invokes the go-reviewer agent.
+description: 慣用的なパターン、並行性の安全性、エラーハンドリング、セキュリティについての包括的な Go コードレビュー。go-reviewer エージェントを呼び出します。
 ---
 
-# Go Code Review
+# Go コードレビュー (Go Code Review)
 
-This command invokes the **go-reviewer** agent for comprehensive Go-specific code review.
+このコマンドは、Go 固有の包括的なコードレビューのために **go-reviewer** エージェントを呼び出します。
 
-## What This Command Does
+## このコマンドの機能 (What This Command Does)
 
-1. **Identify Go Changes**: Find modified `.go` files via `git diff`
-2. **Run Static Analysis**: Execute `go vet`, `staticcheck`, and `golangci-lint`
-3. **Security Scan**: Check for SQL injection, command injection, race conditions
-4. **Concurrency Review**: Analyze goroutine safety, channel usage, mutex patterns
-5. **Idiomatic Go Check**: Verify code follows Go conventions and best practices
-6. **Generate Report**: Categorize issues by severity
+1. **Go 変更の特定**: `git diff` で変更された `.go` ファイルを検出
+2. **静的解析の実行**: `go vet`、`staticcheck`、`golangci-lint` を実行
+3. **セキュリティスキャン**: SQL injection、command injection、race condition をチェック
+4. **並行性のレビュー**: goroutine の安全性、channel 使用、mutex パターンを分析
+5. **慣用的な Go チェック**: コードが Go の慣習とベストプラクティスに従っていることを確認
+6. **レポート生成**: 問題を重要度別に分類
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/go-review` when:
-- After writing or modifying Go code
-- Before committing Go changes
-- Reviewing pull requests with Go code
-- Onboarding to a new Go codebase
-- Learning idiomatic Go patterns
+以下の場合に `/go-review` を使用します:
+- Go コードを作成または変更した後
+- Go 変更を commit する前
+- Go コードを含む pull request のレビュー時
+- 新しい Go codebase へのオンボーディング時
+- 慣用的な Go パターンの学習時
 
-## Review Categories
+## レビューカテゴリ (Review Categories)
 
-### CRITICAL (Must Fix)
-- SQL/Command injection vulnerabilities
-- Race conditions without synchronization
-- Goroutine leaks
-- Hardcoded credentials
-- Unsafe pointer usage
-- Ignored errors in critical paths
+### CRITICAL（必須修正）(CRITICAL (Must Fix))
+- SQL/Command injection の脆弱性
+- 同期化なしの race condition
+- goroutine leak
+- hardcoded credentials
+- unsafe pointer 使用
+- critical path での ignored errors
 
-### HIGH (Should Fix)
-- Missing error wrapping with context
-- Panic instead of error returns
-- Context not propagated
-- Unbuffered channels causing deadlocks
-- Interface not satisfied errors
-- Missing mutex protection
+### HIGH（修正推奨）(HIGH (Should Fix))
+- context を含まない error wrapping の欠落
+- error return の代わりに panic
+- context が伝播されていない
+- deadlock を引き起こす unbuffered channel
+- interface not satisfied errors
+- mutex による保護の欠落
 
-### MEDIUM (Consider)
-- Non-idiomatic code patterns
-- Missing godoc comments on exports
-- Inefficient string concatenation
-- Slice not preallocated
-- Table-driven tests not used
+### MEDIUM（検討）(MEDIUM (Consider))
+- 非慣用的なコードパターン
+- export 時の godoc comment の欠落
+- 非効率的な string concatenation
+- 事前割り当てされていない slice
+- table-driven test が使用されていない
 
-## Automated Checks Run
+## 実行される自動チェック (Automated Checks Run)
 
 ```bash
 # Static analysis
@@ -66,7 +66,7 @@ go build -race ./...
 govulncheck ./...
 ```
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ```text
 User: /go-review
@@ -127,7 +127,7 @@ return fmt.Errorf("get user %s: %w", userID, err)
 Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 ```
 
-## Approval Criteria
+## 承認基準 (Approval Criteria)
 
 | Status | Condition |
 |--------|-----------|
@@ -135,14 +135,14 @@ Recommendation: FAIL: Block merge until CRITICAL issue is fixed
 | WARNING: Warning | Only MEDIUM issues (merge with caution) |
 | FAIL: Block | CRITICAL or HIGH issues found |
 
-## Integration with Other Commands
+## 他のコマンドとの統合 (Integration with Other Commands)
 
-- Use `/go-test` first to ensure tests pass
-- Use `/go-build` if build errors occur
-- Use `/go-review` before committing
-- Use `/code-review` for non-Go specific concerns
+- まず `/go-test` を使用してテストが pass することを確認
+- `/go-build` を build error 発生時に使用
+- `/go-review` を commit 前に使用
+- `/code-review` を Go 固有でない問題に使用
 
-## Related
+## 関連 (Related)
 
 - Agent: `agents/go-reviewer.md`
 - Skills: `skills/golang-patterns/`, `skills/golang-testing/`

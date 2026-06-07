@@ -6,26 +6,26 @@ paths:
   - "**/Gemfile.lock"
   - "**/config/routes.rb"
 ---
-# Ruby Hooks
+# Ruby フック (Ruby Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Ruby and Rails specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Ruby および Rails 固有の内容を追加する。
 
-## PostToolUse Hooks
+## PostToolUse フック (PostToolUse Hooks)
 
-Configure project-local hooks to prefer binstubs and checked-in tooling:
+binstub とチェックイン済みツールを優先するようにプロジェクトローカルのフックを設定する:
 
-- **RuboCop**: run `bundle exec rubocop -A <file>` or the project's safer formatter command after Ruby edits.
-- **Brakeman**: run `bundle exec brakeman --no-progress` after security-sensitive Rails changes.
-- **Tests**: run the narrowest matching `bin/rails test ...` or `bundle exec rspec ...` command for touched files.
-- **Bundler audit**: run `bundle exec bundle-audit check --update` when `Gemfile` or `Gemfile.lock` changes and the project has bundler-audit installed.
+- **RuboCop**: Ruby 編集後に `bundle exec rubocop -A <file>` またはプロジェクトのより安全なフォーマッタコマンドを実行する。
+- **Brakeman**: セキュリティに関わる Rails の変更後に `bundle exec brakeman --no-progress` を実行する。
+- **テスト**: 変更されたファイルに対して最も狭い範囲の `bin/rails test ...` または `bundle exec rspec ...` コマンドを実行する。
+- **Bundler audit**: `Gemfile` または `Gemfile.lock` が変更され、プロジェクトに bundler-audit がインストールされている場合、`bundle exec bundle-audit check --update` を実行する。
 
-## Warnings
+## 警告 (Warnings)
 
-- Warn on committed `debugger`, `binding.irb`, `binding.pry`, `puts`, `pp`, or `p` calls in application code.
-- Warn when an edit disables CSRF protection, expands mass-assignment, or adds raw SQL without parameterization.
-- Warn when a migration changes data destructively without a reversible path or documented rollout plan.
+- アプリケーションコードにコミットされた `debugger`、`binding.irb`、`binding.pry`、`puts`、`pp`、`p` の呼び出しに対して警告する。
+- 編集が CSRF 保護を無効にしたり、マスアサインメントを拡大したり、パラメータ化なしで生の SQL を追加した場合に警告する。
+- マイグレーションが可逆的なパスや文書化されたロールアウト計画なしにデータを破壊的に変更する場合に警告する。
 
-## CI Gate Suggestions
+## CI ゲートの提案 (CI Gate Suggestions)
 
 ```bash
 bundle exec rubocop
@@ -34,4 +34,4 @@ bin/rails test
 bundle exec rspec
 ```
 
-Use only the commands that are present in the project; do not install new hook dependencies without maintainer approval.
+プロジェクトに存在するコマンドのみを使用する。メンテナーの承認なしに新しいフック依存関係をインストールしない。

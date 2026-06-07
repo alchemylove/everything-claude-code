@@ -1,13 +1,13 @@
 ---
-description: "Go security extending common rules"
+description: "Go security: common ルールの拡張"
 globs: ["**/*.go", "**/go.mod", "**/go.sum"]
 alwaysApply: false
 ---
-# Go Security
+# Go Security (Go Security)
 
-> This file extends the common security rule with Go specific content.
+> このファイルは common security ルールを Go 固有の内容で拡張する。
 
-## Secret Management
+## Secret 管理 (Secret Management)
 
 ```go
 apiKey := os.Getenv("OPENAI_API_KEY")
@@ -16,16 +16,16 @@ if apiKey == "" {
 }
 ```
 
-## Security Scanning
+## セキュリティスキャン (Security Scanning)
 
-- Use **gosec** for static security analysis:
+- static セキュリティ分析に **gosec** を使用:
   ```bash
   gosec ./...
   ```
 
 ## Context & Timeouts
 
-Always use `context.Context` for timeout control:
+timeout 制御には常に `context.Context` を使用:
 
 ```go
 ctx, cancel := context.WithTimeout(ctx, 5*time.Second)

@@ -1,42 +1,42 @@
 ---
 name: instinct-status
-description: Show learned instincts (project + global) with confidence
+description: 学習済み instincts（project + global）を信頼度付きで表示する
 command: true
 ---
 
-# Instinct Status Command
+# Instinct ステータスコマンド (Instinct Status Command)
 
-Shows learned instincts for the current project plus global instincts, grouped by domain.
+現在のプロジェクトと global instincts の学習済み instincts を、ドメインごとにグループ化して表示します。
 
-## Implementation
+## 実装 (Implementation)
 
-Run the instinct CLI using the plugin root path:
+プラグインルートパスを使用して instinct CLI を実行します:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" status
 ```
 
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation), use:
+または `CLAUDE_PLUGIN_ROOT` が未設定の場合（手動インストール）は:
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py status
 ```
 
-## Usage
+## 使い方 (Usage)
 
 ```
 /instinct-status
 ```
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Detect current project context (git remote/path hash)
-2. Read project instincts from `~/.claude/homunculus/projects/<project-id>/instincts/`
-3. Read global instincts from `~/.claude/homunculus/instincts/`
-4. Merge with precedence rules (project overrides global when IDs collide)
-5. Display grouped by domain with confidence bars and observation stats
+1. 現在のプロジェクトコンテキストを検出する（git remote/path hash）
+2. `~/.claude/homunculus/projects/<project-id>/instincts/` から project instincts を読む
+3. `~/.claude/homunculus/instincts/` から global instincts を読む
+4. 優先ルールでマージする（ID が衝突する場合は project が global を上書き）
+5. ドメインごとに信頼度バーと観察統計付きで表示する
 
-## Output Format
+## 出力形式 (Output Format)
 
 ```
 ============================================================

@@ -6,17 +6,17 @@ paths:
   - "**/*.psgi"
   - "**/*.cgi"
 ---
-# Perl Hooks
+# Perl フック (Perl Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Perl-specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Perl 固有の内容を追加する。
 
-## PostToolUse Hooks
+## PostToolUse フック (PostToolUse Hooks)
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **perltidy**: Auto-format `.pl` and `.pm` files after edit
-- **perlcritic**: Run lint check after editing `.pm` files
+- **perltidy**: 編集後に `.pl` と `.pm` ファイルを自動フォーマット
+- **perlcritic**: `.pm` ファイル編集後にリントチェックを実行
 
-## Warnings
+## 警告 (Warnings)
 
-- Warn about `print` in non-script `.pm` files — use `say` or a logging module (e.g., `Log::Any`)
+- スクリプト以外の `.pm` ファイルでの `print` について警告する — `say` またはロギングモジュール（例: `Log::Any`）を使用すること

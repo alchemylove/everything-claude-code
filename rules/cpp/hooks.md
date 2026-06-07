@@ -8,13 +8,13 @@ paths:
   - "**/*.h"
   - "**/CMakeLists.txt"
 ---
-# C++ Hooks
+# C++ フック (C++ Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with C++ specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、C++ 固有の内容を追加する。
 
-## Build Hooks
+## ビルド Hooks (Build Hooks)
 
-Run these checks before committing C++ changes:
+C++ の変更をコミットする前に、次のチェックを実行する:
 
 ```bash
 # Format check
@@ -30,10 +30,10 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-## Recommended CI Pipeline
+## 推奨 CI パイプライン (Recommended CI Pipeline)
 
-1. **clang-format** — formatting check
-2. **clang-tidy** — static analysis
-3. **cppcheck** — additional analysis
-4. **cmake build** — compilation
-5. **ctest** — test execution with sanitizers
+1. **clang-format** — フォーマットチェック
+2. **clang-tidy** — 静的解析
+3. **cppcheck** — 追加解析
+4. **cmake build** — コンパイル
+5. **ctest** — sanitizer 付きテスト実行

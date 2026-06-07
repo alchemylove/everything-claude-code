@@ -4,86 +4,86 @@ description: Build reusable Manim explainers for technical concepts, graphs, sys
 origin: ECC
 ---
 
-# Manim Video
+# Manim 動画 (Manim Video)
 
-Use Manim for technical explainers where motion, structure, and clarity matter more than photorealism.
+モーション、構造、明瞭さが写実性より重要な技術解説には Manim を使用する。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- the user wants a technical explainer animation
-- the concept is a graph, workflow, architecture, metric progression, or system diagram
-- the user wants a short product or launch explainer for X or a landing page
-- the visual should feel precise instead of generically cinematic
+- ユーザーが技術解説アニメーションを求めるとき
+- 概念がグラフ、ワークフロー、アーキテクチャ、メトリクス推移、システム図であるとき
+- X やランディングページ向けの短いプロダクト/ローンチ解説が欲しいとき
+- ビジュアルが汎用的にシネマティックではなく精密に感じられるべきとき
 
-## Tool Requirements
+## ツール要件 (Tool Requirements)
 
-- `manim` CLI for scene rendering
-- `ffmpeg` for post-processing if needed
-- `video-editing` for final assembly or polish
-- `remotion-video-creation` when the final package needs composited UI, captions, or additional motion layers
+- シーンレンダリング用 `manim` CLI
+- 必要に応じた後処理用 `ffmpeg`
+- 最終組み立てまたは仕上げ用 `video-editing`
+- 最終パッケージに合成 UI、キャプション、追加モーションレイヤーが必要な場合は `remotion-video-creation`
 
-## Default Output
+## デフォルト出力 (Default Output)
 
-- short 16:9 MP4
-- one thumbnail or poster frame
-- storyboard plus scene plan
+- 短い 16:9 MP4
+- サムネイルまたはポスターフレーム 1 枚
+- ストーリーボードとシーンプラン
 
-## Workflow
+## ワークフロー (Workflow)
 
-1. Define the core visual thesis in one sentence.
-2. Break the concept into 3 to 6 scenes.
-3. Decide what each scene proves.
-4. Write the scene outline before writing Manim code.
-5. Render the smallest working version first.
-6. Tighten typography, spacing, color, and pacing after the render works.
-7. Hand off to the wider video stack only if it adds value.
+1. コアビジュアルテーゼを 1 文で定義する。
+2. 概念を 3〜6 シーンに分割する。
+3. 各シーンが何を証明するか決める。
+4. Manim コードを書く前にシーンアウトラインを書く。
+5. 最小の動作版を先にレンダリングする。
+6. レンダリングが動いた後にタイポグラフィ、間隔、色、ペーシングを詰める。
+7. 価値を加える場合のみ広い video スタックへ引き渡す。
 
-## Scene Planning Rules
+## シーンプランningルール (Scene Planning Rules)
 
-- each scene should prove one thing
-- avoid overstuffed diagrams
-- prefer progressive reveal over full-screen clutter
-- use motion to explain state change, not just to keep the screen busy
-- title cards should be short and loaded with meaning
+- 各シーンは 1 つのことを証明する
+- 詰め込みすぎの図を避ける
+- フルスクリーンの雑然さより段階的開示を優先する
+- 画面を忙しくするためではなく状態変化を説明するモーションを使う
+- タイトルカードは短く意味を込める
 
-## Network Graph Default
+## ネットワークグラフデフォルト (Network Graph Default)
 
-For social-graph and network-optimization explainers:
+ソーシャルグラフとネットワーク最適化解説向け:
 
-- show the current graph before showing the optimized graph
-- distinguish low-signal follow clutter from high-signal bridges
-- highlight warm-path nodes and target clusters
-- if useful, add a final scene showing the self-improvement lineage that informed the skill
+- 最適化グラフの前に現在のグラフを示す
+- 低シグナルなフォロー雑然と高シグナルなブリッジを区別する
+- ウォームパスノードとターゲットクラスターをハイライトする
+- 有用ならスキルを形成した自己改善系譜を示す最終シーンを追加する
 
-## Render Conventions
+## レンダー規約 (Render Conventions)
 
-- default to 16:9 landscape unless the user asks for vertical
-- start with a low-quality smoke test render
-- only push to higher quality after composition and timing are stable
-- export one clean thumbnail frame that reads at social size
+- ユーザーが縦向きを求めない限り 16:9 横をデフォルトとする
+- 低品質のスモークテストレンダーから始める
+- 構成とタイミングが安定してから高品質へ
+- ソーシャルサイズで読めるクリーンなサムネイルフレームを 1 枚エクスポートする
 
-## Reusable Starter
+## 再利用スターター (Reusable Starter)
 
-Use [assets/network_graph_scene.py](assets/network_graph_scene.py) as a starting point for network-graph explainers.
+ネットワークグラフ解説の出発点として [assets/network_graph_scene.py](assets/network_graph_scene.py) を使用する。
 
-Example smoke test:
+スモークテスト例:
 
 ```bash
 manim -ql assets/network_graph_scene.py NetworkGraphExplainer
 ```
 
-## Output Format
+## 出力形式 (Output Format)
 
-Return:
+返すもの:
 
-- core visual thesis
-- storyboard
-- scene outline
-- render plan
-- any follow-on polish recommendations
+- コアビジュアルテーゼ
+- ストーリーボード
+- シーンアウトライン
+- レンダープラン
+- フォローオン仕上げの推奨事項
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `video-editing` for final polish
-- `remotion-video-creation` for motion-heavy post-processing or compositing
-- `content-engine` when the animation is part of a broader launch
+- 最終仕上げに `video-editing`
+- モーション重視の後処理または合成に `remotion-video-creation`
+- アニメーションが広いローンチの一部の場合は `content-engine`

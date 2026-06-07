@@ -1,12 +1,12 @@
-# Plan-PRD Pattern: Markdown-Staged Planning Flow
+# Plan-PRD パターン: Markdown 段階的プランニングフロー (Plan-PRD Pattern: Markdown-Staged Planning Flow)
 
-A lightweight, SDLC-aligned planning workflow where each phase of the lifecycle produces a committable markdown **staging file** that the next command consumes.
+SDLC に沿った軽量プランニングワークフロー。ライフサイクルの各フェーズが、次のコマンドが消費するコミット可能な markdown **staging file** を生成する。
 
-> Short version: `/plan-prd` writes a PRD, `/plan` writes a plan, the `tdd-workflow` skill implements it, and `/pr` ships it. Each arrow is a file on disk, not a conversation in memory.
+> 短く言うと：`/plan-prd` が PRD を書き、`/plan` が plan を書き、`tdd-workflow` skill が実装し、`/pr` が出荷する。各矢印はメモリ内の会話ではなくディスク上のファイル。
 
-## Feature: Markdown Staging Files
+## 機能: Markdown Staging Files (Feature: Markdown Staging Files)
 
-Every planning artifact is a plain `.md` file under `.claude/`:
+すべてのプランニング artifact は `.claude/` 配下のプレーン `.md` ファイル：
 
 ```
 .claude/
@@ -15,14 +15,14 @@ Every planning artifact is a plain `.md` file under `.claude/`:
   reviews/   # Code review artifacts from /code-review
 ```
 
-These files are:
+これらのファイルは：
 
-- **Plain markdown** — readable by humans, diffable in PRs, grep-able at CLI.
-- **Committable** — check them in alongside code so the intent travels with the implementation.
-- **Composable** — each command accepts the previous stage's file as its `$ARGUMENTS`, so the toolchain composes via paths rather than in-context state.
-- **Resumable** — close the session, open a new one tomorrow, pass the file path back in.
+- **プレーン markdown** — 人間が読める、PR で diff 可能、CLI で grep 可能。
+- **コミット可能** — 意図が実装と一緒に旅するようコードと併せてチェックイン。
+- **合成可能** — 各コマンドは前段のファイルを `$ARGUMENTS` として受け取り、ツールチェーンは in-context 状態ではなくパスで合成。
+- **再開可能** — セッションを閉じ、翌日新しいセッションを開き、ファイルパスを渡し直す。
 
-## Flow
+## フロー (Flow)
 
 ```
 ┌───────────────────────────┐
@@ -49,46 +49,46 @@ These files are:
 └───────────────────────────┘
 ```
 
-Each box is a **gate**. You can:
+各ボックスは **ゲート**。次ができる：
 
-- Stop between gates — the artifact persists.
-- Restart from any gate using the artifact path.
-- Skip gates for small work — feed `/plan` free-form text and ignore `/plan-prd`.
-- Run a gate standalone — `/plan "refactor X"` produces a conversational plan with no artifact.
+- ゲート間で停止 — artifact は永続。
+- artifact パスで任意のゲートから再開。
+- 小さな作業ではゲートをスキップ — `/plan` に自由形式テキストを渡し `/plan-prd` を無視。
+- ゲートを単独実行 — `/plan "refactor X"` は artifact なしの会話型 plan を生成。
 
-## Why `/plan-prd` Is Additional to `/plan`
+## なぜ `/plan-prd` は `/plan` に追加されるか (Why `/plan-prd` Is Additional to `/plan`)
 
-They answer different questions. Mixing them causes scope creep.
+異なる問いに答える。混ぜるとスコープ creep が起きる。
 
 | Command | Answers | SDLC Phase | Artifact |
 |---|---|---|---|
 | `/plan-prd` | *What problem? For whom? How do we know we're done?* | Requirements | `.claude/prds/{name}.prd.md` |
 | `/plan` | *What files, patterns, and tasks satisfy the requirement?* | Design + Implementation strategy | `.claude/plans/{name}.plan.md` (PRD mode) or inline (text mode) |
 
-### Why not combine them?
+### なぜ統合しないか？ (Why not combine them?)
 
-- **Separation of concerns.** PRDs ask *why*; plans ask *how*. Bundling them creates one oversized command that does both poorly, as the old `/prp-prd` → `/prp-plan` pair demonstrated (8-phase interrogation with implementation-phase tables mixed into requirements).
-- **Different audiences.** A stakeholder reviewing a PRD does not care about file paths or type-check commands. An engineer reading a plan does not need the market-research phase.
-- **Different lifespans.** A PRD can remain stable while its plan is rewritten multiple times as implementation assumptions change.
-- **Optional step.** Many changes (bug fixes, small refactors, single-file additions) don't need a PRD. `/plan` alone is enough. Forcing a PRD on every change is bureaucracy.
+- **関心の分離。** PRD は *why* を問い；plan は *how* を問う。束ねると要件に実装フェーズ表が混ざった8フェーズ尋問の旧 `/prp-prd` → `/prp-plan` ペアのように、両方 poorly な1つの巨大コマンドになる。
+- **異なる読者。** PRD をレビューするステークホルダーはファイルパスや type-check コマンドを気にしない。plan を読むエンジニアは市場調査フェーズを必要としない。
+- **異なる寿命。** PRD は実装前提が変わって plan が何度も書き直されても安定しうる。
+- **オプションステップ。** 多くの変更（bug fix、小リファクタ、単一ファイル追加）は PRD 不要。`/plan` だけで十分。すべての変更に PRD を強制するのは官僚主義。
 
-### When to use each
+### いつどちらを使うか (When to use each)
 
-Use `/plan-prd` when:
+`/plan-prd` を使うとき：
 
-- Scope is unclear or contested.
-- Multiple stakeholders need to align on the problem before solutioning.
-- The change is large enough that writing down the hypothesis is cheaper than relitigating scope mid-implementation.
+- スコープが不明または争点がある。
+- 複数ステークホルダーがソリューション前に問題で合意する必要がある。
+- 変更が大きく、仮説を書き留める方が実装途中のスコープ再論争より安い。
 
-Use `/plan` directly when:
+`/plan` を直接使うとき：
 
-- Requirements are already clear (a bug report, a scoped refactor, a known migration).
-- The work is small enough that a conversational plan + confirmation gate is sufficient.
-- You already have a PRD — pass it to `/plan` and skip `/plan-prd`.
+- 要件がすでに明確（bug 報告、スコープ済みリファクタ、既知の migration）。
+- 会話型 plan + 確認ゲートで十分なほど小さい作業。
+- すでに PRD がある — `/plan` に渡し `/plan-prd` をスキップ。
 
-## Usage
+## 使い方 (Usage)
 
-### Full flow (feature with unclear scope)
+### フルフロー（スコープ不明な feature）(Full flow (feature with unclear scope))
 
 ```bash
 # 1. Draft the PRD
@@ -112,7 +112,7 @@ Use the tdd-workflow skill
 # → PR body auto-references .claude/prds/... and .claude/plans/...
 ```
 
-### Quick flow (scope already clear)
+### クイックフロー（スコープ明確）(Quick flow (scope already clear))
 
 ```bash
 /plan "Add retry with exponential backoff to the notifier"
@@ -120,35 +120,35 @@ Use the tdd-workflow skill
 # Confirm, then use the tdd-workflow skill.
 ```
 
-### Reference an existing PRD from elsewhere
+### 他处の既存 PRD を参照 (Reference an existing PRD from elsewhere)
 
 ```bash
 # PRD was written by someone else, lives in your repo
 /plan docs/rfcs/0042-rate-limiting.prd.md
 ```
 
-`/plan` detects any `.prd.md` path and switches to artifact mode, parsing the Delivery Milestones table.
+`/plan` は任意の `.prd.md` パスを検出し artifact モードに切り替え、Delivery Milestones 表をパースする。
 
-## Why staging files beat in-context state
+## なぜ staging file が in-context 状態に勝るか (Why staging files beat in-context state)
 
-- **Transferable**: drop the PRD path into a fresh session and you're caught up — no replaying a long conversation.
-- **Auditable**: the PR reviewer sees *what you intended* next to *what you built*.
-- **Versioned**: the staging file evolves in git history, same as code.
-- **Machine-parseable**: `/plan` programmatically picks the next pending milestone; `/pr` programmatically links artifacts in the PR body. No prompt engineering required.
+- **転送可能**: 新セッションに PRD パスを渡せば追いつける — 長い会話の再生不要。
+- **監査可能**: PR レビュアーは *意図したこと* を *構築したこと* の隣で見られる。
+- **バージョン管理**: staging file はコードと同様 git 履歴で進化。
+- **機械パース可能**: `/plan` は次の pending milestone をプログラム的に選び；`/pr` は PR body に artifact をプログラム的にリンク。プロンプトエンジニアリング不要。
 
-## Related commands
+## 関連コマンド (Related commands)
 
-- `/plan-prd` — requirements (this pattern entry point).
-- `/plan` — planning (consumes PRDs or free-form text).
-- `tdd-workflow` skill — test-first implementation.
-- `/pr` — open a PR that references PRDs and plans.
-- `/code-review` — reviews local diffs or PRs; auto-detects `.claude/prds/` and `.claude/plans/` as context.
+- `/plan-prd` — requirements（このパターンのエントリポイント）。
+- `/plan` — planning（PRD または自由形式テキストを消費）。
+- `tdd-workflow` skill — test-first 実装。
+- `/pr` — PRD と plan を参照する PR を開く。
+- `/code-review` — ローカル diff または PR をレビュー；`.claude/prds/` と `.claude/plans/` をコンテキストとして自動検出。
 
-## Compatibility
+## 互換性 (Compatibility)
 
-This pattern adds ECC-native staging-file commands alongside the existing `prp-*` command set. The legacy PRP commands remain available for deeper PRP workflows and for users who already have `.claude/PRPs/` artifacts.
+このパターンは既存 `prp-*` コマンドセットと並ぶ ECC-native staging-file コマンドを追加する。レガシー PRP コマンドはより深い PRP ワークフローと `.claude/PRPs/` artifact をすでに持つユーザー向けに残る。
 
-- `/plan-prd` is the lean requirements entry point for `.claude/prds/`.
-- `/plan` can consume `.prd.md` files and produce `.claude/plans/` artifacts without requiring the legacy PRP directory layout.
-- `/pr` is the ECC-native PR creation command and can reference `.claude/prds/` and `.claude/plans/`.
-- `/prp-prd`, `/prp-plan`, `/prp-implement`, `/prp-commit`, and `/prp-pr` remain valid legacy/deep workflow commands.
+- `/plan-prd` は `.claude/prds/` 向けの lean requirements エントリポイント。
+- `/plan` は `.prd.md` を消費し、レガシー PRP ディレクトリレイアウトを要求せず `.claude/plans/` artifact を生成できる。
+- `/pr` は ECC-native PR 作成コマンドで `.claude/prds/` と `.claude/plans/` を参照できる。
+- `/prp-prd`、`/prp-plan`、`/prp-implement`、`/prp-commit`、`/prp-pr` は有効なレガシー/深いワークフローコマンドのまま。

@@ -1,173 +1,152 @@
-# Stale PR Salvage Ledger
+# Stale PR Salvage 台帳 (Stale PR Salvage Ledger)
 
-This ledger records useful work recovered from stale, conflicted, or closed PRs.
-The rule is simple: queue cleanup closes stale PRs, but it does not discard
-useful work. Maintainers should inspect the closed diff, port compatible pieces
-on fresh branches, and credit the source PR.
+この台帳は、stale、conflicted、または closed な PR から回収した有用な作業を記録します。ルールは単純です: キュー整理は stale PR を閉じますが、有用な作業は捨てません。メンテナーは closed diff を検査し、互換部分を新しいブランチで移植し、ソース PR にクレジットを付けます。
 
-## Classification States
+## 分類状態 (Classification States)
 
-| State | Meaning |
+| 状態 (State) | 意味 (Meaning) |
 | --- | --- |
-| Salvaged | Useful work was ported to current `main` through a maintainer PR. |
-| Already present | Current `main` already contained the useful work before salvage. |
-| Superseded | Current `main` solved the same problem differently. |
-| Skipped | The PR was accidental, too broad, unsafe, or too low-signal to port. |
-| Translator/manual review | Content may be useful, but needs human language/domain review before import. |
+| Salvaged | 有用な作業がメンテナー PR 経由で現在の `main` に移植された。 |
+| Already present | 移植前に現在の `main` にすでに有用な作業が含まれていた。 |
+| Superseded | 現在の `main` が同じ問題を別の方法で解決した。 |
+| Skipped | PR が偶発的、広すぎる、危険、または移植に低シグナルすぎた。 |
+| Translator/manual review | コンテンツに有用性がある可能性があるが、import 前に人間の言語/ドメインレビューが必要。 |
 
-## Salvaged Into Current Main
+## 現在の Main に Salvage 済み (Salvaged Into Current Main)
 
-| Source PR | Original contribution | Salvage result |
+| ソース PR (Source PR) | 元の貢献 (Original contribution) | Salvage 結果 (Salvage result) |
 | --- | --- | --- |
-| #1232 | `skill-scout` search-before-creating workflow | Salvaged in the May 12 cost/skill-scout maintainer pass with current repo wording, external-source vetting, and no stale catalog-count edits. |
-| #1304 | Cost tracking skill and `/cost-report` command | Salvaged in the May 12 cost/skill-scout maintainer pass with current command/skill conventions and without stale hard-coded model pricing. |
-| #1309 | Trading/community project material | Salvaged in #1761 as a neutral community-project README listing. |
-| #1310 | Django reviewer, build resolver, and Celery async task guidance | Salvaged in the May 12 Django/Celery maintainer pass with current catalog counts and minor example cleanup. |
-| #1322 | Vietnamese README translation | Salvaged in #1764 as `docs/vi-VN/README.md` plus selector updates. |
-| #1325 | Quarkus framework guidance, Java agents, and localization material | Salvaged across #1771 and #1803; stale broad docs/count edits were not copied. |
-| #1326 | Angular developer skill and rules | Salvaged in #1763 with current skill, rules, install wiring, and catalog updates. |
-| #1328 | Continuous-learning Windows UTF-8 stdout fix | Salvaged in #1761. |
-| #1329 | Plugin install detection hardening | Salvaged in #1761 through current harness audit detection support. |
-| #1334 | Windows desktop E2E skill | Salvaged in #1762 with install, package, and catalog wiring. |
-| #1352 | Qwen install target | Salvaged in #1738 through the current Qwen install target. |
-| #1413 | Network and homelab skills/agents | Salvaged through #1729, #1731, #1745, and #1778. |
-| #1414 | F# rules, reviewer agent, and testing skill | Salvaged in #1770 with current install manifests, detection tests, and catalog wiring. |
-| #1429 | JoyCode install target | Salvaged in #1737 through the current JoyCode install target. |
-| #1467 | Scientific skills and OpenCode discovery work | Useful USPTO and gget pieces salvaged in #1740; stale generated claims were not copied. |
-| #1478 | HarmonyOS/ArkTS rules, resolver agent, and CLAUDE example | Salvaged in #1769 with current install wiring; stale `ecc2` session/TUI edits were not carried. |
-| #1493 | SessionStart context scoping | Salvaged in #1774 with current hook semantics and tests. |
-| #1498 | PRD planning flow | Salvaged in #1777. |
-| #1504 | Statusline/context monitor hooks | Salvaged in #1776 with current hook manifest structure and tests. |
-| #1528/#1529/#1547 | Astraflow and UModelVerse provider support | Salvaged in #1775 with current provider wiring and defensive tool-call parsing. |
-| #1558 | `agentic-os` skill | Salvaged in #1772. |
-| #1559 | `error-handling` skill | Salvaged in #1772. |
-| #1566 | Agent architecture audit skill | Salvaged in #1772. |
-| #1578 | OpenCode file-probe hardening | Salvaged in #1773. |
-| #1603 | `plan-orchestrate` skill | Salvaged in #1766 with current manifest/catalog wiring. |
-| #1658 | Code-reviewer false-positive suppression | Salvaged in the May 12 code-reviewer maintainer pass with current review-agent wording, a proof gate for HIGH/CRITICAL findings, common false-positive exclusions, and a regression test. |
-| #1659 | Frontend design direction and interface-polish skills | Salvaged in the May 12 frontend-design maintainer pass with canonical `skills/` layout and current ECC frontend guidance, while preserving the repo guardrail that the official `frontend-design` skill should be installed from `anthropics/skills`. |
-| #1674 | Production audit skill | Salvaged in #1732 after supply-chain/privacy review and rewrite. |
-| #1687 | zh-CN localization sync | Large safe subsets salvaged in #1746-#1752; remaining pieces require translator/manual review. |
-| #1694 | Portfolio curation | Useful focused curation updates salvaged in #1723 and #1724. |
-| #1695 | Russian README translation | Ported in #1722. |
-| #1697 | Saved LLM selector config | Salvaged as part of provider config/tool schema work in #1720. |
-| #1699 | Windows post-edit-format path guard | Ported in #1719. |
-| #1700 | Provider tool serialization | Ported in #1720. |
-| #1705/#1780 | Production UI motion system | Salvaged in #1772, #1781, and #1782 with examples fixed before merge. |
-| #1713 | Swift language support | Ported in #1721. |
-| #1715 | CI personal-path validator hardening | Ported through CI validator hardening in #1717. |
-| #1727 | MySQL patterns skill | Salvaged in #1733. |
-| #1757 | Machine-learning engineering workflow | Salvaged in #1758 and tuned in #1759. |
+| #1232 | `skill-scout` search-before-creating workflow | 2026-05-12 の cost/skill-scout メンテナーパスで salvage。現在のリポジトリ文言、外部ソース vetting、stale catalog-count 編集なし。 |
+| #1304 | Cost tracking skill と `/cost-report` command | 2026-05-12 の cost/skill-scout メンテナーパスで salvage。現在の command/skill 規約、stale ハードコード model pricing なし。 |
+| #1309 | Trading/community project material | #1761 で中立な community-project README 一覧として salvage。 |
+| #1310 | Django reviewer、build resolver、Celery async task guidance | 2026-05-12 の Django/Celery メンテナーパスで salvage。現在の catalog 件数と軽微な例の整理。 |
+| #1322 | Vietnamese README 翻訳 | #1764 で `docs/vi-VN/README.md` と selector 更新として salvage。 |
+| #1325 | Quarkus framework guidance、Java agent、localization material | #1771 と #1803 で salvage。stale な広い docs/count 編集はコピーせず。 |
+| #1326 | Angular developer skill と rules | #1763 で現在の skill、rules、install wiring、catalog 更新で salvage。 |
+| #1328 | Continuous-learning Windows UTF-8 stdout 修正 | #1761 で salvage。 |
+| #1329 | Plugin install 検出の hardening | #1761 で現在の harness audit 検出サポート経由で salvage。 |
+| #1334 | Windows desktop E2E skill | #1762 で install、package、catalog wiring で salvage。 |
+| #1352 | Qwen install target | #1738 で現在の Qwen install target 経由で salvage。 |
+| #1413 | Network と homelab skill/agent | #1729、#1731、#1745、#1778 で salvage。 |
+| #1414 | F# rules、reviewer agent、testing skill | #1770 で現在の install manifest、検出テスト、catalog wiring で salvage。 |
+| #1429 | JoyCode install target | #1737 で現在の JoyCode install target 経由で salvage。 |
+| #1467 | Scientific skill と OpenCode discovery 作業 | #1740 で有用な USPTO と gget 部分を salvage。stale 生成 claim はコピーせず。 |
+| #1478 | HarmonyOS/ArkTS rules、resolver agent、CLAUDE 例 | #1769 で現在の install wiring で salvage。stale `ecc2` session/TUI 編集は持ち越さず。 |
+| #1493 | SessionStart context scoping | #1774 で現在の hook 意味論とテストで salvage。 |
+| #1498 | PRD planning flow | #1777 で salvage。 |
+| #1504 | Statusline/context monitor hook | #1776 で現在の hook manifest 構造とテストで salvage。 |
+| #1528/#1529/#1547 | Astraflow と UModelVerse provider サポート | #1775 で現在の provider wiring と防御的 tool-call パースで salvage。 |
+| #1558 | `agentic-os` skill | #1772 で salvage。 |
+| #1559 | `error-handling` skill | #1772 で salvage。 |
+| #1566 | Agent architecture audit skill | #1772 で salvage。 |
+| #1578 | OpenCode file-probe hardening | #1773 で salvage。 |
+| #1603 | `plan-orchestrate` skill | #1766 で現在の manifest/catalog wiring で salvage。 |
+| #1658 | Code-reviewer false-positive 抑制 | 2026-05-12 の code-reviewer メンテナーパスで salvage。現在の review-agent 文言、HIGH/CRITICAL 用 proof gate、一般的 false-positive 除外、回帰テスト。 |
+| #1659 | Frontend design direction と interface-polish skill | 2026-05-12 の frontend-design メンテナーパスで salvage。canonical `skills/` レイアウトと現在の ECC frontend guidance。公式 `frontend-design` skill は `anthropics/skills` から install するリポジトリ guardrail を維持。 |
+| #1674 | Production audit skill | supply-chain/privacy レビューと書き直し後 #1732 で salvage。 |
+| #1687 | zh-CN localization sync | #1746-#1752 で大きな安全サブセットを salvage。残りは translator/manual review が必要。 |
+| #1694 | Portfolio curation | #1723 と #1724 で有用な絞った curation 更新を salvage。 |
+| #1695 | Russian README 翻訳 | #1722 で移植。 |
+| #1697 | Saved LLM selector config | #1720 の provider config/tool schema 作業の一部として salvage。 |
+| #1699 | Windows post-edit-format path guard | #1719 で移植。 |
+| #1700 | Provider tool serialization | #1720 で移植。 |
+| #1705/#1780 | Production UI motion system | #1772、#1781、#1782 で salvage。マージ前に例を修正。 |
+| #1713 | Swift 言語サポート | #1721 で移植。 |
+| #1715 | CI personal-path validator hardening | #1717 の CI validator hardening 経由で移植。 |
+| #1727 | MySQL patterns skill | #1733 で salvage。 |
+| #1757 | Machine-learning engineering workflow | #1758 で salvage、#1759 で調整。 |
 
 ## 2026-05-12 Gap Pass
 
-The initial stale-closure ledger covered the P0 cleanup cohort and the biggest
-salvage branches. A follow-up gap pass over PRs closed on 2026-05-11 found
-additional useful items that were already present on `main` or still worth
-porting.
+初期の stale-closure 台帳は P0 整理コホートと最大の salvage ブランチをカバーしました。2026-05-11 に閉じた PR のフォローアップ gap pass で、`main` にすでにあった、またはまだ移植価値のある追加項目が見つかりました。
 
-| Source PR | Disposition |
+| ソース PR (Source PR) | 処分 (Disposition) |
 | --- | --- |
-| #1310 | Ported through the Django/Celery maintainer branch after confirming `agents/django-reviewer.md`, `agents/django-build-resolver.md`, and `skills/django-celery/SKILL.md` were still missing. |
-| #1325 | Useful Quarkus framework material was already preserved across #1771 and #1803; current `main` contains the Quarkus rules/skills plus Java reviewer/build-resolver surfaces. |
-| #1360 | Already present as `skills/security-bounty-hunter/`. |
-| #1414 | Useful F# support was already preserved in #1770; current `main` contains the F# rules, reviewer agent, testing skill, install wiring, and detection tests. |
-| #1415 | Already present as `skills/vite-patterns/`. |
-| #1478 | Useful HarmonyOS/ArkTS support was already preserved in #1769; current `main` contains the ArkTS rules, resolver agent, CLAUDE example, and install wiring. |
-| #1438 | Already present as `skills/ui-to-vue/`. |
-| #1504 | Already mapped to #1776 in the durable salvage table. |
-| #1508 | Already present as `skills/fastapi-patterns/` and `agents/fastapi-reviewer.md`. |
-| #1563/#1564/#1565 | Translator/manual review: zh-TW, tr, and pt-BR README syncs may contain useful localization updates, but stale README/version/count text must be reviewed by language owners before import. |
-| #1567 | Already present as the current GateGuard subagent file-gate bypass in `scripts/hooks/gateguard-fact-force.js`, with Bash gates preserved and regression tests in `tests/hooks/gateguard-fact-force.test.js`. |
-| #1570 | Already present as public `llm.prompt` imports, keyword-based `PromptBuilder` construction, and template registry helpers; current tests register the `unit` marker through `tests/conftest.py`. |
-| #1584 | Already present as the iTerm2 native desktop-notification fast path in `scripts/hooks/desktop-notify.js`, with multiplexer fallback to `osascript`. |
-| #1589 | Already present as quoted `actions/checkout` detection in `scripts/ci/validate-workflow-security.js` plus double/single-quote regression tests. |
-| #1594 | Already present as HTTP MCP reachability handling that treats HTTP 400, 401, and 403 probe responses as reachable/auth-gated, with hook tests. |
-| #1597 | Already present as catalog-count validation for README, AGENTS, zh-CN docs, `.claude-plugin/plugin.json`, and `.claude-plugin/marketplace.json`. |
-| #1602 | Already present as the `continuous-learning` v1 deprecation that routes new usage to `continuous-learning-v2` while preserving the archival v1 surface. |
-| #1603 | Useful `/plan-orchestrate` work was already preserved in #1766 with current package/catalog metadata. |
-| #1604 | Skipped: Windows drag-and-drop local installer copies files directly and runs `git pull`; current managed installer/profile flow is safer and supersedes it. |
-| #1609 | Translator/manual review: Persian README translation may be useful, but needs language review and current catalog/version refresh before import. |
-| #1613 | Already present in `rules/web/hooks.md` as the `tsc --incremental` plus timeout-capped PostToolUse example. |
-| #1631 | Already present in `scripts/hooks/suggest-compact.js` and `tests/hooks/hooks.test.js`; current code reads `session_id` from stdin JSON before falling back to `CLAUDE_SESSION_ID`. |
-| #1648 | Already present in `src/llm/providers/claude.py`; current Claude provider collects all text and tool-use content blocks and covers the behavior in `tests/test_claude_provider.py`. |
-| #1658 | Ported through the code-reviewer maintainer branch after confirming the false-positive proof gate and common false-positive skip list were still missing. |
-| #1693 | Already present as `skills/redis-patterns/`. |
+| #1310 | `agents/django-reviewer.md`、`agents/django-build-resolver.md`、`skills/django-celery/SKILL.md` がまだ欠けていることを確認後、Django/Celery メンテナーブランチで移植。 |
+| #1325 | 有用な Quarkus material は #1771 と #1803 ですでに保持。現在の `main` に Quarkus rules/skills と Java reviewer/build-resolver surface あり。 |
+| #1360 | `skills/security-bounty-hunter/` としてすでに存在。 |
+| #1414 | 有用な F# サポートは #1770 ですでに保持。現在の `main` に F# rules、reviewer agent、testing skill、install wiring、検出テストあり。 |
+| #1415 | `skills/vite-patterns/` としてすでに存在。 |
+| #1478 | 有用な HarmonyOS/ArkTS サポートは #1769 ですでに保持。現在の `main` に ArkTS rules、resolver agent、CLAUDE 例、install wiring あり。 |
+| #1438 | `skills/ui-to-vue/` としてすでに存在。 |
+| #1504 | 永続 salvage 表で #1776 にすでにマップ済み。 |
+| #1508 | `skills/fastapi-patterns/` と `agents/fastapi-reviewer.md` としてすでに存在。 |
+| #1563/#1564/#1565 | Translator/manual review: zh-TW、tr、pt-BR README sync に有用な localization 更新がある可能性があるが、import 前に言語オーナーが stale README/version/count テキストをレビューする必要あり。 |
+| #1567 | `scripts/hooks/gateguard-fact-force.js` の現在の GateGuard subagent file-gate bypass としてすでに存在。Bash gate は保持、回帰テストは `tests/hooks/gateguard-fact-force.test.js`。 |
+| #1570 | 公開 `llm.prompt` import、キーワードベース `PromptBuilder` 構築、template registry ヘルパーとしてすでに存在。現在のテストは `tests/conftest.py` で `unit` マーカーを登録。 |
+| #1584 | `scripts/hooks/desktop-notify.js` の iTerm2 ネイティブデスクトップ通知 fast path としてすでに存在。multiplexer は `osascript` にフォールバック。 |
+| #1589 | `scripts/ci/validate-workflow-security.js` の quoted `actions/checkout` 検出と二重/単一引用符回帰テストとしてすでに存在。 |
+| #1594 | HTTP 400/401/403 プローブ応答を到達可能/auth-gated と扱う HTTP MCP 到達性処理としてすでに存在。hook テストあり。 |
+| #1597 | README、AGENTS、zh-CN docs、`.claude-plugin/plugin.json`、`.claude-plugin/marketplace.json` の catalog-count 検証としてすでに存在。 |
+| #1602 | 新規利用を `continuous-learning-v2` にルーティングし v1 surface をアーカイブ保持する `continuous-learning` v1 非推奨としてすでに存在。 |
+| #1603 | 有用な `/plan-orchestrate` 作業は #1766 で現在の package/catalog メタデータとともにすでに保持。 |
+| #1604 | Skipped: Windows ドラッグアンドドロップローカル installer は直接コピーして `git pull` を実行。現在の管理 installer/profile flow の方が安全でこれに取って代わる。 |
+| #1609 | Translator/manual review: Persian README 翻訳は有用な可能性があるが、import 前に言語レビューと現在の catalog/version 更新が必要。 |
+| #1613 | `rules/web/hooks.md` の `tsc --incremental` とタイムアウト付き PostToolUse 例としてすでに存在。 |
+| #1631 | `scripts/hooks/suggest-compact.js` と `tests/hooks/hooks.test.js` にすでに存在。現在のコードは `CLAUDE_SESSION_ID` にフォールバックする前に stdin JSON から `session_id` を読む。 |
+| #1648 | `src/llm/providers/claude.py` にすでに存在。現在の Claude provider はすべての text と tool-use content block を収集し、`tests/test_claude_provider.py` でカバー。 |
+| #1658 | false-positive proof gate と一般的 skip リストがまだ欠けていることを確認後、code-reviewer メンテナーブランチで移植。 |
+| #1693 | `skills/redis-patterns/` としてすでに存在。 |
 
-## Already Present Or Superseded
+## すでに存在または Superseded (Already Present Or Superseded)
 
-| Source PR | Disposition |
+| ソース PR (Source PR) | 処分 (Disposition) |
 | --- | --- |
-| #1306 | Hook bug workarounds already exist on `main` as `docs/hook-bug-workarounds.md`. |
-| #1318 | Gemini agent adaptation utility was already present on current `main`. |
-| #1323 | Hook config update was already present on current `main`. |
-| #1337 | Catalog count update was superseded by current catalog-count sync. |
-| #1631 | `suggest-compact` stdin `session_id` isolation was already present on current `main` with hook tests. |
-| #1608 | Unsafe dashboard document/terminal open handling was already present on current `main` through safe runtime helpers and project-bound document opening. |
-| #1678 | Windows MCP `.cmd`/`.bat` fallback behavior was already present on current `main` with current health-check tests. |
-| #1682/#1701 | Strategic compact hook-path fixes were merged directly or superseded by current docs fixes. |
-| JARVIS #4/#5/#6 | Stale failing dependency-only PRs; future dependency state should be regenerated by Dependabot. |
+| #1306 | Hook bug 回避策は `main` に `docs/hook-bug-workarounds.md` としてすでに存在。 |
+| #1318 | Gemini agent adaptation utility は現在の `main` にすでに存在。 |
+| #1323 | Hook config 更新は現在の `main` にすでに存在。 |
+| #1337 | Catalog count 更新は現在の catalog-count sync に superseded。 |
+| #1631 | `suggest-compact` stdin `session_id` 分離は hook テスト付きで現在の `main` にすでに存在。 |
+| #1608 | 危険な dashboard document/terminal open 処理は safe runtime helper と project-bound document opening 経由で現在の `main` にすでに存在。 |
+| #1678 | Windows MCP `.cmd`/`.bat` フォールバックは現在の health-check テスト付きで現在の `main` にすでに存在。 |
+| #1682/#1701 | Strategic compact hook-path 修正は直接マージまたは現在の docs 修正に superseded。 |
+| JARVIS #4/#5/#6 | Stale で失敗する dependency のみの PR。将来の dependency 状態は Dependabot で再生成すべき。 |
 
-## 2026-05-18 Owner-Wide Queue Cleanup
+## 2026-05-18 Owner-Wide キュー整理 (2026-05-18 Owner-Wide Queue Cleanup)
 
-The ECC release repos were already clean, but an owner-wide `gh search` sweep
-found stale queues in older public/private projects. The cleanup closed 24
-stale dependency-bot PRs and 72 stale legacy payments/0EM roadmap issues,
-then closed the final 9 stale/generated/conflicting/test PRs and 5
-legacy/outreach/placeholder issues. The `affaan-m` owner namespace is now at 0
-open PRs and 0 open issues by live `gh search`. The detailed before/after
-evidence and final queue disposition are recorded in
-`docs/releases/2.0.0-rc.1/owner-queue-cleanup-2026-05-18.md`.
+ECC リリースリポジトリはすでにクリーンでしたが、owner 全体の `gh search` スイープで古い公開/非公開プロジェクトに stale キューが見つかりました。整理により stale dependency-bot PR 24件と legacy payments/0EM roadmap issue 72件を閉じ、最後の stale/generated/conflicting/test PR 9件と legacy/outreach/placeholder issue 5件を閉じました。`affaan-m` owner 名前空間はライブ `gh search` で open PR 0、open issue 0 です。詳細な before/after 証拠と最終キュー disposition は `docs/releases/2.0.0-rc.1/owner-queue-cleanup-2026-05-18.md` に記録されています。
 
-| Scope | Disposition |
+| スコープ (Scope) | 処分 (Disposition) |
 | --- | --- |
-| Dependabot PRs in `stoictradingAI`, `Behavioral_RL`, `dprc-autotrader-v2`, `x-algorithm-score`, `polycule-secure`, and `pragmAItism_defAInce` | Skipped as stale generated dependency bumps; regenerate from current base if still needed. |
-| Legacy issues in `payments0-api`, `payments0-sdk`, `agent-payments-gateway`, `0EM_Frontend`, `0em-payments-dashboard`, and `yield-optimizer` | Superseded by ECC Tools native-payments, hosted analysis, billing-readback, and Linear/project roadmap lanes. |
-| Archived repos touched for PR closure | `stoictradingAI`, `dprc-autotrader-v2`, `polycule-secure`, and `pragmAItism_defAInce` were restored to archived state after stale PR closure. |
-| Final PR/issue sweep | Closed the remaining generated ECC bundles, stale Cloudflare rename PRs, stale README-card PR, test/noise PR, public outreach issues, and empty placeholder issue. Preserved `dexploy#25` findings in Linear `ITO-62` before closure. |
+| `stoictradingAI`、`Behavioral_RL`、`dprc-autotrader-v2`、`x-algorithm-score`、`polycule-secure`、`pragmAItism_defAInce` の Dependabot PR | Stale 生成 dependency bump として Skipped。まだ必要なら現在のベースから再生成。 |
+| `payments0-api`、`payments0-sdk`、`agent-payments-gateway`、`0EM_Frontend`、`0em-payments-dashboard`、`yield-optimizer` の legacy issue | ECC Tools native-payments、hosted analysis、billing-readback、Linear/project roadmap レーンに superseded。 |
+| PR 閉鎖で触れた archived repo | `stoictradingAI`、`dprc-autotrader-v2`、`polycule-secure`、`pragmAItism_defAInce` は stale PR 閉鎖後に archived 状態に復元。 |
+| 最終 PR/issue スイープ | 残りの生成 ECC bundle、stale Cloudflare rename PR、stale README-card PR、test/noise PR、公開 outreach issue、空 placeholder issue を閉鎖。閉鎖前に `dexploy#25` の所見を Linear `ITO-62` に保持。 |
 
 ## Skipped
 
-| Source PR | Reason |
+| ソース PR (Source PR) | 理由 (Reason) |
 | --- | --- |
-| #1308 | Stale zh-CN sync would rewind or delete too much current tree state; concrete selector-link fix was already present. |
-| #1320 | Package-manager removal conflicts with the current npm/pnpm/yarn/bun CI policy. |
-| #1341 | Very large low-signal generated change with no safe focused salvage unit. |
-| #1416/#1465 | Accidental fork-sync PRs with no focused contribution. |
-| #1475 | One-line Gemini CLI bridge idea was too stale and underspecified to port safely. |
-| #1604 | Drag-and-drop Windows installer bypasses the current managed installer, performs direct broad copies, and runs `git pull` from a local install script. |
+| #1308 | Stale zh-CN sync は現在のツリー状態を巻き戻し/削除しすぎる。具体的 selector-link 修正はすでに存在。 |
+| #1320 | Package-manager 削除は現在の npm/pnpm/yarn/bun CI ポリシーと競合。 |
+| #1341 | 安全な focused salvage 単位のない非常に大きく低シグナルな生成変更。 |
+| #1416/#1465 | focused 貢献のない偶発的 fork-sync PR。 |
+| #1475 | 1行の Gemini CLI bridge アイデアは古すぎて仕様不足で安全に移植できない。 |
+| #1604 | ドラッグアンドドロップ Windows installer は現在の管理 installer をバイパスし、直接広いコピーとローカル install script からの `git pull` を実行。 |
 
-## Remaining Manual-Review Backlog
+## 残りの手動レビューバックログ (Remaining Manual-Review Backlog)
 
-The remaining plausibly useful backlog is translation/localization work that is
-unsafe to auto-port without language-owner review. This tail is attached to
-Linear ITO-55 and is not a release-blocking salvage task; release work should
-only verify that the backlog remains recorded and excluded from blind imports:
+残りの plausibly 有用なバックログは、言語オーナーレビューなしに auto-port すると危険な翻訳/localization 作業です。この tail は Linear ITO-55 に紐づき、リリースブロッキング salvage タスクではありません。リリース作業はバックログが記録され blind import から除外されていることだけを検証すべきです:
 
 - #1687 zh-CN localization tail
-- #1609 Persian README translation
+- #1609 Persian README 翻訳
 - #1563 zh-TW README sync
 - #1564 Turkish README sync
 - #1565 pt-BR README sync
 
-Handling rule:
+処理ルール:
 
-1. Keep these PRs in translator/manual review.
-2. Split any future work by surface: agents, commands, top-level docs, release
-   and count surfaces, then skills.
-3. Do not import stale top-level docs that carry old version or catalog-count
-   facts.
-4. Do not reopen old PRs unless the original author returns with a current
-   rebase; maintainer-side salvage should happen on fresh branches with
-   attribution.
+1. これらの PR は translator/manual review に置く。
+2. 将来の作業は surface ごとに分割: agent、command、トップレベル docs、release と count surface、次に skill。
+3. 古い version や catalog-count 事実を持つ stale トップレベル docs を import しない。
+4. 元の作者が現在の rebase で戻る場合以外、古い PR を reopen しない。メンテナー側 salvage は attribution 付きの新しいブランチで行う。
 
-## Future Cleanup Rule
+## 将来の整理ルール (Future Cleanup Rule)
 
-For every stale/conflicted PR cleanup batch:
+stale/conflicted PR 整理バッチごとに:
 
-1. Close or comment on the PR based on the queue policy.
-2. Add the source PR to this ledger or a dated successor ledger.
-3. Classify it as salvaged, already present, superseded, skipped, or
-   translator/manual review.
-4. If useful, port a small compatible slice on a fresh maintainer branch.
-5. Credit the source PR and author in the maintainer PR body.
+1. キューポリシーに基づき PR を閉じるかコメントする。
+2. ソース PR をこの台帳または日付付き後続台帳に追加する。
+3. salvaged、already present、superseded、skipped、translator/manual review に分類する。
+4. 有用なら新しいメンテナーブランチで小さな互換スライスを移植する。
+5. メンテナー PR 本文でソース PR と作者にクレジットする。

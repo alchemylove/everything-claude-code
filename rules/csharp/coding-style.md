@@ -3,22 +3,22 @@ paths:
   - "**/*.cs"
   - "**/*.csx"
 ---
-# C# Coding Style
+# C# コーディングスタイル (C# Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with C#-specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、C# 固有の内容を追加する。
 
-## Standards
+## 標準 (Standards)
 
-- Follow current .NET conventions and enable nullable reference types
-- Prefer explicit access modifiers on public and internal APIs
-- Keep files aligned with the primary type they define
+- 現行 .NET 規約に従い、nullable reference types を有効にする
+- public および internal API では明示的な access modifier を優先する
+- ファイルは定義する主要型に揃える
 
-## Types and Models
+## 型とモデル (Types and Models)
 
-- Prefer `record` or `record struct` for immutable value-like models
-- Use `class` for entities or types with identity and lifecycle
-- Use `interface` for service boundaries and abstractions
-- Avoid `dynamic` in application code; prefer generics or explicit models
+- 不変の value 的モデルには `record` または `record struct` を優先する
+- identity とライフサイクルを持つ型には `class` を使用する
+- サービス境界と抽象化には `interface` を使用する
+- アプリケーションコードでは `dynamic` を避け、generics または明示的モデルを優先する
 
 ```csharp
 public sealed record UserDto(Guid Id, string Email);
@@ -29,10 +29,10 @@ public interface IUserRepository
 }
 ```
 
-## Immutability
+## 不変性 (Immutability)
 
-- Prefer `init` setters, constructor parameters, and immutable collections for shared state
-- Do not mutate input models in-place when producing updated state
+- 共有状態には `init` setter、コンストラクタパラメータ、不変コレクションを優先する
+- 更新状態を生成するとき、入力モデルを in-place で変更しない
 
 ```csharp
 public sealed record UserProfile(string Name, string Email);
@@ -41,11 +41,11 @@ public static UserProfile Rename(UserProfile profile, string name) =>
     profile with { Name = name };
 ```
 
-## Async and Error Handling
+## async とエラーハンドリング (Async and Error Handling)
 
-- Prefer `async`/`await` over blocking calls like `.Result` or `.Wait()`
-- Pass `CancellationToken` through public async APIs
-- Throw specific exceptions and log with structured properties
+- `.Result` や `.Wait()` などの blocking 呼び出しより `async`/`await` を優先する
+- public async API には `CancellationToken` を渡す
+- 具体的な例外を投げ、structured properties でログを記録する
 
 ```csharp
 public async Task<Order> LoadOrderAsync(
@@ -65,8 +65,8 @@ public async Task<Order> LoadOrderAsync(
 }
 ```
 
-## Formatting
+## フォーマット (Formatting)
 
-- Use `dotnet format` for formatting and analyzer fixes
-- Keep `using` directives organized and remove unused imports
-- Prefer expression-bodied members only when they stay readable
+- フォーマットと analyzer 修正には `dotnet format` を使用する
+- `using` ディレクティブを整理し、未使用 import を削除する
+- 読みやすさを保てる場合のみ expression-bodied member を優先する

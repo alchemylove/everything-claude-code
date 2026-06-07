@@ -13,7 +13,7 @@ Copy-paste patterns for the most common UI animation needs.
 Every pattern here is built on `motion-foundations` tokens and springs.
 Do not define new duration or easing values here — import them.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - Animating a button, card, modal, or toast notification
 - Building list entrances with stagger
@@ -22,7 +22,7 @@ Do not define new duration or easing values here — import them.
 - Implementing scroll-reveal, scroll-linked progress, or sticky story sections
 - Building expanding cards, accordions, or shared-element transitions
 
-## Outputs
+## 出力 (Outputs)
 
 This skill produces:
 
@@ -32,14 +32,14 @@ This skill produces:
 - Scroll-reveal and scroll-linked patterns using `useScroll` + `useTransform`
 - Layout animation patterns (`layout`, `layoutId`) for expanding and crossfading elements
 
-## Principles
+## 原則 (Principles)
 
 - Every pattern imports from `motion-foundations`. No raw numbers.
 - Every conditional render is wrapped in `AnimatePresence` with a `key`.
 - Exit animations are always defined alongside enter animations — never as an afterthought.
 - `layout` is used only for small, isolated shifts. Large subtrees get explicit transforms.
 
-## Rules
+## ルール (Rules)
 
 1. **Always wrap conditional renders in `AnimatePresence` with a `key`** on the direct child. Without a key, exit animations never fire.
 2. **Always define `exit` when defining `initial` + `animate`.** An animation without an exit is incomplete.
@@ -50,7 +50,7 @@ This skill produces:
 7. **Scroll reveals use `viewport={{ once: true }}`.** Repeating on scroll-out is distracting, not informative.
 8. **All token values are imported from `motion-foundations`.** No inline numbers.
 
-## Decision Guidance
+## 判断ガイド (Decision Guidance)
 
 ### Choosing the right pattern
 
@@ -72,7 +72,7 @@ This skill produces:
 | `sync` | Stacked notifications, list items (overlap is fine) |
 | `popLayout` | Items removed from a reflow list |
 
-## Core Concepts
+## コア概念 (Core Concepts)
 
 ### AnimatePresence contract
 
@@ -91,7 +91,7 @@ Miss any one of these and the exit animation silently fails.
 
 Use `layout="position"` on text inside an expanding container to prevent text reflow from animating.
 
-## Code Examples
+## コード例 (Code Examples)
 
 ### Button feedback
 
@@ -342,7 +342,7 @@ export function ExpandingCard({ title, body }: { title: string; body: string }) 
 </motion.div>
 ```
 
-## End-to-End Example
+## エンドツーエンド例 (End-to-End Example)
 
 A staggered list that enters on mount, handles conditional presence, and
 respects reduced motion — combining tokens, springs, AnimatePresence, and
@@ -405,7 +405,7 @@ export function AnimatedList({ items, onRemove }: {
 }
 ```
 
-## Constraints / Non-Goals
+## 制約 / 非目標 (Constraints / Non-Goals)
 
 This skill does **not** cover:
 
@@ -416,7 +416,7 @@ This skill does **not** cover:
 - Custom animation hooks → see `motion-advanced`
 - CSS-only transitions not using `motion/react`
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 | Anti-pattern | Rule violated | Fix |
 | -------------------------------------------- | ------- | ------------------------------------------ |
@@ -429,7 +429,7 @@ This skill does **not** cover:
 | `whileInView` without `viewport={{ once: true }}` | Rule 7 | Repeating entrances distract, not inform |
 | `transition={{ duration: 0.3 }}` inline | Rule 8 | Use `motionTokens.duration.normal` |
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - **`motion-foundations`** — defines all tokens, springs, the `useSafeMotion` hook, and SSR guards that every pattern here imports. Must be set up first.
 - **`motion-advanced`** — extends these patterns with drag, gestures, SVG, text, custom hooks, and imperative sequencing. Does not redefine any patterns from this skill.

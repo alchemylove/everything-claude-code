@@ -4,13 +4,13 @@ description: Evidence-first mailbox triage, drafting, send verification, and sen
 origin: ECC
 ---
 
-# Email Ops
+# Email Ops (Email Ops)
 
 Use this when the real task is mailbox work: triage, drafting, replying, sending, or proving a message landed in Sent.
 
 This is not a generic writing skill. It is an operator workflow around the actual mail surface.
 
-## Skill Stack
+## Skill Stack (Skill Stack)
 
 Pull these ECC-native skills into the workflow when relevant:
 
@@ -20,14 +20,14 @@ Pull these ECC-native skills into the workflow when relevant:
 - `knowledge-ops` when the message or thread should be captured into durable context afterward
 - `research-ops` when a reply depends on fresh external facts
 
-## When to Use
+## When to Use (When to Use)
 
 - user asks to triage inbox or archive low-signal mail
 - user wants a draft, reply, or new outbound email
 - user wants to know whether a mail was already sent
 - the user wants proof of which account, thread, or Sent entry was used
 
-## Guardrails
+## Guardrails (Guardrails)
 
 - draft first unless the user clearly asked for a live send
 - never claim a message was sent without a real Sent-folder or client-side confirmation
@@ -35,9 +35,9 @@ Pull these ECC-native skills into the workflow when relevant:
 - do not delete uncertain business mail during cleanup
 - if the task is really DM or iMessage work, hand off to `messages-ops`
 
-## Workflow
+## Workflow (Workflow)
 
-### 1. Resolve the exact surface
+### 1. Resolve the exact surface (1. Resolve the exact surface)
 
 Before acting, settle:
 
@@ -46,7 +46,7 @@ Before acting, settle:
 - whether the task is triage, draft, reply, or send
 - whether the user wants draft-only or live send
 
-### 2. Read the thread before composing
+### 2. Read the thread before composing (2. Read the thread before composing)
 
 If replying:
 
@@ -60,7 +60,7 @@ If creating a new outbound:
 - select the correct channel and sender account
 - pull `brand-voice` before drafting
 
-### 3. Draft, then verify
+### 3. Draft, then verify (3. Draft, then verify)
 
 For draft-only work:
 
@@ -73,7 +73,7 @@ For live-send work:
 - send through the chosen mail surface
 - confirm the message landed in Sent or the equivalent sent-copy store
 
-### 4. Report exact state
+### 4. Report exact state (4. Report exact state)
 
 Use exact status words:
 
@@ -85,7 +85,7 @@ Use exact status words:
 
 If the send surface is blocked, preserve the draft and report the exact blocker instead of improvising a second transport without saying so.
 
-## Output Format
+## 出力フォーマット (Output Format) (Output Format)
 
 ```text
 MAIL SURFACE
@@ -107,14 +107,14 @@ NEXT STEP
 - archive / move
 ```
 
-## Pitfalls
+## Pitfalls (Pitfalls)
 
 - do not claim send success without a sent-copy check
 - do not ignore the thread history and write a contextless reply
 - do not mix mailbox work with DM or text-message workflows
 - do not expose secrets, auth details, or unnecessary message metadata
 
-## Verification
+## Verification (Verification)
 
 - the response names the account and thread or recipient
 - any send claim includes Sent proof or an explicit client-side confirmation

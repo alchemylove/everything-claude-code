@@ -4,84 +4,84 @@ description: Production machine-learning engineering workflow for data contracts
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Machine Learning Engineering Workflow
+# 機械学習エンジニアリングワークフロー (Machine Learning Engineering Workflow)
 
-Use this skill to turn model work into a production ML system with clear data contracts, repeatable training, measurable quality gates, deployable artifacts, and operational monitoring.
+明確なデータ契約、反復可能な学習、測定可能な品質ゲート、デプロイ可能なアーティファクト、運用モニタリングを備えた本番 ML システムにモデル作業を変換するためにこのスキルを使用する。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- Planning or reviewing a production ML feature, model refresh, ranking system, recommender, classifier, embedding workflow, or forecasting pipeline
-- Converting notebook code into a reusable training, evaluation, batch inference, or online inference pipeline
-- Designing model promotion criteria, offline/online evals, experiment tracking, or rollback paths
-- Debugging failures caused by data drift, label leakage, stale features, artifact mismatch, or inconsistent training and serving logic
-- Adding model monitoring, canary rollout, shadow traffic, or post-deploy quality checks
+- 本番 ML 機能、モデル更新、ランキングシステム、レコメンダー、分類器、埋め込みワークフロー、予測パイプラインの計画またはレビュー
+- ノートブックコードを再利用可能な学習、評価、バッチ推論、オンライン推論パイプラインに変換
+- モデル昇格基準、オフライン/オンライン eval、実験追跡、ロールバックパスの設計
+- データドリフト、ラベルリーク、古い特徴量、アーティファクト不一致、学習と serving ロジックの不整合による障害のデバッグ
+- モデルモニタリング、カナリアロールアウト、シャドウトラフィック、デプロイ後品質チェックの追加
 
-## Scope Calibration
+## スコープ調整 (Scope Calibration)
 
-Use only the lanes that fit the system in front of you. This skill is useful for ranking, search, recommendations, classifiers, forecasting, embeddings, LLM workflows, anomaly detection, and batch analytics, but it should not force one architecture onto all of them.
+目の前のシステムに合うレーンだけを使用する。このスキルはランキング、検索、レコメンド、分類器、予測、埋め込み、LLM ワークフロー、異常検知、バッチ分析に有用だが、すべてに一つのアーキテクチャを押し付けるべきではない。
 
-- Do not assume every model has supervised labels, online serving, a feature store, PyTorch, GPUs, human review, A/B tests, or real-time feedback.
-- Do not add heavyweight MLOps machinery when a data contract, baseline, eval script, and rollback note would make the change reviewable.
-- Do make assumptions explicit when the project lacks labels, delayed outcomes, slice definitions, production traffic, or monitoring ownership.
-- Treat examples as interchangeable scaffolds. Replace metrics, serving mode, data stores, and rollout mechanics with the project-native equivalents.
+- すべてのモデルに教師ありラベル、オンライン serving、feature store、PyTorch、GPU、人間レビュー、A/B テスト、リアルタイムフィードバックがあると仮定しない。
+- データ契約、ベースライン、eval スクリプト、ロールバックメモで変更がレビュー可能になるなら、重い MLOps 機構を追加しない。
+- プロジェクトにラベル、遅延アウトカム、スライス定義、本番トラフィック、モニタリング責任者が欠けている場合は前提を明示する。
+- 例は交換可能な足場として扱う。メトリクス、serving モード、データストア、ロールアウト機構をプロジェクト固有の同等物に置き換える。
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `python-patterns` and `python-testing` for Python implementation and pytest coverage
-- `pytorch-patterns` for deep learning models, data loaders, device handling, and training loops
-- `eval-harness` and `ai-regression-testing` for promotion gates and agent-assisted regression checks
-- `database-migrations`, `postgres-patterns`, and `clickhouse-io` for data storage and analytics surfaces
-- `deployment-patterns`, `docker-patterns`, and `security-review` for serving, secrets, containers, and production hardening
+- Python 実装と pytest カバレッジには `python-patterns` と `python-testing`
+- 深層学習モデル、データローダー、デバイス処理、学習ループには `pytorch-patterns`
+- 昇格ゲートとエージェント支援回帰チェックには `eval-harness` と `ai-regression-testing`
+- データストレージと分析サーフェスには `database-migrations`、`postgres-patterns`、`clickhouse-io`
+- serving、シークレット、コンテナ、本番強化には `deployment-patterns`、`docker-patterns`、`security-review`
 
-## Reuse the SWE Surface
+## SWE サーフェスの再利用 (Reuse the SWE Surface)
 
-Do not treat MLE as separate from software engineering. Most ECC SWE workflows apply directly to ML systems, often with stricter failure modes:
+MLE をソフトウェアエンジニアリングから分離して扱わない。ほとんどの ECC SWE ワークフローは ML システムに直接適用でき、しばしばより厳しい障害モードを持つ:
 
-The recommended `minimal --with capability:machine-learning` install keeps the core agent surface available alongside this skill. For skill-only or agent-limited harnesses, pair `skill:mle-workflow` with `agent:mle-reviewer` where the target supports agents.
+推奨の `minimal --with capability:machine-learning` インストールは、このスキルと並行してコアエージェントサーフェスを利用可能に保つ。スキルのみまたはエージェント制限のあるハーネスでは、ターゲットがエージェントをサポートする場合 `skill:mle-workflow` と `agent:mle-reviewer` を組み合わせる。
 
 | SWE surface | MLE use |
 |-------------|---------|
-| `product-capability` / `architecture-decision-records` | Turn model work into explicit product contracts and record irreversible data, model, and rollout choices |
-| `repo-scan` / `codebase-onboarding` / `code-tour` | Find existing training, feature, serving, eval, and monitoring paths before introducing a parallel ML stack |
-| `plan` / `feature-dev` | Scope model changes as product capabilities with data, eval, serving, and rollback phases |
-| `tdd-workflow` / `python-testing` | Test feature transforms, split logic, metric calculations, artifact loading, and inference schemas before implementation |
-| `code-reviewer` / `mle-reviewer` | Review code quality plus ML-specific leakage, reproducibility, promotion, and monitoring risks |
-| `build-fix` / `pr-test-analyzer` | Diagnose broken CI, flaky evals, missing fixtures, and environment-specific model or dependency failures |
-| `quality-gate` / `test-coverage` | Require automated evidence for transforms, metrics, inference contracts, promotion gates, and rollback behavior |
-| `eval-harness` / `verification-loop` | Turn offline metrics, slice checks, latency budgets, and rollback drills into repeatable gates |
-| `ai-regression-testing` | Preserve every production bug as a regression: missing feature, stale label, bad artifact, schema drift, or serving mismatch |
-| `api-design` / `backend-patterns` | Design prediction APIs, batch jobs, idempotent retraining endpoints, and response envelopes |
-| `database-migrations` / `postgres-patterns` / `clickhouse-io` | Version labels, feature snapshots, prediction logs, experiment metrics, and drift analytics |
-| `deployment-patterns` / `docker-patterns` | Package reproducible training and serving images with health checks, resource limits, and rollback |
-| `canary-watch` / `dashboard-builder` | Make rollout health visible with model-version, slice, drift, latency, cost, and delayed-label dashboards |
-| `security-review` / `security-scan` | Check model artifacts, notebooks, prompts, datasets, and logs for secrets, PII, unsafe deserialization, and supply-chain risk |
-| `e2e-testing` / `browser-qa` / `accessibility` | Test critical product flows that consume predictions, including explainability and fallback UI states |
-| `benchmark` / `performance-optimizer` | Measure throughput, p95 latency, memory, GPU utilization, and cost per prediction or retrain |
-| `cost-aware-llm-pipeline` / `token-budget-advisor` | Route LLM/embedding workloads by quality, latency, and budget instead of defaulting to the largest model |
-| `documentation-lookup` / `search-first` | Verify current library behavior for model serving, feature stores, vector DBs, and eval tooling before coding |
-| `git-workflow` / `github-ops` / `opensource-pipeline` | Package MLE changes for review with crisp scope, generated artifacts excluded, and reproducible test evidence |
-| `strategic-compact` / `dmux-workflows` | Split long ML work into parallel tracks: data contract, eval harness, serving path, monitoring, and docs |
+| `product-capability` / `architecture-decision-records` | モデル作業を明示的なプロダクト契約に変換し、不可逆なデータ・モデル・ロールアウトの選択を記録 |
+| `repo-scan` / `codebase-onboarding` / `code-tour` | 並行 ML スタックを導入する前に既存の学習、特徴量、serving、eval、モニタリングパスを発見 |
+| `plan` / `feature-dev` | モデル変更をデータ、eval、serving、ロールバックフェーズを持つプロダクト機能としてスコープ |
+| `tdd-workflow` / `python-testing` | 実装前に特徴量変換、分割ロジック、メトリクス計算、アーティファクト読み込み、推論スキーマをテスト |
+| `code-reviewer` / `mle-reviewer` | コード品質に加え ML 固有のリーク、再現性、昇格、モニタリングリスクをレビュー |
+| `build-fix` / `pr-test-analyzer` | 壊れた CI、不安定な eval、欠落フィクスチャ、環境固有のモデル・依存関係障害を診断 |
+| `quality-gate` / `test-coverage` | 変換、メトリクス、推論契約、昇格ゲート、ロールバック動作の自動証拠を要求 |
+| `eval-harness` / `verification-loop` | オフラインメトリクス、スライスチェック、レイテンシ予算、ロールバックドリルを反復可能なゲートに変換 |
+| `ai-regression-testing` | 本番バグをすべて回帰として保持: 欠落特徴量、古いラベル、不良アーティファクト、スキーマドリフト、serving 不一致 |
+| `api-design` / `backend-patterns` | 予測 API、バッチジョブ、べき等な再学習エンドポイント、レスポンスエンベロープを設計 |
+| `database-migrations` / `postgres-patterns` / `clickhouse-io` | ラベル、特徴量スナップショット、予測ログ、実験メトリクス、ドリフト分析をバージョン管理 |
+| `deployment-patterns` / `docker-patterns` | ヘルスチェック、リソース制限、ロールバック付きの再現可能な学習・serving イメージをパッケージ |
+| `canary-watch` / `dashboard-builder` | モデルバージョン、スライス、ドリフト、レイテンシ、コスト、遅延ラベルダッシュボードでロールアウト健全性を可視化 |
+| `security-review` / `security-scan` | モデルアーティファクト、ノートブック、プロンプト、データセット、ログのシークレット、PII、安全でないデシリアライズ、サプライチェーンリスクをチェック |
+| `e2e-testing` / `browser-qa` / `accessibility` | 予測を消費する重要プロダクトフローをテスト（説明可能性とフォールバック UI 状態を含む） |
+| `benchmark` / `performance-optimizer` | スループット、p95 レイテンシ、メモリ、GPU 利用率、予測または再学習あたりのコストを測定 |
+| `cost-aware-llm-pipeline` / `token-budget-advisor` | 最大モデルにデフォルトせず、品質、レイテンシ、予算で LLM/埋め込みワークロードをルーティング |
+| `documentation-lookup` / `search-first` | コーディング前にモデル serving、feature store、ベクトル DB、eval ツールの現行ライブラリ動作を検証 |
+| `git-workflow` / `github-ops` / `opensource-pipeline` | 明確なスコープ、生成アーティファクト除外、再現可能なテスト証拠で MLE 変更をレビュー用にパッケージ |
+| `strategic-compact` / `dmux-workflows` | 長い ML 作業を並列トラックに分割: データ契約、eval ハーネス、serving パス、モニタリング、ドキュメント |
 
-## Ten MLE Task Simulations
+## 10 の MLE タスクシミュレーション (Ten MLE Task Simulations)
 
-Use these simulations as coverage checks when planning or reviewing MLE work. A strong MLE workflow should reduce each task to explicit contracts, reusable SWE surfaces, automated evidence, and a reviewable artifact.
+MLE 作業の計画またはレビュー時にカバレッジチェックとしてこれらのシミュレーションを使用する。強い MLE ワークフローは各タスクを明示的な契約、再利用可能な SWE サーフェス、自動証拠、レビュー可能なアーティファクトに還元するはずである。
 
 | ID | Common MLE task | Streamlined ECC path | Required output | Pipeline lanes covered |
 |----|-----------------|----------------------|-----------------|------------------------|
-| MLE-01 | Frame an ambiguous prediction, ranking, recommender, classifier, embedding, or forecast capability | `product-capability`, `plan`, `architecture-decision-records`, `mle-workflow` | Iteration Compact naming who cares, decision owner, success metric, unacceptable mistakes, assumptions, constraints, and first experiment | product contract, stakeholder loss, risk, rollout |
-| MLE-02 | Define metric goals, labels, data sources, and the mistake budget | `repo-scan`, `database-reviewer`, `database-migrations`, `postgres-patterns`, `clickhouse-io` | Data and metric contract with entity grain, label timing, label confidence, feature timing, point-in-time joins, split policy, and dataset snapshot | data contract, metric design, leakage, reproducibility |
-| MLE-03 | Build a baseline model and scoring path before adding complexity | `tdd-workflow`, `python-testing`, `python-patterns`, `code-reviewer` | Baseline scorer with confusion matrix, calibration notes, latency/cost estimate, known weaknesses, and tests for score shape and determinism | baseline, scoring, testing, serving parity |
-| MLE-04 | Generate features from hypotheses about what separates outcomes | `python-patterns`, `pytorch-patterns`, `docker-patterns`, `deployment-patterns` | Feature plan and transform module covering signal source, missing values, outliers, correlations, leakage checks, and train/serve equivalence | feature pipeline, leakage, training, artifacts |
-| MLE-05 | Tune thresholds, configs, and model complexity under tradeoffs | `eval-harness`, `ai-regression-testing`, `quality-gate`, `test-coverage` | Threshold/config report comparing precision, recall, F1, AUC, calibration, group slices, latency, cost, complexity, and acceptable error classes | evaluation, threshold, promotion, regression |
-| MLE-06 | Run error analysis and turn mistakes into the next experiment | `eval-harness`, `ai-regression-testing`, `mle-reviewer`, `silent-failure-hunter` | Error cluster report for false positives, false negatives, ambiguous labels, stale features, missing signals, and bug traces with lessons captured | error analysis, bug trace, iteration, regression |
-| MLE-07 | Package a model artifact for batch or online inference | `api-design`, `backend-patterns`, `security-review`, `security-scan` | Versioned artifact bundle with preprocessing, config, dependency constraints, schema validation, safe loading, and PII-safe logs | artifact, security, inference contract |
-| MLE-08 | Ship online serving or batch scoring with feedback capture | `api-design`, `backend-patterns`, `e2e-testing`, `browser-qa`, `accessibility` | Prediction endpoint or batch job with response envelope, timeout, batching, fallback, model version, confidence, feedback logging, and product-flow tests | serving, batch inference, fallback, user workflow |
-| MLE-09 | Roll out a model with shadow traffic, canary, A/B test, or rollback | `canary-watch`, `dashboard-builder`, `verification-loop`, `performance-optimizer` | Rollout plan naming traffic split, dashboards, p95 latency, cost, quality guardrails, rollback artifact, and rollback trigger | deployment, canary, rollback |
-| MLE-10 | Operate, debug, and refresh a production model after launch | `silent-failure-hunter`, `dashboard-builder`, `mle-reviewer`, `doc-updater`, `github-ops` | Observation ledger and refresh plan with drift checks, delayed-label health, alert owners, runbook updates, retrain criteria, and PR evidence | monitoring, incident response, retraining |
+| MLE-01 | 曖昧な予測、ランキング、レコメンダー、分類器、埋め込み、予測機能を枠組み化 | `product-capability`, `plan`, `architecture-decision-records`, `mle-workflow` | 関心者、意思決定責任者、成功メトリクス、許容できないミス、前提、制約、最初の実験を命名する Iteration Compact | product contract, stakeholder loss, risk, rollout |
+| MLE-02 | メトリクス目標、ラベル、データソース、ミス予算を定義 | `repo-scan`, `database-reviewer`, `database-migrations`, `postgres-patterns`, `clickhouse-io` | エンティティ粒度、ラベルタイミング、ラベル信頼度、特徴量タイミング、point-in-time join、分割ポリシー、データセットスナップショットを含むデータ・メトリクス契約 | data contract, metric design, leakage, reproducibility |
+| MLE-03 | 複雑化前にベースラインモデルとスコアリングパスを構築 | `tdd-workflow`, `python-testing`, `python-patterns`, `code-reviewer` | 混同行列、キャリブレーション注記、レイテンシ/コスト見積もり、既知の弱点、スコア形状と決定性のテストを含むベースラインスコアラー | baseline, scoring, testing, serving parity |
+| MLE-04 | アウトカムを分離する仮説から特徴量を生成 | `python-patterns`, `pytorch-patterns`, `docker-patterns`, `deployment-patterns` | シグナル源、欠損値、外れ値、相関、リークチェック、学習/serving 等価性をカバーする特徴量計画と変換モジュール | feature pipeline, leakage, training, artifacts |
+| MLE-05 | トレードオフ下で閾値、設定、モデル複雑度を調整 | `eval-harness`, `ai-regression-testing`, `quality-gate`, `test-coverage` | precision、recall、F1、AUC、キャリブレーション、グループスライス、レイテンシ、コスト、複雑度、許容エラークラスを比較する閾値/設定レポート | evaluation, threshold, promotion, regression |
+| MLE-06 | エラー分析を実行し、ミスを次の実験に変換 | `eval-harness`, `ai-regression-testing`, `mle-reviewer`, `silent-failure-hunter` | false positive、false negative、曖昧ラベル、古い特徴量、欠落シグナル、バグトレースのエラークラスタレポートと教訓の記録 | error analysis, bug trace, iteration, regression |
+| MLE-07 | バッチまたはオンライン推論用にモデルアーティファクトをパッケージ | `api-design`, `backend-patterns`, `security-review`, `security-scan` | 前処理、設定、依存制約、スキーマバリデーション、安全な読み込み、PII 安全ログを含むバージョン管理アーティファクトバンドル | artifact, security, inference contract |
+| MLE-08 | フィードバック取得付きオンライン serving またはバッチスコアリングを出荷 | `api-design`, `backend-patterns`, `e2e-testing`, `browser-qa`, `accessibility` | レスポンスエンベロープ、タイムアウト、バッチング、フォールバック、モデルバージョン、信頼度、フィードバックログ、プロダクトフローテストを含む予測エンドポイントまたはバッチジョブ | serving, batch inference, fallback, user workflow |
+| MLE-09 | シャドウトラフィック、カナリア、A/B テスト、ロールバックでモデルをロールアウト | `canary-watch`, `dashboard-builder`, `verification-loop`, `performance-optimizer` | トラフィック分割、ダッシュボード、p95 レイテンシ、コスト、品質ガードレール、ロールバックアーティファクト、ロールバックトリガーを命名するロールアウト計画 | deployment, canary, rollback |
+| MLE-10 | ローンチ後の本番モデルを運用、デバッグ、更新 | `silent-failure-hunter`, `dashboard-builder`, `mle-reviewer`, `doc-updater`, `github-ops` | ドリフトチェック、遅延ラベル健全性、アラート責任者、ランブック更新、再学習基準、PR 証拠を含む観察台帳と更新計画 | monitoring, incident response, retraining |
 
-## Iteration Compact
+## イテレーションコンパクト (Iteration Compact)
 
-Before touching model code, compress the work into one reviewable artifact. This should be short enough to fit in a PR description and precise enough that another engineer can challenge the tradeoffs.
+モデルコードに触れる前に、作業を一つのレビュー可能なアーティファクトに圧縮する。PR 説明に収まるほど短く、他のエンジニアがトレードオフに異議を唱えられるほど精密であるべき。
 
 ```text
 Goal:
@@ -105,66 +105,66 @@ Next experiment:
 Rollback or fallback:
 ```
 
-This compact is the MLE equivalent of a strong SWE design note. It keeps the team from optimizing a metric no one trusts, adding features that do not address the real error mode, or shipping complexity without a rollback.
+この compact は強い SWE 設計メモの MLE 版である。信頼できないメトリクスの最適化、実際のエラーモードに対処しない特徴量の追加、ロールバックなしの複雑化の出荷を防ぐ。
 
-## Decision Brain
+## 意思決定ブレイン (Decision Brain)
 
-Use this loop whenever the task is ambiguous, high-impact, or metric-heavy:
+タスクが曖昧、影響大、メトリクス重視のときはこのループを使用する:
 
-1. Start from the decision, not the model. Name the action that changes downstream behavior.
-2. Name who cares and why. Different stakeholders pay different costs for false positives, false negatives, latency, compute spend, opacity, or missed opportunities.
-3. Convert ambiguity into hypotheses. Ask what signal would separate outcomes, what evidence would disprove it, and what simple baseline should be hard to beat.
-4. Research prior art or a nearby known problem before inventing a bespoke system.
-5. Score choices with `(probability, confidence) x (cost, severity, importance, impact)`.
-6. Consider adversarial behavior, incentives, selective disclosure, distribution shift, and feedback loops.
-7. Prefer the simplest change that reduces the most important mistake. Simplicity is not laziness; it is a way to minimize blunders while preserving iteration speed.
-8. Capture the decision, evidence, counterargument, and next reversible step.
+1. モデルではなく意思決定から始める。下流の振る舞いを変えるアクションを命名する。
+2. 誰が関心を持ちなぜかを命名する。ステークホルダーごとに false positive、false negative、レイテンシ、計算コスト、不透明性、機会損失のコストは異なる。
+3. 曖昧さを仮説に変換する。アウトカムを分離するシグナル、それを反証する証拠、打ち負かすべき単純なベースラインを問う。
+4. 独自システムを発明する前に、先行事例または近い既知の問題を調査する。
+5. `(probability, confidence) x (cost, severity, importance, impact)` で選択肢をスコアする。
+6. 敵対的行動、インセンティブ、選択的開示、分布シフト、フィードバックループを考慮する。
+7. 最も重要なミスを最も減らす最も単純な変更を優先する。単純さは怠慢ではない。反復速度を保ちながらミスを最小化する方法である。
+8. 意思決定、証拠、反論、次の可逆ステップを記録する。
 
-## Metric and Mistake Economics
+## メトリクスとミス経済学 (Metric and Mistake Economics)
 
-Choose metrics from failure costs, not habit:
+習慣ではなく障害コストからメトリクスを選ぶ:
 
-- Use a confusion matrix early so the team can discuss concrete false positives and false negatives instead of abstract accuracy.
-- Favor precision when the cost of an incorrect positive decision dominates.
-- Favor recall when the cost of a missed positive dominates.
-- Use F1 only when the precision/recall tradeoff is genuinely balanced and explainable.
-- Use AUC or ranking metrics when ordering quality matters more than a single threshold.
-- Track latency, throughput, memory, and cost as first-class metrics because they shape feasible model complexity.
-- Compare against a baseline and the current production model before celebrating an offline gain.
-- Treat real-world feedback signals as delayed labels with bias, lag, and coverage gaps; do not treat them as ground truth without analysis.
+- チームが抽象的な accuracy ではなく具体的な false positive と false negative を議論できるよう、早期に混同行列を使用する。
+- 誤った陽性判断のコストが支配的なら precision を優先する。
+- 見逃しのコストが支配的なら recall を優先する。
+- precision/recall トレードオフが本当にバランスされ説明可能な場合のみ F1 を使用する。
+- 単一閾値より順位品質が重要なら AUC またはランキングメトリクスを使用する。
+- 実行可能なモデル複雑度を形作るため、レイテンシ、スループット、メモリ、コストを第一級メトリクスとして追跡する。
+- オフライン改善を祝う前にベースラインと現行本番モデルと比較する。
+- 実世界のフィードバックシグナルはバイアス、ラグ、カバレッジギャップを持つ遅延ラベルとして扱う。分析なしに ground truth としない。
 
-Every metric choice should state which mistake it makes cheaper, which mistake it makes more likely, and who absorbs that cost.
+すべてのメトリクス選択は、どのミスを安くし、どのミスを起こしやすくし、誰がそのコストを負担するかを述べるべきである。
 
-## Data and Feature Hypotheses
+## データと特徴量仮説 (Data and Feature Hypotheses)
 
-Features should come from a theory of separation:
+特徴量は分離の理論から来るべき:
 
-- Text, categorical fields, numeric histories, graph relationships, recency, frequency, and aggregates are candidate signal families, not automatic features.
-- For every feature family, state why it should separate outcomes and how it could leak future information.
-- For noisy labels, consider adjudication, label confidence, soft targets, or confidence weighting.
-- For class imbalance, compare weighted loss, resampling, threshold movement, and calibrated decision rules.
-- For missing values, decide whether absence is informative, imputable, or a reason to abstain.
-- For outliers, decide whether to clip, bucket, investigate, or preserve them as rare but important signal.
-- For correlated features, check whether they are redundant, unstable, or proxies for unavailable future state.
+- テキスト、カテゴリフィールド、数値履歴、グラフ関係、新しさ、頻度、集約は候補シグナルファミリーであり、自動的な特徴量ではない。
+- すべての特徴量ファミリーについて、なぜアウトカムを分離すべきか、どう未来情報をリークしうるかを述べる。
+- ノイズの多いラベルには、裁定、ラベル信頼度、ソフトターゲット、信頼度重み付けを検討する。
+- クラス不均衡には、重み付き損失、リサンプリング、閾値移動、キャリブレーション済み意思決定ルールを比較する。
+- 欠損値について、欠如が情報的か、補完可能か、棄権の理由かを決める。
+- 外れ値について、クリップ、バケット化、調査、稀だが重要なシグナルとして保持するかを決める。
+- 相関特徴量について、冗長、不安定、利用不可の未来状態の代理かをチェックする。
 
-Do not add model complexity until error analysis shows that the baseline is failing for a reason additional signal or capacity can plausibly fix.
+エラー分析がベースラインが追加シグナルや容量で plausibly 修正できる理由で失敗していることを示すまで、モデル複雑度を追加しない。
 
-## Error Analysis Loop
+## エラー分析ループ (Error Analysis Loop)
 
-After each baseline, training run, threshold change, or config change:
+各ベースライン、学習実行、閾値変更、設定変更の後:
 
-1. Split mistakes into false positives, false negatives, abstentions, low-confidence cases, and system failures.
-2. Cluster errors by shared traits: language, entity type, source, time, geography, device, sparsity, recency, feature freshness, label source, or model version.
-3. Separate model mistakes from data bugs, label ambiguity, product ambiguity, instrumentation gaps, and serving mismatches.
-4. Trace each major cluster to one of four moves: better labels, better features, better threshold/config, or better product fallback.
-5. Preserve every important mistake as a regression test, eval slice, dashboard panel, or runbook entry.
-6. Write the next iteration as a falsifiable experiment, not a vague "improve model" task.
+1. ミスを false positive、false negative、棄権、低信頼度ケース、システム障害に分割する。
+2. 共通特性でエラーをクラスタ化: 言語、エンティティタイプ、ソース、時間、地域、デバイス、スパース性、新しさ、特徴量鮮度、ラベルソース、モデルバージョン。
+3. モデルミスをデータバグ、ラベル曖昧性、プロダクト曖昧性、計測ギャップ、serving 不一致から分離する。
+4. 各主要クラスタを四つの動きの一つに追跡: より良いラベル、より良い特徴量、より良い閾値/設定、より良いプロダクトフォールバック。
+5. 重要なミスをすべて回帰テスト、eval スライス、ダッシュボードパネル、ランブックエントリとして保持する。
+6. 次の反復を曖昧な「モデル改善」ではなく反証可能な実験として書く。
 
-The strongest MLE loop is not train -> metric -> ship. It is mistake -> cluster -> hypothesis -> experiment -> evidence -> simpler system.
+最強の MLE ループは train -> metric -> ship ではない。mistake -> cluster -> hypothesis -> experiment -> evidence -> simpler system である。
 
-## Observation Ledger
+## 観察台帳 (Observation Ledger)
 
-Keep a compact decision and evidence trail beside the code, PR, experiment report, or runbook:
+コード、PR、実験レポート、ランブックの横にコンパクトな意思決定と証拠の軌跡を保持する:
 
 ```text
 Iteration:
@@ -183,50 +183,50 @@ Debt created:
 Next iteration:
 ```
 
-Use the ledger to make model work cumulative. The goal is for each iteration to make the next decision easier, not merely to produce another artifact.
+台帳でモデル作業を累積的にする。各反復が次の意思決定を容易にし、単に別のアーティファクトを生むだけでないことが目標である。
 
-## Core Workflow
+## コアワークフロー (Core Workflow)
 
-### 1. Define the Prediction Contract
+### 1. 予測契約の定義 (1. Define the Prediction Contract)
 
-Capture the product-level contract before writing model code:
+モデルコードを書く前にプロダクトレベルの契約を捕捉する:
 
-- Prediction target and decision owner
-- Input entity, output schema, confidence/calibration fields, and allowed latency
-- Batch, online, streaming, or hybrid serving mode
-- Fallback behavior when the model, feature store, or dependency is unavailable
-- Human review or override path for high-impact decisions
-- Privacy, retention, and audit requirements for inputs, predictions, and labels
+- 予測ターゲットと意思決定責任者
+- 入力エンティティ、出力スキーマ、信頼度/キャリブレーションフィールド、許容レイテンシ
+- バッチ、オンライン、ストリーミング、またはハイブリッド serving モード
+- モデル、feature store、依存関係が利用不可のときのフォールバック動作
+- 高影響判断のための人間レビューまたはオーバーライドパス
+- 入力、予測、ラベルのプライバシー、保持、監査要件
 
-Do not accept "improve the model" as a requirement. Tie the model to an observable product behavior and a measurable acceptance gate.
+「モデルを改善する」を要件として受け入れない。モデルを観測可能なプロダクト振る舞いと測定可能な受け入れゲートに結びつける。
 
-### 2. Lock the Data Contract
+### 2. データ契約の固定 (2. Lock the Data Contract)
 
-Every ML task needs an explicit data contract:
+すべての ML タスクには明示的なデータ契約が必要:
 
-- Entity grain and primary key
-- Label definition, label timestamp, and label availability delay
-- Feature timestamp, freshness SLA, and point-in-time join rules
-- Train, validation, test, and backtest split policy
-- Required columns, allowed nulls, ranges, categories, and units
-- PII or sensitive fields that must not enter training artifacts or logs
-- Dataset version or snapshot ID for reproducibility
+- エンティティ粒度と主キー
+- ラベル定義、ラベルタイムスタンプ、ラベル利用可能遅延
+- 特徴量タイムスタンプ、鮮度 SLA、point-in-time join ルール
+- 学習、検証、テスト、バックテスト分割ポリシー
+- 必須列、許容 null、範囲、カテゴリ、単位
+- 学習アーティファクトやログに入れてはならない PII または機微フィールド
+- 再現性のためのデータセットバージョンまたはスナップショット ID
 
-Guard against leakage first. If a feature is not available at prediction time, or is joined using future information, remove it or move it to an analysis-only path.
+まずリークを防ぐ。特徴量が予測時に利用不可、または未来情報で join されている場合は除去するか、分析専用パスに移す。
 
-### 3. Build a Reproducible Pipeline
+### 3. 再現可能パイプラインの構築 (3. Build a Reproducible Pipeline)
 
-Training code should be runnable by another engineer without hidden notebook state:
+学習コードは隠れたノートブック状態なしに他のエンジニアが実行可能であるべき:
 
-- Use typed config files or dataclasses for all hyperparameters and paths
-- Pin package and model dependencies
-- Set random seeds and document any nondeterministic GPU behavior
-- Record dataset version, code SHA, config hash, metrics, and artifact URI
-- Save preprocessing logic with the model artifact, not separately in a notebook
-- Keep train, eval, and inference transformations shared or generated from one source
-- Make every step idempotent so retries do not corrupt artifacts or metrics
+- すべてのハイパーパラメータとパスに型付き設定ファイルまたは dataclass を使用
+- パッケージとモデル依存関係を固定
+- 乱数シードを設定し、非決定的 GPU 動作を文書化
+- データセットバージョン、コード SHA、設定ハッシュ、メトリクス、アーティファクト URI を記録
+- 前処理ロジックをノートブックではなくモデルアーティファクトと一緒に保存
+- 学習、eval、推論変換を共有するか一つのソースから生成
+- すべてのステップをべき等にし、リトライがアーティファクトやメトリクスを破壊しないようにする
 
-Prefer immutable values and pure transformation functions. Avoid mutating shared data frames or global config during feature generation.
+不変値と純粋な変換関数を優先する。特徴量生成中の共有データフレームやグローバル設定のミューテーションを避ける。
 
 ```python
 import hashlib
@@ -249,17 +249,17 @@ def artifact_name(config: TrainingConfig, code_sha: str) -> str:
     return f"{code_sha[:12]}-{config_hash}"
 ```
 
-### 4. Evaluate Before Promotion
+### 4. 昇格前の評価 (4. Evaluate Before Promotion)
 
-Promotion criteria should be declared before training finishes:
+昇格基準は学習完了前に宣言する:
 
-- Baseline model and current production model comparison
-- Primary metric aligned to product behavior
-- Guardrail metrics for latency, calibration, fairness slices, cost, and error concentration
-- Slice metrics for important cohorts, geographies, devices, languages, or data sources
-- Confidence intervals or repeated-run variance when metrics are noisy
-- Failure examples reviewed by a human for high-impact models
-- Explicit "do not ship" thresholds
+- ベースラインモデルと現行本番モデルの比較
+- プロダクト振る舞いに整合した主要メトリクス
+- レイテンシ、キャリブレーション、公平性スライス、コスト、エラー集中のガードレールメトリクス
+- 重要コホート、地域、デバイス、言語、データソースのスライスメトリクス
+- メトリクスがノイズの多い場合の信頼区間または反復実行分散
+- 高影響モデルの人間による失敗例レビュー
+- 明示的な「出荷しない」閾値
 
 ```python
 PROMOTION_GATES = {
@@ -285,62 +285,62 @@ def assert_promotion_ready(metrics: dict[str, float]) -> None:
         raise ValueError(f"Model failed promotion gates: {failures}")
 ```
 
-Use offline metrics as gates, not guarantees. When the model changes product behavior, plan shadow evaluation, canary rollout, or A/B testing before full rollout.
+オフラインメトリクスはゲートであり保証ではない。モデルがプロダクト振る舞いを変えるときは、フルロールアウト前にシャドウ評価、カナリアロールアウト、または A/B テストを計画する。
 
-### 5. Package for Serving
+### 5. Serving 用パッケージング (5. Package for Serving)
 
-An ML artifact is production-ready only when the serving contract is testable:
+ML アーティファクトは serving 契約がテスト可能なときのみ本番準備完了:
 
-- Model artifact includes version, training data reference, config, and preprocessing
-- Input schema rejects invalid, stale, or out-of-range features
-- Output schema includes model version and confidence or explanation fields when useful
-- Serving path has timeout, batching, resource limits, and fallback behavior
-- CPU/GPU requirements are explicit and tested
-- Prediction logs avoid PII and include enough identifiers for debugging and label joins
-- Integration tests cover missing features, stale features, bad types, empty batches, and fallback path
+- モデルアーティファクトにバージョン、学習データ参照、設定、前処理を含める
+- 入力スキーマが無効、古い、範囲外の特徴量を拒否する
+- 出力スキーマに有用な場合はモデルバージョンと信頼度または説明フィールドを含める
+- serving パスにタイムアウト、バッチング、リソース制限、フォールバック動作がある
+- CPU/GPU 要件が明示的でテスト済み
+- 予測ログは PII を避け、デバッグとラベル join に十分な識別子を含む
+- 統合テストが欠落特徴量、古い特徴量、不正型、空バッチ、フォールバックパスをカバーする
 
-Never let training-only feature code diverge from serving feature code without a test that proves equivalence.
+学習専用特徴量コードが serving 特徴量コードと乖離しない。等価性を証明するテストなしには許可しない。
 
-### 6. Operate the Model
+### 6. モデルの運用 (6. Operate the Model)
 
-Model monitoring needs both system and quality signals:
+モデルモニタリングにはシステムと品質の両シグナルが必要:
 
-- Availability, error rate, timeout rate, queue depth, and p50/p95/p99 latency
-- Feature null rate, range drift, categorical drift, and freshness drift
-- Prediction distribution drift and confidence distribution drift
-- Label arrival health and delayed quality metrics
-- Business KPI guardrails and rollback triggers
-- Per-version dashboards for canaries and rollbacks
+- 可用性、エラー率、タイムアウト率、キュー深度、p50/p95/p99 レイテンシ
+- 特徴量 null 率、範囲ドリフト、カテゴリドリフト、鮮度ドリフト
+- 予測分布ドリフトと信頼度分布ドリフト
+- ラベル到着健全性と遅延品質メトリクス
+- ビジネス KPI ガードレールとロールバックトリガー
+- カナリアとロールバック用のバージョン別ダッシュボード
 
-Every deployment should have a rollback plan that names the previous artifact, config, data dependency, and traffic-switch mechanism.
+すべてのデプロイには、前のアーティファクト、設定、データ依存関係、トラフィック切替機構を命名するロールバック計画があるべき。
 
-## Review Checklist
+## レビューチェックリスト (Review Checklist)
 
-- [ ] Prediction contract is explicit and testable
-- [ ] Data contract defines entity grain, label timing, feature timing, and snapshot/version
-- [ ] Leakage risks were checked against prediction-time availability
-- [ ] Training is reproducible from code, config, data version, and seed
-- [ ] Metrics compare against baseline and current production model
-- [ ] Slice metrics and guardrails are included for high-risk cohorts
-- [ ] Promotion gates are automated and fail closed
-- [ ] Training and serving transformations are shared or equivalence-tested
-- [ ] Model artifact carries version, config, dataset reference, and preprocessing
-- [ ] Serving path validates inputs and has timeout, fallback, and rollback behavior
-- [ ] Monitoring covers system health, feature drift, prediction drift, and delayed labels
-- [ ] Sensitive data is excluded from artifacts, logs, prompts, and examples
+- [ ] 予測契約が明示的でテスト可能
+- [ ] データ契約がエンティティ粒度、ラベルタイミング、特徴量タイミング、スナップショット/バージョンを定義
+- [ ] リークリスクが予測時利用可能性に対してチェック済み
+- [ ] 学習がコード、設定、データバージョン、シードから再現可能
+- [ ] メトリクスがベースラインと現行本番モデルと比較されている
+- [ ] 高リスクコホート向けにスライスメトリクスとガードレールが含まれる
+- [ ] 昇格ゲートが自動化され fail closed
+- [ ] 学習と serving 変換が共有または等価性テスト済み
+- [ ] モデルアーティファクトがバージョン、設定、データセット参照、前処理を保持
+- [ ] serving パスが入力を検証し、タイムアウト、フォールバック、ロールバック動作を持つ
+- [ ] モニタリングがシステム健全性、特徴量ドリフト、予測ドリフト、遅延ラベルをカバー
+- [ ] 機微データがアーティファクト、ログ、プロンプト、例から除外されている
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
-- Notebook state is required to reproduce the model
-- Random split leaks future data into validation or test sets
-- Feature joins ignore event time and label availability
-- Offline metric improves while important slices regress
-- Thresholds are tuned on the test set repeatedly
-- Training preprocessing is copied manually into serving code
-- Model version is missing from prediction logs
-- Monitoring only checks service uptime, not data or prediction quality
-- Rollback requires retraining instead of switching to a known-good artifact
+- モデル再現にノートブック状態が必要
+- ランダム分割が未来データを検証またはテストセットにリーク
+- 特徴量 join がイベント時刻とラベル利用可能性を無視
+- オフラインメトリクスは改善するが重要スライスは悪化
+- 閾値がテストセットで繰り返し調整される
+- 学習前処理が serving コードに手動コピーされる
+- 予測ログにモデルバージョンが欠落
+- モニタリングがサービス稼働のみをチェックし、データや予測品質をチェックしない
+- ロールバックに既知の良好アーティファクトへの切替ではなく再学習が必要
 
-## Output Expectations
+## 出力期待 (Output Expectations)
 
-When using this skill, return concrete artifacts: data contract, promotion gates, pipeline steps, test plan, deployment plan, or review findings. Call out unknowns that block production readiness instead of filling them with assumptions.
+このスキルを使用するときは、具体的なアーティファクトを返す: データ契約、昇格ゲート、パイプラインステップ、テスト計画、デプロイ計画、またはレビュー所見。本番準備をブロックする未知を前提で埋めずに明示する。

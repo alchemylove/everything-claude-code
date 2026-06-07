@@ -1,10 +1,10 @@
-> This file extends [common/coding-style.md](../common/coding-style.md) with web-specific frontend content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Web 固有のフロントエンド内容を追加する。
 
-# Web Coding Style
+# Web コーディングスタイル (Web Coding Style)
 
-## File Organization
+## ファイル構成 (File Organization)
 
-Organize by feature or surface area, not by file type:
+ファイルタイプではなく、機能またはサーフェスエリアごとに整理する:
 
 ```text
 src/
@@ -33,9 +33,9 @@ src/
     └── global.css
 ```
 
-## CSS Custom Properties
+## CSS カスタムプロパティ (CSS Custom Properties)
 
-Define design tokens as variables. Do not hardcode palette, typography, or spacing repeatedly:
+デザイントークンを変数として定義する。パレット、タイポグラフィ、スペーシングを繰り返しハードコードしない:
 
 ```css
 :root {
@@ -54,15 +54,15 @@ Define design tokens as variables. Do not hardcode palette, typography, or spaci
 }
 ```
 
-## Animation-Only Properties
+## アニメーション専用プロパティ (Animation-Only Properties)
 
-Prefer compositor-friendly motion:
+コンポジタフレンドリーなモーションを優先する:
 - `transform`
 - `opacity`
 - `clip-path`
-- `filter` (sparingly)
+- `filter`（控えめに）
 
-Avoid animating layout-bound properties:
+レイアウトに紐づくプロパティのアニメーションを避ける:
 - `width`
 - `height`
 - `top`
@@ -72,7 +72,7 @@ Avoid animating layout-bound properties:
 - `border`
 - `font-size`
 
-## Semantic HTML First
+## セマンティック HTML ファースト (Semantic HTML First)
 
 ```html
 <header>
@@ -86,11 +86,11 @@ Avoid animating layout-bound properties:
 <footer>...</footer>
 ```
 
-Do not reach for generic wrapper `div` stacks when a semantic element exists.
+セマンティック要素が存在するときに、汎用的な `div` ラッパースタックに頼らない。
 
-## Naming
+## 命名 (Naming)
 
-- Components: PascalCase (`ScrollySection`, `SurfaceCard`)
-- Hooks: `use` prefix (`useReducedMotion`)
-- CSS classes: kebab-case or utility classes
-- Animation timelines: camelCase with intent (`heroRevealTl`)
+- コンポーネント: PascalCase（`ScrollySection`、`SurfaceCard`）
+- フック: `use` プレフィックス（`useReducedMotion`）
+- CSS クラス: kebab-case またはユーティリティクラス
+- アニメーションタイムライン: 意図を含む camelCase（`heroRevealTl`）

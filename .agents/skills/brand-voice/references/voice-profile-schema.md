@@ -1,6 +1,6 @@
-# Voice Profile Schema
+# Voice Profile スキーマ (Voice Profile Schema)
 
-Use this exact structure when building a reusable voice profile:
+再利用可能な voice profile を構築するときは、この構造をそのまま使う:
 
 ```text
 VOICE PROFILE
@@ -47,9 +47,9 @@ Channel Notes
 - Email:
 ```
 
-Guidelines:
+ガイドライン:
 
-- Keep the profile concrete and source-backed.
-- Use short bullets, not essay paragraphs.
-- Every banned move should be observable in the source set or explicitly requested by the user.
-- If the source set conflicts, call out the split instead of averaging it into mush.
+- profile は concrete で source-backed に保つ。
+- essay paragraph ではなく short bullet を使う。
+- 各 banned move は source set で観察可能か、ユーザーが明示的に要求したものであるべき。
+- source set が矛盾する場合、平均して mush にせず split を明示する。

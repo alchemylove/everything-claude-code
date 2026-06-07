@@ -4,14 +4,14 @@ paths:
   - "**/*.kts"
   - "**/build.gradle.kts"
 ---
-# Kotlin Hooks
+# Kotlin フック (Kotlin Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Kotlin-specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Kotlin 固有の内容を追加する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **ktfmt/ktlint**: Auto-format `.kt` and `.kts` files after edit
-- **detekt**: Run static analysis after editing Kotlin files
-- **./gradlew build**: Verify compilation after changes
+- **ktfmt/ktlint**: 編集後に `.kt` と `.kts` ファイルを自動フォーマット
+- **detekt**: Kotlin ファイル編集後に静的解析を実行
+- **./gradlew build**: 変更後にコンパイルを検証

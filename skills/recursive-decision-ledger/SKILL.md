@@ -5,44 +5,40 @@ origin: ECC
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
-# Recursive Decision Ledger
+# Recursive Decision Ledger (Recursive Decision Ledger)
 
-Use this skill when the user is trying to force deeper computation through
-repeated rollouts or "Prime Gauss" style recursive prompting. Preserve the useful
-part: repeated trials, prior memory, fresh information, and explicit marks.
-Remove the unsafe part: pretending the loop proves certainty.
+user が repeated trial や「Prime Gauss」型 recursive prompting でより深い計算を強制しようとするときにこの skill を使用する。有用な部分（repeated trial、prior memory、fresh information、explicit mark）は保持し、不安全な部分（ループが確実性を証明するふり）は除去する。
 
-## Ledger Contract
+## Ledger 契約 (Ledger Contract)
 
-Every rollout should record:
+各 rollout は次を記録:
 
-- rollout id and timestamp;
-- prior accepted winner and prior watchlist;
-- fresh information ingested;
-- search space size;
-- model families or heuristics used;
-- trial count and effective trial count;
-- top candidates;
-- decision marks;
-- coherence marks against the prior ledger;
-- promotion gate result.
+- rollout id と timestamp
+- prior accepted winner と prior watchlist
+- 取り込んだ fresh information
+- search space サイズ
+- 使用した model family または heuristic
+- trial count と effective trial count
+- top candidate
+- decision mark
+- prior ledger との coherence mark
+- promotion gate 結果
 
-Prefer JSONL for append-only ledgers and Markdown for human summaries.
+append-only ledger は JSONL、human summary は Markdown を優先。
 
-## Rollout Loop
+## Rollout ループ (Rollout Loop)
 
-1. Load the prior ledger.
-2. Capture new information at time-step zero.
-3. Run the bounded search.
-4. Mark each candidate: accept, watch, reject, decay watch, or needs replay.
-5. Compare winners against prior winners and latest marked rollout.
-6. Downgrade candidates when drift, tail risk, stale data, or failed replay
-   invalidates the previous mark.
-7. Append artifacts before summarizing.
+1. prior ledger を読み込む。
+2. time-step zero で新情報を取得する。
+3. bounded search を実行する。
+4. 各 candidate に mark: accept、watch、reject、decay watch、needs replay。
+5. winner を prior winner と latest marked rollout と比較する。
+6. drift、tail risk、stale data、failed replay で prior mark が無効なら downgrade する。
+7. 要約前に artifact を append する。
 
-## Coherence Mark
+## Coherence Mark (Coherence Mark)
 
-Include a compact coherence mark:
+簡潔な coherence mark を含める:
 
 ```text
 Ensemble matches prior winner: true
@@ -52,25 +48,23 @@ Live promotion allowed: false
 Reason: replay and freshness gates not satisfied
 ```
 
-## Promotion Rules
+## Promotion ルール (Promotion Rules)
 
-For trading, capital allocation, production deploys, migrations, or destructive
-ops, recursive confidence is not approval.
+trading、capital allocation、production deploy、migration、destructive op では、recursive confidence は approval ではない。
 
-Default to paper, dry-run, read-only, preview, or staged mode unless the user
-explicitly approves the live action and the repo/service gate supports it.
+user が live action を明示承認し、repo/service gate が対応するまで、paper、dry-run、read-only、preview、staged mode をデフォルトとする。
 
-Promote only when:
+次を満たすときのみ promote:
 
-- the candidate beats the prior accepted winner on the chosen metric;
-- correctness and replay checks pass;
-- risk limits are explicit;
-- the evidence is durable;
-- the user has approved the live step when needed.
+- candidate が選定 metric で prior accepted winner を上回る
+- correctness と replay check が pass
+- risk limit が明示されている
+- evidence が durable
+- 必要なら user が live step を承認している
 
-## Summary Shape
+## サマリ形式 (Summary Shape)
 
-Lead with the decision, not the drama:
+ドラマより decision を先に:
 
 ```text
 Rollout 15 complete. The prior winner still holds, but edge deteriorated 17%.

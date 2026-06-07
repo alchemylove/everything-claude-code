@@ -4,57 +4,51 @@ description: Review prediction-market, basket, oracle, and trading-agent workflo
 origin: ECC
 ---
 
-# Prediction Market Risk Review
+# Prediction Market リスクレビュー (Prediction Market Risk Review)
 
-Use this skill before a prediction-market workflow touches user financial
-context, venue authentication, portfolio data, automation, or execution-capable
-tools.
+prediction-market workflow が user 金融コンテキスト、venue 認証、portfolio data、automation、または execution 可能な tool に触れる前にこの skill を使用する。
 
-## Review Gates
+## レビューゲート (Review Gates)
 
-### Advice Boundary
+### アドバイス境界 (Advice Boundary)
 
-- Confirm the output is informational.
-- Remove buy/sell/hold/size recommendations.
-- Keep manual user decision points explicit.
+- 出力が情報提供であることを確認する。
+- buy/sell/hold/size 推奨を除去する。
+- 手動 user 意思決定ポイントを明示する。
 
-### Venue And Regulatory Boundary
+### Venue と規制境界 (Venue And Regulatory Boundary)
 
-- Identify venue terms, geography restrictions, account limits, and API rules.
-- Flag betting, derivatives, securities, or commodities ambiguity for legal
-  review when relevant.
-- Do not bypass venue restrictions or rate limits.
+- venue 規約、地域制限、アカウント制限、API ルールを特定する。
+- 該当する場合、betting、derivatives、securities、commodities の曖昧さを legal レビューにフラグする。
+- venue 制限や rate limit を迂回しない。
 
-### Data Quality
+### データ品質 (Data Quality)
 
-- Check market liquidity, spread, resolution rules, stale prices, and source
-  timestamps.
-- Separate public venue data from Itô gated data.
-- Do not mix public and private sources without labels.
+- market liquidity、spread、resolution ルール、stale price、source timestamp を確認する。
+- public venue data と Itô gated data を分離する。
+- ラベルなしで public と private source を混在させない。
 
-### Security
+### セキュリティ (Security)
 
-- Do not request or store private keys, seed phrases, or passwords.
-- Keep `ITO_API_KEY` and venue API keys out of logs and docs.
-- Use read-only scopes by default.
-- Require circuit breakers, spend limits, dry runs, and human approval before
-  any private implementation adds execution.
+- private key、seed phrase、password の要求・保存をしない。
+- `ITO_API_KEY` と venue API key を log や doc に含めない。
+- デフォルトは read-only scope を使用する。
+- private 実装が execution を追加する前に、circuit breaker、spend limit、dry run、human approval を要求する。
 
-### Privacy
+### プライバシー (Privacy)
 
-- Minimize user portfolio, financial, and knowledge-base data.
-- Redact private sources in public artifacts.
-- Preserve only the fields needed for the review.
+- user portfolio、金融、knowledge-base data を最小化する。
+- public artifact では private source を redact する。
+- レビューに必要なフィールドのみ保持する。
 
-## Output Contract
+## 出力契約 (Output Contract)
 
-Return:
+次を返す:
 
-1. scope reviewed
-2. pass/warn/fail findings
-3. blocked actions
-4. required mitigations
-5. safe next step
+1. レビュー範囲
+2. pass/warn/fail 所見
+3. ブロックされた action
+4. 必要な緩和策
+5. 安全な次ステップ
 
-If any execution-capable step is requested, require a separate implementation
-plan and explicit user approval.
+execution 可能なステップが要求された場合、別途 implementation plan と明示的 user approval を要求する。

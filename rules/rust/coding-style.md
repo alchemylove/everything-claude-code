@@ -2,24 +2,24 @@
 paths:
   - "**/*.rs"
 ---
-# Rust Coding Style
+# Rust コーディングスタイル (Rust Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Rust-specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Rust 固有の内容を追加する。
 
-## Formatting
+## フォーマット (Formatting)
 
-- **rustfmt** for enforcement — always run `cargo fmt` before committing
-- **clippy** for lints — `cargo clippy -- -D warnings` (treat warnings as errors)
-- 4-space indent (rustfmt default)
-- Max line width: 100 characters (rustfmt default)
+- 強制には **rustfmt** — コミット前に常に `cargo fmt` を実行
+- lint には **clippy** — `cargo clippy -- -D warnings`（警告をエラー扱い）
+- 4 スペースインデント（rustfmt デフォルト）
+- 最大行幅: 100 文字（rustfmt デフォルト）
 
-## Immutability
+## 不変性 (Immutability)
 
-Rust variables are immutable by default — embrace this:
+Rust の変数はデフォルトで不変 — これを活用する:
 
-- Use `let` by default; only use `let mut` when mutation is required
-- Prefer returning new values over mutating in place
-- Use `Cow<'_, T>` when a function may or may not need to allocate
+- デフォルトは `let`、変更が必要なときだけ `let mut`
+- インプレース変更より新しい値を返すことを優先
+- 関数がアロケーションを要するかもしれない場合は `Cow<'_, T>` を使用
 
 ```rust
 use std::borrow::Cow;
@@ -39,20 +39,20 @@ fn normalize_bad(input: &mut String) {
 }
 ```
 
-## Naming
+## 命名 (Naming)
 
-Follow standard Rust conventions:
-- `snake_case` for functions, methods, variables, modules, crates
-- `PascalCase` (UpperCamelCase) for types, traits, enums, type parameters
-- `SCREAMING_SNAKE_CASE` for constants and statics
-- Lifetimes: short lowercase (`'a`, `'de`) — descriptive names for complex cases (`'input`)
+標準 Rust 規約に従う:
+- 関数・メソッド・変数・モジュール・crate は `snake_case`
+- 型・trait・enum・型パラメータは `PascalCase`（UpperCamelCase）
+- 定数と static は `SCREAMING_SNAKE_CASE`
+- ライフタイム: 短い小文字（`'a`、`'de`）— 複雑な場合は説明的な名前（`'input`）
 
-## Ownership and Borrowing
+## 所有権と借用 (Ownership and Borrowing)
 
-- Borrow (`&T`) by default; take ownership only when you need to store or consume
-- Never clone to satisfy the borrow checker without understanding the root cause
-- Accept `&str` over `String`, `&[T]` over `Vec<T>` in function parameters
-- Use `impl Into<String>` for constructors that need to own a `String`
+- デフォルトは借用（`&T`）— 保持または消費が必要なときだけ所有権を取る
+- 根本原因を理解せずに借用チェッカーを満たすために clone しない
+- 関数パラメータでは `String` より `&str`、`Vec<T>` より `&[T]` を受け取る
+- `String` を所有するコンストラクタには `impl Into<String>` を使用
 
 ```rust
 // GOOD — borrows when ownership isn't needed
@@ -71,13 +71,13 @@ fn word_count_bad(text: String) -> usize {
 }
 ```
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Use `Result<T, E>` and `?` for propagation — never `unwrap()` in production code
-- **Libraries**: define typed errors with `thiserror`
-- **Applications**: use `anyhow` for flexible error context
-- Add context with `.with_context(|| format!("failed to ..."))?`
-- Reserve `unwrap()` / `expect()` for tests and truly unreachable states
+- 伝播には `Result<T, E>` と `?` を使用 — 本番コードで `unwrap()` を使わない
+- **ライブラリ**: `thiserror` で型付きエラーを定義
+- **アプリケーション**: 柔軟なエラーコンテキストに `anyhow` を使用
+- `.with_context(|| format!("failed to ..."))?` でコンテキストを追加
+- `unwrap()` / `expect()` はテストと真に到達不能な状態に限定
 
 ```rust
 // GOOD — library error with thiserror
@@ -100,9 +100,9 @@ fn load_config(path: &str) -> anyhow::Result<Config> {
 }
 ```
 
-## Iterators Over Loops
+## ループよりイテレータ (Iterators Over Loops)
 
-Prefer iterator chains for transformations; use loops for complex control flow:
+変換にはイテレータチェーンを優先。複雑な制御フローにはループを使用:
 
 ```rust
 // GOOD — declarative and composable
@@ -119,9 +119,9 @@ for user in &users {
 }
 ```
 
-## Module Organization
+## モジュール構成 (Module Organization)
 
-Organize by domain, not by type:
+型ではなくドメインで整理:
 
 ```text
 src/
@@ -140,12 +140,12 @@ src/
     └── pool.rs
 ```
 
-## Visibility
+## 可視性 (Visibility)
 
-- Default to private; use `pub(crate)` for internal sharing
-- Only mark `pub` what is part of the crate's public API
-- Re-export public API from `lib.rs`
+- デフォルトは private。内部共有には `pub(crate)` を使用
+- crate の公開 API の一部だけ `pub` にする
+- 公開 API は `lib.rs` から再エクスポート
 
-## References
+## 参照 (References)
 
-See skill: `rust-patterns` for comprehensive Rust idioms and patterns.
+包括的な Rust イディオムとパターンは skill: `rust-patterns` を参照。

@@ -1,11 +1,11 @@
 ---
-description: "Python patterns extending common rules"
+description: "Python patterns: common ルールの拡張"
 globs: ["**/*.py", "**/*.pyi"]
 alwaysApply: false
 ---
-# Python Patterns
+# Python Patterns (Python Patterns)
 
-> This file extends the common patterns rule with Python specific content.
+> このファイルは common patterns ルールを Python 固有の内容で拡張する。
 
 ## Protocol (Duck Typing)
 
@@ -31,9 +31,9 @@ class CreateUserRequest:
 
 ## Context Managers & Generators
 
-- Use context managers (`with` statement) for resource management
-- Use generators for lazy evaluation and memory-efficient iteration
+- リソース管理には context manager（`with` 文）を使用
+- lazy evaluation とメモリ効率の良い反復には generator を使用
 
-## Reference
+## 参照 (Reference)
 
-See skill: `python-patterns` for comprehensive patterns including decorators, concurrency, and package organization.
+decorator、並行処理、package 構成を含む包括的なパターンは skill: `python-patterns` を参照。

@@ -6,41 +6,41 @@ paths:
   - "**/*.gemspec"
   - "**/config.ru"
 ---
-# Ruby Coding Style
+# Ruby コーディングスタイル (Ruby Coding Style)
 
-> This file extends [common/coding-style.md](../common/coding-style.md) with Ruby and Rails specific content.
+> このファイルは [common/coding-style.md](../common/coding-style.md) を拡張し、Ruby および Rails 固有の内容を追加する。
 
-## Standards
+## 標準 (Standards)
 
-- Target **Ruby 3.3+** for new Rails work unless the project already pins an older supported runtime.
-- Enable **YJIT** in production only after measuring boot time, memory, and request/job throughput.
-- Add `# frozen_string_literal: true` to new Ruby files when the project uses that convention.
-- Prefer clear Ruby over clever metaprogramming; isolate DSL-heavy code behind narrow, tested boundaries.
+- プロジェクトが既に古いサポート対象ランタイムを固定していない限り、新しい Rails 開発では **Ruby 3.3+** をターゲットにする。
+- 本番環境では起動時間、メモリ、リクエスト/ジョブのスループットを測定した後にのみ **YJIT** を有効にする。
+- プロジェクトがその規約を使用している場合、新しい Ruby ファイルに `# frozen_string_literal: true` を追加する。
+- 巧妙なメタプログラミングよりも明快な Ruby を優先する。DSL を多用するコードは狭く、テストされた境界の背後に隔離する。
 
-## Formatting And Linting
+## フォーマットとリンティング (Formatting And Linting)
 
-- Use the project's checked-in RuboCop config. For Rails 8+ apps, start from `rubocop-rails-omakase` and customize only where the codebase has a real convention.
-- Keep formatter/linter commands behind binstubs or scripts so CI and local runs match:
+- プロジェクトのチェックイン済み RuboCop 設定を使用する。Rails 8+ アプリでは `rubocop-rails-omakase` から始め、コードベースに実際の規約がある場合にのみカスタマイズする。
+- フォーマッタ/リンターのコマンドは binstub またはスクリプトの背後に配置し、CI とローカルの実行を一致させる:
 
 ```bash
 bundle exec rubocop
 bundle exec rubocop -A
 ```
 
-- Do not silence cops inline unless the exception is narrow, documented, and harder to express cleanly in code.
+- 例外が狭く、文書化されており、コードで明確に表現するのが困難でない限り、インラインで cop を無効にしない。
 
-## Rails Style
+## Rails スタイル (Rails Style)
 
-- Follow Rails naming and directory conventions before adding custom structure.
-- Keep controllers transport-focused: authentication, authorization, parameter handling, response shape.
-- Put reusable domain behavior in models, concerns, service objects, query objects, or form objects based on actual complexity, not as default ceremony.
-- Prefer `bin/rails`, `bin/rake`, and checked-in binstubs over globally installed commands.
+- カスタム構造を追加する前に、Rails の命名規則とディレクトリ規約に従う。
+- コントローラはトランスポートに焦点を当てる: 認証、認可、パラメータ処理、レスポンスの形状。
+- 再利用可能なドメインロジックは、デフォルトの儀式としてではなく、実際の複雑さに基づいてモデル、concerns、サービスオブジェクト、クエリオブジェクト、またはフォームオブジェクトに配置する。
+- グローバルにインストールされたコマンドよりも `bin/rails`、`bin/rake`、およびチェックイン済み binstub を優先する。
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Rescue specific exceptions. Avoid broad `rescue StandardError` blocks unless they re-raise or preserve enough context for operators.
-- Use `ActiveSupport::Notifications` or the app's logger for operational events; do not leave `puts`, `pp`, or `debugger` in committed application code.
+- 特定の例外を rescue する。広範な `rescue StandardError` ブロックは、再スローするか、運用者に十分なコンテキストを保持する場合を除いて避ける。
+- 運用イベントには `ActiveSupport::Notifications` またはアプリのロガーを使用する。コミット済みのアプリケーションコードに `puts`、`pp`、`debugger` を残さない。
 
-## Reference
+## リファレンス (Reference)
 
-See skill: `backend-patterns` for broader service/repository layering guidance.
+サービス/リポジトリの階層化ガイダンスについてはスキル: `backend-patterns` を参照。

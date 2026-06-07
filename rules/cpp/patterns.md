@@ -8,13 +8,13 @@ paths:
   - "**/*.h"
   - "**/CMakeLists.txt"
 ---
-# C++ Patterns
+# C++ パターン (C++ Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with C++ specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、C++ 固有の内容を追加する。
 
 ## RAII (Resource Acquisition Is Initialization)
 
-Tie resource lifetime to object lifetime:
+リソースの寿命をオブジェクトの寿命に結びつける:
 
 ```cpp
 class FileHandle {
@@ -30,22 +30,22 @@ private:
 
 ## Rule of Five/Zero
 
-- **Rule of Zero**: Prefer classes that need no custom destructor, copy/move constructors, or assignments
-- **Rule of Five**: If you define any of destructor/copy-ctor/copy-assign/move-ctor/move-assign, define all five
+- **Rule of Zero**: カスタム destructor、copy/move constructor、assignment が不要なクラスを優先する
+- **Rule of Five**: destructor/copy-ctor/copy-assign/move-ctor/move-assign のいずれかを定義する場合は、5 つすべてを定義する
 
-## Value Semantics
+## 値セマンティクス (Value Semantics)
 
-- Pass small/trivial types by value
-- Pass large types by `const&`
-- Return by value (rely on RVO/NRVO)
-- Use move semantics for sink parameters
+- 小さく自明な型は値渡し
+- 大きな型は `const&` で渡す
+- 値で返す（RVO/NRVO に依存）
+- sink パラメータには move semantics を使う
 
-## Error Handling
+## エラーハンドリング (Error Handling)
 
-- Use exceptions for exceptional conditions
-- Use `std::optional` for values that may not exist
-- Use `std::expected` (C++23) or result types for expected failures
+- 例外的な状況には exception を使う
+- 存在しない可能性のある値には `std::optional` を使う
+- 想定される失敗には `std::expected`（C++23）または result 型を使う
 
-## Reference
+## 参照 (Reference)
 
-See skill: `cpp-coding-standards` for comprehensive C++ patterns and anti-patterns.
+包括的な C++ パターンとアンチパターンについては skill: `cpp-coding-standards` を参照。

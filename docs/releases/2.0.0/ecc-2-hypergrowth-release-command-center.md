@@ -1,200 +1,169 @@
-# ECC 2.0 Hypergrowth Release Command Center
+# ECC 2.0 ハイパーグロース リリース コマンドセンター (ECC 2.0 Hypergrowth Release Command Center)
 
-Snapshot date: 2026-05-19.
+スナップショット日: 2026-05-19。
 
-This is the execution map for turning ECC 2.0 into a complete public release,
-partner funnel, sponsor funnel, consulting surface, and content launch. It is
-written for operators. Use it to decide what ships, what gets announced, and
-what stays blocked until evidence exists.
+これは ECC 2.0 を完全なパブリックリリース、パートナーファネル、スポンサーファネル、コンサルティング面、コンテンツローンチへと変えるための実行マップです。オペレーター向けに書かれています。何を出荷し、何を告知し、証拠が揃うまで何をブロックするかの判断に使ってください。
 
-## Release Claim
+## リリース主張 (Release Claim)
 
-ECC 2.0 is the harness-native operator system for agentic work.
+ECC 2.0 はエージェント作業向けの harness-native オペレーターシステムです。
 
-The public proof must show the actual system:
+パブリック証拠は実際のシステムを示す必要があります:
 
-- reusable skills, rules, hooks, MCP conventions, and release gates;
-- Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot, and
-  terminal-only workflows as supported execution surfaces;
-- `ecc2/` as the alpha control-plane/TUI direction;
-- Hermes as the optional operator shell for chat, cron, handoffs, and daily
-  work routing;
-- ECC Tools Pro, GitHub Sponsors, and consulting as the business surface that
-  funds the OSS layer.
+- 再利用可能な skills、rules、hooks、MCP 規約、リリースゲート;
+- Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot、およびターミナルのみのワークフローをサポートする実行面;
+- `ecc2/` を alpha コントロールプレーン/TUI の方向性として;
+- Hermes をチャット、cron、ハンドオフ、日次作業ルーティング向けのオプションオペレーターシェルとして;
+- ECC Tools Pro、GitHub Sponsors、コンサルティングを OSS レイヤーを支えるビジネス面として。
 
-Avoid language that frames this as a rename or a retreat from the old project.
-The release copy should show the 2.0 product shape directly.
+旧プロジェクトからのリネームや後退のように見せる表現は避けてください。リリースコピーは 2.0 のプロダクト形状を直接示すべきです。
 
-## Current Growth Baseline
+## 現在のグロースベースライン (Current Growth Baseline)
 
-| Metric | Current | Target | Gap |
+| 指標 | 現在 | 目標 | ギャップ |
 | --- | ---: | ---: | ---: |
 | MRR | `$1,728/mo` | `$10,000/mo` | `$8,272/mo` |
-| Sponsor motion | Active GitHub Sponsors plus open inbound | Repeatable sponsor close loop | Approval-gated outbound |
-| Consulting motion | Open, non-primary | Partner-ready packages | Public proof, talks, and intake |
-| Content motion | Release video publish candidates ready | Weekly launch clips and founder proof | Owner approval, upload, and public URLs |
-| Community motion | Discord exists | Useful coding/operator community | Invite, channels, pins, moderation |
+| スポンサー動線 | アクティブな GitHub Sponsors とオープンなインバウンド | 再現可能なスポンサークローズループ | 承認ゲート付きアウトバウンド |
+| コンサルティング動線 | オープン、非プライマリ | パートナー対応パッケージ | パブリック証拠、トーク、インテーク |
+| コンテンツ動線 | リリース動画の公開候補が準備済み | 週次ローンチクリップと創業者証拠 | オーナー承認、アップロード、パブリック URL |
+| コミュニティ動線 | Discord あり | 有用なコーディング/オペレーターコミュニティ | 招待、チャンネル、ピン、モデレーション |
 
-MRR growth should come from four lanes at once:
+MRR 成長は4つのレーンを同時に進めるべきです:
 
-- GitHub Sponsors and OSS partner sponsors;
-- ECC Tools Pro subscriptions;
-- consulting and implementation contracts;
-- talks, podcasts, conference demos, and partner webinars that create inbound.
+- GitHub Sponsors と OSS パートナースポンサー;
+- ECC Tools Pro サブスクリプション;
+- コンサルティングと実装契約;
+- トーク、ポッドキャスト、カンファレンスデモ、パートナーウェビナーによるインバウンド創出。
 
-## Second Hypergrowth Phase
+## 第2ハイパーグロースフェーズ (Second Hypergrowth Phase)
 
-The release should behave like a proof engine, not a name-change announcement.
-Every public surface should make the product obvious in the first screen,
-clip, paragraph, or demo:
+リリースは名前変更告知ではなく証拠エンジンのように振る舞うべきです。すべてのパブリック面で、最初の画面、クリップ、段落、デモでプロダクトが明確に伝わるようにします:
 
-| Workstream | Public proof | Revenue path |
+| ワークストリーム | パブリック証拠 | 収益パス |
 | --- | --- | --- |
-| Product category | ECC as the harness-native operator system, not a Claude-only config pack | Converts confused OSS traffic into install, Pro, and sponsor intent |
-| Harness coverage | Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot, and terminal workflows shown as execution surfaces | Partner conversations with tools, IDEs, model providers, and platform teams |
-| Control plane | `ecc2/` alpha dashboard/status/session surface and Hermes operator shell clearly framed as directionally live | Consulting and team implementation sprints |
-| Enterprise trust | AgentShield, supply-chain, release, observability, and CI gates shown as repeatable evidence | Security vendors, code-review vendors, platform sponsors, and enterprise pilots |
-| Media engine | Primary launch video, five proof clips, browser captures, transcripts, EDLs, captions, and editable timelines | Social reach, podcast/talk booking, sponsor proof, partner demos |
-| Community funnel | GitHub Discussions, Discord once approved, sponsor tiers, Pro, and consulting CTAs routed without clutter | Repeatable inbound, not one-off launch spikes |
+| プロダクトカテゴリ | Claude 専用 config pack ではなく harness-native オペレーターシステムとしての ECC | 混乱した OSS トラフィックをインストール、Pro、スポンサー意図へ変換 |
+| Harness カバレッジ | Claude Code、Codex、OpenCode、Cursor、Gemini、Zed、GitHub Copilot、ターミナルワークフローを実行面として提示 | ツール、IDE、モデルプロバイダー、プラットフォームチームとのパートナー会話 |
+| コントロールプレーン | `ecc2/` alpha ダッシュボード/ステータス/セッション面と Hermes オペレーターシェルを方向性として明確に live と位置づけ | コンサルティングとチーム実装スプリント |
+| エンタープライズ信頼 | AgentShield、サプライチェーン、リリース、オブザーバビリティ、CI ゲートを再現可能な証拠として提示 | セキュリティベンダー、コードレビューベンダー、プラットフォームスポンサー、エンタープライズパイロット |
+| メディアエンジン | プライマリローンチ動画、5本の証拠クリップ、ブラウザキャプチャ、トランスクリプト、EDL、キャプション、編集可能タイムライン | ソーシャルリーチ、ポッドキャスト/トーク予約、スポンサー証拠、パートナーデモ |
+| コミュニティファネル | GitHub Discussions、承認後の Discord、スポンサーティア、Pro、コンサルティング CTA を散らかさずルーティング | 一回限りのスパイクではなく再現可能なインバウンド |
 
-The operating rhythm after launch should be weekly:
+ローンチ後の運用リズムは週次とします:
 
-1. one product proof clip;
-2. one security or release-discipline proof clip;
-3. one partner/sponsor/talk outreach batch after owner approval;
-4. one public discussion or community prompt;
-5. one measurable funnel readback covering repo traffic, sponsor clicks, Pro
-   conversions, MRR movement, and inbound replies.
+1. プロダクト証拠クリップ1本;
+2. セキュリティまたはリリース規律の証拠クリップ1本;
+3. オーナー承認後のパートナー/スポンサー/トークアウトリーチバッチ1回;
+4. パブリックディスカッションまたはコミュニティプロンプト1件;
+5. リポトラフィック、スポンサークリック、Pro コンバージョン、MRR 変動、インバウンド返信をカバーする測定可能なファネル読み戻し1回。
 
-## Platform Value Loop
+## プラットフォーム価値ループ (Platform Value Loop)
 
-The long-term platform thesis is recorded in
-[`docs/architecture/platform-value-loop.md`](../../architecture/platform-value-loop.md).
-ECC should stay useful as free OSS while the managed value accrues around team
-memory, observable sessions, release gates, evals, security evidence, hosted
-analysis, billing, partner workflows, and product-specific integrations.
+長期のプラットフォームテーゼは
+[`docs/architecture/platform-value-loop.md`](../../architecture/platform-value-loop.md) に記録されています。
+ECC は無料 OSS として有用であり続けつつ、マネージド価値はチームメモリ、観測可能なセッション、リリースゲート、eval、セキュリティ証拠、ホスト分析、課金、パートナーワークフロー、プロダクト固有統合の周辺に蓄積すべきです。
 
-Product integrations should behave like repeatable distribution loops:
+プロダクト統合は再現可能な配布ループのように振る舞うべきです:
 
-1. ship a public skill pack that works without private credentials;
-2. keep live product data or actions behind an explicit gated API path;
-3. add fixtures, docs, evals, and risk gates so the workflow is testable;
-4. convert sanitized product usage back into ECC skills, docs, or evidence;
-5. route serious teams toward sponsors, Pro, partners, or consulting.
+1. プライベート認証情報なしで動作するパブリック skill pack を出荷;
+2. ライブプロダクトデータやアクションは明示的なゲート付き API パスの背後に置く;
+3. フィクスチャ、ドキュメント、eval、リスクゲートを追加しワークフローをテスト可能にする;
+4. サニタイズされたプロダクト利用を ECC skills、ドキュメント、証拠へ戻す;
+5. 本気のチームをスポンサー、Pro、パートナー、コンサルティングへルーティング。
 
-Itô is the current example: prediction-market research, basket comparison,
-manual non-advisory planning, and data-atlas workflows can be distributed
-through ECC, while live Itô data and account-specific calls remain gated by
-`ITO_API_KEY` and separate from ECC Tools billing.
+Itô が現在の例です: 予測市場リサーチ、バスケット比較、手動の非助言プランニング、データアトラスワークフローは ECC 経由で配布でき、ライブ Itô データとアカウント固有の呼び出しは `ITO_API_KEY` によってゲートされ、ECC Tools 課金とは別です。
 
-## Release Gates
+## リリースゲート (Release Gates)
 
-| Lane | Done when | Current action |
+| レーン | 完了条件 | 現在のアクション |
 | --- | --- | --- |
-| Repo identity | README, package metadata, plugin metadata, release docs, workflows, and launch copy all use `affaan-m/ECC` where public URLs are needed | Canonical URL sweep |
-| Package and plugin publication | `ecc-universal@2.0.0-rc.1` dry-runs clean, npm `next` is approved, Claude plugin tag dry-runs, Codex repo marketplace smoke passes, OpenCode build passes | Refresh publication evidence from final commit |
-| Product proof | Quickstart, cross-harness architecture, demo prompts, `ecc2/` alpha boundary, AgentShield safety proof, and hosted ECC Tools links are consistent | Keep proof surfaces concrete |
-| Revenue proof | Sponsor tiers, Pro pricing, consulting CTA, partner CTA, and billing-readback language are current | Do not announce billing claims before live readback |
-| Content proof | Launch video, short-form clips, screenshots, release notes, GitHub Discussion, X, LinkedIn, and longform post are aligned | Pick final video cuts, upload after approval, and attach public URLs |
-| Community proof | Discord invite, rules, channels, onboarding, and sponsor/community routing are ready | Needs invite/token decision before public links |
+| リポジトリアイデンティティ | README、パッケージメタデータ、プラグインメタデータ、リリースドキュメント、ワークフロー、ローンチコピーがパブリック URL に `affaan-m/ECC` を使用 | 正規 URL の一括確認 |
+| パッケージとプラグイン公開 | `ecc-universal@2.0.0-rc.1` の dry-run がクリーン、npm `next` が承認済み、Claude プラグインタグ dry-run、Codex リポマーケットプレイス smoke が通過、OpenCode ビルドが通過 | 最終コミットから公開証拠を更新 |
+| プロダクト証拠 | Quickstart、クロスハーネスアーキテクチャ、デモプロンプト、`ecc2/` alpha 境界、AgentShield 安全性証拠、ホスト ECC Tools リンクが一貫 | 証拠面を具体的に保つ |
+| 収益証拠 | スポンサーティア、Pro 価格、コンサルティング CTA、パートナー CTA、課金読み戻し文言が最新 | ライブ読み戻し前に課金主張を告知しない |
+| コンテンツ証拠 | ローンチ動画、ショートクリップ、スクリーンショット、リリースノート、GitHub Discussion、X、LinkedIn、長文投稿が整合 | 最終動画カットを選び、承認後にアップロードしパブリック URL を添付 |
+| コミュニティ証拠 | Discord 招待、ルール、チャンネル、オンボーディング、スポンサー/コミュニティルーティングが準備済み | パブリックリンク前に招待/トークン決定が必要 |
 
-## Video Suite
+## 動画スイート (Video Suite)
 
-The video lane should use the existing ECC video-editing skill plus the
-`browser-use/video-use` model where useful: transcript as the editing surface,
-strategy approval before render, deterministic cuts, timeline/project output
-when available, and self-eval before publication.
+動画レーンは既存の ECC video-editing skill と、有用な場合は `browser-use/video-use` モデルを使うべきです: トランスクリプトを編集面として、レンダー前の戦略承認、決定論的カット、利用可能ならタイムライン/プロジェクト出力、公開前のセルフ eval。
 
-Reference pattern: <https://github.com/browser-use/video-use>
+参考パターン: <https://github.com/browser-use/video-use>
 
-Primary source classes already exist in the local ECC media library. Keep raw
-absolute paths out of public docs; use basenames or a private production
-manifest when handing work to an editor or agent.
+プライマリソースクラスはローカル ECC メディアライブラリに既に存在します。パブリックドキュメントから生の絶対パスは除外し、エディターやエージェントへ渡すときはベース名またはプライベート制作マニフェストを使ってください。
 
-| Deliverable | Length | Source material | Proof goal |
+| 成果物 | 長さ | ソース素材 | 証拠目標 |
 | --- | ---: | --- | --- |
-| Primary launch video | 90-150s | `longform-full-wide.mp4`, `sf-longform-full.mp4`, `architecture-2-wide.mp4`, `terminal-scan-2-wide.mp4`, `new_site_raw.mp4` | ECC 2.0 as the operator system |
-| Install proof | 30s | README install, terminal scan, quickstart, plugin install | Fewer-click adoption |
-| What is ECC | 45-60s | `sf-thread-2-whatisecc.mp4`, `vertical-2-whatisecc.mp4`, `architecture-2-*` | Product category clarity |
-| Security proof | 45-60s | `sf-thread-4-security.mp4`, AgentShield evidence, supply-chain gates | Enterprise trust |
-| Money/proof clip | 30-45s | `thread-2-ghapp-money.mp4`, `metrics-ticker-2-*`, `gh_app_*.png` | Sponsor, Pro, and partner credibility |
-| Coverage/social proof | 30-45s | `coverage-montage-wide.mp4`, `100k.png`, `star_history.png`, `x_analytics.png`, coverage screenshots | Distribution leverage |
+| プライマリローンチ動画 | 90-150s | `longform-full-wide.mp4`, `sf-longform-full.mp4`, `architecture-2-wide.mp4`, `terminal-scan-2-wide.mp4`, `new_site_raw.mp4` | オペレーターシステムとしての ECC 2.0 |
+| インストール証拠 | 30s | README インストール、ターミナルスキャン、quickstart、プラグインインストール | クリック数の少ない採用 |
+| ECC とは何か | 45-60s | `sf-thread-2-whatisecc.mp4`, `vertical-2-whatisecc.mp4`, `architecture-2-*` | プロダクトカテゴリの明確化 |
+| セキュリティ証拠 | 45-60s | `sf-thread-4-security.mp4`, AgentShield 証拠、サプライチェーンゲート | エンタープライズ信頼 |
+| 収益/証拠クリップ | 30-45s | `thread-2-ghapp-money.mp4`, `metrics-ticker-2-*`, `gh_app_*.png` | スポンサー、Pro、パートナー信頼性 |
+| カバレッジ/ソーシャル証拠 | 30-45s | `coverage-montage-wide.mp4`, `100k.png`, `star_history.png`, `x_analytics.png`, カバレッジスクリーンショット | 配布レバレッジ |
 
-Production steps:
+制作ステップ:
 
-1. Generate transcripts for the longform and shortform raw clips.
-2. Build an edit decision list with hook, proof, demo, business CTA, and final
-   CTA segments.
-3. Cut deterministically with FFmpeg.
-4. Add overlays and data motion in Remotion or Manim.
-5. Add captions, light color correction, audio normalization, and platform
-   reframes.
-6. Run a self-eval pass for blank frames, bad captions, jump cuts, weak hook,
-   missing product proof, and stale URLs.
-7. Export final MP4s plus the editable timeline/project state.
+1. 長尺とショートの生クリップのトランスクリプトを生成。
+2. フック、証拠、デモ、ビジネス CTA、最終 CTA セグメントで編集決定リストを構築。
+3. FFmpeg で決定論的にカット。
+4. Remotion または Manim でオーバーレイとデータモーションを追加。
+5. キャプション、軽いカラーグレード、オーディオ正規化、プラットフォームリフレームを追加。
+6. 空白フレーム、悪いキャプション、ジャンプカット、弱いフック、欠落プロダクト証拠、古い URL 向けにセルフ eval を実行。
+7. 最終 MP4 と編集可能なタイムライン/プロジェクト状態をエクスポート。
 
-## Distribution Plan
+## 配布計画 (Distribution Plan)
 
-| Channel | Asset | CTA |
+| チャンネル | アセット | CTA |
 | --- | --- | --- |
-| GitHub Release | release notes, quickstart, launch video, sponsor link | star, install, sponsor |
-| GitHub Discussion | short announcement and proof bullets | questions, feedback, sponsors |
-| X | launch thread, 30s install clip, proof clips | repo, sponsor, Pro |
-| LinkedIn | partner-friendly product proof, consulting CTA | sponsors, consulting, talks |
-| YouTube/Shorts/Reels/TikTok | primary launch video and clips | repo, site, newsletter/community |
-| Podcasts/talks | one-page pitch, demo outline, founder proof | bookings, partners |
-| Sponsor outbound | direct sponsor note and tier table | GitHub Sponsors or Pro |
+| GitHub Release | リリースノート、quickstart、ローンチ動画、スポンサーリンク | star、install、sponsor |
+| GitHub Discussion | 短い告知と証拠箇条書き | 質問、フィードバック、スポンサー |
+| X | ローンチスレッド、30s インストールクリップ、証拠クリップ | リポ、スポンサー、Pro |
+| LinkedIn | パートナー向けプロダクト証拠、コンサルティング CTA | スポンサー、コンサルティング、トーク |
+| YouTube/Shorts/Reels/TikTok | プライマリローンチ動画とクリップ | リポ、サイト、ニュースレター/コミュニティ |
+| ポッドキャスト/トーク | 1ページピッチ、デモアウトライン、創業者証拠 | 予約、パートナー |
+| スポンサーアウトバウンド | 直接スポンサーノートとティア表 | GitHub Sponsors または Pro |
 
-The source of truth for sponsor, partner, consulting, conference, podcast, and
-GitHub Discussion copy is
-`docs/releases/2.0.0-rc.1/partner-sponsor-talks-pack.md`.
-The source of truth for owner approval across release, package, plugin, video,
-billing, social, and outbound actions is
-`docs/releases/2.0.0-rc.1/owner-approval-packet-2026-05-19.md`.
+スポンサー、パートナー、コンサルティング、カンファレンス、ポッドキャスト、GitHub Discussion コピーの正本は
+`docs/releases/2.0.0-rc.1/partner-sponsor-talks-pack.md` です。
+リリース、パッケージ、プラグイン、動画、課金、ソーシャル、アウトバウンドアクション横断のオーナー承認の正本は
+`docs/releases/2.0.0-rc.1/owner-approval-packet-2026-05-19.md` です。
 
-## Copy Rules
+## コピールール (Copy Rules)
 
-Use direct product language:
+直接的なプロダクト言語を使う:
 
 - `ECC 2.0 is the harness-native operator system for agentic work.`
 - `One reusable layer across Claude Code, Codex, OpenCode, Cursor, Gemini, Zed, GitHub Copilot, and terminal workflows.`
 - `OSS stays free. Sponsors and Pro fund the work.`
 - `Use ECC for skills, hooks, rules, MCP conventions, release gates, and operator workflows.`
 
-Avoid:
+避ける:
 
 - `we renamed the repo`;
 - `pivot`;
-- legacy config-pack framing;
+- レガシー config-pack のフレーミング;
 - `Claude-only`;
-- generic founder-journey language;
-- claims about billing, marketplace payments, or official directory listings
-  before live evidence exists.
+- 汎用的な創業者ジャーニー言語;
+- ライブ証拠が揃う前の課金、マーケットプレイス決済、公式ディレクトリ掲載に関する主張。
 
-## First Build Order
+## 最初のビルド順序 (First Build Order)
 
-1. Land the public repo identity fixes.
-2. Refresh package, plugin, workflow, release, and launch-copy URLs.
-3. Record final publication evidence from the exact release commit.
-4. Keep the video suite manifest, transcripts, publish candidates, and visual QA
-   current with `npm run release:video-suite -- --format json`.
-5. Browser-capture the README, ECC Tools app, install flow, and relevant proof
-   surfaces for b-roll.
-6. Choose the owner-approved primary launch video and five short clips, then
-   upload and attach final public URLs.
-7. Finalize GitHub release, X thread, LinkedIn post, Discussion announcement,
-   sponsor email copy, consulting intro, partner DM, and podcast/talk pitch.
-8. Publish only after npm, plugin, release URL, and billing-readback gates are
-   either live or explicitly marked blocked.
+1. パブリックリポジトリアイデンティティ修正をマージ。
+2. パッケージ、プラグイン、ワークフロー、リリース、ローンチコピー URL を更新。
+3. 正確なリリースコミットから最終公開証拠を記録。
+4. `npm run release:video-suite -- --format json` で動画スイートマニフェスト、トランスクリプト、公開候補、ビジュアル QA を最新に保つ。
+5. README、ECC Tools アプリ、インストールフロー、関連証拠面をブラウザキャプチャして b-roll に使う。
+6. オーナー承認済みのプライマリローンチ動画と5本のショートクリップを選び、アップロードして最終パブリック URL を添付。
+7. GitHub リリース、X スレッド、LinkedIn 投稿、Discussion 告知、スポンサーメール、コンサルティング紹介、パートナー DM、ポッドキャスト/トークピッチを確定。
+8. npm、プラグイン、リリース URL、課金読み戻しゲートが live であるか、明示的に blocked とマークされるまで公開しない。
 
-## Owner Approvals
+## オーナー承認 (Owner Approvals)
 
-These actions need a human approval or credential before they move:
+以下のアクションは進める前に人間の承認または認証情報が必要です:
 
-- sending annual-upgrade or sponsor emails;
-- updating LinkedIn profile text;
-- wiring Discord with a bot token and guild ID;
-- publishing npm or creating plugin tags;
-- announcing billing/native payments;
-- sending partner, consulting, conference, podcast, or sponsor outreach;
-- posting final social copy from personal accounts.
+- 年次アップグレードまたはスポンサーメールの送信;
+- LinkedIn プロフィール文言の更新;
+- ボットトークンと guild ID で Discord を配線;
+- npm 公開またはプラグインタグ作成;
+- 課金/ネイティブ決済の告知;
+- パートナー、コンサルティング、カンファレンス、ポッドキャスト、スポンサーアウトリーチの送信;
+- 個人アカウントからの最終ソーシャルコピー投稿。

@@ -1,30 +1,30 @@
 ---
-description: Enforce TDD workflow for Kotlin. Write Kotest tests first, then implement. Verify 80%+ coverage with Kover.
+description: Kotlin 向け TDD workflow を強制する。Kotest でテストを先に書き、その後実装する。Kover で 80%+ coverage を検証する。
 ---
 
-# Kotlin TDD Command
+# Kotlin TDD コマンド (Kotlin TDD Command)
 
-This command enforces test-driven development methodology for Kotlin code using Kotest, MockK, and Kover.
+このコマンドは Kotest、MockK、Kover を用いた Kotlin コード向け test-driven development 手法を強制します。
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. **Define Types/Interfaces**: Scaffold function signatures first
-2. **Write Kotest Tests**: Create comprehensive test specs (RED)
-3. **Run Tests**: Verify tests fail for the right reason
-4. **Implement Code**: Write minimal code to pass (GREEN)
-5. **Refactor**: Improve while keeping tests green
-6. **Check Coverage**: Ensure 80%+ coverage with Kover
+1. **型/インターフェースを定義 (Define Types/Interfaces)**: まず関数シグネチャを scaffold する
+2. **Kotest テストを書く (Write Kotest Tests)**: 包括的な test spec を作成する（RED）
+3. **テストを実行 (Run Tests)**: 正しい理由で失敗することを検証する
+4. **コードを実装 (Implement Code)**: 通過する最小限のコードを書く（GREEN）
+5. **リファクタ (Refactor)**: テストを green のまま改善する
+6. **カバレッジを確認 (Check Coverage)**: Kover で 80%+ coverage を確保する
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/kotlin-test` when:
-- Implementing new Kotlin functions or classes
-- Adding test coverage to existing Kotlin code
-- Fixing bugs (write failing test first)
-- Building critical business logic
-- Learning TDD workflow in Kotlin
+`/kotlin-test` を使用するのは:
+- 新しい Kotlin 関数やクラスを実装するとき
+- 既存 Kotlin コードに test coverage を追加するとき
+- bug を修正するとき（まず失敗するテストを書く）
+- 重要なビジネスロジックを構築するとき
+- Kotlin で TDD workflow を学ぶとき
 
-## TDD Cycle
+## TDD サイクル (TDD Cycle)
 
 ```
 RED     -> Write failing Kotest test
@@ -33,7 +33,7 @@ REFACTOR -> Improve code, tests stay green
 REPEAT  -> Next test case
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````text
 User: /kotlin-test I need a function to validate user registration requests
@@ -203,9 +203,9 @@ Coverage: 100.0% of statements
 ## TDD Complete!
 ````
 
-## Test Patterns
+## テストパターン (Test Patterns)
 
-### StringSpec (Simplest)
+### StringSpec（最もシンプル）
 
 ```kotlin
 class CalculatorTest : StringSpec({
@@ -215,7 +215,7 @@ class CalculatorTest : StringSpec({
 })
 ```
 
-### BehaviorSpec (BDD)
+### BehaviorSpec（BDD）
 
 ```kotlin
 class OrderServiceTest : BehaviorSpec({
@@ -227,7 +227,7 @@ class OrderServiceTest : BehaviorSpec({
 })
 ```
 
-### Data-Driven Tests
+### データ駆動テスト (Data-Driven Tests)
 
 ```kotlin
 class ParserTest : FunSpec({
@@ -239,7 +239,7 @@ class ParserTest : FunSpec({
 })
 ```
 
-### Coroutine Testing
+### Coroutine テスト (Coroutine Testing)
 
 ```kotlin
 class AsyncServiceTest : FunSpec({
@@ -252,7 +252,7 @@ class AsyncServiceTest : FunSpec({
 })
 ```
 
-## Coverage Commands
+## カバレッジコマンド (Coverage Commands)
 
 ```bash
 # Run tests with coverage
@@ -274,7 +274,7 @@ open build/reports/kover/html/index.html
 ./gradlew test --info
 ```
 
-## Coverage Targets
+## カバレッジ目標 (Coverage Targets)
 
 | Code Type | Target |
 |-----------|--------|
@@ -283,30 +283,30 @@ open build/reports/kover/html/index.html
 | General code | 80%+ |
 | Generated code | Exclude |
 
-## TDD Best Practices
+## TDD ベストプラクティス (TDD Best Practices)
 
 **DO:**
-- Write test FIRST, before any implementation
-- Run tests after each change
-- Use Kotest matchers for expressive assertions
-- Use MockK's `coEvery`/`coVerify` for suspend functions
-- Test behavior, not implementation details
-- Include edge cases (empty, null, max values)
+- 実装より先にテストを書く
+- 各変更後にテストを実行する
+- 表現力のある assertion には Kotest matchers を使う
+- suspend 関数には MockK の `coEvery`/`coVerify` を使う
+- 実装詳細ではなく振る舞いをテストする
+- エッジケース（empty、null、max values）を含める
 
 **DON'T:**
-- Write implementation before tests
-- Skip the RED phase
-- Test private functions directly
-- Use `Thread.sleep()` in coroutine tests
-- Ignore flaky tests
+- テストより先に実装を書く
+- RED フェーズをスキップする
+- private 関数を直接テストする
+- coroutine テストで `Thread.sleep()` を使う
+- flaky テストを無視する
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/kotlin-build` - Fix build errors
-- `/kotlin-review` - Review code after implementation
-- `verification-loop` skill - Run full verification loop
+- `/kotlin-build` — ビルドエラーを修正する
+- `/kotlin-review` — 実装後にコードをレビューする
+- `verification-loop` skill — フル検証ループを実行する
 
-## Related
+## 関連 (Related)
 
 - Skill: `skills/kotlin-testing/`
 - Skill: `skills/tdd-workflow/`

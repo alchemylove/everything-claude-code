@@ -3,13 +3,13 @@ paths:
   - "**/*.fs"
   - "**/*.fsx"
 ---
-# F# Patterns
+# F# パターン (F# Patterns)
 
-> This file extends [common/patterns.md](../common/patterns.md) with F#-specific content.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、F# 固有の内容を追加する。
 
-## Result Type for Error Handling
+## エラーハンドリングのための Result 型 (Result Type for Error Handling)
 
-Use `Result<'T, 'TError>` with railway-oriented programming instead of exceptions for expected failures.
+予期されるエラーには例外の代わりに Railway指向プログラミングで `Result<'T, 'TError>` を使用する。
 
 ```fsharp
 type OrderError =
@@ -26,9 +26,9 @@ let validateOrder (request: CreateOrderRequest) : Result<ValidatedOrder, OrderEr
         Ok { CustomerId = request.CustomerId; Items = request.Items }
 ```
 
-## Option for Missing Values
+## 欠損値のための Option (Option for Missing Values)
 
-Prefer `Option<'T>` over null. Use `Option.map`, `Option.bind`, and `Option.defaultValue` to transform.
+null の代わりに `Option<'T>` を優先する。変換には `Option.map`、`Option.bind`、`Option.defaultValue` を使用する。
 
 ```fsharp
 let findUser (id: Guid) : User option =
@@ -40,9 +40,9 @@ let getUserEmail userId =
     |> Option.defaultValue "unknown@example.com"
 ```
 
-## Discriminated Unions for Domain Modeling
+## ドメインモデリングのための判別共用体 (Discriminated Unions for Domain Modeling)
 
-Model business states explicitly. The compiler enforces exhaustive handling.
+ビジネスの状態を明示的にモデル化する。コンパイラが網羅的なハンドリングを強制する。
 
 ```fsharp
 type PaymentState =
@@ -58,9 +58,9 @@ let describePayment = function
     | Failed error -> $"Payment failed: {error}"
 ```
 
-## Computation Expressions
+## コンピュテーション式 (Computation Expressions)
 
-Use computation expressions to simplify sequential operations that may fail.
+コンピュテーション式を使用して、失敗する可能性のある順次操作を簡略化する。
 
 ```fsharp
 let placeOrder request =
@@ -72,11 +72,11 @@ let placeOrder request =
     }
 ```
 
-## Module Organization
+## モジュールの構成 (Module Organization)
 
-- Group related functions in modules rather than classes
-- Use `[<RequireQualifiedAccess>]` to prevent name collisions
-- Keep modules small and focused on a single responsibility
+- 関連する関数をクラスではなくモジュールにグループ化する
+- 名前の衝突を防ぐために `[<RequireQualifiedAccess>]` を使用する
+- モジュールは小さく、単一の責任に集中させる
 
 ```fsharp
 [<RequireQualifiedAccess>]
@@ -86,11 +86,11 @@ module Order =
     let cancel reason order = { order with Status = Cancelled reason }
 ```
 
-## Dependency Injection
+## 依存性注入 (Dependency Injection)
 
-- Define dependencies as function parameters or record-of-functions
-- Use interfaces sparingly, primarily at the boundary with .NET libraries
-- Prefer partial application for injecting dependencies into pipelines
+- 依存関係を関数パラメータまたはレコード of 関数として定義する
+- 主に .NET ライブラリとの境界でのみインターフェースを使用する
+- パイプラインへの依存関係注入には部分適用を優先する
 
 ```fsharp
 type OrderDeps =

@@ -1,12 +1,12 @@
-> This file extends [common/patterns.md](../common/patterns.md) with web-specific patterns.
+> このファイルは [common/patterns.md](../common/patterns.md) を拡張し、Web 固有のパターンの内容を追加する。
 
-# Web Patterns
+# Web パターン (Web Patterns)
 
-## Component Composition
+## コンポーネントコンポジション (Component Composition)
 
-### Compound Components
+### コンパウンドコンポーネント (Compound Components)
 
-Use compound components when related UI shares state and interaction semantics:
+関連する UI が状態とインタラクションのセマンティクスを共有する場合、コンパウンドコンポーネントを使用する:
 
 ```tsx
 <Tabs defaultValue="overview">
@@ -19,61 +19,61 @@ Use compound components when related UI shares state and interaction semantics:
 </Tabs>
 ```
 
-- Parent owns state
-- Children consume via context
-- Prefer this over prop drilling for complex widgets
+- 親が状態を所有する
+- 子はコンテキスト経由で消費する
+- 複雑なウィジェットでは props のバケツリレーよりもこれを優先する
 
-### Render Props / Slots
+### レンダープロップ / スロット (Render Props / Slots)
 
-- Use render props or slot patterns when behavior is shared but markup must vary
-- Keep keyboard handling, ARIA, and focus logic in the headless layer
+- 動作は共有されるがマークアップを変える必要がある場合、レンダープロップまたはスロットパターンを使用する
+- キーボードハンドリング、ARIA、フォーカスロジックはヘッドレスレイヤーに保持する
 
-### Container / Presentational Split
+### コンテナ / プレゼンテーション分離 (Container / Presentational Split)
 
-- Container components own data loading and side effects
-- Presentational components receive props and render UI
-- Presentational components should stay pure
+- コンテナコンポーネントがデータ読み込みと副作用を所有する
+- プレゼンテーションコンポーネントは props を受け取り UI をレンダリングする
+- プレゼンテーションコンポーネントは純粋に保つべきである
 
-## State Management
+## 状態管理 (State Management)
 
-Treat these separately:
+これらを個別に扱う:
 
-| Concern | Tooling |
-|---------|---------|
-| Server state | TanStack Query, SWR, tRPC |
-| Client state | Zustand, Jotai, signals |
-| URL state | search params, route segments |
-| Form state | React Hook Form or equivalent |
+| 関心事 | ツール |
+|--------|--------|
+| サーバー状態 | TanStack Query、SWR、tRPC |
+| クライアント状態 | Zustand、Jotai、signals |
+| URL 状態 | search params、route segments |
+| フォーム状態 | React Hook Form または同等のもの |
 
-- Do not duplicate server state into client stores
-- Derive values instead of storing redundant computed state
+- サーバー状態をクライアントストアに複製しない
+- 冗長な計算済み状態を保存する代わりに値を導出する
 
-## URL As State
+## 状態としての URL (URL As State)
 
-Persist shareable state in the URL:
-- filters
-- sort order
-- pagination
-- active tab
-- search query
+共有可能な状態を URL に永続化する:
+- フィルタ
+- ソート順
+- ページネーション
+- アクティブタブ
+- 検索クエリ
 
-## Data Fetching
+## データフェッチ (Data Fetching)
 
 ### Stale-While-Revalidate
 
-- Return cached data immediately
-- Revalidate in the background
-- Prefer existing libraries instead of rolling this by hand
+- キャッシュされたデータを即座に返す
+- バックグラウンドで再バリデーションする
+- 手作りする代わりに既存のライブラリを優先する
 
-### Optimistic Updates
+### 楽観的更新 (Optimistic Updates)
 
-- Snapshot current state
-- Apply optimistic update
-- Roll back on failure
-- Emit visible error feedback when rolling back
+- 現在の状態のスナップショットを取る
+- 楽観的な更新を適用する
+- 失敗時にロールバックする
+- ロールバック時に可視的なエラーフィードバックを出す
 
-### Parallel Loading
+### 並列ローディング (Parallel Loading)
 
-- Fetch independent data in parallel
-- Avoid parent-child request waterfalls
-- Prefetch likely next routes or states when justified
+- 独立したデータを並列にフェッチする
+- 親子のリクエストウォーターフォールを避ける
+- 正当な理由がある場合、次のルートや状態をプリフェッチする

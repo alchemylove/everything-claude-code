@@ -3,18 +3,18 @@ paths:
   - "**/*.swift"
   - "**/Package.swift"
 ---
-# Swift Hooks
+# Swift フック (Swift Hooks)
 
-> This file extends [common/hooks.md](../common/hooks.md) with Swift specific content.
+> このファイルは [common/hooks.md](../common/hooks.md) を拡張し、Swift 固有の内容を追加する。
 
-## PostToolUse Hooks
+## PostToolUse フック (PostToolUse Hooks)
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **SwiftFormat**: Auto-format `.swift` files after edit
-- **SwiftLint**: Run lint checks after editing `.swift` files
-- **swift build**: Type-check modified packages after edit
+- **SwiftFormat**: 編集後に `.swift` ファイルを自動フォーマット
+- **SwiftLint**: `.swift` ファイル編集後に lint チェックを実行
+- **swift build**: 編集後に変更された package の型チェックを実行
 
-## Warning
+## 警告 (Warning)
 
-Flag `print()` statements — use `os.Logger` or structured logging instead for production code.
+`print()` 文をフラグする — 本番コードでは `os.Logger` または structured logging を使用する。

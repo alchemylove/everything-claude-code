@@ -2,16 +2,16 @@
 paths:
   - "**/*.rs"
 ---
-# Rust Security
+# Rust セキュリティ (Rust Security)
 
-> This file extends [common/security.md](../common/security.md) with Rust-specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、Rust 固有の内容を追加する。
 
-## Secrets Management
+## シークレット管理 (Secrets Management)
 
-- Never hardcode API keys, tokens, or credentials in source code
-- Use environment variables: `std::env::var("API_KEY")`
-- Fail fast if required secrets are missing at startup
-- Keep `.env` files in `.gitignore`
+- API キー、トークン、認証情報をソースコードにハードコードしない
+- 環境変数を使用: `std::env::var("API_KEY")`
+- 起動時に必須シークレットが欠けていれば fail fast
+- `.env` ファイルは `.gitignore` に入れる
 
 ```rust
 // BAD
@@ -24,10 +24,10 @@ fn load_api_key() -> anyhow::Result<String> {
 }
 ```
 
-## SQL Injection Prevention
+## SQL インジェクション防止 (SQL Injection Prevention)
 
-- Always use parameterized queries — never format user input into SQL strings
-- Use query builder or ORM (sqlx, diesel, sea-orm) with bind parameters
+- 常にパラメータ化クエリを使用 — ユーザー入力を SQL 文字列に format しない
+- バインドパラメータ付きのクエリビルダーまたは ORM（sqlx、diesel、sea-orm）を使用
 
 ```rust
 // BAD — SQL injection via format string
@@ -42,12 +42,12 @@ sqlx::query("SELECT * FROM users WHERE name = $1")
     .await?;
 ```
 
-## Input Validation
+## 入力検証 (Input Validation)
 
-- Validate all user input at system boundaries before processing
-- Use the type system to enforce invariants (newtype pattern)
-- Parse, don't validate — convert unstructured data to typed structs at the boundary
-- Reject invalid input with clear error messages
+- 処理前にシステム境界ですべてのユーザー入力を検証
+- 型システムで不変条件を強制（newtype パターン）
+- parse, don't validate — 境界で非構造化データを型付き struct に変換
+- 無効な入力は明確なエラーメッセージで拒否
 
 ```rust
 // Parse, don't validate — invalid states are unrepresentable
@@ -73,13 +73,13 @@ impl Email {
 }
 ```
 
-## Unsafe Code
+## Unsafe コード (Unsafe Code)
 
-- Minimize `unsafe` blocks — prefer safe abstractions
-- Every `unsafe` block must have a `// SAFETY:` comment explaining the invariant
-- Never use `unsafe` to bypass the borrow checker for convenience
-- Audit all `unsafe` code during review — it is a red flag without justification
-- Prefer `safe` FFI wrappers around C libraries
+- `unsafe` ブロックを最小化 — 安全な抽象化を優先
+- すべての `unsafe` ブロックに不変条件を説明する `// SAFETY:` コメントが必要
+- 便宜のために借用チェッカーを回避する `unsafe` は使わない
+- レビュー時にすべての `unsafe` を監査 — 正当化なしは red flag
+- C ライブラリ周りは `safe` FFI ラッパーを優先
 
 ```rust
 // GOOD — safety comment documents ALL required invariants
@@ -93,13 +93,13 @@ let widget: &Widget = {
 unsafe { &*ptr }
 ```
 
-## Dependency Security
+## 依存関係セキュリティ (Dependency Security)
 
-- Run `cargo audit` to scan for known CVEs in dependencies
-- Run `cargo deny check` for license and advisory compliance
-- Use `cargo tree` to audit transitive dependencies
-- Keep dependencies updated — set up Dependabot or Renovate
-- Minimize dependency count — evaluate before adding new crates
+- `cargo audit` で依存の既知 CVE をスキャン
+- `cargo deny check` でライセンスとアドバイザリ準拠を確認
+- `cargo tree` で推移的依存を監査
+- 依存関係を更新 — Dependabot または Renovate を設定
+- 依存数を最小化 — 新 crate 追加前に評価
 
 ```bash
 # Security audit
@@ -113,11 +113,11 @@ cargo tree
 cargo tree -d  # Show duplicates only
 ```
 
-## Error Messages
+## エラーメッセージ (Error Messages)
 
-- Never expose internal paths, stack traces, or database errors in API responses
-- Log detailed errors server-side; return generic messages to clients
-- Use `tracing` or `log` for structured server-side logging
+- API レスポンスに内部パス、スタックトレース、DB エラーを露出しない
+- 詳細エラーはサーバー側でログ、クライアントには汎用メッセージを返す
+- 構造化サーバー側ログに `tracing` または `log` を使用
 
 ```rust
 // Map errors to appropriate status codes and generic messages
@@ -135,7 +135,7 @@ match order_service.find_by_id(id) {
 }
 ```
 
-## References
+## 参照 (References)
 
-See skill: `rust-patterns` for unsafe code guidelines and ownership patterns.
-See skill: `security-review` for general security checklists.
+unsafe コードガイドラインと所有権パターンは skill: `rust-patterns` を参照。
+一般的なセキュリティチェックリストは skill: `security-review` を参照。

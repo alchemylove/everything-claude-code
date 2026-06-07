@@ -1,24 +1,24 @@
 ---
-description: "PHP security extending common rules"
+description: "PHP security: common ルールの拡張"
 globs: ["**/*.php", "**/composer.lock", "**/composer.json"]
 alwaysApply: false
 ---
-# PHP Security
+# PHP Security (PHP Security)
 
-> This file extends the common security rule with PHP specific content.
+> このファイルは common security ルールを PHP 固有の内容で拡張する。
 
 ## Database Safety
 
-- Use prepared statements (`PDO`, Doctrine, Eloquent query builder) for all dynamic queries.
-- Scope ORM mass-assignment carefully and whitelist writable fields.
+- 動的 query には prepared statement（`PDO`、Doctrine、Eloquent query builder）を使用。
+- ORM mass-assignment を慎重にスコープし、書き込み可能フィールドを whitelist。
 
 ## Secrets and Dependencies
 
-- Load secrets from environment variables or a secret manager, never from committed config files.
-- Run `composer audit` in CI and review package trust before adding dependencies.
+- secret は commit された config ファイルではなく、環境変数または secret manager から読み込む。
+- CI で `composer audit` を実行し、依存追加前に package の信頼性をレビュー。
 
 ## Auth and Session Safety
 
-- Use `password_hash()` / `password_verify()` for password storage.
-- Regenerate session identifiers after authentication and privilege changes.
-- Enforce CSRF protection on state-changing web requests.
+- password 保存には `password_hash()` / `password_verify()` を使用。
+- authentication と privilege 変更後に session identifier を再生成。
+- 状態変更 web リクエストでは CSRF 保護を強制。

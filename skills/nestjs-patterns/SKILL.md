@@ -4,19 +4,19 @@ description: NestJS architecture patterns for modules, controllers, providers, D
 origin: ECC
 ---
 
-# NestJS Development Patterns
+# NestJS 開発パターン (NestJS Development Patterns)
 
-Production-grade NestJS patterns for modular TypeScript backends.
+modular TypeScript backend 向けの本番グレード NestJS pattern。
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
-- Building NestJS APIs or services
-- Structuring modules, controllers, and providers
-- Adding DTO validation, guards, interceptors, or exception filters
-- Configuring environment-aware settings and database integrations
-- Testing NestJS units or HTTP endpoints
+- NestJS API または service の構築
+- module、controller、provider の構成
+- DTO validation、guard、interceptor、exception filter の追加
+- 環境対応 setting と database 統合の設定
+- NestJS unit または HTTP endpoint のテスト
 
-## Project Structure
+## プロジェクト構成 (Project Structure)
 
 ```text
 src/
@@ -47,11 +47,11 @@ src/
 └── prisma/ or database/
 ```
 
-- Keep domain code inside feature modules.
-- Put cross-cutting filters, decorators, guards, and interceptors in `common/`.
-- Keep DTOs close to the module that owns them.
+- domain code は feature module 内に保持
+- cross-cutting filter、decorator、guard、interceptor は `common/` に
+- DTO は所有 module の近くに
 
-## Bootstrap and Global Validation
+## Bootstrap とグローバル Validation (Bootstrap and Global Validation)
 
 ```ts
 async function bootstrap() {
@@ -74,10 +74,10 @@ async function bootstrap() {
 bootstrap();
 ```
 
-- Always enable `whitelist` and `forbidNonWhitelisted` on public APIs.
-- Prefer one global validation pipe instead of repeating validation config per route.
+- public API では常に `whitelist` と `forbidNonWhitelisted` を有効化
+- route ごとに validation config を繰り返すより 1 つの global validation pipe を優先
 
-## Modules, Controllers, and Providers
+## Module、Controller、Provider (Modules, Controllers, and Providers)
 
 ```ts
 @Module({
@@ -112,11 +112,11 @@ export class UsersService {
 }
 ```
 
-- Controllers should stay thin: parse HTTP input, call a provider, return response DTOs.
-- Put business logic in injectable services, not controllers.
-- Export only the providers other modules genuinely need.
+- controller は薄く: HTTP input を parse、provider を呼び、response DTO を返す
+- business logic は injectable service に。controller に置かない
+- 他 module が本当に必要とする provider のみ export
 
-## DTOs and Validation
+## DTO と Validation (DTOs and Validation)
 
 ```ts
 export class CreateUserDto {
@@ -133,11 +133,11 @@ export class CreateUserDto {
 }
 ```
 
-- Validate every request DTO with `class-validator`.
-- Use dedicated response DTOs or serializers instead of returning ORM entities directly.
-- Avoid leaking internal fields such as password hashes, tokens, or audit columns.
+- すべての request DTO を `class-validator` で検証
+- ORM entity を直接返さず dedicated response DTO または serializer を使用
+- password hash、token、audit column など内部 field を漏らさない
 
-## Auth, Guards, and Request Context
+## Auth、Guard、Request Context (Auth, Guards, and Request Context)
 
 ```ts
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -148,11 +148,11 @@ getAdminReport(@Req() req: AuthenticatedRequest) {
 }
 ```
 
-- Keep auth strategies and guards module-local unless they are truly shared.
-- Encode coarse access rules in guards, then do resource-specific authorization in services.
-- Prefer explicit request types for authenticated request objects.
+- auth strategy と guard は真に shared でない限り module-local に
+- 粗い access rule は guard に、resource 固有 authorization は service に
+- authenticated request には明示的 request type を優先
 
-## Exception Filters and Error Shape
+## Exception Filter と Error Shape (Exception Filters and Error Shape)
 
 ```ts
 @Catch()
@@ -176,10 +176,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
 }
 ```
 
-- Keep one consistent error envelope across the API.
-- Throw framework exceptions for expected client errors; log and wrap unexpected failures centrally.
+- API 全体で一貫した error envelope を維持
+- 想定 client error は framework exception。予期しない failure は central に log と wrap
 
-## Config and Environment Validation
+## Config と環境 Validation (Config and Environment Validation)
 
 ```ts
 ConfigModule.forRoot({
@@ -189,17 +189,17 @@ ConfigModule.forRoot({
 });
 ```
 
-- Validate env at boot, not lazily at first request.
-- Keep config access behind typed helpers or config services.
-- Split dev/staging/prod concerns in config factories instead of branching throughout feature code.
+- env は boot 時に検証。最初の request まで遅延しない
+- typed helper または config service の背後で config にアクセス
+- dev/staging/prod は feature code 全体で分岐せず config factory で分離
 
-## Persistence and Transactions
+## 永続化とトランザクション (Persistence and Transactions)
 
-- Keep repository / ORM code behind providers that speak domain language.
-- For Prisma or TypeORM, isolate transactional workflows in services that own the unit of work.
-- Do not let controllers coordinate multi-step writes directly.
+- repository / ORM code は domain 言語を話す provider の背後に
+- Prisma または TypeORM では unit of work を所有する service に transactional workflow を隔離
+- controller が multi-step write を直接調整しない
 
-## Testing
+## テスト (Testing)
 
 ```ts
 describe('UsersController', () => {
@@ -217,14 +217,14 @@ describe('UsersController', () => {
 });
 ```
 
-- Unit test providers in isolation with mocked dependencies.
-- Add request-level tests for guards, validation pipes, and exception filters.
-- Reuse the same global pipes/filters in tests that you use in production.
+- provider を mock dependency で unit test
+- guard、validation pipe、exception filter の request-level test を追加
+- test でも production と同じ global pipe/filter を再利用
 
-## Production Defaults
+## 本番デフォルト (Production Defaults)
 
-- Enable structured logging and request correlation ids.
-- Terminate on invalid env/config instead of booting partially.
-- Prefer async provider initialization for DB/cache clients with explicit health checks.
-- Keep background jobs and event consumers in their own modules, not inside HTTP controllers.
-- Make rate limiting, auth, and audit logging explicit for public endpoints.
+- structured logging と request correlation id を有効化
+- 無効 env/config では部分 boot せず terminate
+- DB/cache client の async provider 初期化と明示 health check を優先
+- background job と event consumer は HTTP controller 内ではなく専用 module に
+- public endpoint では rate limiting、auth、audit logging を明示

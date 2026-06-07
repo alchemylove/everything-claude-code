@@ -12,7 +12,7 @@ production database configuration. Prefer exact version checks before applying a
 feature-specific pattern because MySQL and MariaDB have diverged in several SQL
 details.
 
-## Activation
+## 有効化 (Activation)
 
 - Designing MySQL or MariaDB tables, indexes, and constraints
 - Reviewing migrations before they run on large production tables
@@ -20,7 +20,7 @@ details.
 - Adding keyset pagination, upserts, full-text search, JSON columns, or queues
 - Configuring application connection pools, read replicas, TLS, or slow logs
 
-## Version Check
+## バージョン確認 (Version Check)
 
 Start by identifying the engine and version:
 
@@ -39,7 +39,7 @@ Keep MySQL and MariaDB guidance separate when syntax differs:
   and can return an inconsistent view, so do not use it for general accounting
   or integrity-sensitive reads.
 
-## Schema Defaults
+## スキーマデフォルト (Schema Defaults)
 
 ```sql
 CREATE TABLE orders (
@@ -68,7 +68,7 @@ Default choices:
 | Soft deletes | `deleted_at DATETIME NULL` plus scoped indexes | Filtering soft-deleted rows without an index |
 | Extensible status values | lookup table or constrained `VARCHAR` | `ENUM` when values change often |
 
-## Indexing
+## インデックス (Indexing)
 
 Composite index order usually follows equality predicates first, then range or
 sort columns:
@@ -109,7 +109,7 @@ Signals to investigate:
 Avoid adding indexes blindly. Each index increases write cost, migration time,
 backup size, and buffer-pool pressure.
 
-## Query Patterns
+## クエリパターン (Query Patterns)
 
 ### Upsert
 
@@ -188,7 +188,7 @@ LIMIT 20;
 Use external search when you need typo tolerance, complex ranking, cross-table
 facets, or language-specific analysis beyond built-in full-text behavior.
 
-## Transactions
+## トランザクション (Transactions)
 
 Keep transactions short and lock rows in a consistent order:
 
@@ -239,7 +239,7 @@ COMMIT;
 Use `SKIP LOCKED` only for queue-like workloads where skipping a locked row is
 acceptable. It is not a replacement for normal transactional consistency.
 
-## Connection Pools
+## コネクションプール (Connection Pools)
 
 SQLAlchemy example:
 
@@ -284,7 +284,7 @@ Keep application pool recycling below the server `wait_timeout`. If the server
 uses `wait_timeout = 300`, a `pool_recycle` around 240 seconds is coherent;
 `pool_pre_ping` still helps recover from network and failover events.
 
-## Diagnostics
+## 診断 (Diagnostics)
 
 Useful first-pass commands:
 
@@ -306,7 +306,7 @@ SET GLOBAL log_queries_not_using_indexes = 'ON';
 Use `EXPLAIN ANALYZE` only when it is safe to execute the query. It runs the
 statement and can be expensive on production-sized data.
 
-## Replication
+## レプリケーション (Replication)
 
 Read replicas can lag. Do not route read-your-own-write paths, checkout flows,
 permission checks, or idempotency-key reads to a replica immediately after a
@@ -324,7 +324,7 @@ Check the engine/version before standardizing on one command. Monitor replica
 SQL thread health, IO thread health, and lag, not just whether the TCP
 connection is alive.
 
-## Security
+## セキュリティ (Security)
 
 ```sql
 CREATE USER 'app'@'%' IDENTIFIED BY 'use-a-secret-manager';
@@ -349,7 +349,7 @@ Security review points:
 - Separate migration/admin users from runtime application users.
 - Audit public network exposure and bind addresses before tuning performance.
 
-## Configuration
+## 設定 (Configuration)
 
 Example starting point for a dedicated database host:
 
@@ -379,7 +379,7 @@ Treat configuration values as a prompt for review, not a universal preset. Size
 memory, connections, log retention, and durability settings from workload,
 hardware, backup policy, and recovery objectives.
 
-## Anti-Patterns
+## アンチパターン (Anti-Patterns)
 
 | Anti-Pattern | Risk | Better Pattern |
 | --- | --- | --- |
@@ -392,7 +392,7 @@ hardware, backup policy, and recovery objectives.
 | Pool recycle above `wait_timeout` | Stale pooled connections | Recycle below timeout and pre-ping |
 | Replica reads after writes | Stale user-facing state | Pin read-after-write flows to primary |
 
-## Output Expectations
+## 出力期待値 (Output Expectations)
 
 When this skill is used for review, return:
 
@@ -403,7 +403,7 @@ When this skill is used for review, return:
    rollback criteria.
 5. Any MySQL/MariaDB syntax differences that affect the recommendation.
 
-## Related
+## 関連 (Related)
 
 - Skill: `postgres-patterns` - PostgreSQL-specific schema and query patterns
 - Skill: `database-migrations` - migration planning and rollout safety

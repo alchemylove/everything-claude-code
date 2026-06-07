@@ -4,11 +4,11 @@ description: Laravel architecture patterns, routing/controllers, Eloquent ORM, s
 origin: ECC
 ---
 
-# Laravel Development Patterns
+# Laravel Development Patterns (Laravel Development Patterns)
 
 Production-grade Laravel architecture patterns for scalable, maintainable applications.
 
-## When to Use
+## When to Use (When to Use)
 
 - Building Laravel web applications or APIs
 - Structuring controllers, services, and domain logic
@@ -16,7 +16,7 @@ Production-grade Laravel architecture patterns for scalable, maintainable applic
 - Designing APIs with resources and pagination
 - Adding queues, events, caching, and background jobs
 
-## How It Works
+## How It Works (How It Works)
 
 - Structure the app around clear boundaries (controllers -> services/actions -> models).
 - Use explicit bindings and scoped bindings to keep routing predictable; still enforce authorization for access control.
@@ -24,13 +24,13 @@ Production-grade Laravel architecture patterns for scalable, maintainable applic
 - Keep IO-heavy work in queues and cache expensive reads.
 - Centralize config in `config/*` and keep environments explicit.
 
-## Examples
+## Examples (Examples)
 
-### Project Structure
+### Project Structure (Project Structure)
 
 Use a conventional Laravel layout with clear layer boundaries (HTTP, services/actions, models).
 
-### Recommended Layout
+### Recommended Layout (Recommended Layout)
 
 ```
 app/
@@ -63,7 +63,7 @@ routes/
 └── console.php
 ```
 
-### Controllers -> Services -> Actions
+### Controllers -> Services -> Actions (Controllers -> Services -> Actions)
 
 Keep controllers thin. Put orchestration in services and single-purpose logic in actions.
 
@@ -96,7 +96,7 @@ final class OrdersController extends Controller
 }
 ```
 
-### Routing and Controllers
+### Routing and Controllers (Routing and Controllers)
 
 Prefer route-model binding and resource controllers for clarity.
 
@@ -108,7 +108,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 ```
 
-### Route Model Binding (Scoped)
+### Route Model Binding (Route Model Binding)
 
 Use scoped bindings to prevent cross-tenant access.
 
@@ -118,7 +118,7 @@ Route::scopeBindings()->group(function () {
 });
 ```
 
-### Nested Routes and Binding Names
+### Nested Routes and Binding Names (Nested Routes and Binding Names)
 
 - Keep prefixes and paths consistent to avoid double nesting (e.g., `conversation` vs `conversations`).
 - Use a single parameter name that matches the bound model (e.g., `{conversation}` for `Conversation`).
@@ -154,7 +154,7 @@ use Illuminate\Support\Facades\Route;
 Route::model('conversation', AiConversation::class);
 ```
 
-### Service Container Bindings
+### Service Container Bindings (Service Container Bindings)
 
 Bind interfaces to implementations in a service provider for clear dependency wiring.
 
@@ -172,9 +172,9 @@ final class AppServiceProvider extends ServiceProvider
 }
 ```
 
-### Eloquent Model Patterns
+### Eloquent Model Patterns (Eloquent Model Patterns)
 
-### Model Configuration
+### Model Configuration (Model Configuration)
 
 ```php
 final class Project extends Model
@@ -200,7 +200,7 @@ final class Project extends Model
 }
 ```
 
-### Custom Casts and Value Objects
+### Custom Casts and Value Objects (Custom Casts and Value Objects)
 
 Use enums or value objects for strict typing.
 
@@ -222,7 +222,7 @@ protected function budgetCents(): Attribute
 }
 ```
 
-### Eager Loading to Avoid N+1
+### Eager Loading to Avoid N+1 (Eager Loading to Avoid N+1)
 
 ```php
 $orders = Order::query()
@@ -231,7 +231,7 @@ $orders = Order::query()
     ->paginate(25);
 ```
 
-### Query Objects for Complex Filters
+### Query Objects for Complex Filters (Query Objects for Complex Filters)
 
 ```php
 final class ProjectQuery
@@ -259,7 +259,7 @@ final class ProjectQuery
 }
 ```
 
-### Global Scopes and Soft Deletes
+### Global Scopes and Soft Deletes (Global Scopes and Soft Deletes)
 
 Use global scopes for default filtering and `SoftDeletes` for recoverable records.
 Use either a global scope or a named scope for the same filter, not both, unless you intend layered behavior.
@@ -281,7 +281,7 @@ final class Project extends Model
 }
 ```
 
-### Query Scopes for Reusable Filters
+### Query Scopes for Reusable Filters (Query Scopes for Reusable Filters)
 
 ```php
 use Illuminate\Database\Eloquent\Builder;
@@ -298,7 +298,7 @@ final class Project extends Model
 $projects = Project::ownedBy($user->id)->get();
 ```
 
-### Transactions for Multi-Step Updates
+### Transactions for Multi-Step Updates (Transactions for Multi-Step Updates)
 
 ```php
 use Illuminate\Support\Facades\DB;
@@ -309,15 +309,15 @@ DB::transaction(function (): void {
 });
 ```
 
-### Migrations
+### Migrations (Migrations)
 
-### Naming Convention
+### Naming Convention (Naming Convention)
 
 - File names use timestamps: `YYYY_MM_DD_HHMMSS_create_users_table.php`
 - Migrations use anonymous classes (no named class); the filename communicates intent
 - Table names are `snake_case` and plural by default
 
-### Example Migration
+### Example Migration (Example Migration)
 
 ```php
 use Illuminate\Database\Migrations\Migration;
@@ -344,7 +344,7 @@ return new class extends Migration
 };
 ```
 
-### Form Requests and Validation
+### Form Requests and Validation (Form Requests and Validation)
 
 Keep validation in form requests and transform inputs to DTOs.
 
@@ -378,7 +378,7 @@ final class StoreOrderRequest extends FormRequest
 }
 ```
 
-### API Resources
+### API Resources (API Resources)
 
 Keep API responses consistent with resources and pagination.
 
@@ -397,19 +397,19 @@ return response()->json([
 ]);
 ```
 
-### Events, Jobs, and Queues
+### Events, Jobs, and Queues (Events, Jobs, and Queues)
 
 - Emit domain events for side effects (emails, analytics)
 - Use queued jobs for slow work (reports, exports, webhooks)
 - Prefer idempotent handlers with retries and backoff
 
-### Caching
+### Caching (Caching)
 
 - Cache read-heavy endpoints and expensive queries
 - Invalidate caches on model events (created/updated/deleted)
 - Use tags when caching related data for easy invalidation
 
-### Configuration and Environments
+### Configuration and Environments (Configuration and Environments)
 
 - Keep secrets in `.env` and config in `config/*.php`
 - Use per-environment config overrides and `config:cache` in production

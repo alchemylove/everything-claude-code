@@ -1,23 +1,23 @@
 ---
-description: "PHP patterns extending common rules"
+description: "PHP patterns: common ルールの拡張"
 globs: ["**/*.php", "**/composer.json"]
 alwaysApply: false
 ---
-# PHP Patterns
+# PHP Patterns (PHP Patterns)
 
-> This file extends the common patterns rule with PHP specific content.
+> このファイルは common patterns ルールを PHP 固有の内容で拡張する。
 
 ## Thin Controllers, Explicit Services
 
-- Keep controllers focused on transport: auth, validation, serialization, status codes.
-- Move business rules into application/domain services that are easy to test without HTTP bootstrapping.
+- controller は transport に集中: auth、validation、serialization、status code。
+- ビジネスルールは HTTP bootstrapping なしで test しやすい application/domain service に移す。
 
 ## DTOs and Value Objects
 
-- Replace shape-heavy associative arrays with DTOs for requests, commands, and external API payloads.
-- Use value objects for money, identifiers, and constrained concepts.
+- shape の重い associative array は request、command、外部 API payload 用の DTO に置き換える。
+- money、identifier、制約付き概念には value object を使用。
 
 ## Dependency Injection
 
-- Depend on interfaces or narrow service contracts, not framework globals.
-- Pass collaborators through constructors so services are testable without service-locator lookups.
+- framework グローバルではなく interface または狭い service contract に依存。
+- service-locator 検索なしで test 可能にするため、collaborator は constructor 経由で渡す。

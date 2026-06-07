@@ -1,21 +1,21 @@
 ---
-description: "PHP hooks extending common rules"
+description: "PHP hooks: common ルールの拡張"
 globs: ["**/*.php", "**/composer.json", "**/phpstan.neon", "**/phpstan.neon.dist", "**/psalm.xml"]
 alwaysApply: false
 ---
-# PHP Hooks
+# PHP Hooks (PHP Hooks)
 
-> This file extends the common hooks rule with PHP specific content.
+> このファイルは common hooks ルールを PHP 固有の内容で拡張する。
 
 ## PostToolUse Hooks
 
-Configure in `~/.claude/settings.json`:
+`~/.claude/settings.json` で設定:
 
-- **Pint / PHP-CS-Fixer**: Auto-format edited `.php` files.
-- **PHPStan / Psalm**: Run static analysis after PHP edits in typed codebases.
-- **PHPUnit / Pest**: Run targeted tests for touched files or modules when edits affect behavior.
+- **Pint / PHP-CS-Fixer**: 編集した `.php` ファイルを auto-format。
+- **PHPStan / Psalm**: typed codebase で PHP 編集後に static analysis を実行。
+- **PHPUnit / Pest**: 振る舞いに影響する編集時、触れたファイルまたはモジュールの targeted test を実行。
 
-## Warnings
+## 警告 (Warnings)
 
-- Warn on `var_dump`, `dd`, `dump`, or `die()` left in edited files.
-- Warn when edited PHP files add raw SQL or disable CSRF/session protections.
+- 編集ファイルに残った `var_dump`, `dd`, `dump`, `die()` を警告。
+- 編集した PHP ファイルが raw SQL を追加したり CSRF/session 保護を無効化した場合に警告。

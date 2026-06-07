@@ -1,29 +1,29 @@
 ---
-description: Manage Claude Code session history, aliases, and session metadata.
+description: Claude Code セッション履歴、エイリアス、セッションメタデータを管理します。
 ---
 
-# Sessions Command
+# Sessions コマンド (Sessions Command)
 
-Manage Claude Code session history - list, load, alias, and edit sessions stored in `~/.claude/session-data/` with legacy reads from `~/.claude/sessions/`.
+Claude Code セッション履歴を管理 — `~/.claude/session-data/` に保存されたセッションのリスト表示、読み込み、エイリアス設定、編集を行います。旧 `~/.claude/sessions/` のファイルも後方互換のために読み取ります。
 
-## Usage
+## 使い方 (Usage)
 
 `/sessions [list|load|alias|info|help] [options]`
 
-## Actions
+## アクション (Actions)
 
-### List Sessions
+### セッションのリスト表示 (List Sessions)
 
-Display all sessions with metadata, filtering, and pagination.
+メタデータ、フィルタリング、ページネーション付きですべてのセッションを表示します。
 
-Use `/sessions info` when you need operator-surface context for a swarm: branch, worktree path, and session recency.
+swarm のオペレーター向けコンテキスト（branch、worktree path、セッションの新しさ）が必要な場合は `/sessions info` を使用します。
 
 ```bash
-/sessions                              # List all sessions (default)
-/sessions list                         # Same as above
-/sessions list --limit 10              # Show 10 sessions
-/sessions list --date 2026-02-01       # Filter by date
-/sessions list --search abc            # Search by session ID
+/sessions                              # すべてのセッションをリスト表示（デフォルト）
+/sessions list                         # 上記と同じ
+/sessions list --limit 10              # 10件のセッションを表示
+/sessions list --date 2026-02-01       # 日付でフィルタリング
+/sessions list --search abc            # セッション ID で検索
 ```
 
 **Script:**
@@ -57,15 +57,15 @@ for (const s of result.sessions) {
 "
 ```
 
-### Load Session
+### セッションの読み込み (Load Session)
 
-Load and display a session's content (by ID or alias).
+セッションの内容を読み込んで表示します（ID またはエイリアスで指定）。
 
 ```bash
-/sessions load <id|alias>             # Load session
-/sessions load 2026-02-01             # By date (for no-id sessions)
-/sessions load a1b2c3d4               # By short ID
-/sessions load my-alias               # By alias name
+/sessions load <id|alias>             # セッションを読み込む
+/sessions load 2026-02-01             # 日付で指定（ID なしセッションの場合）
+/sessions load a1b2c3d4               # 短縮 ID で指定
+/sessions load my-alias               # エイリアス名で指定
 ```
 
 **Script:**
@@ -133,13 +133,13 @@ if (session.metadata.worktree) {
 " "$ARGUMENTS"
 ```
 
-### Create Alias
+### エイリアスの作成 (Create Alias)
 
-Create a memorable alias for a session.
+セッションに覚えやすいエイリアスを作成します。
 
 ```bash
-/sessions alias <id> <name>           # Create alias
-/sessions alias 2026-02-01 today-work # Create alias named "today-work"
+/sessions alias <id> <name>           # エイリアスを作成
+/sessions alias 2026-02-01 today-work # "today-work" という名前のエイリアスを作成
 ```
 
 **Script:**
@@ -174,13 +174,13 @@ if (result.success) {
 " "$ARGUMENTS"
 ```
 
-### Remove Alias
+### エイリアスの削除 (Remove Alias)
 
-Delete an existing alias.
+既存のエイリアスを削除します。
 
 ```bash
-/sessions alias --remove <name>        # Remove alias
-/sessions unalias <name>               # Same as above
+/sessions alias --remove <name>        # エイリアスを削除
+/sessions unalias <name>               # 上記と同じ
 ```
 
 **Script:**
@@ -205,12 +205,12 @@ if (result.success) {
 " "$ARGUMENTS"
 ```
 
-### Session Info
+### セッション情報 (Session Info)
 
-Show detailed information about a session.
+セッションの詳細情報を表示します。
 
 ```bash
-/sessions info <id|alias>              # Show session details
+/sessions info <id|alias>              # セッション詳細を表示
 ```
 
 **Script:**
@@ -256,12 +256,12 @@ if (aliases.length > 0) {
 " "$ARGUMENTS"
 ```
 
-### List Aliases
+### エイリアスのリスト表示 (List Aliases)
 
-Show all session aliases.
+すべてのセッションエイリアスを表示します。
 
 ```bash
-/sessions aliases                      # List all aliases
+/sessions aliases                      # すべてのエイリアスをリスト表示
 ```
 
 **Script:**
@@ -289,51 +289,51 @@ if (aliases.length === 0) {
 "
 ```
 
-## Operator Notes
+## オペレーター向けメモ (Operator Notes)
 
-- Session files persist `Project`, `Branch`, and `Worktree` in the header so `/sessions info` can disambiguate parallel tmux/worktree runs.
-- For command-center style monitoring, combine `/sessions info`, `git diff --stat`, and the cost metrics emitted by `scripts/hooks/cost-tracker.js`.
+- セッションファイルはヘッダーに `Project`、`Branch`、`Worktree` を永続化するため、`/sessions info` で並列 tmux/worktree 実行を区別できます。
+- コマンドセンター形式のモニタリングには、`/sessions info`、`git diff --stat`、`scripts/hooks/cost-tracker.js` が出力するコストメトリクスを組み合わせてください。
 
-## Arguments
+## 引数 (Arguments)
 
 $ARGUMENTS:
-- `list [options]` - List sessions
-  - `--limit <n>` - Max sessions to show (default: 50)
-  - `--date <YYYY-MM-DD>` - Filter by date
-  - `--search <pattern>` - Search in session ID
-- `load <id|alias>` - Load session content
-- `alias <id> <name>` - Create alias for session
-- `alias --remove <name>` - Remove alias
-- `unalias <name>` - Same as `--remove`
-- `info <id|alias>` - Show session statistics
-- `aliases` - List all aliases
-- `help` - Show this help
+- `list [options]` - セッションをリスト表示
+  - `--limit <n>` - 表示する最大セッション数（デフォルト: 50）
+  - `--date <YYYY-MM-DD>` - 日付でフィルタリング
+  - `--search <pattern>` - セッション ID で検索
+- `load <id|alias>` - セッション内容を読み込む
+- `alias <id> <name>` - セッションのエイリアスを作成
+- `alias --remove <name>` - エイリアスを削除
+- `unalias <name>` - `--remove` と同じ
+- `info <id|alias>` - セッション統計を表示
+- `aliases` - すべてのエイリアスをリスト表示
+- `help` - このヘルプを表示
 
-## Examples
+## 例 (Examples)
 
 ```bash
-# List all sessions
+# すべてのセッションをリスト表示
 /sessions list
 
-# Create an alias for today's session
+# 今日のセッションにエイリアスを作成
 /sessions alias 2026-02-01 today
 
-# Load session by alias
+# エイリアスでセッションを読み込む
 /sessions load today
 
-# Show session info
+# セッション情報を表示
 /sessions info today
 
-# Remove alias
+# エイリアスを削除
 /sessions alias --remove today
 
-# List all aliases
+# すべてのエイリアスをリスト表示
 /sessions aliases
 ```
 
-## Notes
+## 注意事項 (Notes)
 
-- Sessions are stored as markdown files in `~/.claude/session-data/` with legacy reads from `~/.claude/sessions/`
-- Aliases are stored in `~/.claude/session-aliases.json`
-- Session IDs can be shortened (first 4-8 characters usually unique enough)
-- Use aliases for frequently referenced sessions
+- セッションは `~/.claude/session-data/` に Markdown ファイルとして保存され、旧 `~/.claude/sessions/` のファイルも引き続き読み取られます
+- エイリアスは `~/.claude/session-aliases.json` に保存されます
+- セッション ID は短縮できます（通常、最初の4〜8文字で一意になります）
+- 頻繁に参照するセッションにはエイリアスを使用してください

@@ -1,14 +1,14 @@
 ---
-description: Enable or disable hookify rules interactively
+description: hookify rule をインタラクティブに有効化または無効化します。
 ---
 
-Interactively enable or disable existing hookify rules.
+既存の hookify rule をインタラクティブに enable または disable します。
 
-## Steps
+## ステップ (Steps)
 
-1. Find all `.claude/hookify.*.local.md` files
-2. Read the current state of each rule
-3. Present the list with current enabled / disabled status
-4. Ask which rules to toggle
-5. Update the `enabled:` field in the selected rule files
-6. Confirm the changes
+1. すべての `.claude/hookify.*.local.md` file を検索
+2. 各 rule の現在の state を読み取り
+3. 現在の enabled / disabled status 付きで list を提示
+4. どの rule を toggle するか質問
+5. 選択された rule file の `enabled:` field を更新
+6. change を confirm

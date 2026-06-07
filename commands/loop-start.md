@@ -1,35 +1,35 @@
 ---
-description: Start a managed autonomous loop pattern with safety defaults and explicit stop conditions.
+description: 安全性デフォルトと明示的な停止条件を持つ、管理された自律 loop パターンを開始する。
 ---
 
-# Loop Start Command
+# Loop 開始コマンド (Loop Start Command)
 
-Start a managed autonomous loop pattern with safety defaults.
+安全性デフォルトを持つ管理された自律 loop パターンを開始します。
 
-## Usage
+## 使い方 (Usage)
 
 `/loop-start [pattern] [--mode safe|fast]`
 
 - `pattern`: `sequential`, `continuous-pr`, `rfc-dag`, `infinite`
 - `--mode`:
-  - `safe` (default): strict quality gates and checkpoints
-  - `fast`: reduced gates for speed
+  - `safe`（デフォルト）: 厳格な品質ゲートと checkpoint
+  - `fast`: スピード重視で削減されたゲート
 
-## Flow
+## フロー (Flow)
 
-1. Confirm repository state and branch strategy.
-2. Select loop pattern and model tier strategy.
-3. Enable required hooks/profile for the chosen mode.
-4. Create loop plan and write runbook under `.claude/plans/`.
-5. Print commands to start and monitor the loop.
+1. リポジトリの状態とブランチ戦略を確認する。
+2. loop パターンと model tier 戦略を選択する。
+3. 選択されたモードに必要な hooks/profile を有効化する。
+4. loop 計画を作成し、`.claude/plans/` に runbook を書き込む。
+5. loop の開始とモニタリング用コマンドを表示する。
 
-## Required Safety Checks
+## 必須の安全チェック (Required Safety Checks)
 
-- Verify tests pass before first loop iteration.
-- Ensure `ECC_HOOK_PROFILE` is not disabled globally.
-- Ensure loop has explicit stop condition.
+- 最初の loop iteration の前にテストが通ることを検証する。
+- `ECC_HOOK_PROFILE` がグローバルに無効化されていないことを確認する。
+- loop に明示的な停止条件があることを確認する。
 
-## Arguments
+## 引数 (Arguments)
 
 $ARGUMENTS:
 - `<pattern>` optional (`sequential|continuous-pr|rfc-dag|infinite`)

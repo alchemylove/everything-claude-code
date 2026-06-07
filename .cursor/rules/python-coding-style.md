@@ -1,20 +1,20 @@
 ---
-description: "Python coding style extending common rules"
+description: "Python coding style: common ルールの拡張"
 globs: ["**/*.py", "**/*.pyi"]
 alwaysApply: false
 ---
-# Python Coding Style
+# Python Coding Style (Python Coding Style)
 
-> This file extends the common coding style rule with Python specific content.
+> このファイルは common coding style ルールを Python 固有の内容で拡張する。
 
-## Standards
+## 標準 (Standards)
 
-- Follow **PEP 8** conventions
-- Use **type annotations** on all function signatures
+- **PEP 8** 規約に従う
+- すべての関数シグネチャに **type annotation** を使用
 
-## Immutability
+## 不変性 (Immutability)
 
-Prefer immutable data structures:
+不変データ構造を優先:
 
 ```python
 from dataclasses import dataclass
@@ -31,12 +31,12 @@ class Point(NamedTuple):
     y: float
 ```
 
-## Formatting
+## フォーマット (Formatting)
 
-- **black** for code formatting
-- **isort** for import sorting
-- **ruff** for linting
+- コードフォーマットに **black**
+- import ソートに **isort**
+- lint に **ruff**
 
-## Reference
+## 参照 (Reference)
 
-See skill: `python-patterns` for comprehensive Python idioms and patterns.
+包括的な Python イディオムとパターンは skill: `python-patterns` を参照。

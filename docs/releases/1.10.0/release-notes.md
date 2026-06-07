@@ -1,17 +1,17 @@
-# ECC v1.10.0 Release Notes
+# ECC v1.10.0 リリースノート (ECC v1.10.0 Release Notes)
 
-## Positioning
+## ポジショニング (Positioning)
 
-ECC v1.10.0 is a surface-sync and operator-lane release.
+ECC v1.10.0 は surface-sync と operator-lane リリースです。
 
-The goal was to make the public repo, plugin metadata, install paths, and ecosystem story reflect the actual live state of the project again, while continuing to ship the operator workflows and media tooling that grew around the core harness layer.
+目標は、公開リポジトリ、plugin metadata、install path、エコシステムストーリーをプロジェクトの実際のライブ状態に再び反映させつつ、コア harness レイヤー周辺で成長した operator workflow と media tooling の出荷を続けることでした。
 
-## What Changed
+## 変更点 (What Changed)
 
-- Synced the live OSS surface to **38 agents, 156 skills, and 72 commands**.
-- Updated the Claude plugin, Codex plugin, OpenCode package metadata, and release-facing docs to **1.10.0**.
-- Refreshed top-line repo metrics to match the live public repo (**140K+ stars**, **21K+ forks**, **170+ contributors**).
-- Expanded the operator/workflow lane with:
+- ライブ OSS 面を **38 agents、156 skills、72 commands** に同期。
+- Claude plugin、Codex plugin、OpenCode package metadata、リリース向け docs を **1.10.0** に更新。
+- トップラインリポジトリメトリクスをライブ公開リポジトリに合わせて更新（**14万+ stars**、**2.1万+ forks**、**170+ contributors**）。
+- operator/workflow lane を拡張：
   - `brand-voice`
   - `social-graph-ranker`
   - `connections-optimizer`
@@ -19,20 +19,20 @@ The goal was to make the public repo, plugin metadata, install paths, and ecosys
   - `google-workspace-ops`
   - `project-flow-ops`
   - `workspace-surface-audit`
-- Expanded the media lane with:
+- media lane を拡張：
   - `manim-video`
   - `remotion-video-creation`
-- Added and stabilized more framework/domain coverage, including `nestjs-patterns`.
+- `nestjs-patterns` を含む framework/domain カバレッジを追加・安定化。
 
-## ECC 2.0 Status
+## ECC 2.0 ステータス (ECC 2.0 Status)
 
-ECC 2.0 is **real and usable as an alpha**, but it is **not general-availability complete**.
+ECC 2.0 は **alpha として実在し利用可能** ですが、**general-availability 完了ではありません**。
 
-What exists today:
+今日存在するもの：
 
-- `ecc2/` Rust control-plane codebase in the main repo
-- `cargo build --manifest-path ecc2/Cargo.toml` passes
-- `ecc-tui` commands currently available:
+- メインリポジトリ内の `ecc2/` Rust control-plane コードベース
+- `cargo build --manifest-path ecc2/Cargo.toml` が通る
+- 現在利用可能な `ecc-tui` コマンド：
   - `dashboard`
   - `start`
   - `sessions`
@@ -41,30 +41,30 @@ What exists today:
   - `resume`
   - `daemon`
 
-What this means:
+これが意味すること：
 
-- You can experiment with the control-plane surface now.
-- You should not describe the full ECC 2.0 roadmap as finished.
-- The right framing today is **ECC 2.0 alpha / control-plane preview**, not GA.
+- control-plane 面を今すぐ試せる。
+- ECC 2.0 roadmap 全体を完了したと説明すべきではない。
+- 今日の正しいフレーミングは **ECC 2.0 alpha / control-plane preview** であり、GA ではない。
 
-## Install Guidance
+## インストールガイダンス (Install Guidance)
 
-Current install surfaces:
+現在の install 面：
 
 - Claude Code plugin
-- `ecc-universal` on npm
+- npm の `ecc-universal`
 - Codex plugin manifest
-- OpenCode package/plugin surface
+- OpenCode package/plugin 面
 - AgentShield CLI + npm + GitHub Marketplace action
 
-Important nuance:
+重要なニュアンス：
 
-- The Claude plugin remains constrained by platform-level `rules` distribution limits.
-- The selective install / OSS path is still the most reliable full install for teams that want the complete ECC surface.
+- Claude plugin は platform レベルの `rules` 配布制限の影響を受け続ける。
+- selective install / OSS path は、完全な ECC 面を望むチームにとって依然として最も信頼できるフルインストール。
 
-## Recommended Upgrade Path
+## 推奨アップグレードパス (Recommended Upgrade Path)
 
-1. Refresh to the latest plugin/install metadata.
-2. Prefer the selective install / OSS path when you need full rules coverage.
-3. Use AgentShield for guardrails and repo scanning.
-4. Treat ECC 2.0 as an alpha control-plane surface until the open P0/P1 roadmap is materially burned down.
+1. 最新の plugin/install metadata に更新する。
+2. 完全な rules カバレッジが必要な場合は selective install / OSS path を優先する。
+3. guardrail とリポジトリスキャンに AgentShield を使う。
+4. オープン P0/P1 roadmap が実質的に消化されるまで、ECC 2.0 を alpha control-plane 面として扱う。

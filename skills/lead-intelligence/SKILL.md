@@ -8,7 +8,7 @@ origin: ECC
 
 Agent-powered lead intelligence pipeline that finds, scores, and reaches high-value contacts through social graph analysis and warm path discovery.
 
-## When to Activate
+## 有効化タイミング (When to Activate)
 
 - User wants to find leads or prospects in a specific industry
 - Building an outreach list for partnerships, sales, or fundraising
@@ -17,7 +17,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 - Needs to score or rank a list of contacts by relevance
 - Wants to map mutual connections to find warm introduction paths
 
-## Tool Requirements
+## ツール要件 (Tool Requirements)
 
 ### Required
 - **Exa MCP** — Deep web search for people, companies, and signals (`web_search_exa`)
@@ -30,7 +30,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 - **Apple Mail / Mail.app** — Draft cold or warm email without sending automatically
 - **Browser control** — For LinkedIn and X when API coverage is missing or constrained
 
-## Pipeline Overview
+## パイプライン概要 (Pipeline Overview)
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
@@ -39,7 +39,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 └─────────────┘     └──────────────┘     └─────────────────┘     └──────────────┘     └─────────────────┘
 ```
 
-## Voice Before Outreach
+## アウトリーチ前の voice (Voice Before Outreach)
 
 Do not draft outbound from generic sales copy.
 
@@ -47,7 +47,7 @@ Run `brand-voice` first whenever the user's voice matters. Reuse its `VOICE PROF
 
 If live X access is available, pull recent original posts before drafting. If not, use supplied examples or the best repo/site material available.
 
-## Stage 1: Signal Scoring
+## ステージ 1: Signal Scoring (Stage 1: Signal Scoring)
 
 Search for high-signal people in target verticals. Assign a weight to each based on:
 
@@ -85,7 +85,7 @@ x_search = search_recent_tweets(
 # Extract and score unique authors
 ```
 
-## Stage 2: Mutual Ranking
+## ステージ 2: Mutual Ranking (Stage 2: Mutual Ranking)
 
 For each scored target, analyze the user's social graph to find the warmest path.
 
@@ -123,7 +123,7 @@ Interpretation:
 - Tier 2: medium `R(m)` and one-hop bridge paths -> conditional intro asks
 - Tier 3: no viable bridge -> direct cold outreach using the same lead record
 
-### Output Format
+### 出力フォーマット (Output Format)
 
 ```
 
@@ -143,7 +143,7 @@ MUTUAL RANKING REPORT
     ...
 ```
 
-## Stage 3: Warm Path Discovery
+## ステージ 3: Warm Path Discovery (Stage 3: Warm Path Discovery)
 
 For each target, find the shortest introduction chain:
 
@@ -160,7 +160,7 @@ You ──[met at]──> Event ──[also attended]──> Target Person
 4. **Event overlap** — Both attended same conference/program
 5. **Content engagement** — Target engaged with mutual's content or vice versa
 
-## Stage 4: Enrichment
+## ステージ 4: Enrichment (Stage 4: Enrichment)
 
 For each qualified lead, pull:
 
@@ -176,7 +176,7 @@ For each qualified lead, pull:
 - GitHub: open source contributions (for developer-centric leads)
 - LinkedIn (via browser-use): full profile, experience, education
 
-## Stage 5: Outreach Draft
+## ステージ 5: Outreach Draft (Stage 5: Outreach Draft)
 
 Generate personalized outreach for each lead. The draft should match the source-derived voice profile and the target channel.
 
@@ -274,7 +274,7 @@ Do not send messages automatically without explicit user approval.
 - identical copy reused for email, LinkedIn, and X
 - platform-shaped slop instead of the author's actual voice
 
-## Configuration
+## 設定 (Configuration)
 
 Users should set these environment variables:
 
@@ -292,7 +292,7 @@ export LINKEDIN_COOKIE="..." # For browser-use LinkedIn access
 export APOLLO_API_KEY="..."  # For Apollo enrichment
 ```
 
-## Agents
+## エージェント (Agents)
 
 This skill includes specialized agents in the `agents/` subdirectory:
 
@@ -301,7 +301,7 @@ This skill includes specialized agents in the `agents/` subdirectory:
 - **enrichment-agent** — Pulls detailed profile and company data
 - **outreach-drafter** — Generates personalized messages
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ```
 User: find me the top 20 people in prediction markets I should reach out to
@@ -315,7 +315,7 @@ Agent workflow:
 Output: Ranked list with warm paths, voice profile summary, and channel-specific outreach drafts or drafts-in-app
 ```
 
-## Related Skills
+## 関連スキル (Related Skills)
 
 - `brand-voice` for canonical voice capture
 - `connections-optimizer` for review-first network pruning and expansion before outreach

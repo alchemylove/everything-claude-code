@@ -6,13 +6,13 @@ paths:
   - "**/app/**/*.ts"
   - "**/pages/**/*.ts"
 ---
-# React Security
+# React セキュリティ (React Security)
 
-> This file extends [typescript/security.md](../typescript/security.md) and [common/security.md](../common/security.md) with React specific content.
+> このファイルは [typescript/security.md](../typescript/security.md) および [common/security.md](../common/security.md) を拡張し、React 固有の内容を追加する。
 
-## XSS via `dangerouslySetInnerHTML`
+## `dangerouslySetInnerHTML` 経由の XSS
 
-CRITICAL. The prop name is deliberately scary — treat every usage as a code review halt.
+CRITICAL。prop 名は意図的に scary — すべての使用を code review の停止点として扱う。
 
 ```tsx
 // CRITICAL: unsanitized user input
@@ -30,15 +30,15 @@ import DOMPurify from "isomorphic-dompurify";
 <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(userBio) }} />
 ```
 
-Audit checklist for every `dangerouslySetInnerHTML` call:
+すべての `dangerouslySetInnerHTML` 呼び出しの audit checklist:
 
-- Is the input always under our control? Document the source.
-- If user-derived: is it sanitized at the **same call site**? (Sanitization at the API boundary is acceptable only if every consumer is verified.)
-- Is the sanitizer config allowlisting tags, not denylisting?
+- input は常に我々の管理下か？ source を文書化する。
+- user 由来なら: **同一 call site** で sanitize されているか？（API 境界での sanitize はすべての consumer が verified な場合のみ許容。）
+- sanitizer config は denylist ではなく allowlist か？
 
-## Unsafe URL Schemes
+## 危険な URL Scheme (Unsafe URL Schemes)
 
-`javascript:` and `data:` URLs in `href`, `src`, and `xlink:href` execute arbitrary code.
+`href`、`src`、`xlink:href` の `javascript:` と `data:` URL は任意 code を実行する。
 
 ```tsx
 // CRITICAL: javascript: URL injection
@@ -57,11 +57,11 @@ function safeUrl(url: string): string | undefined {
 <a href={safeUrl(user.website)}>Visit</a>
 ```
 
-React warns about `javascript:` URLs in `href` in development mode, but does not block them at runtime. `data:` URLs and other schemes also slip through. Always validate.
+React は development で `href` の `javascript:` URL を warn するが runtime では block しない。`data:` URL なども通る。常に validate する。
 
-## `target="_blank"` Without `rel`
+## `rel` なしの `target="_blank"`
 
-`<a target="_blank">` without `rel="noopener noreferrer"` lets the target page access `window.opener` and run navigation hijacks.
+`rel="noopener noreferrer"` なしの `<a target="_blank">` は target page が `window.opener` にアクセスし navigation hijack できる。
 
 ```tsx
 // WRONG
@@ -71,11 +71,11 @@ React warns about `javascript:` URLs in `href` in development mode, but does not
 <a href={externalUrl} target="_blank" rel="noopener noreferrer">External</a>
 ```
 
-Modern browsers default to `noopener` when `target="_blank"`, but do not rely on browser defaults — be explicit.
+modern browser は `target="_blank"` 時にデフォルトで `noopener` だが、browser default に依存しない — 明示する。
 
-## Server Action Input Validation
+## Server Action の入力検証 (Server Action Input Validation)
 
-Server Actions (`"use server"`) run with the same trust level as a public API endpoint. Validate every input.
+Server Actions（`"use server"`）は public API endpoint と同じ trust level で動く。すべての input を validate する。
 
 ```tsx
 "use server";
@@ -96,13 +96,13 @@ export async function updateUser(_state: unknown, formData: FormData) {
 }
 ```
 
-- Authenticate inside the action — do not trust the client-side route gate
-- Authorize: confirm the current user has permission for the specific record they are mutating
-- Rate limit sensitive actions
+- action 内で authenticate — client-side route gate を信頼しない
+- authorize: 現在 user が mutate する特定 record への permission があることを確認
+- 機微 action には rate limit
 
-## Secret Exposure via Env Vars
+## Env Var 経由の Secret 露出 (Secret Exposure via Env Vars)
 
-Prefixed env vars are bundled into the client. Treat them as public.
+prefix 付き env var は client bundle に含まれる。public として扱う。
 
 | Framework | Public prefix | Private |
 |---|---|---|
@@ -116,18 +116,18 @@ Prefixed env vars are bundled into the client. Treat them as public.
 const apiKey = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY;
 ```
 
-Audit on every PR that touches env vars: would this string in the public bundle be a problem?
+env var を触る PR ごとに audit: この文字列が public bundle にあれば問題か？
 
-## Authentication / Authorization
+## 認証 / 認可 (Authentication / Authorization)
 
-- Never store sessions in `localStorage` — accessible to any XSS. Use httpOnly secure cookies.
-- Never trust client-set state to gate sensitive UI. Render-gating in JSX prevents display, not access — the API must enforce.
-- CSRF: cookie-based auth requires CSRF tokens or `SameSite=Strict`/`Lax` cookies
-- Use double-submit cookies or origin verification for form actions when not using framework defaults
+- session を `localStorage` に保存しない — 任意 XSS からアクセス可能。httpOnly secure cookie を使う。
+- 機微 UI を gate する client-set state を信頼しない。JSX の render-gating は表示を防ぐだけで access は防がない — API が enforce する。
+- CSRF: cookie ベース auth には CSRF token または `SameSite=Strict`/`Lax` cookie
+- framework default を使わない form action には double-submit cookie または origin verification
 
-## Content Security Policy (CSP)
+## Content Security Policy（CSP）(Content Security Policy (CSP))
 
-Configure server-side. The minimum acceptable CSP for a React app:
+server-side で設定。React app の最低限許容 CSP:
 
 ```
 default-src 'self';
@@ -138,11 +138,11 @@ connect-src 'self' https://api.example.com;
 frame-ancestors 'none';
 ```
 
-- Avoid `unsafe-inline` and `unsafe-eval` in `script-src`
-- For SSR with inline scripts (Next.js streaming, hydration data), use per-request nonces — both Next.js and Remix support nonce injection
-- `style-src 'unsafe-inline'` is often unavoidable for CSS-in-JS libraries — document the tradeoff
+- `script-src` で `unsafe-inline` と `unsafe-eval` を避ける
+- inline script がある SSR（Next.js streaming、hydration data）では per-request nonce — Next.js と Remix は nonce injection をサポート
+- CSS-in-JS library では `style-src 'unsafe-inline'` が避けられないことが多い — tradeoff を文書化
 
-## Prototype Pollution via Object Spread
+## Object Spread 経由の Prototype Pollution
 
 ```tsx
 // WRONG: untrusted JSON spread directly into state
@@ -157,24 +157,24 @@ setState({ ...state, ...parsed });
 
 ## SSR Template Injection
 
-When using `renderToString` or `renderToPipeableStream`:
+`renderToString` または `renderToPipeableStream` 使用時:
 
-- All values rendered inside JSX are escaped by React — safe
-- Values passed to `dangerouslySetInnerHTML` are NOT escaped — same rules as client
-- Manually constructed HTML wrappers around the React output must be escaped or sanitized — never concatenate user input into the surrounding HTML template
+- JSX 内に render する値は React が escape — safe
+- `dangerouslySetInnerHTML` に渡す値は escape されない — client と同じ rule
+- React output 周りの手組み HTML wrapper は escape または sanitize — user input を surrounding HTML template に連結しない
 
-## Third-Party Components
+## サードパーティ Component (Third-Party Components)
 
-- Audit `npm audit` before adding any UI library
-- Check that the library does not internally use `dangerouslySetInnerHTML` on its input (e.g., rich text editors)
-- Pin versions, review changelogs before major upgrades
-- Be wary of components that accept HTML strings as props
+- UI library 追加前に `npm audit`
+- library が input に内部で `dangerouslySetInnerHTML` を使わないか確認（例: rich text editor）
+- version を pin し、major upgrade 前に changelog を review
+- HTML string を prop で受け取る component に注意
 
-## Source Map Exposure in Production
+## 本番での Source Map 露出 (Source Map Exposure in Production)
 
-Production builds should ship without source maps, or with sourcemaps uploaded to an error tracker (Sentry) and stripped from the public bundle. Public source maps leak internal logic and file structure.
+production build は source map なしで ship するか、error tracker（Sentry）に upload し public bundle から除去。public source map は内部 logic と file structure を漏らす。
 
-## Agent Support
+## Agent サポート (Agent Support)
 
-- Use `security-reviewer` agent for comprehensive security audits across the codebase
-- Use `react-reviewer` agent for React-specific patterns and the above rules in active code review
+- codebase 全体の包括 security audit には `security-reviewer` agent
+- React 固有 pattern と上記 rule の active code review には `react-reviewer` agent

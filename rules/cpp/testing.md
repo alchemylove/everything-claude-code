@@ -8,21 +8,21 @@ paths:
   - "**/*.h"
   - "**/CMakeLists.txt"
 ---
-# C++ Testing
+# C++ テスト (C++ Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with C++ specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、C++ 固有の内容を追加する。
 
-## Framework
+## フレームワーク (Framework)
 
-Use **GoogleTest** (gtest/gmock) with **CMake/CTest**.
+**GoogleTest**（gtest/gmock）と **CMake/CTest** を使う。
 
-## Running Tests
+## テスト実行 (Running Tests)
 
 ```bash
 cmake --build build && ctest --test-dir build --output-on-failure
 ```
 
-## Coverage
+## カバレッジ (Coverage)
 
 ```bash
 cmake -DCMAKE_CXX_FLAGS="--coverage" -DCMAKE_EXE_LINKER_FLAGS="--coverage" ..
@@ -31,14 +31,14 @@ ctest --output-on-failure
 lcov --capture --directory . --output-file coverage.info
 ```
 
-## Sanitizers
+## Sanitizer
 
-Always run tests with sanitizers in CI:
+CI では常に sanitizer 付きでテストを実行する:
 
 ```bash
 cmake -DCMAKE_CXX_FLAGS="-fsanitize=address,undefined" ..
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `cpp-testing` for detailed C++ testing patterns, TDD workflow, and GoogleTest/GMock usage.
+詳細な C++ テストパターン、TDD ワークフロー、GoogleTest/GMock の使い方については skill: `cpp-testing` を参照。

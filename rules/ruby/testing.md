@@ -7,32 +7,32 @@ paths:
   - "**/spec/**/*.rb"
   - "**/config/routes.rb"
 ---
-# Ruby Testing
+# Ruby テスト (Ruby Testing)
 
-> This file extends [common/testing.md](../common/testing.md) with Ruby and Rails specific content.
+> このファイルは [common/testing.md](../common/testing.md) を拡張し、Ruby および Rails 固有の内容を追加する。
 
-## Framework
+## フレームワーク (Framework)
 
-- Use **Minitest** when the Rails app follows the default Rails test stack.
-- Use **RSpec** when it is already established in the project or the team has explicit production conventions around it.
-- Do not mix Minitest and RSpec inside the same feature area without a migration reason.
+- Rails アプリがデフォルトの Rails テストスタックに従っている場合は **Minitest** を使用する。
+- プロジェクトで既に確立されている場合、またはチームがそれに関する明確な本番規約を持っている場合は **RSpec** を使用する。
+- マイグレーションの理由なしに、同じ機能領域内で Minitest と RSpec を混在させない。
 
-## Test Pyramid
+## テストピラミッド (Test Pyramid)
 
-- Put fast domain behavior in model, service, query, policy, and job tests.
-- Use request/controller tests for HTTP contracts, auth behavior, redirects, status codes, and response shapes.
-- Use system tests with Capybara for browser-critical flows only; keep them focused and stable.
-- Cover background jobs with unit tests for behavior and integration tests for queue/enqueue contracts.
+- 高速なドメインロジックはモデル、サービス、クエリ、ポリシー、ジョブのテストに配置する。
+- HTTP コントラクト、認証動作、リダイレクト、ステータスコード、レスポンスの形状にはリクエスト/コントローラテストを使用する。
+- ブラウザ依存の重要なフローにのみ Capybara を使用したシステムテストを使用する。焦点を絞り、安定させる。
+- バックグラウンドジョブは動作のユニットテストとキュー/エンキューコントラクトの統合テストでカバーする。
 
-## Fixtures And Factories
+## フィクスチャとファクトリ (Fixtures And Factories)
 
-- Use Rails fixtures when they are the project default and the data graph is small.
-- Use `factory_bot` when scenarios need explicit object construction or complex traits.
-- Keep test data close to the behavior being asserted; avoid global fixtures that hide setup cost.
+- Rails フィクスチャがプロジェクトのデフォルトで、データグラフが小さい場合はそれを使用する。
+- シナリオが明示的なオブジェクト構築や複雑なトレイトを必要とする場合は `factory_bot` を使用する。
+- テストデータはアサートされる動作の近くに配置する。セットアップコストを隠すグローバルフィクスチャを避ける。
 
-## Commands
+## コマンド (Commands)
 
-Prefer project-local commands:
+プロジェクトローカルのコマンドを優先する:
 
 ```bash
 bin/rails test
@@ -41,11 +41,11 @@ bundle exec rspec
 bundle exec rspec spec/models/user_spec.rb
 ```
 
-## Coverage
+## カバレッジ (Coverage)
 
-- Use SimpleCov when coverage is enforced; keep thresholds in CI and avoid gaming branch coverage with low-value tests.
-- Add regression tests for bug fixes before changing production code.
+- カバレッジが強制される場合は SimpleCov を使用する。しきい値は CI に設定し、低価値なテストでブランチカバレッジを水増ししない。
+- バグ修正では、本番コードを変更する前にリグレッションテストを追加する。
 
-## Reference
+## リファレンス (Reference)
 
-See skill: `tdd-workflow` for the repo-wide RED -> GREEN -> REFACTOR loop.
+リポジトリ全体の RED -> GREEN -> REFACTOR ループについてはスキル: `tdd-workflow` を参照。

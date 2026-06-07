@@ -1,70 +1,71 @@
 ---
-description: Restate requirements, assess risks, and create step-by-step implementation plan. WAIT for user CONFIRM before touching any code.
-argument-hint: "[feature description | path/to/*.prd.md]"
+description: 要件を再述し、リスクを評価し、段階的な実装計画を作成します。コードに触れる前にユーザーの確認を待ちます。
+argument-hint: "[機能の説明 | path/to/*.prd.md]"
 ---
 
-# Plan Command
+# Planコマンド (Plan Command)
 
-This command creates a comprehensive implementation plan before writing any code. It accepts either free-form requirements or a PRD markdown file.
+このコマンドはコードを書く前に包括的な実装計画を作成します。フリーフォームの要件またはPRDマークダウンファイルのいずれかを受け付けます。
 
-Run inline by default. Do not call the Task tool or any subagent by default. This keeps `/plan` usable from plugin installs that ship commands without agent files.
+デフォルトではインラインで実行します。デフォルトでは Task ツールやサブエージェントを呼び出しません。これにより`/plan`はエージェントファイルなしでコマンドを出荷するプラグインインストールからも使用可能です。
 
-## What This Command Does
+## このコマンドの動作 (What This Command Does)
 
-1. **Restate Requirements** - Clarify what needs to be built
-2. **Identify Risks** - Surface potential issues and blockers
-3. **Create Step Plan** - Break down implementation into phases
-4. **Wait for Confirmation** - MUST receive user approval before proceeding
+1. **要件を再述 (Restate Requirements)** — 何を構築するかを明確化
+2. **リスクを特定 (Identify Risks)** — 潜在的な問題とブロッカーを表面化
+3. **段階的計画を作成 (Create Step Plan)** — 実装をフェーズに分解
+4. **確認を待つ (Wait for Confirmation)** — 続行前にユーザーの承認を受けなければならない
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-Use `/plan` when:
-- Starting a new feature
-- Making significant architectural changes
-- Working on complex refactoring
-- Multiple files/components will be affected
-- Requirements are unclear or ambiguous
+`/plan`を使用するのは:
 
-## How It Works
+- 新機能を開始する時
+- 重要なアーキテクチャ変更を行う時
+- 複雑なリファクタリングに取り組む時
+- 複数のファイル/コンポーネントが影響を受ける時
+- 要件が不明確または曖昧な時
 
-The assistant will:
+## 動作方法 (How It Works)
 
-1. **Analyze the request** and restate requirements in clear terms
-2. **Ground the plan** in relevant codebase patterns when the repo is available
-3. **Break down into phases** with specific, actionable steps
-4. **Identify dependencies** between components
-5. **Assess risks** and potential blockers
-6. **Estimate complexity** (High/Medium/Low)
-7. **Present the plan** and WAIT for your explicit confirmation
+アシスタントは以下を行います:
 
-## Input Modes
+1. リクエストを**分析**し、明確な用語で要件を再述
+2. リポジトリが利用可能な場合、関連するコードベースパターンに**計画を根拠付け**
+3. 具体的で実行可能なステップを含む**フェーズに分解**
+4. コンポーネント間の**依存関係を特定**
+5. **リスク**と潜在的なブロッカーを評価
+6. **複雑さを見積もり**（High/Medium/Low）
+7. **計画を提示**し、明示的な確認を待つ
 
-| Input | Mode | Behavior |
-|---|---|---|
-| `path/to/name.prd.md` | PRD artifact mode | Read the PRD, pick the next pending delivery milestone or implementation phase, and write `.claude/plans/{name}.plan.md` |
-| Any other markdown path | Reference mode | Read the file as context and produce an inline plan |
-| Free-form text | Conversational mode | Produce an inline plan |
-| Empty input | Clarification mode | Ask what should be planned |
+## 入力モード (Input Modes)
 
-In PRD artifact mode, create `.claude/plans/` if needed. If the PRD contains a `Delivery Milestones` table, update only the selected row from `pending` to `in-progress` and set its `Plan` cell to the generated plan path. If the PRD uses the legacy `.claude/PRPs/prds/` format with `Implementation Phases`, read it without migrating paths.
+| 入力 | モード | 動作 |
+|------|--------|------|
+| `path/to/name.prd.md` | PRDアーティファクトモード | PRDを読み、次の保留中のデリバリーマイルストーンまたは実装フェーズを選択し、`.claude/plans/{name}.plan.md`を書き込み |
+| その他のマークダウンパス | リファレンスモード | ファイルをコンテキストとして読み、インライン計画を出力 |
+| フリーフォームテキスト | 会話モード | インライン計画を出力 |
+| 空の入力 | 明確化モード | 何を計画すべきかを質問 |
 
-## Pattern Grounding
+PRDアーティファクトモードでは、必要に応じて`.claude/plans/`を作成します。PRDに`Delivery Milestones`テーブルが含まれている場合、選択された行のみを`pending`から`in-progress`に更新し、その`Plan`セルに生成された計画パスを設定します。PRDがレガシーの`.claude/PRPs/prds/`形式で`Implementation Phases`を使用している場合、パスを移行せずに読み取ります。
 
-Before writing the plan, search the codebase for conventions the implementation should mirror. Capture the top example for each relevant category with file references:
+## パターン根拠付け (Pattern Grounding)
 
-| Category | What to capture |
-|---|---|
-| Naming | File, function, type, command, or script naming in the affected area |
-| Error handling | How failures are raised, returned, logged, or handled gracefully |
-| Logging | Levels, format, and what gets logged |
-| Data access | Repository, service, query, or filesystem patterns |
-| Tests | Test file location, framework, fixtures, and assertion style |
+計画を書く前に、実装がミラーすべき規約をコードベースから検索します。関連する各カテゴリについて、ファイル参照付きの最上位の例をキャプチャ:
 
-If no similar code exists, state that explicitly. Do not invent a pattern.
+| カテゴリ | キャプチャ対象 |
+|---------|-------------|
+| 命名 | 影響を受ける領域のファイル、関数、型、コマンド、またはスクリプトの命名 |
+| エラーハンドリング | 失敗がどのように発生、返却、ログ、または優雅に処理されるか |
+| ロギング | レベル、フォーマット、何がログされるか |
+| データアクセス | リポジトリ、サービス、クエリ、またはファイルシステムパターン |
+| テスト | テストファイルの場所、フレームワーク、フィクスチャ、アサーションスタイル |
 
-## PRD Artifact Output
+類似コードが存在しない場合は、明示的にそう述べます。パターンを作り出さないでください。
 
-When called with a `.prd.md` file, write the plan to `.claude/plans/{kebab-case-name}.plan.md` using this structure:
+## PRDアーティファクト出力 (PRD Artifact Output)
+
+`.prd.md`ファイルで呼び出された場合、以下の構造で`.claude/plans/{kebab-case-name}.plan.md`に計画を書き込み:
 
 ````markdown
 # Plan: {Feature Name}
@@ -109,92 +110,94 @@ When called with a `.prd.md` file, write the plan to `.claude/plans/{kebab-case-
 - [ ] Patterns mirrored, not reinvented
 ````
 
-After writing the artifact, report its path and WAIT for confirmation before writing code.
+アーティファクトを書いた後、パスを報告し、コードを書く前に確認を待ちます。
 
-## Example Usage
+## 使用例 (Example Usage)
 
 ```
-User: /plan I need to add real-time notifications when markets resolve
+User: /plan マーケットが解決した時にリアルタイム通知を追加する必要があります
 
 Assistant:
-# Implementation Plan: Real-Time Market Resolution Notifications
+# 実装計画: リアルタイムマーケット解決通知
 
-## Requirements Restatement
-- Send notifications to users when markets they're watching resolve
-- Support multiple notification channels (in-app, email, webhook)
-- Ensure notifications are delivered reliably
-- Include market outcome and user's position result
+## 要件の再述
+- ユーザーがウォッチしているマーケットが解決した時に通知を送信
+- 複数の通知チャネル（アプリ内、メール、webhook）をサポート
+- 通知が確実に配信されることを保証
+- マーケットの結果とユーザーのポジション結果を含める
 
-## Implementation Phases
+## 実装フェーズ
 
-### Phase 1: Database Schema
-- Add notifications table with columns: id, user_id, market_id, type, status, created_at
-- Add user_notification_preferences table for channel preferences
-- Create indexes on user_id and market_id for performance
+### フェーズ 1: データベーススキーマ
+- 通知テーブルを追加（カラム: id, user_id, market_id, type, status, created_at）
+- user_notification_preferencesテーブルをチャネル設定用に追加
+- パフォーマンスのためにuser_idとmarket_idにインデックスを作成
 
-### Phase 2: Notification Service
-- Create notification service in lib/notifications.ts
-- Implement notification queue using BullMQ/Redis
-- Add retry logic for failed deliveries
-- Create notification templates
+### フェーズ 2: 通知サービス
+- lib/notifications.tsに通知サービスを作成
+- BullMQ/Redisを使用した通知キューを実装
+- 配信失敗時のリトライロジックを追加
+- 通知テンプレートを作成
 
-### Phase 3: Integration Points
-- Hook into market resolution logic (when status changes to "resolved")
-- Query all users with positions in market
-- Enqueue notifications for each user
+### フェーズ 3: 統合ポイント
+- マーケット解決ロジックにフック（ステータスが"resolved"に変更された時）
+- マーケットにポジションを持つすべてのユーザーをクエリ
+- 各ユーザーの通知をエンキュー
 
-### Phase 4: Frontend Components
-- Create NotificationBell component in header
-- Add NotificationList modal
-- Implement real-time updates via Supabase subscriptions
-- Add notification preferences page
+### フェーズ 4: フロントエンドコンポーネント
+- ヘッダーにNotificationBellコンポーネントを作成
+- NotificationListモーダルを追加
+- Supabaseサブスクリプション経由のリアルタイム更新を実装
+- 通知設定ページを追加
 
-## Dependencies
-- Redis (for queue)
-- Email service (SendGrid/Resend)
-- Supabase real-time subscriptions
+## 依存関係
+- Redis（キュー用）
+- メールサービス（SendGrid/Resend）
+- Supabaseリアルタイムサブスクリプション
 
-## Risks
-- HIGH: Email deliverability (SPF/DKIM required)
-- MEDIUM: Performance with 1000+ users per market
-- MEDIUM: Notification spam if markets resolve frequently
-- LOW: Real-time subscription overhead
+## リスク
+- HIGH: メール配信性（SPF/DKIMが必要）
+- MEDIUM: 1000人以上のユーザー/マーケットでのパフォーマンス
+- MEDIUM: マーケットが頻繁に解決する場合の通知スパム
+- LOW: リアルタイムサブスクリプションのオーバーヘッド
 
-## Estimated Complexity: MEDIUM
-- Backend: 4-6 hours
-- Frontend: 3-4 hours
-- Testing: 2-3 hours
-- Total: 9-13 hours
+## 推定複雑さ: MEDIUM
+- バックエンド: 4-6時間
+- フロントエンド: 3-4時間
+- テスト: 2-3時間
+- 合計: 9-13時間
 
-**WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
+**確認待ち**: この計画で進めますか？（yes/no/modify）
 ```
 
-## Important Notes
+## 重要な注意事項 (Important Notes)
 
-**CRITICAL**: This command will **NOT** write any code until you explicitly confirm the plan with "yes" or "proceed" or similar affirmative response.
+**重要**: このコマンドは、ユーザーが"yes"や"proceed"などの明示的な肯定的回答で計画を確認するまで、コードを**一切書きません**。
 
-If you want changes, respond with:
-- "modify: [your changes]"
-- "different approach: [alternative]"
+変更を希望する場合は、以下のように回答してください:
+
+- "modify: [変更内容]"
+- "different approach: [代替案]"
 - "skip phase 2 and do phase 3 first"
 
-## Integration with Other Commands
+## 他のコマンドとの統合 (Integration with Other Commands)
 
-After planning:
-- Use the `tdd-workflow` skill to implement with test-driven development
-- Use `/build-fix` if build errors occur
-- Use `/code-review` to review completed implementation
-- Use `/pr` or `/prp-pr` to open a pull request
+計画後:
 
-> **Need requirements first?** Use `/plan-prd` for a lean PRD at `.claude/prds/{name}.prd.md`.
+- `tdd-workflow`スキルでテスト駆動開発で実装
+- ビルドエラーが発生した場合は`/build-fix`を使用
+- 完成した実装をレビューするには`/code-review`を使用
+- プルリクエストを作成するには`/pr`または`/prp-pr`を使用
+
+> **要件が先に必要ですか？** `/plan-prd`を使用して`.claude/prds/{name}.prd.md`にリーンなPRDを作成。
 >
-> **Need the legacy PRP flow?** Use `/prp-plan` for deep PRP planning with `.claude/PRPs/` artifacts. Use `/prp-implement` to execute those plans with rigorous validation loops.
+> **レガシーPRPフローが必要ですか？** `/prp-plan`を使用して`.claude/PRPs/`アーティファクトによる詳細なPRP計画を作成。`/prp-implement`を使用してそれらの計画を厳密なバリデーションループで実行。
 
-## Optional Planner Agent
+## オプショナルプランナーエージェント (Optional Planner Agent)
 
-ECC also provides a `planner` agent for manual installs that include agent files. Use it only when the local runtime already exposes that subagent and the user explicitly asks you to delegate planning.
+ECCはエージェントファイルを含む手動インストール用の`planner`エージェントも提供しています。ローカルランタイムが既にそのサブエージェントを公開しており、ユーザーが明示的に計画の委任を要求した場合にのみ使用してください。
 
-If the `planner` subagent is unavailable, continue planning inline instead of surfacing an "Agent type 'planner' not found" error.
+`planner`サブエージェントが利用できない場合は、"Agent type 'planner' not found"エラーを表示する代わりに、インラインで計画を続行してください。
 
-For manual installs, the source file lives at:
+手動インストールの場合、ソースファイルは以下にあります:
 `agents/planner.md`

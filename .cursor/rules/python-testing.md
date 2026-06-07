@@ -1,15 +1,15 @@
 ---
-description: "Python testing extending common rules"
+description: "Python testing: common ルールの拡張"
 globs: ["**/*.py", "**/*.pyi"]
 alwaysApply: false
 ---
-# Python Testing
+# Python Testing (Python Testing)
 
-> This file extends the common testing rule with Python specific content.
+> このファイルは common testing ルールを Python 固有の内容で拡張する。
 
 ## Framework
 
-Use **pytest** as the testing framework.
+testing framework には **pytest** を使用。
 
 ## Coverage
 
@@ -17,9 +17,9 @@ Use **pytest** as the testing framework.
 pytest --cov=src --cov-report=term-missing
 ```
 
-## Test Organization
+## Test 構成 (Test Organization)
 
-Use `pytest.mark` for test categorization:
+test のカテゴリ分けに `pytest.mark` を使用:
 
 ```python
 import pytest
@@ -33,6 +33,6 @@ def test_database_connection():
     ...
 ```
 
-## Reference
+## 参照 (Reference)
 
-See skill: `python-testing` for detailed pytest patterns and fixtures.
+詳細な pytest パターンと fixture は skill: `python-testing` を参照。

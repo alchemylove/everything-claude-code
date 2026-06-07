@@ -1,15 +1,15 @@
-# Enterprise Controls
+# エンタープライズ制御 (Enterprise Controls)
 
-This is a starter governance file for enterprise ECC deployments.
+エンタープライズ向け ECC デプロイメント用のガバナンス入門ファイル。
 
-## Baseline
+## ベースライン (Baseline)
 
 - Repository: https://github.com/affaan-m/everything-claude-code
 - Recommended profile: full
-- Keep install manifests, audit allowlists, and Codex baselines under review.
+- インストールマニフェスト、監査 allowlist、Codex ベースラインはレビュー対象として維持する。
 
-## Approval Expectations
+## 承認の期待事項 (Approval Expectations)
 
-- Security-sensitive workflow changes require explicit reviewer acknowledgement.
-- Audit suppressions must include a reason and the narrowest viable matcher.
-- Generated skills should be reviewed before broad rollout to teams.
+- セキュリティに敏感なワークフロー変更には、レビュアーの明示的な承認が必要。
+- 監査の抑制（suppression）には理由と、可能な限り狭い matcher を含めること。
+- 生成された skill はチームへ広く展開する前にレビューすること。

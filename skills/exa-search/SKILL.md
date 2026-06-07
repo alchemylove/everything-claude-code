@@ -4,26 +4,24 @@ description: Neural search via Exa MCP for web, code, and company research. Use 
 origin: ECC
 ---
 
-# Exa Search
+# Exa検索 (Exa Search)
 
-> **Drift-prone skill.** Exa MCP tool names, parameters, and account limits can
-> change. Confirm the exposed tool surface and current Exa docs before relying
-> on a specific search mode, category, or livecrawl behavior.
+> **変化が早いスキル。** Exa MCPのツール名、パラメーター、アカウント制限は変更される可能性があります。特定の検索モード、カテゴリー、またはライブクロール動作に依存する前に、公開されているツール一覧と最新のExaドキュメントを確認してください。
 
-Neural search for web content, code, companies, and people via the Exa MCP server.
+Exa MCPサーバーを通じたウェブコンテンツ、コード、企業、人物のニューラル検索。
 
-## When to Activate
+## アクティベートするタイミング (When to Activate)
 
-- User needs current web information or news
-- Searching for code examples, API docs, or technical references
-- Researching companies, competitors, or market players
-- Finding professional profiles or people in a domain
-- Running background research for any development task
-- User says "search for", "look up", "find", or "what's the latest on"
+- ユーザーが最新のウェブ情報やニュースを必要としている場合
+- コード例、APIドキュメント、または技術的な参考資料を検索する場合
+- 企業、競合他社、または市場プレイヤーを調査する場合
+- あるドメインの専門家プロフィールや人物を検索する場合
+- 開発タスクのバックグラウンドリサーチを行う場合
+- ユーザーが「search for」「look up」「find」「what's the latest on」と言う場合
 
-## MCP Requirement
+## MCP要件 (MCP Requirement)
 
-Exa MCP server must be configured. Add to `~/.claude.json`:
+Exa MCPサーバーを設定する必要があります。`~/.claude.json`に追加してください:
 
 ```json
 "exa-web-search": {
@@ -33,75 +31,75 @@ Exa MCP server must be configured. Add to `~/.claude.json`:
 }
 ```
 
-Get an API key at [exa.ai](https://exa.ai).
-This repo's current Exa setup documents the tool surface exposed here: `web_search_exa` and `get_code_context_exa`.
-If your Exa server exposes additional tools, verify their exact names before depending on them in docs or prompts.
+APIキーは[exa.ai](https://exa.ai)で取得してください。
+このリポジトリの現在のExa設定は、公開されているツール一覧を文書化しています: `web_search_exa` と `get_code_context_exa`。
+Exaサーバーが追加のツールを公開している場合は、ドキュメントやプロンプトで依存する前に正確な名前を確認してください。
 
-## Core Tools
+## コアツール (Core Tools)
 
-### web_search_exa
-General web search for current information, news, or facts.
+### web_search_exa (web_search_exa)
+最新情報、ニュース、または事実のための一般的なウェブ検索。
 
 ```
 web_search_exa(query: "latest AI developments 2026", numResults: 5)
 ```
 
-**Parameters:**
+**パラメーター:**
 
-| Param | Type | Default | Notes |
+| パラメーター | 型 | デフォルト | 備考 |
 |-------|------|---------|-------|
-| `query` | string | required | Search query |
-| `numResults` | number | 8 | Number of results |
-| `type` | string | `auto` | Search mode |
-| `livecrawl` | string | `fallback` | Prefer live crawling when needed |
-| `category` | string | none | Optional focus such as `company` or `research paper` |
+| `query` | string | 必須 | 検索クエリ |
+| `numResults` | number | 8 | 結果数 |
+| `type` | string | `auto` | 検索モード |
+| `livecrawl` | string | `fallback` | 必要に応じてライブクロールを優先 |
+| `category` | string | なし | `company` や `research paper` などのオプションフォーカス |
 
-### get_code_context_exa
-Find code examples and documentation from GitHub, Stack Overflow, and docs sites.
+### get_code_context_exa (get_code_context_exa)
+GitHub、Stack Overflow、ドキュメントサイトからコード例とドキュメントを検索。
 
 ```
 get_code_context_exa(query: "Python asyncio patterns", tokensNum: 3000)
 ```
 
-**Parameters:**
+**パラメーター:**
 
-| Param | Type | Default | Notes |
+| パラメーター | 型 | デフォルト | 備考 |
 |-------|------|---------|-------|
-| `query` | string | required | Code or API search query |
-| `tokensNum` | number | 5000 | Content tokens (1000-50000) |
+| `query` | string | 必須 | コードまたはAPI検索クエリ |
+| `tokensNum` | number | 5000 | コンテンツのトークン数（1000-50000） |
 
-## Usage Patterns
+## 使用パターン (Usage Patterns)
 
-### Quick Lookup
+### クイック検索 (Quick Lookup)
 ```
 web_search_exa(query: "Node.js 22 new features", numResults: 3)
 ```
 
-### Code Research
+### コード調査 (Code Research)
 ```
 get_code_context_exa(query: "Rust error handling patterns Result type", tokensNum: 3000)
 ```
 
-### Company or People Research
+### 企業・人物調査 (Company or People Research)
 ```
 web_search_exa(query: "Vercel funding valuation 2026", numResults: 3, category: "company")
 web_search_exa(query: "site:linkedin.com/in AI safety researchers Anthropic", numResults: 5)
 ```
 
-### Technical Deep Dive
+### 技術的な詳細調査 (Technical Deep Dive)
 ```
 web_search_exa(query: "WebAssembly component model status and adoption", numResults: 5)
 get_code_context_exa(query: "WebAssembly component model examples", tokensNum: 4000)
 ```
 
-## Tips
+## ヒント (Tips)
 
-- Use `web_search_exa` for current information, company lookups, and broad discovery
-- Use search operators like `site:`, quoted phrases, and `intitle:` to narrow results
-- Lower `tokensNum` (1000-2000) for focused code snippets, higher (5000+) for comprehensive context
-- Use `get_code_context_exa` when you need API usage or code examples rather than general web pages
+- 最新情報、企業検索、幅広い発見には`web_search_exa`を使用する
+- `site:`、引用フレーズ、`intitle:`などの検索オペレーターを使用して結果を絞り込む
+- 絞り込まれたコードスニペットには低い`tokensNum`（1000-2000）、包括的なコンテキストには高い値（5000+）を使用する
+- 一般的なウェブページではなくAPIの使用方法やコード例が必要な場合は`get_code_context_exa`を使用する
 
-## Related Skills
+## 関連スキル (Related Skills)
 
-- `deep-research` — Full research workflow using firecrawl + exa together
-- `market-research` — Business-oriented research with decision frameworks
+- `deep-research` — firecrawl + exaを組み合わせた完全な調査ワークフロー
+- `market-research` — 意思決定フレームワークを含むビジネス指向の調査

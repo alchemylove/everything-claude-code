@@ -1,76 +1,76 @@
-# Sponsors
+# スポンサー (Sponsors)
 
-Thank you to everyone funding ECC's open-source work. Your sponsorship is what lets the OSS layer stay free while the GitHub App, hosted security scans, and continuous improvements ship every week.
+ECC のオープンソース活動に資金を提供してくださる皆さんに感謝します。スポンサーシップにより、OSS レイヤーを無料のまま維持しながら、GitHub App、ホスト型セキュリティスキャン、継続的な改善を毎週届けられます。
 
-## Enterprise Sponsors — $2,500/mo
+## エンタープライズスポンサー — $2,500/月 (Enterprise Sponsors — $2,500/mo)
 
-*Become an [Enterprise sponsor](https://github.com/sponsors/affaan-m) to be featured here.*
+*[ここに掲載されるには、<a href="https://github.com/sponsors/affaan-m">エンタープライズスポンサー</a>になってください。]*
 
-## Business Sponsors — $500/mo
+## ビジネススポンサー — $500/月 (Business Sponsors — $500/mo)
 
-| Sponsor | Logo | Since |
+| スポンサー | ロゴ | 開始年 |
 |---------|------|-------|
 | [**CodeRabbit**](https://coderabbit.ai) | <img src="https://avatars.githubusercontent.com/u/132028505?s=120" width="60" alt="CodeRabbit" /> | 2026 |
 
-*[Become a Business sponsor](https://github.com/sponsors/affaan-m) to be featured here with logo placement in the main README hero and a quarterly case study.*
+*[メイン README のヒーローにロゴ掲載と四半期ケーススタディを得るには、<a href="https://github.com/sponsors/affaan-m">ビジネススポンサー</a>になってください。]*
 
-## Team Sponsors — $200/mo
+## チームスポンサー — $200/月 (Team Sponsors — $200/mo)
 
-| Sponsor | Since |
+| スポンサー | 開始年 |
 |---------|-------|
 | [Mike Morgan](https://github.com/mikejmorgan-ai) | 2026 |
 
-*[Become a Team sponsor](https://github.com/sponsors/affaan-m) to get small logo placement and 5 ECC Pro seats.*
+*[小さなロゴ掲載と ECC Pro 5 シートを得るには、<a href="https://github.com/sponsors/affaan-m">チームスポンサー</a>になってください。]*
 
-## Pro Sponsors — $50/mo
+## プロスポンサー — $50/月 (Pro Sponsors — $50/mo)
 
-*[Become a Pro sponsor](https://github.com/sponsors/affaan-m) to be listed here with your name in the main README sponsor row.*
+*[メイン README のスポンサー行に名前を載せるには、<a href="https://github.com/sponsors/affaan-m">プロスポンサー</a>になってください。]*
 
-## Builder Sponsors — $25/mo
+## ビルダースポンサー — $25/月 (Builder Sponsors — $25/mo)
 
-- @jasonwu513 (grandfathered at $10)
-- @1anter (grandfathered at $10)
-- @massimotodaro (grandfathered at $10)
-- @meadmccabe (grandfathered at $10)
+- @jasonwu513（$10 でグランドファーザー）
+- @1anter（$10 でグランドファーザー）
+- @massimotodaro（$10 でグランドファーザー）
+- @meadmccabe（$10 でグランドファーザー）
 
-*[Become a Builder sponsor](https://github.com/sponsors/affaan-m) to support the project and get your name in this list + a private monthly progress note.*
+*[プロジェクトを支援し、このリストへの掲載と非公開の月次進捗メモを得るには、<a href="https://github.com/sponsors/affaan-m">ビルダースポンサー</a>になってください。]*
 
-## Supporters — $5/mo
+## サポーター — $5/月 (Supporters — $5/mo)
 
-*[Become a Supporter](https://github.com/sponsors/affaan-m) to back the project with a profile badge and a thank-you in our release notes.*
+*[プロジェクトを後援し、プロフィールバッジとリリースノートでの感謝を得るには、<a href="https://github.com/sponsors/affaan-m">サポーター</a>になってください。]*
 
 ---
 
-## Sponsorship Tiers
+## スポンサーシップティア (Sponsorship Tiers)
 
-| Tier | Monthly | Perks |
+| ティア | 月額 | 特典 |
 |------|--------:|-------|
-|  Supporter | $5 | Sponsor badge on profile, thank-you in release notes |
-|  Builder | $25 | Above + name in SPONSORS.md + private monthly progress note |
-|  Pro Sponsor | $50 | Above + name in main README + 1 quarterly roadmap vote |
-|  Team | $200 | Above + small org logo in README + 5 ECC Pro seats |
-|  Business | $500 | Above + featured logo in README hero + quarterly case study + Discord sponsors-lounge access |
-|  Enterprise | $2,500 | Above + unlimited Pro seats + 30 min/mo founder time + SLA + dedicated channel |
+| サポーター | $5 | プロフィールのスポンサーバッジ、リリースノートでの感謝 |
+| ビルダー | $25 | 上記 + SPONSORS.md への掲載 + 非公開の月次進捗メモ |
+| プロスポンサー | $50 | 上記 + メイン README への掲載 + 四半期ロードマップ投票 1 回 |
+| チーム | $200 | 上記 + README の小さな組織ロゴ + ECC Pro 5 シート |
+| ビジネス | $500 | 上記 + README ヒーローのフィーチャーロゴ + 四半期ケーススタディ + Discord sponsors-lounge アクセス |
+| エンタープライズ | $2,500 | 上記 + 無制限 Pro シート + 創業者との月 30 分 + SLA + 専用チャンネル |
 
-[**Become a Sponsor →**](https://github.com/sponsors/affaan-m)
+[**スポンサーになる →**](https://github.com/sponsors/affaan-m)
 
-For corporate sponsorship inquiries, custom partnerships, or PR integrations, email **[affaan@ecc.tools](mailto:affaan@ecc.tools)** with your company name and intended tier. We'll move fast — most agreements close within 48 hours.
-
----
-
-## Why Sponsor?
-
-Your sponsorship directly funds:
-
-- **OSS work that stays free** — the core repo, AgentShield, install scripts, and skills library remain MIT
-- **Weekly releases** — full-time work on the harness, not a side project
-- **Independent maintenance** — no acquisition pressure, no rug pulls, no enshittification
-- **Sponsor-driven roadmap** — Pro+ sponsors vote on direction, Business+ get case studies and integration support
-
-## Existing Sponsors Are Grandfathered
-
-If you sponsored before May 2026, you keep your original perks at your original price. New tiers apply to new sponsors only.
+企業スポンサーシップ、カスタムパートナーシップ、PR 連携の問い合わせは、会社名と希望ティアを添えて **[affaan@ecc.tools](mailto:affaan@ecc.tools)** までメールしてください。迅速に対応します — 多くの合意は 48 時間以内に成立します。
 
 ---
 
-*Auto-updated by Hermes on every release. Last sync: 2026-05-14*
+## スポンサーになる理由 (Why Sponsor?)
+
+スポンサーシップは以下を直接的に支えます：
+
+- **OSS は無料のまま** — コアリポジトリ、AgentShield、インストールスクリプト、スキルライブラリは MIT のまま
+- **週次リリース** — ハーネスへのフルタイム作業であり、副業ではない
+- **独立したメンテナンス** — 買収圧力、ラグプル、エンシティフィケーションなし
+- **スポンサー主導のロードマップ** — Pro 以上は方向性に投票し、Business 以上はケーススタディと統合サポートを得る
+
+## 既存スポンサーはグランドファーザー (Existing Sponsors Are Grandfathered)
+
+2026 年 5 月以前にスポンサーしていた方は、元の価格で元の特典を維持します。新ティアは新規スポンサーのみに適用されます。
+
+---
+
+*Hermes により各リリースで自動更新。最終同期: 2026-05-14*

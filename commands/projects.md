@@ -1,39 +1,39 @@
 ---
 name: projects
-description: List known projects and their instinct statistics
+description: 既知のプロジェクトとその instinct 統計を一覧表示する
 command: true
 ---
 
-# Projects Command
+# Projects コマンド (Projects Command)
 
-List project registry entries and per-project instinct/observation counts for continuous-learning-v2.
+continuous-learning-v2 向けに、プロジェクト registry エントリとプロジェクトごとの instinct/observation 件数を一覧表示する。
 
-## Implementation
+## 実装 (Implementation)
 
-Run the instinct CLI using the plugin root path:
+plugin root パスを使って instinct CLI を実行する:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" projects
 ```
 
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation):
+`CLAUDE_PLUGIN_ROOT` が未設定の場合（手動インストール）:
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py projects
 ```
 
-## Usage
+## 使い方 (Usage)
 
 ```bash
 /projects
 ```
 
-## What to Do
+## 実行内容 (What to Do)
 
-1. Read `~/.claude/homunculus/projects.json`
-2. For each project, display:
-   - Project name, id, root, remote
-   - Personal and inherited instinct counts
-   - Observation event count
-   - Last seen timestamp
-3. Also display global instinct totals
+1. `~/.claude/homunculus/projects.json` を読む
+2. 各プロジェクトについて表示する:
+   - プロジェクト名、id、root、remote
+   - personal と inherited の instinct 件数
+   - observation event 件数
+   - 最終確認タイムスタンプ
+3. グローバル instinct 合計も表示する

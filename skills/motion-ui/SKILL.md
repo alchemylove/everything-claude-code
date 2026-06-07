@@ -10,7 +10,7 @@ Production-ready UI motion system for React / Next.js.
 
 Focused on **performance, accessibility, and usability** — not decoration.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 Use this motion system when motion:
 
@@ -38,7 +38,7 @@ Use this motion system when motion:
 
 ---
 
-## How It Works
+## 仕組み (How It Works)
 
 ### Core Principle
 
@@ -429,7 +429,7 @@ Motion is interaction design.
 
 ---
 
-## Examples
+## 例 (Examples)
 
 ### Button Interaction
 

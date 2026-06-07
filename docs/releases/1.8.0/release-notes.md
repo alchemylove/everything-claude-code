@@ -1,20 +1,20 @@
-# ECC v1.8.0 Release Notes
+# ECC v1.8.0 リリースノート (ECC v1.8.0 Release Notes)
 
-## Positioning
+## ポジショニング (Positioning)
 
-ECC v1.8.0 positions the project as an agent harness performance system, not just a config bundle.
+ECC v1.8.0 は、単なる設定バンドルではなく、エージェント harness パフォーマンスシステムとしてプロジェクトを位置づけます。
 
-## Key Improvements
+## 主な改善 (Key Improvements)
 
-- Stabilized hooks and lifecycle behavior.
-- Expanded eval and loop operations surface.
-- Upgraded NanoClaw for operational use.
-- Improved cross-harness parity (Claude Code, Cursor, OpenCode, Codex).
+- hook とライフサイクル動作の安定化。
+- eval と loop 運用面の拡張。
+- 運用利用向けの NanoClaw アップグレード。
+- cross-harness parity の改善（Claude Code、Cursor、OpenCode、Codex）。
 
-## Upgrade Focus
+## アップグレードの焦点 (Upgrade Focus)
 
-1. Validate hook profile defaults in your environment.
-2. Run `/harness-audit` to baseline your project.
-3. Use `/quality-gate` and updated eval workflows to enforce consistency.
-4. Review attribution and licensing notes for referenced ecosystems: [reference-attribution.md](./reference-attribution.md).
-5. For partner/sponsor optics, use live distribution metrics and talking points: [../business/metrics-and-sponsorship.md](../../business/metrics-and-sponsorship.md).
+1. 環境で hook profile のデフォルトを検証する。
+2. `/harness-audit` を実行してプロジェクトのベースラインを取得する。
+3. `/quality-gate` と更新された eval ワークフローで一貫性を強制する。
+4. 参照エコシステムの帰属とライセンス注記を確認する：[reference-attribution.md](./reference-attribution.md)。
+5. パートナー/スポンサー向けの訴求には、ライブ配布メトリクスとトーキングポイントを使用する：[../business/metrics-and-sponsorship.md](../../business/metrics-and-sponsorship.md)。

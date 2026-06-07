@@ -5,16 +5,16 @@ metadata:
   tags: typography, text, typewriter, highlighter ken
 ---
 
-## Text animations
+## テキストアニメーション (Text animations)
 
-Based on `useCurrentFrame()`, reduce the string character by character to create a typewriter effect.
+`useCurrentFrame()` に基づき、文字列を 1 文字ずつ減らして typewriter effect を作る。
 
-## Typewriter Effect
+## タイプライター効果 (Typewriter Effect)
 
-See [Typewriter](assets/text-animations-typewriter.tsx) for an advanced example with a blinking cursor and a pause after the first sentence.
+点滅カーソルと最初の文の後の pause 付き高度な例は [Typewriter](assets/text-animations-typewriter.tsx) を参照。
 
-Always use string slicing for typewriter effects. Never use per-character opacity.
+typewriter effect では常に string slicing を使う。文字ごとの opacity は使わない。
 
-## Word Highlighting
+## 単語ハイライト (Word Highlight)
 
-See [Word Highlight](assets/text-animations-word-highlight.tsx) for an example for how a word highlight is animated, like with a highlighter pen.
+蛍光ペンのような単語ハイライトの animate 例は [Word Highlight](assets/text-animations-word-highlight.tsx) を参照。

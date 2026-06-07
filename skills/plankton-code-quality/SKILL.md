@@ -8,14 +8,14 @@ origin: community
 
 Integration reference for Plankton (credit: @alxfazio), a write-time code quality enforcement system for Claude Code. Plankton runs formatters and linters on every file edit via PostToolUse hooks, then spawns Claude subprocesses to fix violations the agent didn't catch.
 
-## When to Use
+## 使用タイミング (When to Use)
 
 - You want automatic formatting and linting on every file edit (not just at commit time)
 - You need defense against agents modifying linter configs to pass instead of fixing code
 - You want tiered model routing for fixes (Haiku for simple style, Sonnet for logic, Opus for types)
 - You work with multiple languages (Python, TypeScript, Shell, YAML, JSON, TOML, Markdown, Dockerfile)
 
-## How It Works
+## 仕組み (How It Works)
 
 ### Three-Phase Architecture
 
@@ -68,7 +68,7 @@ A PreToolUse hook on Bash blocks legacy package managers:
 - `npm`, `yarn`, `pnpm` → Blocked (use `bun`)
 - Allowed exceptions: `npm audit`, `npm view`, `npm publish`
 
-## Setup
+## セットアップ (Setup)
 
 ### Quick Start
 
@@ -109,7 +109,7 @@ To use Plankton hooks in your own project:
 | TOML | `taplo` | — |
 | JSON | `jaq` | — |
 
-## Pairing with ECC
+## ECC との連携 (Pairing with ECC)
 
 ### Complementary, Not Overlapping
 
@@ -136,7 +136,7 @@ If running both ECC and Plankton hooks:
 - Resolution: disable ECC's Prettier PostToolUse hook when using Plankton (Plankton's biome is more comprehensive)
 - Both can coexist on different file types (ECC handles what Plankton doesn't cover)
 
-## Configuration Reference
+## 設定リファレンス (Configuration Reference)
 
 Plankton's `.claude/hooks/config.json` controls all behavior:
 
@@ -177,7 +177,7 @@ Plankton's `.claude/hooks/config.json` controls all behavior:
 - `volume_threshold` — violations > this count auto-escalate to a higher model tier
 - `subprocess_delegation: false` — skip Phase 3 entirely (just report violations)
 
-## Environment Overrides
+## 環境オーバーライド (Environment Overrides)
 
 | Variable | Purpose |
 |----------|---------|
@@ -186,13 +186,13 @@ Plankton's `.claude/hooks/config.json` controls all behavior:
 | `HOOK_DEBUG_MODEL=1` | Log model selection decisions |
 | `HOOK_SKIP_PM=1` | Bypass package manager enforcement |
 
-## References
+## 参照 (References)
 
 - Plankton (credit: @alxfazio)
 - Plankton REFERENCE.md — Full architecture documentation (credit: @alxfazio)
 - Plankton SETUP.md — Detailed installation guide (credit: @alxfazio)
 
-## ECC v1.8 Additions
+## ECC v1.8 追加内容 (ECC v1.8 Additions)
 
 ### Copyable Hook Profile
 

@@ -1,59 +1,59 @@
 ---
-description: Save current session state to a dated file in ~/.claude/session-data/ so work can be resumed in a future session with full context.
+description: 現在のセッション状態を日付付きファイルとして ~/.claude/session-data/ に保存し、完全なコンテキストを持った状態で将来のセッションで作業を再開できるようにします。
 ---
 
-# Save Session Command
+# セッション保存コマンド (Save Session Command)
 
-Capture everything that happened in this session — what was built, what worked, what failed, what's left — and write it to a dated file so the next session can pick up exactly where this one left off.
+このセッションで起こったすべてのこと（何を構築したか、何がうまくいったか、何が失敗したか、何が残っているか）をキャプチャし、日付付きファイルに書き込みます。これにより、次のセッションはこのセッションが中断した場所から正確に再開できます。
 
-## When to Use
+## 使用するタイミング (When to Use)
 
-- End of a work session before closing Claude Code
-- Before hitting context limits (run this first, then start a fresh session)
-- After solving a complex problem you want to remember
-- Any time you need to hand off context to a future session
+- Claude Code を閉じる前の作業セッションの終了時
+- コンテキスト制限に達する前（まずこれを実行し、その後新しいセッションを開始する）
+- 記憶しておきたい複雑な問題を解決した後
+- 将来のセッションにコンテキストを引き継ぐ必要がある任意のタイミング
 
-## Process
+## プロセス (Process)
 
-### Step 1: Gather context
+### ステップ 1: コンテキストの収集 (Step 1: Gather context)
 
-Before writing the file, collect:
+ファイルを書き込む前に、以下を収集します：
 
-- Read all files modified during this session (use git diff or recall from conversation)
-- Review what was discussed, attempted, and decided
-- Note any errors encountered and how they were resolved (or not)
-- Check current test/build status if relevant
+- このセッション中に変更されたすべてのファイルを確認する（git diff を使用するか、会話から思い出す）
+- 議論した内容、試みた内容、決定した内容を振り返る
+- 発生したエラーとその解決方法（または未解決の場合はその旨）を記録する
+- 関連がある場合、現在のテスト/ビルドの状態を確認する
 
-### Step 2: Create the sessions folder if it doesn't exist
+### ステップ 2: セッションフォルダが存在しない場合は作成する (Step 2: Create the sessions folder if it doesn't exist)
 
-Create the canonical sessions folder in the user's Claude home directory:
+ユーザーの Claude ホームディレクトリに正規のセッションフォルダを作成します：
 
 ```bash
 mkdir -p ~/.claude/session-data
 ```
 
-### Step 3: Write the session file
+### ステップ 3: セッションファイルを書き込む (Step 3: Write the session file)
 
-Create `~/.claude/session-data/YYYY-MM-DD-<short-id>-session.tmp`, using today's actual date and a short-id that satisfies the rules enforced by `SESSION_FILENAME_REGEX` in `session-manager.js`:
+`~/.claude/session-data/YYYY-MM-DD-<short-id>-session.tmp` を作成します。今日の実際の日付と、`session-manager.js` の `SESSION_FILENAME_REGEX` が適用するルールを満たす short-id を使用します：
 
-- Compatibility characters: letters `a-z` / `A-Z`, digits `0-9`, hyphens `-`, underscores `_`
-- Compatibility minimum length: 1 character
-- Recommended style for new files: lowercase letters, digits, and hyphens with 8+ characters to avoid collisions
+- 互換性のある文字: 英字 `a-z` / `A-Z`、数字 `0-9`、ハイフン `-`、アンダースコア `_`
+- 互換性のある最小長: 1文字
+- 新規ファイルの推奨スタイル: 小文字、数字、ハイフンで8文字以上（衝突を避けるため）
 
-Valid examples: `abc123de`, `a1b2c3d4`, `frontend-worktree-1`, `ChezMoi_2`
-Avoid for new files: `A`, `test_id1`, `ABC123de`
+有効な例: `abc123de`、`a1b2c3d4`、`frontend-worktree-1`、`ChezMoi_2`
+新規ファイルでは避けるべき例: `A`、`test_id1`、`ABC123de`
 
-Full valid filename example: `2024-01-15-abc123de-session.tmp`
+完全な有効ファイル名の例: `2024-01-15-abc123de-session.tmp`
 
-The legacy filename `YYYY-MM-DD-session.tmp` is still valid, but new session files should prefer the short-id form to avoid same-day collisions.
+レガシーファイル名 `YYYY-MM-DD-session.tmp` も引き続き有効ですが、新しいセッションファイルは同日の衝突を避けるため short-id 形式を推奨します。
 
-### Step 4: Populate the file with all sections below
+### ステップ 4: 以下のすべてのセクションをファイルに記入する (Step 4: Populate the file with all sections below)
 
-Write every section honestly. Do not skip sections — write "Nothing yet" or "N/A" if a section genuinely has no content. An incomplete file is worse than an honest empty section.
+すべてのセクションを正直に記入してください。セクションをスキップしないでください。セクションに本当に内容がない場合は「Nothing yet」または「N/A」と記入してください。不完全なファイルは、正直な空のセクションよりも悪い結果をもたらします。
 
-### Step 5: Show the file to the user
+### ステップ 5: ファイルをユーザーに表示する (Step 5: Show the file to the user)
 
-After writing, display the full contents and ask:
+書き込み後、完全な内容を表示し、以下のように尋ねます：
 
 ```
 Session saved to [actual resolved path to the session file]
@@ -61,11 +61,11 @@ Session saved to [actual resolved path to the session file]
 Does this look accurate? Anything to correct or add before we close?
 ```
 
-Wait for confirmation. Make edits if requested.
+確認を待ちます。要求があれば編集します。
 
 ---
 
-## Session File Format
+## セッションファイル形式 (Session File Format)
 
 ```markdown
 # Session: YYYY-MM-DD
@@ -181,7 +181,7 @@ required, services that need to be running, etc. Skip if standard setup.]
 
 ---
 
-## Example Output
+## 出力例 (Example Output)
 
 ```markdown
 # Session: 2024-01-15
@@ -189,45 +189,45 @@ required, services that need to be running, etc. Skip if standard setup.]
 **Started:** ~2pm
 **Last Updated:** 5:30pm
 **Project:** my-app
-**Topic:** Building JWT authentication with httpOnly cookies
+**Topic:** httpOnly クッキーによる JWT 認証の構築
 
 ---
 
 ## What We Are Building
 
-User authentication system for the Next.js app. Users register with email/password,
-receive a JWT stored in an httpOnly cookie (not localStorage), and protected routes
-check for a valid token via middleware. The goal is session persistence across browser
-refreshes without exposing the token to JavaScript.
+Next.js アプリのユーザー認証システム。ユーザーはメールアドレスとパスワードで登録し、
+httpOnly クッキー（localStorage ではなく）に保存された JWT を受け取り、保護されたルートは
+ミドルウェアを通じて有効なトークンを確認します。目標は、トークンを JavaScript に
+公開することなく、ブラウザのリフレッシュ間でセッションの永続性を実現することです。
 
 ---
 
 ## What WORKED (with evidence)
 
-- **`/api/auth/register` endpoint** — confirmed by: Postman POST returns 200 with user
-  object, row visible in Supabase dashboard, bcrypt hash stored correctly
-- **JWT generation in `lib/auth.ts`** — confirmed by: unit test passes
-  (`npm test -- auth.test.ts`), decoded token at jwt.io shows correct payload
-- **Password hashing** — confirmed by: `bcrypt.compare()` returns true in test
+- **`/api/auth/register` endpoint** — confirmed by: Postman POST がユーザーオブジェクト付きの 200 を返し、
+  Supabase ダッシュボードで行が確認でき、bcrypt ハッシュが正しく保存されている
+- **JWT generation in `lib/auth.ts`** — confirmed by: ユニットテストが通る
+  （`npm test -- auth.test.ts`）、jwt.io でデコードしたトークンが正しいペイロードを表示
+- **Password hashing** — confirmed by: テストで `bcrypt.compare()` が true を返す
 
 ---
 
 ## What Did NOT Work (and why)
 
-- **Next-Auth library** — failed because: conflicts with our custom Prisma adapter,
-  threw "Cannot use adapter with credentials provider in this configuration" on every
-  request. Not worth debugging — too opinionated for our setup.
-- **Storing JWT in localStorage** — failed because: SSR renders happen before
-  localStorage is available, caused React hydration mismatch error on every page load.
-  This approach is fundamentally incompatible with Next.js SSR.
+- **Next-Auth library** — failed because: カスタム Prisma アダプターと競合し、
+  すべてのリクエストで "Cannot use adapter with credentials provider in this configuration" をスロー。
+  デバッグする価値なし — 我々のセットアップには意見が強すぎる。
+- **Storing JWT in localStorage** — failed because: SSR レンダリングは localStorage が利用可能になる前に行われ、
+  すべてのページ読み込みで React のハイドレーション不一致エラーが発生。
+  このアプローチは Next.js SSR と根本的に互換性がない。
 
 ---
 
 ## What Has NOT Been Tried Yet
 
-- Store JWT as httpOnly cookie in the login route response (most likely solution)
-- Use `cookies()` from `next/headers` to read token in server components
-- Write middleware.ts to protect routes by checking cookie existence
+- ログインルートのレスポンスで JWT を httpOnly クッキーとして保存する（最も可能性の高いソリューション）
+- `next/headers` の `cookies()` を使用してサーバーコンポーネントでトークンを読み取る
+- クッキーの存在を確認してルートを保護する middleware.ts を書く
 
 ---
 
@@ -235,41 +235,42 @@ refreshes without exposing the token to JavaScript.
 
 | File                             | Status         | Notes                                           |
 | -------------------------------- | -------------- | ----------------------------------------------- |
-| `app/api/auth/register/route.ts` | PASS: Complete    | Works, tested                                   |
-| `app/api/auth/login/route.ts`    |  In Progress | Token generates but not setting cookie yet      |
-| `lib/auth.ts`                    | PASS: Complete    | JWT helpers, all tested                         |
-| `middleware.ts`                  |  Not Started | Route protection, needs cookie read logic first |
-| `app/login/page.tsx`             |  Not Started | UI not started                                  |
+| `app/api/auth/register/route.ts` | PASS: Complete    | 動作確認済み、テスト済み                                   |
+| `app/api/auth/login/route.ts`    |  In Progress | トークンは生成されるがクッキーの設定はまだ      |
+| `lib/auth.ts`                    | PASS: Complete    | JWT ヘルパー、すべてテスト済み                         |
+| `middleware.ts`                  |  Not Started | ルート保護、クッキー読み取りロジックが先に必要 |
+| `app/login/page.tsx`             |  Not Started | UI は未着手                                  |
 
 ---
 
 ## Decisions Made
 
-- **httpOnly cookie over localStorage** — reason: prevents XSS token theft, works with SSR
-- **Custom auth over Next-Auth** — reason: Next-Auth conflicts with our Prisma setup, not worth the fight
+- **httpOnly cookie over localStorage** — reason: XSS トークン盗難を防ぎ、SSR で動作する
+- **Custom auth over Next-Auth** — reason: Next-Auth が Prisma セットアップと競合し、闘う価値がない
 
 ---
 
 ## Blockers & Open Questions
 
-- Does `cookies().set()` work inside a Route Handler or only in Server Actions? Need to verify.
+- `cookies().set()` は Route Handler 内で動作するのか、それとも Server Actions 内でのみか？確認が必要。
 
 ---
 
 ## Exact Next Step
 
-In `app/api/auth/login/route.ts`, after generating the JWT, set it as an httpOnly
-cookie using `cookies().set('token', jwt, { httpOnly: true, secure: true, sameSite: 'strict' })`.
-Then test with Postman — the response should include a `Set-Cookie` header.
+`app/api/auth/login/route.ts` で、JWT を生成した後、
+`cookies().set('token', jwt, { httpOnly: true, secure: true, sameSite: 'strict' })` を使用して
+httpOnly クッキーとして設定する。
+その後 Postman でテスト — レスポンスに `Set-Cookie` ヘッダーが含まれるはず。
 ```
 
 ---
 
-## Notes
+## 注意事項 (Notes)
 
-- Each session gets its own file — never append to a previous session's file
-- The "What Did NOT Work" section is the most critical — future sessions will blindly retry failed approaches without it
-- If the user asks to save mid-session (not just at the end), save what's known so far and mark in-progress items clearly
-- The file is meant to be read by Claude at the start of the next session via `/resume-session`
-- Use the canonical global session store: `~/.claude/session-data/`
-- Prefer the short-id filename form (`YYYY-MM-DD-<short-id>-session.tmp`) for any new session file
+- 各セッションには独自のファイルが割り当てられます — 以前のセッションのファイルに追記しないでください
+- 「What Did NOT Work」セクションが最も重要です — このセクションがないと、将来のセッションは失敗したアプローチを盲目的に再試行します
+- ユーザーがセッション途中（終了時ではなく）での保存を求めた場合、現時点でわかっていることを保存し、進行中の項目を明確にマークしてください
+- このファイルは次のセッションの開始時に `/resume-session` を通じて Claude に読み込まれることを目的としています
+- 正規のグローバルセッションストアを使用してください: `~/.claude/session-data/`
+- 新しいセッションファイルには short-id ファイル名形式（`YYYY-MM-DD-<short-id>-session.tmp`）を推奨します

@@ -1,30 +1,30 @@
 ---
-description: Enforce TDD workflow for C++. Write GoogleTest tests first, then implement. Verify coverage with gcov/lcov.
+description: C++ 向け TDD ワークフローを強制。GoogleTest でテストを先に書き、その後実装。gcov/lcov でカバレッジを検証。
 ---
 
-# C++ TDD Command
+# C++ TDD コマンド (C++ TDD Command)
 
-This command enforces test-driven development methodology for C++ code using GoogleTest/GoogleMock with CMake/CTest.
+このコマンドは GoogleTest/GoogleMock と CMake/CTest を用いた C++ コード向けのテスト駆動開発手法を強制する。
 
-## What This Command Does
+## このコマンドの内容 (What This Command Does)
 
-1. **Define Interfaces**: Scaffold class/function signatures first
-2. **Write Tests**: Create comprehensive GoogleTest test cases (RED)
-3. **Run Tests**: Verify tests fail for the right reason
-4. **Implement Code**: Write minimal code to pass (GREEN)
-5. **Refactor**: Improve while keeping tests green
-6. **Check Coverage**: Ensure 80%+ coverage
+1. **インターフェースの定義**: クラス/関数シグネチャを先にスキャフォールド
+2. **テストの記述**: 包括的な GoogleTest テストケースを作成（RED）
+3. **テストの実行**: 正しい理由で失敗することを確認
+4. **コードの実装**: 通過する最小限のコードを記述（GREEN）
+5. **リファクタリング**: テストをグリーンに保ちながら改善
+6. **カバレッジの確認**: 80% 以上のカバレッジを確保
 
-## When to Use
+## 使用タイミング (When to Use)
 
-Use `/cpp-test` when:
-- Implementing new C++ functions or classes
-- Adding test coverage to existing code
-- Fixing bugs (write failing test first)
-- Building critical business logic
-- Learning TDD workflow in C++
+`/cpp-test` を使用する場合:
+- 新しい C++ 関数またはクラスを実装するとき
+- 既存コードにテストカバレッジを追加するとき
+- バグ修正（まず失敗するテストを書く）
+- 重要なビジネスロジックの構築
+- C++ での TDD ワークフローを学ぶとき
 
-## TDD Cycle
+## TDD サイクル (TDD Cycle)
 
 ```
 RED     → Write failing GoogleTest test
@@ -33,7 +33,7 @@ REFACTOR → Improve code, tests stay green
 REPEAT  → Next test case
 ```
 
-## Example Session
+## セッション例 (Example Session)
 
 ````
 User: /cpp-test I need a function to validate email addresses
@@ -156,9 +156,9 @@ validator/email.cpp     | 100%
 ## TDD Complete!
 ````
 
-## Test Patterns
+## テストパターン (Test Patterns)
 
-### Basic Tests
+### 基本テスト (Basic Tests)
 ```cpp
 TEST(SuiteName, TestName) {
     EXPECT_EQ(add(2, 3), 5);
@@ -168,7 +168,7 @@ TEST(SuiteName, TestName) {
 }
 ```
 
-### Fixtures
+### フィクスチャ (Fixtures)
 ```cpp
 class DatabaseTest : public ::testing::Test {
 protected:
@@ -183,7 +183,7 @@ TEST_F(DatabaseTest, InsertsRecord) {
 }
 ```
 
-### Parameterized Tests
+### パラメータ化テスト (Parameterized Tests)
 ```cpp
 class PrimeTest : public ::testing::TestWithParam<std::pair<int, bool>> {};
 
@@ -199,7 +199,7 @@ INSTANTIATE_TEST_SUITE_P(Primes, PrimeTest, ::testing::Values(
 ));
 ```
 
-## Coverage Commands
+## カバレッジコマンド (Coverage Commands)
 
 ```bash
 # Build with coverage
@@ -214,7 +214,7 @@ lcov --remove coverage.info '/usr/*' --output-file coverage.info
 genhtml coverage.info --output-directory coverage_html
 ```
 
-## Coverage Targets
+## カバレッジ目標 (Coverage Targets)
 
 | Code Type | Target |
 |-----------|--------|
@@ -223,29 +223,29 @@ genhtml coverage.info --output-directory coverage_html
 | General code | 80%+ |
 | Generated code | Exclude |
 
-## TDD Best Practices
+## TDD ベストプラクティス (TDD Best Practices)
 
 **DO:**
-- Write test FIRST, before any implementation
-- Run tests after each change
-- Use `EXPECT_*` (continues) over `ASSERT_*` (stops) when appropriate
-- Test behavior, not implementation details
-- Include edge cases (empty, null, max values, boundary conditions)
+- 実装の前に、まずテストを書く
+- 各変更後にテストを実行
+- 適切な場合は `ASSERT_*`（停止）より `EXPECT_*`（継続）を使う
+- 実装の詳細ではなく振る舞いをテスト
+- エッジケースを含める（空、null、最大値、境界条件）
 
 **DON'T:**
-- Write implementation before tests
-- Skip the RED phase
-- Test private methods directly (test through public API)
-- Use `sleep` in tests
-- Ignore flaky tests
+- テストより先に実装を書く
+- RED フェーズをスキップする
+- プライベートメソッドを直接テストする（公開 API 経由でテスト）
+- テストで `sleep` を使う
+- フレーキーなテストを無視する
 
-## Related Commands
+## 関連コマンド (Related Commands)
 
-- `/cpp-build` - Fix build errors
-- `/cpp-review` - Review code after implementation
-- `verification-loop` skill - Run full verification loop
+- `/cpp-build` — ビルドエラーを修正
+- `/cpp-review` — 実装後にコードをレビュー
+- `verification-loop` skill — フル検証ループを実行
 
-## Related
+## 関連 (Related)
 
 - Skill: `skills/cpp-testing/`
 - Skill: `skills/tdd-workflow/`

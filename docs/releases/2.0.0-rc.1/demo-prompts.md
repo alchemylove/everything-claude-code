@@ -1,42 +1,42 @@
-# Hermes x ECC Demo Prompts
+# Hermes x ECC デモプロンプト (Hermes x ECC Demo Prompts)
 
-## Prompt 1: ECC Builds ECC
+## プロンプト 1: ECC が ECC を構築 (Prompt 1: ECC Builds ECC)
 
-Use the current ECC repo and the public release pack at `docs/releases/2.0.0-rc.1/`.
+現在の ECC リポジトリと `docs/releases/2.0.0-rc.1/` の公開リリースパックを使用してください。
 
-Do 4 things in order:
+次の4つを順番に実行してください：
 
-1. Inspect git status and the current repo diff, then give me a concise ECC v2.0.0-rc.1 PR or release summary that proves ECC is being used to build ECC itself.
-2. Finalize one strong X thread.
-3. Finalize one strong LinkedIn post.
-4. Tell me the exact 3 recordings I should do next plus what Hermes can generate automatically after I record.
+1. git status と現在のリポジトリ diff を調査し、ECC が ECC 自身の構築に使われていることを証明する簡潔な ECC v2.0.0-rc.1 PR またはリリースサマリーを提供する。
+2. 強力な X スレッドを1本仕上げる。
+3. 強力な LinkedIn 投稿を1本仕上げる。
+4. 次に録画すべき正確な3つの録画内容と、録画後に Hermes が自動生成できる内容を伝える。
 
-Keep it decisive and practical.
+決断力を持ち、実用的に。
 
-## Prompt 2: Turn Recording Into Assets
+## プロンプト 2: 録画をアセットに変換 (Prompt 2: Turn Recording Into Assets)
 
-Assume I just recorded:
+次を録画したと仮定してください：
 
-- one face-camera hook
-- one screen capture of Hermes using ECC to ship ECC v2.0.0-rc.1
-- one setup walkthrough of the Hermes x ECC workspace
+- 顔カメラのフック1本
+- Hermes が ECC を使って ECC v2.0.0-rc.1 を出荷する画面キャプチャ1本
+- Hermes x ECC ワークスペースのセットアップウォークスルー1本
 
-Give me:
+次を提供してください：
 
-1. a short-form edit plan for X, LinkedIn, TikTok, and YouTube Shorts
-2. a voiceover script if I want to re-record clean audio
-3. the exact repo-relative filenames and folders I should use for raw footage
-4. the assets Hermes can generate automatically after I drop the files in place
+1. X、LinkedIn、TikTok、YouTube Shorts 向けのショートフォーム編集プラン
+2. クリーンな音声を再録音したい場合のボイスオーバースクリプト
+3. raw footage に使うべき正確なリポジトリ相対ファイル名とフォルダ
+4. ファイルを所定の場所に置いた後に Hermes が自動生成できるアセット
 
-Keep it operational.
+運用重視で。
 
-## Prompt 3: Public Launch Push
+## プロンプト 3: 公開ローンチプッシュ (Prompt 3: Public Launch Push)
 
-Using the ECC v2.0.0-rc.1 release pack, give me:
+ECC v2.0.0-rc.1 リリースパックを使用して、次を提供してください：
 
-1. one release tweet
-2. one follow-up tweet
-3. one LinkedIn comment I can paste under the post
-4. one short Telegram handoff I can send to Hermes later to keep distributing this launch across channels
+1. リリースツイート1本
+2. フォローアップツイート1本
+3. 投稿下に貼り付けられる LinkedIn コメント1本
+4. 後で Hermes に送ってこのローンチを各チャネルに継続配信する短い Telegram ハンドオフ1本
 
-Make it sound like an operator shipping real work, not a launch thread cliche.
+ローンチスレッドのクリシェではなく、実際の作業を出荷する operator のように聞こえること。

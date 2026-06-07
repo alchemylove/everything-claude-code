@@ -1,14 +1,14 @@
 ---
-description: Fix Gradle build errors for Android and KMP projects
+description: Android および KMP プロジェクトの Gradle ビルドエラーを修正します。
 ---
 
-# Gradle Build Fix
+# Gradle ビルド修正 (Gradle Build Fix)
 
-Incrementally fix Gradle build and compilation errors for Android and Kotlin Multiplatform projects.
+Android および Kotlin Multiplatform プロジェクトの Gradle build および compilation error をインクリメンタルに修正します。
 
-## Step 1: Detect Build Configuration
+## ステップ 1: ビルド設定の検出 (Step 1: Detect Build Configuration)
 
-Identify the project type and run the appropriate build:
+プロジェクトタイプを特定し、適切な build を実行:
 
 | Indicator | Build Command |
 |-----------|---------------|
@@ -17,48 +17,48 @@ Identify the project type and run the appropriate build:
 | `settings.gradle.kts` with modules | `./gradlew assemble 2>&1` |
 | Detekt configured | `./gradlew detekt 2>&1` |
 
-Also check `gradle.properties` and `local.properties` for configuration.
+`gradle.properties` と `local.properties` の設定も確認します。
 
-## Step 2: Parse and Group Errors
+## ステップ 2: エラーの解析とグループ化 (Step 2: Parse and Group Errors)
 
-1. Run the build command and capture output
-2. Separate Kotlin compilation errors from Gradle configuration errors
-3. Group by module and file path
-4. Sort: configuration errors first, then compilation errors by dependency order
+1. build command を実行し output を capture
+2. Kotlin compilation error と Gradle configuration error を分離
+3. module と file path でグループ化
+4. ソート: configuration error を最初に、次に dependency order で compilation error
 
-## Step 3: Fix Loop
+## ステップ 3: 修正ループ (Step 3: Fix Loop)
 
-For each error:
+各 error に対して:
 
-1. **Read the file** — Full context around the error line
-2. **Diagnose** — Common categories:
-   - Missing import or unresolved reference
-   - Type mismatch or incompatible types
-   - Missing dependency in `build.gradle.kts`
+1. **ファイルを読む** — error 行周辺の完全な context
+2. **診断** — 一般的なカテゴリ:
+   - missing import または unresolved reference
+   - type mismatch または incompatible types
+   - `build.gradle.kts` 内の missing dependency
    - Expect/actual mismatch (KMP)
    - Compose compiler error
-3. **Fix minimally** — Smallest change that resolves the error
-4. **Re-run build** — Verify fix and check for new errors
-5. **Continue** — Move to next error
+3. **最小限の修正** — error を解決する最小の変更
+4. **ビルドを再実行** — fix を検証し新しい error を確認
+5. **続行** — 次の error へ
 
-## Step 4: Guardrails
+## ステップ 4: ガードレール (Step 4: Guardrails)
 
-Stop and ask the user if:
-- Fix introduces more errors than it resolves
-- Same error persists after 3 attempts
-- Error requires adding new dependencies or changing module structure
-- Gradle sync itself fails (configuration-phase error)
-- Error is in generated code (Room, SQLDelight, KSP)
+以下の場合はユーザーに停止して確認:
+- fix が解決するより多くの error を導入
+- 3 回の試行後も同じ error が持続
+- error が新しい dependency の追加や module structure の変更を必要とする
+- Gradle sync 自体が失敗（configuration-phase error）
+- error が generated code 内にある（Room、SQLDelight、KSP）
 
-## Step 5: Summary
+## ステップ 5: サマリー (Step 5: Summary)
 
-Report:
-- Errors fixed (module, file, description)
-- Errors remaining
-- New errors introduced (should be zero)
-- Suggested next steps
+報告内容:
+- 修正された error（module、file、description）
+- 残りの error
+- 導入された新しい error（zero であるべき）
+- 推奨される next steps
 
-## Common Gradle/KMP Fixes
+## 一般的な Gradle/KMP 修正 (Common Gradle/KMP Fixes)
 
 | Error | Fix |
 |-------|-----|

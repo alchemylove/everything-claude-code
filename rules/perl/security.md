@@ -6,19 +6,19 @@ paths:
   - "**/*.psgi"
   - "**/*.cgi"
 ---
-# Perl Security
+# Perl セキュリティ (Perl Security)
 
-> This file extends [common/security.md](../common/security.md) with Perl-specific content.
+> このファイルは [common/security.md](../common/security.md) を拡張し、Perl 固有の内容を追加する。
 
-## Taint Mode
+## 汚染モード (Taint Mode)
 
-- Use `-T` flag on all CGI/web-facing scripts
-- Sanitize `%ENV` (`$ENV{PATH}`, `$ENV{CDPATH}`, etc.) before any external command
+- すべての CGI/Web 向けスクリプトで `-T` フラグを使用する
+- 外部コマンド実行前に `%ENV`（`$ENV{PATH}`、`$ENV{CDPATH}` など）をサニタイズする
 
-## Input Validation
+## 入力検証 (Input Validation)
 
-- Use allowlist regex for untainting — never `/(.*)/s`
-- Validate all user input with explicit patterns:
+- アンテイントには許可リスト正規表現を使用する — `/(.*)/s` は絶対に使用しない
+- すべてのユーザー入力を明示的なパターンで検証する:
 
 ```perl
 if ($input =~ /\A([a-zA-Z0-9_-]+)\z/) {
@@ -26,10 +26,10 @@ if ($input =~ /\A([a-zA-Z0-9_-]+)\z/) {
 }
 ```
 
-## File I/O
+## ファイル I/O (File I/O)
 
-- **Three-arg open only** — never two-arg open
-- Prevent path traversal with `Cwd::realpath`:
+- **3引数 open のみ** — 2引数 open は使用しない
+- `Cwd::realpath` でパストラバーサルを防止する:
 
 ```perl
 use Cwd 'realpath';
@@ -37,33 +37,33 @@ my $safe_path = realpath($user_path);
 die "Path traversal" unless $safe_path =~ m{\A/allowed/directory/};
 ```
 
-## Process Execution
+## プロセス実行 (Process Execution)
 
-- Use **list-form `system()`** — never single-string form
-- Use **IPC::Run3** for capturing output
-- Never use backticks with variable interpolation
+- **リスト形式の `system()`** を使用する — 単一文字列形式は使用しない
+- 出力キャプチャには **IPC::Run3** を使用する
+- 変数補間付きのバッククォートは使用しない
 
 ```perl
 system('grep', '-r', $pattern, $directory);  # safe
 ```
 
-## SQL Injection Prevention
+## SQL インジェクション防止 (SQL Injection Prevention)
 
-Always use DBI placeholders — never interpolate into SQL:
+常に DBI プレースホルダを使用する — SQL に補間しない:
 
 ```perl
 my $sth = $dbh->prepare('SELECT * FROM users WHERE email = ?');
 $sth->execute($email);
 ```
 
-## Security Scanning
+## セキュリティスキャン (Security Scanning)
 
-Run **perlcritic** with the security theme at severity 4+:
+**perlcritic** をセキュリティテーマで重大度 4 以上で実行する:
 
 ```bash
 perlcritic --severity 4 --theme security lib/
 ```
 
-## Reference
+## リファレンス (Reference)
 
-See skill: `perl-security` for comprehensive Perl security patterns, taint mode, and safe I/O.
+スキル: `perl-security` で包括的な Perl セキュリティパターン、汚染モード、安全な I/O を参照。

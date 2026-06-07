@@ -1,49 +1,49 @@
 ---
-description: Guided feature development with codebase understanding and architecture focus
+description: コードベース理解とアーキテクチャ重視のガイド付き feature 開発
 ---
 
-A structured feature-development workflow that emphasizes understanding existing code before writing new code.
+既存コードを理解してから新規コードを書くことを重視する、構造化された feature 開発ワークフロー。
 
-## Phases
+## フェーズ (Phases)
 
-### 1. Discovery
+### 1. ディスカバリー (Discovery)
 
-- read the feature request carefully
-- identify requirements, constraints, and acceptance criteria
-- ask clarifying questions if the request is ambiguous
+- feature リクエストを注意深く読む
+- 要件、制約、受け入れ基準を特定
+- リクエストが曖昧な場合は明確化の質問をする
 
-### 2. Codebase Exploration
+### 2. コードベース探索 (Codebase Exploration)
 
-- use `code-explorer` to analyze the relevant existing code
-- trace execution paths and architecture layers
-- understand integration points and conventions
+- `code-explorer` を使って関連する既存コードを分析
+- 実行パスとアーキテクチャ層をトレース
+- 統合ポイントと規約を理解
 
-### 3. Clarifying Questions
+### 3. 明確化の質問 (Clarifying Questions)
 
-- present findings from exploration
-- ask targeted design and edge-case questions
-- wait for user response before proceeding
+- 探索結果を提示
+- 設計とエッジケースに関する的を絞った質問をする
+- 続行する前にユーザーの回答を待つ
 
-### 4. Architecture Design
+### 4. アーキテクチャ設計 (Architecture Design)
 
-- use `code-architect` to design the feature
-- provide the implementation blueprint
-- wait for approval before implementing
+- `code-architect` を使って feature を設計
+- 実装ブループリントを提供
+- 実装前に承認を待つ
 
-### 5. Implementation
+### 5. 実装 (Implementation)
 
-- implement the feature following the approved design
-- prefer TDD where appropriate
-- keep commits small and focused
+- 承認された設計に従って feature を実装
+- 適切な場合は TDD を優先
+- コミットは小さく焦点を絞る
 
-### 6. Quality Review
+### 6. 品質レビュー (Quality Review)
 
-- use `code-reviewer` to review the implementation
-- address critical and important issues
-- verify test coverage
+- `code-reviewer` を使って実装をレビュー
+- critical および important な問題に対処
+- テストカバレッジを検証
 
-### 7. Summary
+### 7. サマリー (Summary)
 
-- summarize what was built
-- list follow-up items or limitations
-- provide testing instructions
+- 構築内容を要約
+- フォローアップ項目や制限を列挙
+- テスト手順を提供

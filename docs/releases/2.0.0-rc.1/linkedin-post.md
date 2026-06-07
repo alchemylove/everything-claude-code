@@ -1,52 +1,39 @@
-# LinkedIn Draft - ECC v2.0.0-rc.1
+# LinkedIn ドラフト - ECC v2.0.0-rc.1 (LinkedIn Draft - ECC v2.0.0-rc.1)
 
-ECC v2.0.0-rc.1 is ready for final release review as the first release-candidate pass at the 2.0 direction.
+ECC v2.0.0-rc.1 は、2.0 方向への最初の release-candidate pass として、最終リリースレビューの準備が整いました。
 
-The practical shift is simple: ECC is no longer framed as only a Claude Code plugin or config bundle.
+実務的な転換はシンプルです：ECC はもう Claude Code plugin や設定バンドルだけとして位置づけられません。
 
-It is becoming a meta-harness for agentic work: the portable layer above the
-individual AI coding clients.
+エージェント作業向けの meta-harness になりつつあります：個別の AI コーディングクライアントの上にあるポータブルレイヤーです。
 
-- reusable skills instead of one-off prompts
-- hooks and tests instead of manual discipline
-- MCP-backed access to docs, code, browser automation, and research
-- Codex, OpenCode, Cursor, Gemini, Zed, and Claude Code surfaces that share the same core workflow layer
-- Hermes as the operator shell for chat, cron, handoffs, and daily work routing
+- 使い捨てプロンプトではなく再利用可能な skills
+- 手動規律ではなく hooks と tests
+- docs、code、browser automation、research への MCP バックドアクセス
+- 同じコア workflow レイヤーを共有する Codex、OpenCode、Cursor、Gemini、Zed、Claude Code 面
+- chat、cron、handoff、日次作業ルーティング向けの operator shell としての Hermes
 
-For this release-candidate surface, I kept the repo honest.
+この release-candidate 面では、リポジトリを正直に保ちました。
 
-I did not publish private workspace state. I shipped the reusable layer:
+プライベートなワークスペース状態は公開しませんでした。再利用可能なレイヤーを出荷しました：
 
-- sanitized Hermes setup documentation
-- release notes and launch collateral
-- cross-harness architecture notes
-- Hermes import guidance for turning local operator patterns into public ECC skills
-- release-readiness gates for PRs, issues, discussions, Linear progress, legacy tails, observability, and supply-chain checks
-- a deterministic preview-pack smoke test so the public pack can be verified before a release action
-- a gated Itô prediction-market skill pack for research, comparison, planning,
-  and risk review, with Itô API access kept separate from ECC Tools and
-  approval-based
+- サニタイズされた Hermes セットアップドキュメント
+- リリースノートとローンチコラテラル
+- cross-harness アーキテクチャノート
+- ローカル operator パターンを公開 ECC skills に変換する Hermes import ガイダンス
+- PR、issue、discussion、Linear 進捗、レガシー tail、observability、supply-chain チェック向けのリリース準備ゲート
+- リリースアクション前に公開パックを検証できる決定論的 preview-pack smoke test
+- research、comparison、planning、risk review 向けのゲート付き Itô prediction-market skill pack（Itô API アクセスは ECC Tools から分離し、approval ベース）
 
-The leverage is not just better prompting.
+レバレッジはより良いプロンプトだけではありません。
 
-It is reducing the number of isolated surfaces, turning repeated workflows into
-reusable skills, and making the operating system around the agent measurable.
+孤立した面の数を減らし、繰り返しワークフローを再利用可能な skills に変え、エージェント周辺の operating system を測定可能にすることです。
 
-That is the reason I like the phrase meta-harness. The goal is not to replace
-the harness. The goal is to make the workflow layer above the harness portable,
-auditable, and useful across teams.
+だから meta-harness という表現が好きです。目標は harness を置き換えることではありません。harness の上の workflow レイヤーをポータブルで監査可能かつチーム横断で有用にすることです。
 
-The supply-chain work became part of the release story too. After the Mini
-Shai-Hulud/TanStack campaign, rc.1 now includes IOC scanning, no-lifecycle CI
-installs, advisory-source refresh, npm audit/signature checks, and AI-tool
-persistence coverage.
+supply-chain 作業もリリースストーリーの一部になりました。Mini Shai-Hulud/TanStack キャンペーンの後、rc.1 には IOC スキャン、no-lifecycle CI installs、advisory-source refresh、npm audit/signature チェック、AI-tool persistence カバレッジが含まれます。
 
-There is still more to harden before GA, especially around packaging, installers, and the `ecc2/` control plane. But rc.1 is enough to show the shape clearly.
+GA 前にまだ harden すべき点はあります。特に packaging、installers、`ecc2/` control plane 周りです。しかし rc.1 は形状を明確に示すのに十分です。
 
-The GitHub prerelease and npm `next` package are live now. Public publication
-still stays approval-gated for the plugin path, video URLs, final outbound URLs,
-and any billing/native-payments claim that has not been freshly rechecked.
+GitHub prerelease と npm `next` パッケージはすでにライブです。公開 publication は、plugin path、video URL、最終 outbound URL、および新鮮に再確認されていない billing/native-payments クレームについて、引き続き approval-gated です。
 
-The release URL ledger now separates links that already resolve from links that
-must wait for the remaining approval-gated plugin, video, billing, and outbound
-checks.
+リリース URL ledger は、すでに解決するリンクと、残りの approval-gated plugin、video、billing、outbound チェックを待たなければならないリンクを分離します。

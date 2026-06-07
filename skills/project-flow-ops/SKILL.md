@@ -4,88 +4,88 @@ description: Operate execution flow across GitHub and Linear by triaging issues 
 origin: ECC
 ---
 
-# Project Flow Ops
+# Project Flow Ops (Project Flow Ops)
 
-This skill turns disconnected GitHub issues, PRs, and Linear tasks into one execution flow.
+この skill はバラバラな GitHub issue、PR、Linear task を一つの execution flow にまとめる。
 
-Use it when the problem is coordination, not coding.
+問題が coordination であり coding でないときに使用する。
 
-## When to Use
+## 使用タイミング (When to Use)
 
-- Triage open PR or issue backlogs
-- Decide what belongs in Linear vs what should remain GitHub-only
-- Link active GitHub work to internal execution lanes
-- Classify PRs into merge, port/rebuild, close, or park
-- Audit whether review comments, CI failures, or stale issues are blocking execution
+- オープン PR または issue backlog の triage
+- Linear に置くべきものと GitHub のみに残すものの判断
+- active GitHub work を internal execution lane にリンク
+- PR を merge、port/rebuild、close、park に分類
+- review comment、CI failure、stale issue が execution をブロックしていないか監査
 
-## Operating Model
+## 運用モデル (Operating Model)
 
-- **GitHub** is the public and community truth
-- **Linear** is the internal execution truth for active scheduled work
-- Not every GitHub issue needs a Linear issue
-- Create or update Linear only when the work is:
+- **GitHub** は public と community の truth
+- **Linear** は active scheduled work の internal execution truth
+- すべての GitHub issue に Linear issue は不要
+- Linear を create/update するのは work が次のときのみ:
   - active
   - delegated
   - scheduled
   - cross-functional
-  - important enough to track internally
+  - internal tracking に十分重要
 
-## Core Workflow
+## コアワークフロー (Core Workflow)
 
-### 1. Read the public surface first
+### 1. まず public surface を読む
 
-Gather:
+収集:
 
-- GitHub issue or PR state
-- author and branch status
-- review comments
+- GitHub issue または PR state
+- author と branch status
+- review comment
 - CI status
-- linked issues
+- linked issue
 
-### 2. Classify the work
+### 2. work を分類
 
-Every item should end up in one of these states:
+各 item は次のいずれかで終わる:
 
 | State | Meaning |
 |-------|---------|
-| Merge | self-contained, policy-compliant, ready |
-| Port/Rebuild | useful idea, but should be manually re-landed inside ECC |
-| Close | wrong direction, stale, unsafe, or duplicated |
-| Park | potentially useful, but not scheduled now |
+| Merge | self-contained、policy 準拠、ready |
+| Port/Rebuild | 有用な idea だが ECC 内で手動 re-land すべき |
+| Close | 方向性が誤り、stale、unsafe、duplicate |
+| Park | 有用かもしれないが今は未スケジュール |
 
-### 3. Decide whether Linear is warranted
+### 3. Linear が必要か判断
 
-Create or update Linear only if:
+次のときのみ Linear create/update:
 
-- execution is actively planned
-- multiple repos or workstreams are involved
-- the work needs internal ownership or sequencing
-- the issue is part of a larger program lane
+- execution が actively planned
+- 複数 repo または workstream が関与
+- internal ownership または sequencing が必要
+- 大きな program lane の一部
 
-Do not mirror everything mechanically.
+機械的 mirror はしない。
 
-### 4. Keep the two systems consistent
+### 4. 二システムの整合を保つ
 
-When work is active:
+work が active のとき:
 
-- GitHub issue/PR should say what is happening publicly
-- Linear should track owner, priority, and execution lane internally
+- GitHub issue/PR は public に何が起きているかを示す
+- Linear は owner、priority、execution lane を internal に追跡
 
-When work ships or is rejected:
+ship または reject 時:
 
-- post the public resolution back to GitHub
-- mark the Linear task accordingly
+- public resolution を GitHub に post
+- Linear task を accordingly mark
 
-## Review Rules
+## レビュールール (Review Rules)
 
-- Never merge from title, summary, or trust alone; use the full diff
-- External-source features should be rebuilt inside ECC when they are valuable but not self-contained
-- CI red means classify and fix or block; do not pretend it is merge-ready
-- If the real blocker is product direction, say so instead of hiding behind tooling
+- title、summary、trust だけで merge しない。full diff を使う
+- external-source feature は valuable だが self-contained でないなら ECC 内 rebuild
+- CI red は classify して fix または block。merge-ready のふりをしない
+- 本当の blocker が product direction なら tooling に隠さず言う
 
-## Output Format
+## 出力形式 (Output Format)
 
-Return:
+返却:
 
 ```text
 PUBLIC STATUS
@@ -104,8 +104,8 @@ NEXT OPERATOR ACTION
 - exact next move
 ```
 
-## Good Use Cases
+## 適用例 (Good Use Cases)
 
-- "Audit the open PR backlog and tell me what to merge vs rebuild"
-- "Map GitHub issues into our ECC 1.x and ECC 2.0 program lanes"
-- "Check whether this needs a Linear issue or should stay GitHub-only"
+- 「オープン PR backlog を監査し merge vs rebuild を教えて」
+- 「GitHub issue を ECC 1.x と ECC 2.0 program lane にマップ」
+- 「Linear issue が必要か GitHub のみでよいか確認」

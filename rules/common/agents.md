@@ -1,8 +1,8 @@
-# Agent Orchestration
+# Agent オーケストレーション (Agent Orchestration)
 
-## Available Agents
+## 利用可能な Agent (Available Agents)
 
-Located in `~/.claude/agents/`:
+`~/.claude/agents/` に配置:
 
 | Agent | Purpose | When to Use |
 |-------|---------|-------------|
@@ -18,17 +18,17 @@ Located in `~/.claude/agents/`:
 | rust-reviewer | Rust code review | Rust projects |
 | harmonyos-app-resolver | HarmonyOS app development | HarmonyOS/ArkTS projects |
 
-## Immediate Agent Usage
+## 即時 Agent 利用 (Immediate Agent Usage)
 
-No user prompt needed:
-1. Complex feature requests - Use **planner** agent
-2. Code just written/modified - Use **code-reviewer** agent
-3. Bug fix or new feature - Use **tdd-guide** agent
-4. Architectural decision - Use **architect** agent
+ユーザーのプロンプトは不要:
+1. 複雑な feature 要求 — **planner** agent を使用
+2. コードを書いた／変更した直後 — **code-reviewer** agent を使用
+3. bug 修正または新 feature — **tdd-guide** agent を使用
+4. アーキテクチャ上の判断 — **architect** agent を使用
 
-## Parallel Task Execution
+## 並列タスク実行 (Parallel Task Execution)
 
-ALWAYS use parallel Task execution for independent operations:
+独立した操作には常に並列 Task 実行を使用する:
 
 ```markdown
 # GOOD: Parallel execution
@@ -41,9 +41,9 @@ Launch 3 agents in parallel:
 First agent 1, then agent 2, then agent 3
 ```
 
-## Multi-Perspective Analysis
+## 多角的分析 (Multi-Perspective Analysis)
 
-For complex problems, use split role sub-agents:
+複雑な問題には、役割分割した sub-agent を使用する:
 - Factual reviewer
 - Senior engineer
 - Security expert
